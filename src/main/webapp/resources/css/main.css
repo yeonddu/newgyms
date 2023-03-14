@@ -1,0 +1,126 @@
+@charset "UTF-8";
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'GmarketSansMedium';
+  margin: 0px;
+  padding: 0px;
+}
+
+#outer_wrap {
+	margin: 0px auto; padding: 0px; width: 1920px; height:auto; overflow:hidden; 
+}
+article {
+	margin:  auto; padding: 0px; width: 1200px;
+}
+
+
+ /* cutsom */
+
+/*
+.con-min-width {
+  min-width: 1920px;
+ }
+
+.con {
+  width: 1200px;
+  margin: 0 auto;
+ } 
+ */
+
+/* section-1 */
+.section-1 {
+  padding:50px 0px 50px 350px;
+}
+
+/* section-2 */
+.section-2 > .section-2_title {
+  font-size:25px;
+  padding:30px 0px 20px 0px;
+}
+.section-2 > .gym-imgs {
+  display:flex;
+  justify-content: space-between;
+}
+.section-2 div img {
+  width:275px;
+  height:300px;
+  border-radius: 18px;
+}
+.section-2 {
+  padding-bottom:80px;
+}
+
+/* container (인기 이용권) / section-2*/
+#searchProduct .container {
+   width: 100%; font-size: 0.75em; margin-top: 20px; border-top : solid 1px rgb(150, 150, 150); display: grid; grid-template-columns:repeat(4, 300px); 
+}
+
+#searchProduct .container .item {
+   margin: 0 10px; padding: 10px 0px; float:left;  margin: auto;
+}
+
+#searchProduct .container .item .product_image {
+   position:relative; margin: auto;
+}
+
+#searchProduct .container .product_image img {
+   width: 250px; height:250px; object-fit: contain;
+}
+#searchProduct .container .product_image #wish img{
+   position:absolute; top:190px; left:180px; border-radius: 100%; background-color:#ffffff; width: 40px; height:40px;
+}
+
+#searchProduct .container .item  .product_description {
+   height:50px; margin: auto;
+}
+
+#searchProduct .container .product_description h2 a{
+  color:rgb(50, 50, 50); margin: 8px 6px; font-size: 18px; 
+}
+
+#searchProduct .container .product_description h3 a {
+  margin: 8px 6px; font-size: 13px; 
+}
+
+#searchProduct .container .item .product_price {
+   padding: 1px 5px; 
+}
+
+#searchProduct .container .discount_rate {
+   color: rgb(255, 0, 0); font-size: 16px; padding:3px 1px; float:left; font-weight:bold;
+}
+
+#searchProduct .container .sales_price {
+   font-size: 16px; padding:3px 6px; float:left; font-weight:bold;
+}
+
+#searchProduct .container .price{
+   color: rgb(150, 150, 150); font-size: 14px; clear:both; text-decoration: line-through; display:block;
+}
+
+/* section-3 */
+.section-3 > .section-3_title {
+  font-size:25px;
+  text-align: center;
+  margin-top:30px;
+  margin-bottom:30px;
+}
+.section-3_review {
+   display:flex;
+   justify-content:space-between;
+}
+
+
+
+
+
+
+
+
+

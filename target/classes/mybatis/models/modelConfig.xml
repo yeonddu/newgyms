@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration 	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+  <typeAliases>
+    <typeAlias type="com.mycompany.newgyms.member.vo.MemberVO" alias="memberVO" />
+    <typeAlias type="com.mycompany.newgyms.product.vo.ProductVO" alias="productVO" />
+    <typeAlias type="com.mycompany.newgyms.product.vo.ProductOptVO" alias="productOptVO" />
+    <typeAlias type="com.mycompany.newgyms.product.vo.ProductImageVO" alias="productImageVO" />
+    <typeAlias type="com.mycompany.newgyms.review.vo.ReviewVO" alias="reviewVO" />
+    
+</typeAliases>
+</configuration>
+
+
+

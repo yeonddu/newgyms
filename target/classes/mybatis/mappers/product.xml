@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.product">
+
+	<resultMap id="productResult" type="ProductVO">
+		<result property="product_id" column="product_id" />
+		<result property="product_sort" column="product_sort" />
+		<result property="center_name" column="center_name" />
+		<result property="product_name" column="product_name" />
+		<result property="product_main_image" column="product_main_image" />
+		<result property="product_program_details" column="product_program_details" />
+		<result property="product_price_details" column="product_price_details" />
+		<result property="product_facility_details" column="product_facility_details" />
+		<result property="product_location_details" column="product_location_details" />		
+		<result property="product_price" column="product_price" />
+		<result property="product_sales_price" column="product_sales_price" />
+		<result property="product_point" column="product_point" />
+		<result property="product_entered_date" column="product_entered_date" />		
+		<result property="sale_yn" column="sale_yn" />
+		<result property="product_intro" column="product_intro" />
+		<result property="product_refund_1" column="product_refund_1" />
+		<result property="product_refund_2" column="product_refund_2" />
+		
+		<result property="product_fileName" column="fileName" />
+	</resultMap>	
+
+	<resultMap id="productOptResult" type="ProductOptVO">
+	   <result property="product_id" column="product_id" />
+	   <result property="product_option_name" column="product_option_name" />
+	   <result property="product_option_price" column="product_option_price" />
+	</resultMap>
+
+	<resultMap id="imageResult" type="ProductImageVO">
+	   <result property="product_id" column="product_id" />
+	   <result property="fileName" column="fileName" />
+	   <result property="reg_id" column="reg_id" />
+	   <result property="image_id" column="image_id" />
+	   <result property="fileType" column="fileType" />
+	</resultMap>
+
+	<resultMap id="memberResult" type="MemberVO">
+	<result property="center_name" column="center_name" />
+	<result property="member_name" column="member_name" />
+			<result property="owner_eid" column="owner_eid" />
+		<result property="owner_tel1" column="owner_tel1" />
+		<result property="owner_tel2" column="owner_tel2" />
+		<result property="owner_tel3" column="owner_tel3" />
+		<result property="zipcode" column="zipcode" />
+		<result property="road_address" column="road_address" />
+		<result property="jibun_address" column="jibun_address" />
+		<result property="namuji_address" column="namuji_address" />
+		<result property="email1" column="email1" />
+		<result property="email2" column="email2" />
+	</resultMap>
+
+	<!-- 상품검색 추가 -->	
+	<select id="selectProductList" resultMap="productResult"   parameterType="String"  >
+     <![CDATA[
+			select t_product.*, t_product_detail_image.fileName from t_product, t_product_detail_image
+where t_product.product_sort =#{product_sort} and t_product_detail_image.filetype='main_image' and t_product.product_id = t_product_detail_image.product_id
+order by t_product.product_entered_date desc
+		]]>
+	</select>	
+
+	<select id="selectProductDetail" resultMap="productResult"   parameterType="String"  >
+	    <![CDATA[
+		     select t_product.*, t_product_detail_image.fileName from t_product , t_product_detail_image
+where t_product.product_id=t_product_detail_image.product_id
+and t_product_detail_image.fileType='main_image'
+and t_product.product_id=#{product_id}
+order by t_product.product_id
+    	]]>
+	</select>
+	
+	<select id="selectProductOption" resultMap="productOptResult"   parameterType="String"  >
+	    <![CDATA[
+		    	select * from  t_product_option 
+		    	where product_id=#{product_id}
+    	]]>
+	</select>
+	
+	<select id="selectProductDetailImage" resultMap="imageResult"   parameterType="String"  >
+	    <![CDATA[
+		    	select * from  t_product_detail_image 
+		    	where fileType='detail_image'
+				and product_id=#{product_id}
+    	]]>
+	</select>
+	<select id="selectProductPriceImage" resultMap="imageResult"   parameterType="String"  >
+	    <![CDATA[
+		    	select * from  t_product_detail_image 
+		    	where fileType='price_image'
+				and product_id=#{product_id}
+    	]]>
+	</select>
+	<select id="selectProductFacilityImage" resultMap="imageResult"   parameterType="String"  >
+	    <![CDATA[
+		    	select * from  t_product_detail_image 
+		    	where fileType='facility_image'
+				and product_id=#{product_id}
+    	]]>
+	</select>
+
+	<select id="selectOwnerDetail" resultMap="memberResult"   parameterType="String"  >
+	    <![CDATA[
+		     select * from t_member
+			where center_name=#{center_name}
+    	]]>
+	</select>
+	
+
+	<select id="selectproductSortByPopular" resultMap="productResult"   parameterType="String"  >
+     <![CDATA[
+			select t_product.*, t_product_detail_image.fileName from t_product, t_product_detail_image
+where t_product.product_sort =#{product_sort} and t_product_detail_image.filetype='main_image' and t_product.product_id = t_product_detail_image.product_id
+order by t_product.product_price desc
+		]]>
+	</select>	
+	<select id="selectproductSortByLowPrice" resultMap="productResult"   parameterType="String"  >
+     <![CDATA[
+			select t_product.*, t_product_detail_image.fileName from t_product, t_product_detail_image
+where t_product.product_sort =#{product_sort} and t_product_detail_image.filetype='main_image' and t_product.product_id = t_product_detail_image.product_id
+order by t_product.product_price 
+		]]>
+	</select>	
+	<select id="selectproductSortByHighPrice" resultMap="productResult"   parameterType="String"  >
+     <![CDATA[
+			select t_product.*, t_product_detail_image.fileName from t_product, t_product_detail_image
+where t_product.product_sort =#{product_sort} and t_product_detail_image.filetype='main_image' and t_product.product_id = t_product_detail_image.product_id
+order by t_product.product_price desc
+		]]>
+	</select>	
+	
+   <select id="selectProductBySearchWord" resultMap="productResult"   parameterType="String"  >
+     <![CDATA[
+	select distinct *, t_product_detail_image.fileName from t_product, t_product_detail_image
+	where (t_product.product_name like concat('%',#{searchWord},'%') or t_product.center_name like concat('%',#{searchWord},'%')) 
+	and t_product.product_id=t_product_detail_image.product_id
+	and t_product_detail_image.fileType='main_image' 
+	order by t_product.product_entered_date desc
+		]]>
+	</select>	
+
+   <select id="selectProductByCondition" resultMap="productResult"   parameterType="java.util.HashMap"  >
+
+	select t_product.* , t_product_detail_image.fileName from t_product, t_product_detail_image
+	where t_product.product_id=t_product_detail_image.product_id
+	and t_product_detail_image.filetype='main_image'
+		<if test="searchOption=='product_name'">
+		and t_product.product_name like concat('%',#{searchWord},'%')
+			
+		</if>
+		<if test="searchOption=='center_name'">
+		and t_product.center_name like concat('%',#{searchWord},'%')			
+		</if>
+	order by t_product.product_entered_date desc
+
+	</select>
+	
+   <select id="selectProductByProductName" resultMap="productResult"   parameterType="java.util.HashMap"  >
+
+	select t_product.* , t_product_detail_image.fileName from t_product, t_product_detail_image
+	where t_product.product_id=t_product_detail_image.product_id
+	and t_product_detail_image.filetype='main_image'
+	and t_product.product_name like concat('%',#{searchWord},'%')
+	order by t_product.product_entered_date desc
+
+	</select>
+		
+<!-- 			<if test="minPrice!=null and maxPrice!=null">
+				and t_product.product_price between #{minPrice} and #{maxPrice}
+			</if>			
+			<if test="minPrice!=null">
+				and t_product.product_price >= #{minPrice}
+			</if>			
+			<if test="maxPrice!=null">
+				and #{maxPrice} >= t_product.product_price 
+			</if>				
+	 -->
+   <select id="selectProductByCenterName" resultMap="productResult"   parameterType="java.util.HashMap"  >
+   	select t_product.* , t_product_detail_image.fileName from t_product, t_product_detail_image
+	where t_product.product_id=t_product_detail_image.product_id
+	and t_product_detail_image.filetype='main_image'
+	and t_product.center_name like concat('%',#{searchWord},'%')
+			<if test="minPrice!=null and maxPrice!=null">
+				and t_product.product_price between #{minPrice} and #{maxPrice}
+			</if>			
+			<if test="minPrice!=null">
+				and t_product.product_price >= #{minPrice}
+			</if>			
+			<if test="maxPrice!=null">
+				and #{maxPrice} >= t_product.product_price 
+			</if>			
+	
+	order by t_product.product_entered_date desc
+	</select>	
+
+	
+<!-- 
+      <select id="selectProductList" parameterType="String" resultMap="productResult"   >
+        <![CDATA[
+      select t.*
+          from(
+select g.*,d.fileName from t_product as g, t_product_detail_image as d
+        where g.product_id=d.product_id 
+        and d.filetype='main_image'
+        and product_status=#{productStatus}
+            order by g.product_entered_date desc) as t
+where   rowNum() <16
+	    ]]>
+	</select>
+		
+	
+	<select id="selectKeywordSearch" resultType="String"   parameterType="String"  >
+	    <![CDATA[
+        select product_name from t_product 
+        product_name like  concat('%',#{keyword},'%')
+        order by product_entered_date desc
+		]]>
+	</select>
+
+-->	
+
+</mapper> 
