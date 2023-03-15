@@ -22,16 +22,14 @@ public class WishControllerImpl implements WishController{
 	private WishService wishService;
 	
 	@RequestMapping(value = "/addWishList.do", method = RequestMethod.GET)
-	public String addWishList(@RequestParam("product_id") String product_id,
+	public void addWishList(@RequestParam("product_id") String product_id,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session=request.getSession();
 		MemberVO memberVO=(MemberVO)session.getAttribute("memberInfo");
 		String member_id=memberVO.getMember_id();
 
 		wishService.addWishList(product_id, member_id);
-		request.setAttribute("msg", "찜 목록에 추가되었습니다!");
-		request.setAttribute("url", "/");
-		return "alert";
+
 
 	}
 

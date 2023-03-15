@@ -7,11 +7,11 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link href="${contextPath}/resources/css/join.css" rel="stylesheet" />
+<link href="${contextPath}/resources/css/member.css" rel="stylesheet" />
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script>
-let idChecked="false";
-let pwChecked="false";
+<script src="js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+
 function fn_overlappedId(){
     var _id=$("#member_id").val();
     if(_id==''){
@@ -29,12 +29,10 @@ function fn_overlappedId(){
        	  	alert("사용할 수 있는 ID입니다.");
        	 	$('#id_check').text("사용가능한 아이디입니다. :)");
     	  	$('#id_check').css("color","green");
-    	  	idChecked="true";
           } else {
         	  alert("사용할 수 없는 ID입니다.");
         	  $('#id_check').text("사용중인 아이디입니다. ^^;;");
          	  $('#id_check').css("color","red");
-         	  idChecked="false";
           }
        },
        error:function(data,textStatus){
@@ -45,10 +43,52 @@ function fn_overlappedId(){
        }
     });  //end ajax	 
  }	
+
+// 비밀번호 조합 검사 
+function pwRegexp() {
+	let member_pw = document.getElementById("member_pw").value;
+	let pw_help = document.getElementById("pw_help");
+	
+	let num = member_pw.search(/[0-9]/); // 비밀번호 중 0부터 9까지 num에 넣음
+	let eng = member_pw.search(/[a-z]/); // 비밀번호 중 a부터 z까지 eng에 넣음
+	let spe = member_pw.search(/[`~!@#$%^&*|\\\'\":;\/?]/);
+	// 비밀번호 중 특수문자를 spe에 넣음
+	
+	if (member_pw.length < 8 || member_pw.length > 20) {
+		pw_help.style.color = "red";
+		pw_help.innerHTML="비밀번호는 8자리에서 20자리 이내로 입력해주세요. :("
+		return false;
+	} else if (member_pw.search(/\s/) != -1) {
+		pw_help.style.color = "red";
+		pw_help.innerHTML="비밀번호에 공백은 입력할 수 없습니다. :("
+		return false;
+	} else if (num == -1 || eng == -1 || spe == -1) {
+		pw_help.style.color = "red";
+		pw_help.innerHTML="특수문자, 영문자, 숫자를 혼합하여 입력해주세요. :("
+		return false;
+	} else {
+		pw_help.style.color = "green";
+		pw_help.innerHTML="사용 가능한 비밀번호입니다. :)"
+		return true;
+	}
+}
+
+// 비밀번호와 비밀번호 확인이 동일한지 확인
 function pwCheck() {
 	let member_pw = document.getElementById("member_pw").value;
 	let member_pw_confirm = document.getElementById("member_pw_confirm").value;
-	let pwResult2 = document.getElementById("pwResult2");
+	let pw_check = document.getElementById("pw_check");
+	
+	// 비밀번호와 비밀번호 확인란이 같지 않으면
+	if (member_pw != member_pw_confirm) {
+		pw_check.style.color = "red";
+		pw_check.innerHTML="비밀번호가 다릅니다. :(";
+		return false;
+	} else {
+		pw_check.style.color = "green";
+		pw_check.innerHTML="비밀번호가 일치합니다. :)";
+		return true;
+	}
 }
 
 function execDaumPostcode() {
@@ -104,6 +144,7 @@ function execDaumPostcode() {
 	    }
 	  }).open();
 	}
+	
 </script>
 </head>
 <body>
@@ -117,7 +158,7 @@ function execDaumPostcode() {
 				<p class="inline" class="join_textbox">이름</p>
 			</td>
 			<td>
-				<input name="member_name" class="join_inputbox" type="text" value="${member_name}" size="23" maxlength="10" disabled/>
+				<input name="member_name" class="join_inputbox" type="text" value="${member_name}" size="25" maxlength="10" disabled/>
 			</td>
 		</tr>
 
@@ -127,9 +168,7 @@ function execDaumPostcode() {
 				<p class="inline" class="join_textbox">아이디 <span id="red_color">*</span></p>
 			</td>
 			<td>
-				<!-- <input name="_member_id" class="join_inputbox" type="text" id="_member_id" size="23" maxlength="20" /> -->
-				<input name="member_id" id="member_id" class="join_inputbox" type="text" size="23" maxlength="20" />
-				<br>
+				<input name="member_id" id="member_id" class="join_inputbox" type="text" size="25" maxlength="20" />
 			</td>
 			<td>
 				<input type="button" class="btn" id="btnOverlappedId" value="중복확인" onClick="fn_overlappedId()" />
@@ -147,7 +186,7 @@ function execDaumPostcode() {
 				<p class="inline" class="join_textbox">비밀번호 <span id="red_color">*</span></p>
 			</td>
 			<td>
-				<input name="member_pw" id="member_pw" class="join_inputbox" type="password" size="23" maxlength="20" />
+				<input name="member_pw" id="member_pw" class="join_inputbox" type="password" size="25" maxlength="20" onkeyup="pwRegexp()" placeholder="영문, 숫자, 특수문자 혼합 8자리 이상" />
 			</td>
 		</tr>
 		<tr>
@@ -162,7 +201,7 @@ function execDaumPostcode() {
 				<p class="inline" class="join_textbox">비밀번호 확인 <span id="red_color">*</span></p>
 			</td>
 			<td>
-				<input name="member_pw_confirm" id="member_pw_confirm" class="join_inputbox" type="password" size="23" maxlength="20" />
+				<input name="member_pw_confirm" id="member_pw_confirm" class="join_inputbox" type="password" size="25" maxlength="20" onkeyup="pwCheck()" />
 			</td>
 		</tr>
 		<tr>
@@ -178,7 +217,7 @@ function execDaumPostcode() {
 			</td>
 			<td>
 				<input type="text" class="join_inputbox" id="zipcode" name="zipcode" size="12" >
-				&nbsp;&nbsp;<a href="javascript:execDaumPostcode()">우편번호</a>
+				&nbsp;&nbsp;<a href="javascript:execDaumPostcode()" class="btn" >우편번호</a>
 			</td>
 		</tr>
 		
@@ -188,8 +227,8 @@ function execDaumPostcode() {
 				<p class="inline" class="join_textbox"></p>
 			</td>
 			<td>
-				<input name="road_address" id="roadAddress" class="join_inputbox" type="text" size="23"/>
-				<input name="jibun_address" id="jibunAddress" class="join_inputbox" type="hidden" size="23"/>
+				<input name="road_address" id="roadAddress" class="join_inputbox" type="text" size="25"/>
+				<input name="jibun_address" id="jibunAddress" class="join_inputbox" type="hidden" size="25"/>
 			</td>
 		</tr>		
 		
@@ -199,7 +238,7 @@ function execDaumPostcode() {
 				<p class="inline" class="join_textbox"></p>
 			</td>
 			<td>
-				<input name="namuji_address" class="join_inputbox" type="text" size="23"/>
+				<input name="namuji_address" class="join_inputbox" type="text" size="25"/>
 			</td>
 		</tr>
 		
@@ -215,8 +254,8 @@ function execDaumPostcode() {
 					<option>017</option>
 					<option>019</option>
 				</select> -
-				<input name="hp2" class="join_inputbox" type="text" size="5" maxlength="4" /> -
-				<input name="hp3" class="join_inputbox" type="text" size="5" maxlength="4" />			
+				&nbsp;<input name="hp2" class="join_inputbox" type="text" size="6" maxlength="4" /> -
+				&nbsp;<input name="hp3" class="join_inputbox" type="text" size="6" maxlength="4" />			
 			</td>
 			<td> <!-- SMS 수신 동의 -->
 				<input type="checkbox" name="smssts_yn" value="Y" checked /><span id="join_subtext"> SMS 수신 동의</span>
@@ -229,7 +268,7 @@ function execDaumPostcode() {
 				<p class="inline" class="join_textbox">이메일 <span id="red_color">*</span></p>
 			</td>
 			<td>
-				<input name="email1" class="join_inputbox" type="text" size="7" /> @
+				<input name="email1" class="join_inputbox" type="text" size="9" /> @
 				<select name="email2" class="join_inputbox">
 					<option selected> </option>
 					<option>naver.com</option>

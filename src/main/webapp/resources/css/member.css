@@ -1,147 +1,147 @@
-	@font-face {
-    	font-family: 'GmarketSansMedium';
-    	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-    	font-weight: normal;
-    	font-style: normal;
-	}
-	* {
- 		font-family:'GmarketSansMedium';
-  		margin: 0px; padding: 0px;
-  	}
+   @font-face {
+       font-family: 'GmarketSansMedium';
+       src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+       font-weight: normal;
+       font-style: normal;
+   }
+   * {
+       font-family:'GmarketSansMedium';
+        margin: 0px; padding: 0px;
+     }
 
-	body {
-		margin : 0;
-		padding : 0;
-	}
-	#contain {
-		width : 100%;
-	}
+   body {
+      margin : 0;
+      padding : 0;
+   }
+   #contain {
+      width : 100%;
+   }
 
-	#red_color {
-		color : #FF0000;
-	}
-	#navy_color {
-		color : #0F0573;
-	}
-	.align_center {
-		text-align : center;
-	}
-	.inline {
-		display : inline;
-	}
-	#join_title {
- 	 	margin-top : 50px;
- 	 	font-size : 30px;
-	}
-	#login_table {
-  		width : 60%;
-  		margin : auto;
-  		margin-top : 50px;
-  		font-size : 15px;
-  		text-align : center;
-	}
-	.login_inputbox {
-		padding : 15px;
-		border : none;
-		border-bottom : 1px solid #D8D8D8;
-	}
-	#join_table {
-  		width : 40%;
-  		margin : auto;
-  		margin-top : 50px;
-  		padding-left : 70px;
-  		line-height : 60px;
-  		font-size : 15px;
-	}
-	#join_table2 {
-  		width: 50%;
-   		margin-top: 50px;
-    	padding-left: 70px;
-    	line-height: 50px;
-	}
-	.join_textbox {
-		width : 15px;
-		text-align : left;
-		padding : 10px;	
-	}
-	.join_inputbox {
-		padding : 3px;
-		border : none;
-		border-bottom : 1px solid #D8D8D8;
-	}
-	#join_btn {
-    	margin-top : 20px;
-    	border : none;
-		width : 300px;
-		height : 40px;
-		padding : 10px;
-		text-align : center;
-    	font-size : 15px;
-    	color : #FFFFFF;
-		background-color : #0F0573;
-	}
-	#join_btn:hover {
-		cursor : pointer;
-	}
-	#kakao_join {
-		width:auto;
-	}
-	#join_subtext {
-		color : #848484;
-		font-size : 12px;
-	}
-	#join_agree {
-		width : 40%;
-		margin-top : 30px;
-  		line-height : 30px;
-  		font-size : 13px;
-	}
-	.join_idpw_btn {
-    	margin : 20px 5px 10px 5px;
-    	border : none;
-		width : 250px;
-		padding : 10px;
-		text-align : center;
-    	font-size : 15px;
-    	color : #FFFFFF;
-		background-color : #0F0573;
-		text-decoration : none;
-	}
-	#join_notice {
-		margin-top : 50px;
-		font-size : 20px;
-		padding : 10px
-	}
-	#notice_box {
-		width : 400px;
-		border : 1px solid gray;
-		text-align : center;
-    	margin : 10px 10px 30px 10px;
-    	padding : 60px;
-    	font-size : 20px;
-	}
-	#id_check, #pw_help, #pw_check {
-		font-size : 10px;
-		line-height : 0;
-		padding-left : 123px;
-	}
-	#id_check2, #pw_help2, #pw_check2 {
-		font-size : 10px;
-		line-height : 0;
-		padding-left : 143px;
-	} 
-	#postcode {
-		margin-left: 10px;
-    	font-size: 10px;
-    	padding: 7px;
-    	background-color: #FFFFFF;
-    	border: 1px solid #D8D8D8;
-    	color: #000000;
-	}
-	.btn {
-    	font-size : 10px;
-    	padding : 7px;
-		background-color : #FFFFFF;
-		border : 1px solid #D8D8D8;
-    	color: #000000;
-	}
+   #red_color {
+      color : #FF0000;
+   }
+   #navy_color {
+      color : #0F0573;
+   }
+   .align_center {
+      text-align : center;
+   }
+   .inline {
+      display : inline;
+   }
+   #join_title {
+        margin-top : 50px;
+        font-size : 30px;
+   }
+   #login_table {
+        width : 60%;
+        margin : auto;
+        margin-top : 50px;
+        font-size : 15px;
+        text-align : center;
+   }
+   .login_inputbox {
+      padding : 15px;
+      border : none;
+      border-bottom : 1px solid #D8D8D8;
+   }
+   #join_table {
+        width : 40%;
+        margin : auto;
+        margin-top : 50px;
+        padding-left : 70px;
+        line-height : 60px;
+        font-size : 15px;
+   }
+   #join_table2 {
+        width: 50%;
+         margin-top: 50px;
+       padding-left: 70px;
+       line-height: 50px;
+   }
+   .join_textbox {
+      width : 15px;
+      text-align : left;
+      padding : 10px;   
+   }
+   .join_inputbox {
+      padding : 3px;
+      border : none;
+      border-bottom : 1px solid #D8D8D8;
+   }
+   #join_btn {
+       margin-top : 20px;
+       border : none;
+      width : 300px;
+      height : 40px;
+      padding : 10px;
+      text-align : center;
+       font-size : 15px;
+       color : #FFFFFF;
+      background-color : #0F0573;
+   }
+   #join_btn:hover {
+      cursor : pointer;
+   }
+   #kakao_join {
+      width:auto;
+   }
+   #join_subtext {
+      color : #848484;
+      font-size : 12px;
+   }
+   #join_agree {
+      width : 40%;
+      margin-top : 30px;
+        line-height : 30px;
+        font-size : 13px;
+   }
+   .join_idpw_btn {
+       margin : 20px 5px 10px 5px;
+       border : none;
+      width : 250px;
+      padding : 10px;
+      text-align : center;
+       font-size : 15px;
+       color : #FFFFFF;
+      background-color : #0F0573;
+      text-decoration : none;
+   }
+   #join_notice {
+      margin-top : 50px;
+      font-size : 20px;
+      padding : 10px
+   }
+   #notice_box {
+      width : 400px;
+      border : 1px solid gray;
+      text-align : center;
+       margin : 10px 10px 30px 10px;
+       padding : 60px;
+       font-size : 20px;
+   }
+   #id_check, #pw_help, #pw_check {
+      font-size : 10px;
+      line-height : 0;
+      padding-left : 130px;
+   }
+   #id_check2, #pw_help2, #pw_check2 {
+      font-size : 10px;
+      line-height : 0;
+      padding-left : 143px;
+   } 
+   #postcode {
+      margin-left: 10px;
+       font-size: 10px;
+       padding: 7px;
+       background-color: #FFFFFF;
+       border: 1px solid #D8D8D8;
+       color: #000000;
+   }
+   .btn {
+       font-size : 10px;
+       padding : 7px;
+      background-color : #FFFFFF;
+      border : 1px solid #D8D8D8;
+       color: #000000;
+   }

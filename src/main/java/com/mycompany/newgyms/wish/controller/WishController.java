@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 public interface WishController {
-	public String addWishList(@RequestParam("product_id") String product_id, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public void addWishList(@RequestParam("product_id") String product_id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

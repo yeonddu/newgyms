@@ -7,26 +7,49 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link href="${contextPath}/resources/css/join.css" rel="stylesheet" />
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<!-- 카카오 회원가입 -->
-<script src="https://developers.kakao.com/sdk/js/kakao.js" charset="utf-8"></script>
-<script type="text/javascript">
-	Kakao.init("b72869301ce448407f587e4c23f08553");
-	KaKao.isInitialized();
-	
-	function kakaoLogin() {
-		Kakao.Auth.authorize({
-			redirectUri: 'http://localhost:8080/newgyms/member/kakaoLogin.do',
-		});
+<link href="${contextPath}/resources/css/member.css" rel="stylesheet" />
+<script>
+	// 회원가입(check) 유효성 검사
+	function join_valid() {
+		const mem_name = document.querySelector('#member_name');
+		const mem_rrn1 = document.querySelector('#member_rrn1');
+		const mem_rrn2 = document.querySelector('#member_rrn2');
+		colsole.log("mem_name");
+		colsole.log(mem_name);
+		const regName = /^[가-힣]{2,10}$/; // 이름 규칙
+		let checkAll = true; // 유효성 검사 결과
+		if (!regName.test(mem_name.value)) {
+			alert("이름은 한글 2~10자 이내로 작성해주세요.");
+			mem_name.focus();
+			checkAll = false;
+		}
+		if (!checkAll) {
+			return false;
+		}
+		
+		if (mem_name == '' && mem_rrn1 == '' && mem_rrn2 == '') {
+			return false;
+		}
 	}
 </script>
-
+	
+	<!-- 카카오 회원가입 -->
+	<script src="https://developers.kakao.com/sdk/js/kakao.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		Kakao.init("b72869301ce448407f587e4c23f08553");
+		Kakao.isInitialized();
+	
+		function kakaoLogin() {
+			Kakao.Auth.authorize({
+			redirectUri: 'http://localhost:8080/newgyms/member/kakaoLogin.do',
+			});
+		}
+</script>
 </head>
 <body>
 	<div id="contain" align=center>
 	<p id="join_title" align="center">회원가입</p>
-	<form action="${contextPath}/member/joinCheck.do" method="post">	
+	<form action="${contextPath}/member/joinCheck.do" method="post" onsubmit="return join_valid()">	
 	<table id="join_table">	
 		<!-- 회원구분 -->
 		<tr>
@@ -66,7 +89,8 @@
 			<input type="submit" value="회원가입" id="join_btn" align="center">
 			<br><br>
 			<a href="javascript:kakaoLogin();">
-				<img src="https://developers.kakao.com/tool/resource/static/img/button/kakaosync/complete/ko/kakao_login_medium_wide.png" alt="카카오 1초 회원가입">
+				<img src="https://developers.kakao.com/tool/resource/static/img/button/kakaosync/complete/ko/kakao_login_medium_wide.png" 
+				alt="카카오 1초 회원가입" id="kakao_join">
 			</a>
 	</form>	
 	</div>

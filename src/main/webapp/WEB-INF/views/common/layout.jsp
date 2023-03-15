@@ -16,6 +16,7 @@
 <link href="${contextPath}/resources/css/basic-jquery-slider.css?after" rel="stylesheet" type="text/css" media="screen">
 <link href="${contextPath}/resources/css/header.css?after" rel="stylesheet" type="text/css" media="screen">
 <link href="${contextPath}/resources/css/footer.css?after" rel="stylesheet" type="text/css" media="screen">
+<link href="${contextPath}/resources/css/member.css?after" rel="stylesheet" type="text/css" media="screen">
 <link href="${contextPath}/resources/css/product.css?after" rel="stylesheet" type="text/css" media="screen">
 <link href="${contextPath}/resources/css/main.css?after" rel="stylesheet" type="text/css" media="screen">
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
