@@ -285,34 +285,7 @@ background-color: rgb(95, 95, 95);
 .nav_bar>li:first-child {
   position: relative;
 }
-.menu-box_menu-3 {
-  position: absolute;
-  width:100%;
-  background-color: rgb(255, 255, 255);
-  height: 0px;
-  overflow: hidden;
-  top: 100%;
-  transition: .3s;
-  z-index: 999;
-  
-}
 
-.menu-box_menu-3>li>a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  width: 100%;
-}
-
-.nav_bar>li:hover>.menu-box_menu-3 {
-  height:330px;
-}
-
-.nav_bar>li>.menu-box_menu-3 >li:hover {
-  text-decoration: underline;
-  text-underline-position: under;
-}
 #ad_main_banner {
    width:1000px;
    height:250px;

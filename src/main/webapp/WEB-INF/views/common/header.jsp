@@ -153,14 +153,7 @@
                     <ul class="nav_bar flex">
                         <li>
                             <a href="#">지역별</a>
-                            <ul class="menu-box_menu-3" >
-                                <li style="margin:15px; color:black;"><a href="#">전체</a></li>
-                                <li style="margin:15px; color:black;"><a href="#">서구</a></li>
-                                <li style="margin:15px; color:black;"><a href="#">동구</a></li>
-                                <li style="margin:15px; color:black;"><a href="#">중구</a></li>
-                                <li style="margin:15px; color:black;"><a href="#">유성구</a></li>
-                                <li style="margin:15px; color:black;"><a href="#">대덕구</a></li>
-                            </ul>
+
                         </li>
 						<li><a href="${contextPath}/product/productList.do?productSort=헬스/PT">헬스/PT</a></li>
 						<li><a href="${contextPath}/product/productList.do?productSort=요가/필라테스">요가/필라테스</a></li>

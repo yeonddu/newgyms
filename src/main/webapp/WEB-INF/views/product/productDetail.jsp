@@ -7,9 +7,10 @@
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <c:set var="product"  value="${productMap.productVO}"  />
 <c:set var="optList"  value="${productMap.productOptList }"  />
-<c:set var="imageList"  value="${productMap.imageList }"  />
-<c:set var="priceImage"  value="${productMap.priceImage }"  />
-<c:set var="facilityImage"  value="${productMap.facilityImage }"  />
+<c:set var="mainImage"  value="${imageMap.mainImageList }"  />
+<c:set var="detailImage"  value="${imageMap.detailImageList }"  />
+<c:set var="priceImage"  value="${imageMap.priceImageList }"  />
+<c:set var="facilityImage"  value="${imageMap.facilityImageList }"  />
 
 <c:set var="reviewList"  value="${reviewList }"  />
 <c:set var="qnaList"  value="${productMap.qnaList }"  />
@@ -23,6 +24,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://developers.kakao.com/sdk/js/kakao.js" charset="utf-8"></script>
 <meta charset="EUC-KR">
 <title>제품 상세페이지</title>
 <style>
@@ -56,7 +58,7 @@
 
 </style>
 <!-- 탭 메뉴 -->
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
 <script type="text/javascript">
 $(document).ready(function() {
 
@@ -79,8 +81,8 @@ $(document).ready(function() {
 
 });
 
-
 </script>
+
 </head>
 <body>
 <div id="productDetail">
@@ -89,7 +91,7 @@ $(document).ready(function() {
 	</div>
 <div class="product_description">
   <h1>${product.product_name }</h1>
-  <h2>${product.center_name }</h2>
+  <h2>${member.center_name }</h2>
 	<div class="product_price">         
 		<div class="sales_price"><fmt:formatNumber  value="${product.product_sales_price}" type="number"/>원</div>
 	    <div class="price"><fmt:formatNumber  value="${product.product_price}" type="number"/>원</div>
@@ -129,7 +131,7 @@ $(document).ready(function() {
 		        <div class="tab_title">
 				      프로그램 상세정보
 		          <p>${product.product_program_details}</p>
-				<c:forEach var="image" items="${imageList }">
+				<c:forEach var="image" items="${detailImage }">
 		          <img alt="프로그램 상세정보 이미지" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${image.fileName}">
 				</c:forEach>
 		        </div>
@@ -154,49 +156,65 @@ $(document).ready(function() {
 				        위치 정보
 		        <p>${product.product_location_details}</p>
 <!-- 지도 API -->        
-        <div id="map" style="width:600px;height:400px;"></div>
-		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey==de674c4e967f5ef6143551099c5edf72&libraries=services"></script>
+        <div id="map" style="width:800px;height:600px;"></div>
 
 
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=de674c4e967f5ef6143551099c5edf72&libraries=services"></script>
 <script>
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };  
-
-// 지도를 생성합니다    
-var map = new kakao.maps.Map(mapContainer, mapOption); 
-
-// 주소-좌표 변환 객체를 생성합니다
-var geocoder = new kakao.maps.services.Geocoder();
-
-// 주소로 좌표를 검색합니다
-geocoder.addressSearch('세종특별자치시 나성북1로 23', function(result, status) {
-
-    // 정상적으로 검색이 완료됐으면 
-     if (status === kakao.maps.services.Status.OK) {
-
-        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-        // 결과값으로 받은 위치를 마커로 표시합니다
-        var marker = new kakao.maps.Marker({
-            map: map,
-            position: coords
-        });
-
-        // 인포윈도우로 장소에 대한 설명을 표시합니다
-        var infowindow = new kakao.maps.InfoWindow({
-            content: '<div style="width:150px;text-align:center;padding:6px 0;">${product.center_name }</div>'
-        });
-        infowindow.open(map, marker);
-
-        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-        map.setCenter(coords);
-    } 
-});    
-</script>
-		
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	    mapOption = {
+	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	        level: 3 // 지도의 확대 레벨
+	    };  
+	
+	// 지도를 생성합니다    
+	var map = new kakao.maps.Map(mapContainer, mapOption); 
+	
+	//도로명 주소 가져오기
+	var road_address = '${member.road_address}';
+	
+	// 주소-좌표 변환 객체를 생성합니다
+	var geocoder = new kakao.maps.services.Geocoder();
+	
+	// 주소로 좌표를 검색합니다
+	geocoder.addressSearch(road_address, function(result, status) {
+	
+	    // 정상적으로 검색이 완료됐으면 
+	     if (status === kakao.maps.services.Status.OK) {
+	
+	
+	        /* 	마커 이미지 변경 */
+	    	var imageSrc = 'https://cdn-icons-png.flaticon.com/512/8059/8059174.png', // 마커이미지의 주소입니다    
+	        imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+	        imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+	          
+	    	// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+	    	var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+	    	    markerPosition = new kakao.maps.LatLng(result[0].y, result[0].x); // 마커가 표시될 위치입니다
+	    	
+	    	// 마커를 생성합니다
+	    	var marker = new kakao.maps.Marker({
+	    	    position: markerPosition, 
+	    	    image: markerImage // 마커이미지 설정 
+	    	});
+	    	
+	    	// 마커가 지도 위에 표시되도록 설정합니다
+	    	marker.setMap(map); 
+	    	/* 	마커 이미지 변경 */
+	    	
+	
+	        // 인포윈도우로 장소에 대한 설명을 표시합니다
+	        var infowindow = new kakao.maps.InfoWindow({
+	            content: '<div class="infoWindow">${member.center_name }</div>'
+	        });
+	        infowindow.open(map, marker);
+	
+	        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+	        map.setCenter(markerPosition);
+	    } 
+	});    
+</script>		
 		        </div>
 					</div>
 
@@ -292,11 +310,11 @@ geocoder.addressSearch('세종특별자치시 나성북1로 23', function(result
 
 			<div class="tab_content" id="tab5">
 				<div class="tab_title">판매자 정보</div>        
-				<h5>상호명 : ${product.center_name }</h5>
+				<h5>상호명 : ${member.center_name }</h5>
 				<h5>대표자 : ${member.member_name }</h5>
 				<h5>연락처 : ${member.hp1 } - ${member.hp2 } - ${member.hp3 }</h5>
 				<h5>사업자등록번호 : ${member.owner_eid }</h5>
-				<h5>사업장 소재지 : ${member.road_address }${member.namuji_address}</h5>
+				<h5>사업장 소재지 : ${member.road_address } ${member.namuji_address}</h5>
 				<h5>E-mail : ${member.email1}@${member.email2}</h5>
 			</div>
 		</div>

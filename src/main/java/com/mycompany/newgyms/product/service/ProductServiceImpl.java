@@ -39,31 +39,21 @@ public class ProductServiceImpl implements ProductService {
 		List<ProductOptVO> productOptList = productDAO.selectProductOption(_product_id);
 		productMap.put("productOptList", productOptList);
 
-		/* 프로그램 상세정보 이미지 */
-		List<ProductImageVO> imageList =productDAO.selectProductDetailImage(_product_id);
-		productMap.put("imageList", imageList);
 		
-		/* 가격 정보 이미지 */
-		List<ProductImageVO> priceImage =productDAO.selectProductPriceImage(_product_id);
-		productMap.put("priceImage", priceImage);
-		
-		/* 시설 정보 이미지 */
-		List<ProductImageVO> facilityImage =productDAO.selectProductFacilityImage(_product_id);
-		productMap.put("facilityImage", facilityImage);
-
 		return productMap;
 	}
+	public Map productImage(String _product_id) throws Exception {
+		/* 이미지 */
+		Map imageMap =productDAO.selectProductImage(_product_id);
+		return imageMap;
+	}
+
 	/*판매자 정보 가져오기*/
-	public MemberVO ownerDetail(String _center_name) throws Exception {
-	MemberVO memberVO = productDAO.selectOwnerDetail(_center_name);
+	public MemberVO ownerDetail(String member_id) throws Exception {
+	MemberVO memberVO = productDAO.selectOwnerDetail(member_id);
 	return memberVO;
 	}
 
-	/*
-	 * public List<ReviewVO> productReview(String _product_id) throws Exception{
-	 * List reviewList= productDAO.selectproductReview(_product_id); return
-	 * reviewList; }
-	 */
 	public List<ProductVO> productSorting(String product_sort, String sortBy) throws Exception{
 		List productList= productDAO.selectSortedProduct(product_sort, sortBy);
 		return productList;
@@ -73,13 +63,13 @@ public class ProductServiceImpl implements ProductService {
 		return productList;
 	}
 	
-	public List<ProductVO> searchProductByCondition(String searchOption, String searchWord, String minPrice, String maxPrice) throws Exception{
-		List productList=productDAO.searchProductByCondition(searchOption, searchWord, minPrice, maxPrice);
+	public List<ProductVO> searchProductByCondition(Map searchMap) throws Exception{
+		List productList=productDAO.searchProductByCondition(searchMap);
 		return productList;
 	}
 	/*
-	public List<ProductVO> searchProductByCondition(Map searchMap) throws Exception{
-		List productList=productDAO.searchProductByCondition(searchMap);
+	public List<ProductVO> searchProductByCondition(String searchOption, String searchWord, String minPrice, String maxPrice) throws Exception{
+		List productList=productDAO.searchProductByCondition(searchOption, searchWord, minPrice, maxPrice);
 		return productList;
 	}
 	*/

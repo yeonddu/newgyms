@@ -35,8 +35,10 @@ public class ProductControllerImpl implements ProductController {
 	public ModelAndView productList(@RequestParam("productSort") String product_sort, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
-		List<ProductVO> productList = productService.productList(product_sort);
 		ModelAndView mav = new ModelAndView(viewName);
+		
+		List<ProductVO> productList = productService.productList(product_sort);
+		
 		mav.addObject("productList", productList);
 		mav.addObject("productSort", product_sort);
 		return mav;
@@ -53,6 +55,9 @@ public class ProductControllerImpl implements ProductController {
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("productMap", productMap);
 
+		/*이미지 가져오기*/
+		Map imageMap = productService.productImage(product_id);
+		mav.addObject("imageMap",imageMap);
 		
 		 /* 제품 리뷰 가져오기 */
 		List<ReviewVO> reviewList=reviewService.productReview(product_id); 
@@ -61,14 +66,9 @@ public class ProductControllerImpl implements ProductController {
 
 		/* 판매자 정보 가져오기 */
 		ProductVO productVO = (ProductVO) productMap.get("productVO");
-		String center_name = productVO.getCenter_name();
-		MemberVO memberVO = productService.ownerDetail(center_name);
-		mav.addObject("memberVO", memberVO);
-
-		String road_address = memberVO.getRoad_address();
-		mav.addObject("road_address", road_address);
-
-		/*
+		String member_id = productVO.getMember_id();
+		MemberVO memberVO = productService.ownerDetail(member_id);
+		mav.addObject("memberVO", memberVO);		/*
 		*/
 		/* addProductInQuick(product_id,productVO,session); */
 		return mav;
@@ -103,9 +103,19 @@ public class ProductControllerImpl implements ProductController {
 	public ModelAndView searchProductByCondition(@RequestParam("searchOption") String searchOption, @RequestParam("searchWord") String searchWord, 
 			@RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice,HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		String viewName = (String) request.getAttribute("viewName");	
-		
-		List<ProductVO> productList = productService.searchProductByCondition(searchOption, searchWord, minPrice, maxPrice);
+		String viewName = (String) request.getAttribute("viewName");
+		if(minPrice.equals("")) {
+			minPrice = "0";
+		}
+		if (maxPrice.equals("")) {
+			maxPrice = "100000000";
+		}
+		Map searchMap = new HashMap();
+		searchMap.put("searchOption", searchOption);
+		searchMap.put("searchWord", searchWord);
+		searchMap.put("minPrice", minPrice);
+		searchMap.put("maxPrice", maxPrice);
+		List<ProductVO> productList = productService.searchProductByCondition(searchMap);
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("productList", productList);
 		mav.addObject("searchWord", searchWord);

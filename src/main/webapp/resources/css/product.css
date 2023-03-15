@@ -98,8 +98,12 @@ padding: 0px 8px; border-right-color: rgb(150, 150, 150); border-right-width: 1p
 #productList .container .product_image img {
 	width: 250px; height:250px; object-fit: contain;
 }
+#productList .container .product_image .wish{
+	 width: 40px; height:40px; position:absolute; top:190px; left:180px; border-radius: 100%; background-size:60%; background-color:white; opacity: 0.5;
+}
+
 #productList .container .product_image #wish img{
-	position:absolute; top:190px; left:180px; border-radius: 100%; background-size:60%; background-color:white; opacity: 0.5; width: 40px; height:40px;
+	 width: 40px; height:40px; position:absolute; top:190px; left:180px; 
 }
 
 #productList .container h1 {
@@ -237,6 +241,10 @@ padding: 0px 8px; border-right-color: rgb(150, 150, 150); border-right-width: 1p
 	color:#0F0573; 
 }
 
+#productDetail  .product_detail .infoWindow {
+	
+width:150px;text-align:center;font-size:16px;padding:6px 0;
+}
 
 #productDetail .product_detail .tab_container {
 	background: rgb(255, 255, 255); width: 100%; clear: both; border-top-color: currentColor; border-top-width: medium; border-top-style: none; float: left;

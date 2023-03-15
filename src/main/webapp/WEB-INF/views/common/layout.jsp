@@ -18,6 +18,7 @@
 <link href="${contextPath}/resources/css/footer.css?after" rel="stylesheet" type="text/css" media="screen">
 <link href="${contextPath}/resources/css/product.css?after" rel="stylesheet" type="text/css" media="screen">
 <link href="${contextPath}/resources/css/main.css?after" rel="stylesheet" type="text/css" media="screen">
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 <script src="${contextPath}/resources/jquery/basic-jquery-slider.js" type="text/javascript"></script>
 

@@ -280,49 +280,42 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		return mav;
 	}
 	
-	@Override
-	@RequestMapping(value="/searchpw.do" ,method = RequestMethod.POST)
-	public ModelAndView searchpw(@RequestParam Map<String, String> searchpwMap,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		HttpSession session=request.getSession();
-		memberVO=memberService.searchpw(searchpwMap);
-		if (memberVO != null) {
-			String member_id = memberVO.getMember_id();
-			session.setAttribute("member_id",member_id);
-			mav.setViewName("forward:/member/foundpwForm.do");
-		} else {
-			String message="어~~~안해주면 그만이야~~~";
-			mav.addObject("message", message);
-			mav.setViewName("forward:/member/searchpw.do");
-		}
-		return mav;
-	}
+	// 비밀번호 조희
+	   @Override
+	   @RequestMapping(value = "/searchpw.do", method = RequestMethod.POST)
+	   public ModelAndView searchpw(@RequestParam Map<String, String> searchpwMap, HttpServletRequest request,HttpServletResponse response) throws Exception {
+	      ModelAndView mav = new ModelAndView();
+	      HttpSession session = request.getSession();
+	      memberVO = memberService.searchpw(searchpwMap);
+	      if (memberVO != null) {
+	         String member_id = memberVO.getMember_id();
+	         session.setAttribute("member_id", member_id);
+	         mav.setViewName("forward:/member/foundpwForm.do");
+	      } else {
+	         String message = "어~~~안해주면 그만이야~~~";
+	         mav.addObject("message", message);
+	         mav.setViewName("forward:/member/searchpw.do");
+	      }
+	      return mav;
+	   }
 	
 	@Override
-	@RequestMapping(value="/newpw.do" ,method = RequestMethod.POST)
-	public ModelAndView newpw(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		/*
-		String member_pw = searchpwMap.get("member_pw");
-		String new_pw = searchpwMap.get("new_pw");
-		*/
-		String member_id = request.getParameter("member_id");
-		String member_pw = request.getParameter("member_pw");
-		String new_pw = request.getParameter("new_pw");
-		
-		Map searchpwMap = new HashMap();
-		searchpwMap.put("member_id", member_id);
-		searchpwMap.put("member_pw", member_pw);
-		searchpwMap.put("new_pw", new_pw);
-		if (member_pw == new_pw) {
-			memberService.newpw(searchpwMap);
-			/* mav.setViewName("forward:/member/login.do"); */
-		} else {
-			mav.setViewName("forward:/member/login.do");
-		}
-		return mav;
-	}
-	
-	
+	   @RequestMapping(value = "/newpw.do", method = RequestMethod.POST)
+	   public ModelAndView newpw(@RequestParam Map<String, String> searchpwMap, HttpServletRequest request,HttpServletResponse response) throws Exception {
+	      ModelAndView mav = new ModelAndView();
+	      HttpSession session = request.getSession();
+	      String pw1 = (String)searchpwMap.get("member_pw");
+	      String pw2 = (String)searchpwMap.get("new_pw");
+	      memberService.newpw(searchpwMap);
+	      if (pw1 == pw2) {
+	         String member_id = memberVO.getMember_id();
+	         String member_pw = memberVO.getMember_pw();
+	         session.setAttribute("member_id", member_id);
+	         session.setAttribute("member_pw", member_pw);
+	         mav.setViewName("forward:/member/login.do");
+	      } else {
+	          mav.setViewName("forward:/member/login.do");
+	      }
+	      return mav;
+	   }	
 }

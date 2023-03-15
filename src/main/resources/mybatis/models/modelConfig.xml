@@ -9,6 +9,7 @@
     <typeAlias type="com.mycompany.newgyms.product.vo.ProductOptVO" alias="productOptVO" />
     <typeAlias type="com.mycompany.newgyms.product.vo.ProductImageVO" alias="productImageVO" />
     <typeAlias type="com.mycompany.newgyms.review.vo.ReviewVO" alias="reviewVO" />
+    <typeAlias type="com.mycompany.newgyms.wish.vo.WishVO" alias="wishVO" />
     
 </typeAliases>
 </configuration>

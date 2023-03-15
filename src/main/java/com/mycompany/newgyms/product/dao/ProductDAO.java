@@ -17,22 +17,17 @@ public interface ProductDAO {
 	public ProductVO selectProductDetail(String product_id) throws DataAccessException;
 	
 	public List<ProductOptVO> selectProductOption(String product_id) throws DataAccessException;
-	public List<ProductImageVO> selectProductDetailImage(String product_id) throws DataAccessException;
-	public List<ProductImageVO> selectProductPriceImage(String product_id) throws DataAccessException;
-	public List<ProductImageVO> selectProductFacilityImage(String product_id) throws DataAccessException;
-	/*
-	 * public ArrayList selectproductReview(String product_id) throws
-	 * DataAccessException;
-	 */
-
-	public MemberVO selectOwnerDetail(String center_name) throws DataAccessException;
+	public Map<String,Object> selectProductImage(String product_id) throws DataAccessException;
+	
+	public MemberVO selectOwnerDetail(String member_id) throws DataAccessException;
 	
 	public List<ProductVO> selectSortedProduct(String productSort, String sortBy) throws DataAccessException;
 	
 	public List<ProductVO> selectProductBySearchWord(String searchWord) throws DataAccessException;
 	
-	public List<ProductVO> searchProductByCondition(String searchOption, String searchWord, String minPrice, String maxPrice) throws DataAccessException;
+	public List<ProductVO> searchProductByCondition(Map searchMap) throws DataAccessException;
 	/*
+	public List<ProductVO> searchProductByCondition(String searchOption, String searchWord, String minPrice, String maxPrice) throws DataAccessException;
 	
 	public List<ProductVO> selectProductList(String productStatus ) throws DataAccessException;
 	public List<String> selectKeywordSearch(String keyword) throws DataAccessException;

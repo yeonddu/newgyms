@@ -5,6 +5,7 @@ import java.sql.Date;
 public class ProductVO {
 	private int product_id;
 	private String product_sort;
+	private String member_id;
 	private String center_name;
 	private String product_name;
 	private String product_fileName;
@@ -33,6 +34,13 @@ public class ProductVO {
 	public void setProduct_sort(String product_sort) {
 		this.product_sort = product_sort;
 	}
+	public String getMember_id() {
+		return member_id;
+	}
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
+	}
+	
 	public String getCenter_name() {
 		return center_name;
 	}
