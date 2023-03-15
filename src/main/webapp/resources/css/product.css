@@ -92,11 +92,14 @@ padding: 0px 8px; border-right-color: rgb(150, 150, 150); border-right-width: 1p
 
 
 #productList .container .item .product_image {
-	position:relative; margin: auto;
+	position:relative; margin: auto; 
+}
+#productList .container .item .product_image:hover img{
+	transform:scale(1.02);
 }
 
 #productList .container .product_image img {
-	width: 250px; height:250px; object-fit: contain;
+	width: 250px; height:250px; object-fit: contain; max-width:100%;transition:all 0.2s linear;
 }
 #productList .container .product_image .wish{
 	 width: 40px; height:40px; position:absolute; top:190px; left:180px; border-radius: 100%; background-size:60%; background-color:white; opacity: 0.5;
