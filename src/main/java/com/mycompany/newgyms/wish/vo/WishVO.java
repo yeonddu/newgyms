@@ -2,6 +2,8 @@ package com.mycompany.newgyms.wish.vo;
 
 import java.sql.Date;
 
+import org.springframework.stereotype.Component;
+@Component("wishVO")
 public class WishVO {
 	private int wish_id;
 	private String member_id;

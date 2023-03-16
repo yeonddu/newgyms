@@ -13,9 +13,9 @@ public class ReviewDAOImpl implements ReviewDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public ArrayList selectproductReview(String product_id) throws DataAccessException{
+	public ArrayList selectproductReviewList(String product_id) throws DataAccessException{
 		ArrayList list = new ArrayList();
-		list=(ArrayList)sqlSession.selectList("mapper.review.selectProductReview",product_id);
+		list=(ArrayList)sqlSession.selectList("mapper.review.selectProductReviewList",product_id);
 		return list;
 	}
 	 

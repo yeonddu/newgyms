@@ -5,19 +5,24 @@
 <tiles-definitions>
 		<!-- 상품검색 추가 -->
       <definition name="/product/productList" extends="baseLayout">
-         <put-attribute name="title" value="상품 조회" />
+         <put-attribute name="title" value="카테고리별 조회 페이지" />
          <put-attribute name="body" value="/WEB-INF/views/product/productList.jsp" />
       </definition>
 
+      <definition name="/product/productByAddress" extends="baseLayout">
+         <put-attribute name="title" value="지역별 조회 페이지" />
+         <put-attribute name="body" value="/WEB-INF/views/product/ProductByAddress.jsp" />
+      </definition>
 
 	  <definition name="/product/productDetail" extends="baseLayout">
          <put-attribute name="title" value="상품 상세페이지" />
          <put-attribute name="body" value="/WEB-INF/views/product/productDetail.jsp" />
       </definition>  
       <definition name="/product/productSorting" extends="baseLayout">
-         <put-attribute name="title" value="상품 정렬" />
+         <put-attribute name="title" value="상품 정렬 결과 페이지" />
          <put-attribute name="body" value="/WEB-INF/views/product/productList.jsp" />
       </definition>
+      
       
       <definition name="/product/searchProduct" extends="baseLayout">
          <put-attribute name="title" value="상품 검색 결과 페이지" />

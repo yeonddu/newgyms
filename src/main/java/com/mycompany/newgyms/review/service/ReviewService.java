@@ -6,5 +6,5 @@ import com.mycompany.newgyms.review.vo.ReviewVO;
 
 
 public interface ReviewService {
-	public List<ReviewVO> productReview(String product_id) throws Exception;
+	public List<ReviewVO> productReviewList(String product_id) throws Exception;
 }

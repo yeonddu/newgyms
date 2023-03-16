@@ -27,8 +27,7 @@ public class MemberVO {
    private String member_birth_y;
    private String member_birth_m;
    private String member_birth_d;
-   private String member_birth_gn;
-   private Date joinDate;
+   private Date join_date;
    private String del_yn;
    
    private String center_name;
@@ -68,7 +67,10 @@ public class MemberVO {
          String emailsts_yn,
          String member_gender,
          String member_rrn1,
-         String member_rrn2) {
+         String member_rrn2,
+         String member_birth_y,
+         String member_birth_m,
+         String member_birth_d) {
       this.join_type = join_type;
       this.member_name = member_name;
       this.member_id = member_id;
@@ -87,6 +89,9 @@ public class MemberVO {
       this.member_gender = member_gender;
       this.member_rrn1 = member_rrn1;
       this.member_rrn2 = member_rrn2;
+      this.member_birth_y = member_birth_y;
+      this.member_birth_m = member_birth_m;
+      this.member_birth_d = member_birth_d;
    }
    
    // 사업자 회원가입 생성자
@@ -113,7 +118,10 @@ public class MemberVO {
          String emailsts_yn,
          String member_gender,
          String member_rrn1,
-         String member_rrn2) {
+         String member_rrn2,
+         String member_birth_y,
+         String member_birth_m,
+         String member_birth_d) {
       this.join_type = join_type;
       this.member_name = member_name;
       this.center_name = center_name;
@@ -137,6 +145,9 @@ public class MemberVO {
       this.member_gender = member_gender;
       this.member_rrn1 = member_rrn1;
       this.member_rrn2 = member_rrn2;
+      this.member_birth_y = member_birth_y;
+      this.member_birth_m = member_birth_m;
+      this.member_birth_d = member_birth_d;
    }
       
    // 카카오 간편 회원가입 생성자
@@ -360,20 +371,12 @@ public class MemberVO {
       this.member_birth_d = member_birth_d;
    }
 
-   public String getMember_birth_gn() {
-      return member_birth_gn;
+   public Date getJoin_date() {
+      return join_date;
    }
 
-   public void setMember_birth_gn(String member_birth_gn) {
-      this.member_birth_gn = member_birth_gn;
-   }
-
-   public Date getJoinDate() {
-      return joinDate;
-   }
-
-   public void setJoinDate(Date joinDate) {
-      this.joinDate = joinDate;
+   public void setJoin_date(Date join_date) {
+      this.join_date = join_date;
    }
 
    public String getDel_yn() {

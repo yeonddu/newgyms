@@ -18,8 +18,8 @@ public class ReviewServiceImpl implements ReviewService{
 	private ReviewDAO reviewDAO;
 	
 	
-	public List<ReviewVO> productReview(String product_id) throws Exception{
-		List reviewList= reviewDAO.selectproductReview(product_id);
+	public List<ReviewVO> productReviewList(String product_id) throws Exception{
+		List reviewList= reviewDAO.selectproductReviewList(product_id);
 		return reviewList;
 	}
 	

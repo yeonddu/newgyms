@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.mycompany.newgyms.review.vo.ReviewVO;
 
 @Controller("reviewController")
-@RequestMapping(value="/reviw")
+@RequestMapping(value="/review")
 public class ReviewControllerImpl implements ReviewController {
 	
 	

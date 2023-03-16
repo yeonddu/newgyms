@@ -42,27 +42,22 @@
 	   <result property="fileType" column="fileType" />
 	</resultMap>
 
-	<resultMap id="memberResult" type="MemberVO">
-	<result property="center_name" column="center_name" />
-	<result property="member_name" column="member_name" />
-			<result property="owner_eid" column="owner_eid" />
-		<result property="owner_tel1" column="owner_tel1" />
-		<result property="owner_tel2" column="owner_tel2" />
-		<result property="owner_tel3" column="owner_tel3" />
-		<result property="zipcode" column="zipcode" />
-		<result property="road_address" column="road_address" />
-		<result property="jibun_address" column="jibun_address" />
-		<result property="namuji_address" column="namuji_address" />
-		<result property="email1" column="email1" />
-		<result property="email2" column="email2" />
-	</resultMap>
-
-	<!-- 상품검색 추가 -->	
 	<select id="selectProductList" resultMap="productResult"   parameterType="String"  >
      <![CDATA[
 			select t_product.*, t_member.center_name, t_product_detail_image.fileName from t_product, t_member, t_product_detail_image
 where t_product.product_sort =#{product_sort} and t_product.member_id=t_member.member_id and t_product_detail_image.filetype='main_image' and t_product.product_id = t_product_detail_image.product_id
 order by t_product.product_entered_date desc
+		]]>
+	</select>	
+	
+	<select id="selectproductByAddress" resultMap="productResult"   parameterType="String"  >
+     <![CDATA[
+			select t_product.*, t_member.center_name, t_product_detail_image.fileName from t_product, t_member, t_product_detail_image
+where t_member.road_address like concat('%',#{address},'%') and t_product.member_id=t_member.member_id and t_product_detail_image.filetype='main_image' and t_product.product_id = t_product_detail_image.product_id
+order by t_product.product_entered_date desc
+
+
+
 		]]>
 	</select>	
 
@@ -112,32 +107,24 @@ order by t_product.product_id
     	]]>
 	</select>
 
-	<select id="selectOwnerDetail" resultMap="memberResult"   parameterType="String"  >
-	    <![CDATA[
-		     select * from t_member
-			where member_id=#{member_id}
-    	]]>
-	</select>
-	
-
 	<select id="selectproductSortByPopular" resultMap="productResult"   parameterType="String"  >
      <![CDATA[
-			select t_product.*, t_product_detail_image.fileName from t_product, t_product_detail_image
-where t_product.product_sort =#{product_sort} and t_product_detail_image.filetype='main_image' and t_product.product_id = t_product_detail_image.product_id
+			select t_product.*, t_member.center_name, t_product_detail_image.fileName from t_product, t_product_detail_image, t_member
+where t_product.product_sort =#{product_sort} and t_product.member_id=t_member.member_id and t_product_detail_image.filetype='main_image' and t_product.product_id = t_product_detail_image.product_id
 order by t_product.product_price desc
 		]]>
 	</select>	
 	<select id="selectproductSortByLowPrice" resultMap="productResult"   parameterType="String"  >
      <![CDATA[
-			select t_product.*, t_product_detail_image.fileName from t_product, t_product_detail_image
-where t_product.product_sort =#{product_sort} and t_product_detail_image.filetype='main_image' and t_product.product_id = t_product_detail_image.product_id
+			select t_product.*, t_member.center_name, t_product_detail_image.fileName from t_product, t_product_detail_image, t_member
+where t_product.product_sort =#{product_sort} and t_product.member_id=t_member.member_id and t_product_detail_image.filetype='main_image' and t_product.product_id = t_product_detail_image.product_id
 order by t_product.product_price 
 		]]>
 	</select>	
 	<select id="selectproductSortByHighPrice" resultMap="productResult"   parameterType="String"  >
      <![CDATA[
-			select t_product.*, t_product_detail_image.fileName from t_product, t_product_detail_image
-where t_product.product_sort =#{product_sort} and t_product_detail_image.filetype='main_image' and t_product.product_id = t_product_detail_image.product_id
+			select t_product.*, t_member.center_name, t_product_detail_image.fileName from t_product, t_product_detail_image, t_member
+where t_product.product_sort =#{product_sort}  and t_product.member_id=t_member.member_id and t_product_detail_image.filetype='main_image' and t_product.product_id = t_product_detail_image.product_id
 order by t_product.product_price desc
 		]]>
 	</select>	

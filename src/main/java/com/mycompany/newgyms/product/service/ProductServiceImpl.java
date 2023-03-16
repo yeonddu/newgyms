@@ -30,6 +30,11 @@ public class ProductServiceImpl implements ProductService {
 		return productList;
 	}
 	
+	public List<ProductVO> productByAddress(String address) throws Exception {
+		List productList=productDAO.selectproductByAddress(address);
+		return productList;
+	}
+	
 	public Map productDetail(String _product_id) throws Exception {
 		Map productMap=new HashMap();
 		ProductVO productVO = productDAO.selectProductDetail(_product_id);
@@ -48,7 +53,7 @@ public class ProductServiceImpl implements ProductService {
 		return imageMap;
 	}
 
-	/*판매자 정보 가져오기*/
+	/*사업자 정보 가져오기*/
 	public MemberVO ownerDetail(String member_id) throws Exception {
 	MemberVO memberVO = productDAO.selectOwnerDetail(member_id);
 	return memberVO;

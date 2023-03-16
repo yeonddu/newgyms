@@ -19,7 +19,7 @@
 	</resultMap>
 
 	<!-- 상품검색 추가 -->	
-	<select id="selectProductReview" resultMap="reviewResult"   parameterType="String"  >
+	<select id="selectProductReviewList" resultMap="reviewResult"   parameterType="String"  >
      <![CDATA[
 			select * from t_review
 			where product_id=#{product_id}

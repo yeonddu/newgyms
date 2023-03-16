@@ -5,5 +5,5 @@ import java.util.ArrayList;
 import org.springframework.dao.DataAccessException;
 
 public interface ReviewDAO {
-	public ArrayList selectproductReview(String product_id) throws DataAccessException;
+	public ArrayList selectproductReviewList(String product_id) throws DataAccessException;
 }

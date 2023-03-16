@@ -14,6 +14,7 @@ import com.mycompany.newgyms.product.vo.ProductVO;
 public interface ProductDAO {
 	/*상품검색 추가*/
 	public List<ProductVO> selectProductList(String productSort) throws DataAccessException;
+	public List<ProductVO> selectproductByAddress(String address) throws DataAccessException;
 	public ProductVO selectProductDetail(String product_id) throws DataAccessException;
 	
 	public List<ProductOptVO> selectProductOption(String product_id) throws DataAccessException;

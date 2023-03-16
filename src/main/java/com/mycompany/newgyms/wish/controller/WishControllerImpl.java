@@ -22,15 +22,20 @@ public class WishControllerImpl implements WishController{
 	private WishService wishService;
 	
 	@RequestMapping(value = "/addWishList.do", method = RequestMethod.GET)
-	public void addWishList(@RequestParam("product_id") String product_id,
+	public String addWishList(@RequestParam("product_id") String product_id,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session=request.getSession();
-		MemberVO memberVO=(MemberVO)session.getAttribute("memberInfo");
+
+		  MemberVO memberVO=(MemberVO)session.getAttribute("memberInfo");
 		String member_id=memberVO.getMember_id();
 
 		wishService.addWishList(product_id, member_id);
 
-
+		  if (request.getHeader("Referer") != null) {
+			    return "redirect:" + request.getHeader("Referer");
+			  } else {
+			    return "redirect:/main/main.do";
+			  }
 	}
 
 }

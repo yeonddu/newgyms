@@ -18,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.mycompany.newgyms.member.vo.MemberVO;
 import com.mycompany.newgyms.product.service.ProductService;
 import com.mycompany.newgyms.product.vo.ProductVO;
+import com.mycompany.newgyms.qna.service.QnaService;
+import com.mycompany.newgyms.qna.vo.QnaVO;
 import com.mycompany.newgyms.review.service.ReviewService;
 import com.mycompany.newgyms.review.vo.ReviewVO;
 
@@ -29,8 +31,11 @@ public class ProductControllerImpl implements ProductController {
 
 	@Autowired
 	private ReviewService reviewService;
+	
+	@Autowired
+	private QnaService qnaService;
 
-	/* 상품검색 추가 */
+	/* 카테고리별 조회 */
 	@RequestMapping(value = "/productList.do", method = RequestMethod.GET)
 	public ModelAndView productList(@RequestParam("productSort") String product_sort, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -43,7 +48,23 @@ public class ProductControllerImpl implements ProductController {
 		mav.addObject("productSort", product_sort);
 		return mav;
 	}
-
+	
+	
+	/* 지역별 조회 */
+	
+	@RequestMapping(value = "/productByAddress.do", method = RequestMethod.GET)
+	public ModelAndView productByAddress(@RequestParam("address") String address, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView(viewName);
+		
+		List<ProductVO> productList = productService.productByAddress(address);
+		
+		mav.addObject("productList", productList);
+		mav.addObject("address", address);
+		return mav;
+	}
+	
 	@RequestMapping(value = "/productDetail.do", method = RequestMethod.GET)
 	public ModelAndView productDetail(@RequestParam("product_id") String product_id, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -60,20 +81,39 @@ public class ProductControllerImpl implements ProductController {
 		mav.addObject("imageMap",imageMap);
 		
 		 /* 제품 리뷰 가져오기 */
-		List<ReviewVO> reviewList=reviewService.productReview(product_id); 
+		List<ReviewVO> reviewList=reviewService.productReviewList(product_id); 
 		mav.addObject("reviewList",reviewList);
+		
+		/* 제품 질문 목록 가져오기 */
+		List<QnaVO> questionList=qnaService.productQuestionList(product_id); 
+		mav.addObject("questionList",questionList);
+		
+		/* 제품 답변 목록 가져오기 */
+		List<QnaVO> answerList=qnaService.productAnswerList(product_id); 
+		mav.addObject("answerList",answerList);
 
-
-		/* 판매자 정보 가져오기 */
+		
+		/* 사업자 정보 가져오기 */
 		ProductVO productVO = (ProductVO) productMap.get("productVO");
-		String member_id = productVO.getMember_id();
+		String member_id = productVO.getMember_id(); /* 사업자 아이디 */
 		MemberVO memberVO = productService.ownerDetail(member_id);
-		mav.addObject("memberVO", memberVO);		/*
-		*/
+		System.out.println(memberVO.getCenter_name());
+		System.out.println(memberVO.getMember_name());
+		mav.addObject("memberVO", memberVO);		
+		
+		
+		MemberVO memberVo=(MemberVO)session.getAttribute("memberInfo");
+		if (memberVo != null && memberVo.getMember_id() != null) {
+		
+			String loginMember_id=memberVo.getMember_id();
+			mav.addObject("loginMember_id", loginMember_id);
+		}
+
 		/* addProductInQuick(product_id,productVO,session); */
 		return mav;
 	}
 
+	/*정렬하여 조회 - 신상품/인기순/낮은가격/높은가격 */
 	@RequestMapping(value = "/productSorting.do", method = RequestMethod.GET)
 	public ModelAndView productSorting(@RequestParam("productSort") String product_sort,
 			@RequestParam("sortBy") String sortBy, HttpServletRequest request, HttpServletResponse response)
@@ -83,9 +123,11 @@ public class ProductControllerImpl implements ProductController {
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("productList", productList);
 		mav.addObject("productSort", product_sort);
+		
 		return mav;
 	}
 
+	/* 상품검색 */
 	@RequestMapping(value = "/searchProduct.do", method = RequestMethod.GET)
 	public ModelAndView searchProduct(@RequestParam("searchWord") String searchWord, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -98,7 +140,7 @@ public class ProductControllerImpl implements ProductController {
 
 	}
 	
-		
+	/* 상품 상세검색 */	
 	@RequestMapping(value = "/searchProductByCondition.do", method = RequestMethod.GET)
 	public ModelAndView searchProductByCondition(@RequestParam("searchOption") String searchOption, @RequestParam("searchWord") String searchWord, 
 			@RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice,HttpServletRequest request,

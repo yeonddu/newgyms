@@ -21,10 +21,16 @@ public class ProductDAOImpl implements ProductDAO {
 	@Autowired
 	private SqlSession sqlSession;
 
-	/*상품 검색 추가*/
+	
+	@Override
 	public ArrayList selectProductList(String product_sort) throws DataAccessException{
 		ArrayList list=(ArrayList)sqlSession.selectList("mapper.product.selectProductList",product_sort);
 		 return list;
+	}
+	@Override
+	public ArrayList selectproductByAddress(String address) throws DataAccessException{
+		ArrayList list=(ArrayList)sqlSession.selectList("mapper.product.selectproductByAddress",address);
+		return list;
 	}
 
 	@Override
@@ -56,10 +62,10 @@ public class ProductDAOImpl implements ProductDAO {
 		return imageMap;
 	}
 	
-	/*판매자 정보*/
+	/*사업자 정보*/
 	@Override
 	public MemberVO selectOwnerDetail(String member_id) throws DataAccessException{
-		MemberVO memberVO=(MemberVO)sqlSession.selectOne("mapper.product.selectOwnerDetail",member_id);
+		MemberVO memberVO=(MemberVO)sqlSession.selectOne("mapper.member.selectOwnerDetail",member_id);
 		return memberVO;
 	}
 	

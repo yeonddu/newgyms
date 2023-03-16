@@ -13,7 +13,8 @@
 <c:set var="facilityImage"  value="${imageMap.facilityImageList }"  />
 
 <c:set var="reviewList"  value="${reviewList }"  />
-<c:set var="qnaList"  value="${productMap.qnaList }"  />
+<c:set var="questionList"  value="${questionList }"  />
+<c:set var="answerList"  value="${answerList }"  />
 <c:set var="member"  value="${memberVO}"  />
  <%
      //치환 변수 선언합니다.
@@ -87,7 +88,7 @@ $(document).ready(function() {
 <body>
 <div id="productDetail">
 	<div class="product_image">
-	   <img alt="" src="${contextPath}/thumbnails.do?product_id=${product.product_id}&fileName=${product.product_fileName}">			  
+	   <img alt="" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${product.product_fileName}">			  
 	</div>
 <div class="product_description">
   <h1>${product.product_name }</h1>
@@ -124,7 +125,7 @@ $(document).ready(function() {
 			<li><a href="#tab2">이용후기</a></li>
 			<li><a href="#tab3">Q&A</a></li>
 			<li><a href="#tab4">환불 안내</a></li>
-			<li><a href="#tab5">판매자 정보</a></li>
+			<li><a href="#tab5">사업자 정보</a></li>
 		</ul>
 		<div class="tab_container">
 			<div class="tab_content" id="tab1">
@@ -262,37 +263,111 @@ $(document).ready(function() {
           <table class="qna_list">
           <tbody>      
  <c:choose>
-	   <c:when test="${ empty qnaList  }" >
+	   <c:when test="${ empty questionList  }" >
 		   <tr>
 			<td>등록된 Q&A가 없습니다.</td>
 	 		</tr>
 	   </c:when>
    <c:otherwise>
-        	<h2 class="total_count">총 ${fn:length(reviewList)}건</h2>
+        	<h2 class="total_count">총 ${fn:length(questionList)}건</h2>
 
             <tr>
-              <th style="width:10%">번호</th>
-              <th style="width:15%">답변상태</th>
-              <th style="width:50%">제목</th>
-              <th style="width:20%">작성자</th>
-              <th style="width:20%">등록일</th>              
+              <th>번호</th>
+              <th>답변상태</th>
+              <th>제목</th>
+              <th>작성자</th>
+              <th>등록일</th>              
             </tr>
 
-            <c:forEach var="qna" items="${qnaList }"> 
+<script type="text/javascript">
+    $(document).ready(function () { // 페이지 document 로딩 완료 후 스크립트 실행
+        $('.qna_title').on('click',function () { //제목 버튼 클릭 시 
+        	var currentRow = $(this).closest('tr'); //누른 곳의 tr값을 찾는다. 
+        	var detail = currentRow.next('tr'); //누른 tr의 다음 tr을 찾는다
+        	
+        	if(detail.is(":visible")){
+        		detail.hide(); 
+        	} else {
+        		detail.show();
+        	}
+        });
+    });
+</script>
+  		 <c:set  var="qna_count" value="0" />   
+            <c:forEach var="question" items="${questionList }" > 
+				<c:set  var="qna_count" value="${qna_count+1 }" /> 
           <tr class="qna_item">
-            <td>num</td>
             <td>
-              답변상태
+            ${qna_count }
+            </td>	   
+            <td>
+              ${question.qna_answer_state }
             </td>
-            <td class="qna_title">                          
-              ${qna.qna_title}
+	<c:choose>
+		<c:when test="${question.qna_secret==0}"> <!-- 공개글인 경우 -->
+            <td class="qna_title" style="cursor:pointer;">
+            	${question.qna_title}                           
             </td>
+        </c:when>
+		<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
+			<c:choose>
+			<c:when test="${question.member_id==loginMember_id }"> <!-- 작성자와 로그인한 사람이 같은 경우 -->
+            <td class="qna_title" style="cursor:pointer;">
+            	${question.qna_title}                           
+            </td>
+			</c:when>
+			<c:when test="${question.member_id!=loginMember_id  or loginMember_id == null}"> <!-- 작성자와 로그인한 사람이 다른 경우 -->
+            	<td class="qna_title" style="cursor:pointer;">                        
+            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">비밀글입니다.
+         	   </td>
+			</c:when>
+			</c:choose>
+        </c:when>
+   </c:choose>
             <td class="qna_writer">
-              ${qna.member_id}
+              ${question.member_id}
             </td>
-            <td>
-              ${qna.qna_write_date}
+            <td class="qna_writeDate">
+              ${question.qna_write_date}
             </td>
+          </tr>
+         
+          <tr>
+          
+          
+   	<c:choose>
+		<c:when test="${question.qna_secret==0}"> <!-- 공개글인 경우 -->
+            <td colspan="5" class="qna_contents"  >
+            	<span style="font-size:16px;">Q.</span> ${question.qna_contents}  <!-- 질문글 내용 -->
+            <c:forEach var="answer" items="${answerList }" > 
+	            	<c:when test="${question.qna_no == answer.qna_parent_no }"> <!-- 답글 -->
+		            	<span style="font-size:16px;">A.</span> ${answer.qna_title} 
+		            	${answer.qna_contents} 
+            		</c:when>
+            	</c:forEach>                     
+            </td>
+        </c:when>
+		<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
+			<c:choose>
+			<c:when test="${question.member_id==loginMember_id}"> <!-- 작성자와 로그인한 사람이 같은 경우 -->
+            <td class="qna_title" style="cursor:pointer;">
+            	<span style="font-size:16px;">Q.</span> ${question.qna_contents} 
+            <c:forEach var="answer" items="${answerList }" >             	
+	            	<c:when test="${question.qna_no == answer.qna_parent_no }"> <!-- 답글 -->
+		            	<span style="font-size:16px;">A.</span> ${answer.qna_title} 
+		            	${answer.qna_contents} 
+            		</c:when>
+            	</c:forEach>                   
+            </td>
+			</c:when>
+			<c:when test="${question.member_id!=loginMember_id  or loginMember_id == null}"> <!-- 작성자와 로그인한 사람이 다른 경우 -->
+            	<td colspan="5" class="qna_contents" >                        
+            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">비밀글은 작성자만 조회할 수 있습니다.
+         	   </td>
+			</c:when>
+			</c:choose>
+        </c:when>
+   </c:choose>
           </tr>
               </c:forEach>
      </c:otherwise>
@@ -309,7 +384,7 @@ $(document).ready(function() {
 			</div>
 
 			<div class="tab_content" id="tab5">
-				<div class="tab_title">판매자 정보</div>        
+				<div class="tab_title">사업자 정보</div>        
 				<h5>상호명 : ${member.center_name }</h5>
 				<h5>대표자 : ${member.member_name }</h5>
 				<h5>연락처 : ${member.hp1 } - ${member.hp2 } - ${member.hp3 }</h5>

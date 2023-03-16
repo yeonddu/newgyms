@@ -26,5 +26,6 @@ public interface MemberController {
 	public ModelAndView searchpw(@RequestParam Map<String, String> searchidMap,HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView searchid1(@RequestParam Map<String, String> searchidMap,HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView newpw(@RequestParam Map<String, String> searchidMap,HttpServletRequest request, HttpServletResponse response) throws Exception;
-
+	public ModelAndView sendEmail(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView sendEmailpw(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta charset="utf-8">
+<link href="${contextPath}/resources/css/member.css" rel="stylesheet" />
 <script>
 function checkOnlyOne(element) {
      const checkboxes = document.getElementsByName("checkonly");
@@ -59,94 +60,126 @@ function checkOnlyOne(element) {
       const ok = document.getElementById("ok");
       ok.disabled = true;
 }
-
     
+    function submit2(frm) {
+        frm.action= 'sendEmail.do';
+        frm.submit();
+        event.preventDefault();
+        return true;
+    }
   </script>
-
 </head>
 <body>
-   <h2 align = center style ="color:#000000">아이디 찾기<br><br></h2>
-  <form action="${contextPath}/member/searchid.do" method="post">   
-   <div id="detail_table"  align = center>
-    
-      <table style = "border-spacing: 0 10px;">
-         <tbody>
-          <td colspan = "2"><input type ="checkbox" name = "checkonly" onClick='checkOnlyOne(this); checkOnlyTwo(this);'>회원 정보에 등록된 휴대전화로 인증</td>
-            <tr>
-               <td class="fixed_join">이름</td>
-               <td><input name="member_name" type="text" size="21" height ="30" id = "member_name" disabled/></td>
-          <td></td>
-            </tr><tr>
-          <td class="fixed_join">휴대폰번호</td>
-               <td><select name="hp1" id = "hp1" disabled>
-                     <option selected value=" "></option>
-                     <option value="010">010</option>
-                     <option value="011">011</option>
-                     <option value="016">016</option>
-                     <option value="017">017</option>
-                     <option value="018">018</option>
-                     <option value="019">019</option>
-               </select>
-          <input size="6px" type="text" name="hp2" id = "hp2" disabled>&nbsp;  <input size="6px"  type="text" name="hp3" id = "hp3" disabled>
-          </td>
-          <td width = "20px"></td>
-          <td style="text-align: center;">
-            <input type="button" style="height: 20px; width: 110px; height :25px; background-color:#0F0573; color:white; border-radius: 8px;" value="인증번호 받기">
-         </td>
-            </tr>
-        <tr>
-        <td></td>
-           <td><input type="text" size="21" name = "ok" id = "ok" placeholder="인증번호 6자리 숫자 입력" disabled/></td>
-        </tr> 
+	<div id="contain" align=center>
+	<p id="join_title" align="center">아이디 찾기</p>
+  	<form action="${contextPath}/member/searchid.do" method="post"> 
+      <table id="search_table">
+         <tr>
+         	<td colspan = "2">
+         		<input type ="checkbox" name = "checkonly" onClick='checkOnlyOne(this); checkOnlyTwo(this);'>회원 정보에 등록된 휴대전화로 인증
+         	</td>
+         </tr>
+         
+         <!-- 이름 -->
+         <tr>
+         	<td>
+            	<p class="inline" class="join_textbox">이름 <span id="red_color">*</span></p>
+            </td>
+            <td>
+            	<input name="member_name" id="member_name" size="24" maxlength="10" class="join_inputbox" disabled/>
+            </td>
+         </tr>
+            
+         <!-- 휴대폰번호 -->
+         <tr>
+          	<td>
+          		<p class="inline" class="join_textbox">휴대폰번호 <span id="red_color">*</span></p>
+          	</td>
+            <td>
+               <select name="hp1" id="hp1" class="join_inputbox" disabled>
+               		<option value="010" selected>010</option>
+                    <option value="011">011</option>
+                    <option value="016">016</option>
+                    <option value="017">017</option>
+                    <option value="018">018</option>
+                    <option value="019">019</option>
+               	</select> - 
+         		<input size="6" type="text" name="hp2" id="hp2" class="join_inputbox" disabled> - 
+          		<input size="6" type="text" name="hp3" id="hp3" class="join_inputbox" disabled> 
+          	</td>
+          	<td>
+          	    <input type="button" class="btn2" value="인증번호 받기" onClick="return submit2(this.form);">
+          	</td>
+		 </tr>
+		
+		 <!-- 인증번호 -->
+         <tr>
+         	<td>
+          		<p class="inline" class="join_textbox">인증번호 <span id="red_color">*</span></p>
+          	</td>
+           	<td colspan="2">
+           		<input type="text" size="24" name="ok" id="ok" class="join_inputbox" maxlength="6" placeholder="인증번호 숫자 6자리 입력" disabled/>
+            </td>
+         </tr> 
+      </table>
        
-        <tr><th> &nbsp;</th></tr>
-        <tr><td colspan = "4"><hr></td></tr>
-        <tr><th> &nbsp;</th></tr>
-        
-        
-        <td colspan = "2"><input type ="checkbox" name = "checkonly" onClick='checkOnlyOne(this); checkOnlyThree(this);'>본인 확인 이메일로 인증</td>
-            <tr>
-               <td class="fixed_join">이름</td>
-               <td><input name="member_name" type="text" size="21" id = "member_name1" disabled/></td>
-            </tr>
-            <tr class="dot_line">
-               <td class="fixed_join">이메일<br></td>
-                <td><input size="10px"   type="text" name="email1" id = "email1" disabled/> @ 
-                    <select name="email2" id = "email2" onChange="" disabled>
-                           <option selected> </option>
-                           <option value="hanmail.net">hanmail.net</option>
-                           <option value="naver.com">naver.com</option>
-                           <option value="yahoo.co.kr">yahoo.co.kr</option>
-                           <option value="hotmail.com">hotmail.com</option>
-                           <option value="paran.com">paran.com</option>
-                           <option value="nate.com">nate.com</option>
-                           <option value="google.com">google.com</option>
-                           <option value="gmail.com">gmail.com</option>
-                           <option value="empal.com">empal.com</option>
-                           <option value="korea.com">korea.com</option>
-                           <option value="freechal.com">freechal.com</option>
-                     </select></td>
-               <td width = "20px"></td>
-          <td style="text-align: center;">
-               <input type="submit" style="height: 20px; width: 110px; height :25px; background-color:#0F0573; color:white; border-radius: 8px;" value="인증번호 받기"/>
-         </td>   
-            </tr>
+	<div class="line-1" style="width:1200px; height:2px; background-color:#f4f2f2; margin-top:30px;"></div>
+	      
+	<table id="search_table">
+		<tr>
+			<td colspan = "2">
+				<input type ="checkbox" name="checkonly" onClick='checkOnlyOne(this); checkOnlyThree(this);'>본인 확인 이메일로 인증
+			</td>
+		</tr>
+		
+		<!-- 이름 -->
         <tr>
-        <td></td>
-           <td><input type="text" size="21" placeholder="인증번호 6자리 숫자 입력" name = "ok" id = "ok1" disabled/></td>
-        </tr> 
-   </tbody></table>
-      </div>
-      <div class="clear"align=center>
-      <br>
-      <table>
-      <tr>
-         <td style="text-align: center;">
-            <input type="submit" id ="next" style = "height: 35px; width: 400px; background-color:#0F0573; color:white;" value="다음">
-         </td>
-      </tr>
-   </table>
-   </div>
-</form>   
+        	<td>
+        	   	<p class="inline" class="join_textbox">이름 <span id="red_color">*</span></p>
+            </td>
+            <td>
+            	<input name="member_name" type="text" size="24" id="member_name1" class="join_inputbox" disabled >
+            </td>
+        </tr>
+        
+        <!-- 이메일 -->
+        <tr>
+        	<td>
+          		<p class="inline" class="join_textbox">이메일 <span id="red_color">*</span></p>
+          	</td>
+          	<td>
+          		<input size="8" type="text" name="email1" id="email1" class="join_inputbox" disabled/> @ 
+                <select name="email2" id="email2" class="join_inputbox" disabled>
+                    <option value="naver.com" selected>naver.com</option>
+                    <option value="hanmail.net">hanmail.net</option>
+                	<option value="yahoo.co.kr">yahoo.co.kr</option>
+               		<option value="hotmail.com">hotmail.com</option>
+                	<option value="paran.com">paran.com</option>
+                	<option value="nate.com">nate.com</option>
+                	<option value="google.com">google.com</option>
+                  	<option value="gmail.com">gmail.com</option>
+                	<option value="empal.com">empal.com</option>
+                	<option value="korea.com">korea.com</option>
+                	<option value="freechal.com">freechal.com</option>
+                </select>
+          	</td>
+          	<td>
+          	    <input type="button" class="btn2" value="인증번호 받기" onClick="return submit2(this.form);">
+          	</td>
+        </tr>
+        
+        <!-- 인증번호 -->
+         <tr>
+         	<td>
+          		<p class="inline" class="join_textbox">인증번호 <span id="red_color">*</span></p>
+          	</td>
+           	<td colspan="2">
+           		<input type="text" size="24" name="ok" id="ok1" class="join_inputbox" maxlength="6" placeholder="인증번호 숫자 6자리 입력" disabled/>
+            </td>
+         </tr> 
+     </table>
+            <input type="submit" id="join_btn" value="다음">
+	</form>
+	</div>   
 </body>
 </html>
