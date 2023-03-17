@@ -15,16 +15,19 @@ public class CartDAOImpl  implements  CartDAO{
 	@Autowired
 	private SqlSession sqlSession;
 	
+	//장바구니 목록 가져오기
 	public List<CartVO> selectCartList(CartVO cartVO) throws DataAccessException {
 		List<CartVO> cartList =(List)sqlSession.selectList("mapper.cart.selectCartList",cartVO);
 		return cartList;
 	}
-
+	
+	//장바구니 상품 정보 가져오기
 	public List<ProductVO> selectProductList(List<CartVO> cartList) throws DataAccessException {
 		List<ProductVO> myProductList;
 		myProductList = sqlSession.selectList("mapper.cart.selectProductList",cartList);
 		return myProductList;
 	}
+	/*
 	
 	public boolean selectCountInCart(CartVO cartVO) throws DataAccessException {
 		String  result =sqlSession.selectOne("mapper.cart.selectCountInCart",cartVO);
@@ -49,5 +52,6 @@ public class CartDAOImpl  implements  CartDAO{
 		int cart_id =sqlSession.selectOne("mapper.cart.selectMaxCartId");
 		return cart_id;
 	}
+	 */
 
 }

@@ -137,15 +137,15 @@
 								<li><a href="${contextPath}/member/loginForm.do" onclick="javascript:alert('로그인이 필요합니다.');"><img style="width:26px; height:26px;" src="${contextPath}/resources/image/heart.png" alt="로그인 전"></a></li> 		                     </c:otherwise>
 	                    </c:choose>
                   
-		                <c:choose>
-		                     <c:when test="${isLogOn==true and not empty memberInfo }">
 		                        <li><a href="${contextPath}/cart/myCartList.do"><img style="width:30px; height:30px;" src="${contextPath}/resources/image/cart.png" alt="회원장바구니"></a></li>
+<%-- 		                <c:choose>
+		                     <c:when test="${isLogOn==true and not empty memberInfo }">
 		                     </c:when>
 		                     <c:otherwise>
 		                        <li><a href="${contextPath}/cart/myCartList.do" onclick="javascript:alert('로그인이 필요합니다.');"><img style="width:30px; height:30px;" src="${contextPath}/resources/image/cart.png" alt="로그인 전"></a></li>
 		                     </c:otherwise>
 		                 </c:choose>
-                       </ul>
+ --%>                       </ul>
                     </div>
                 </div>
                 <nav class="main-menu_1">

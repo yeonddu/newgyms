@@ -7,8 +7,10 @@ import com.mycompany.newgyms.cart.vo.CartVO;
 
 public interface CartService {
 	public Map<String ,List> myCartList(CartVO cartVO) throws Exception;
+	/*
 	public boolean findCartProduct(CartVO cartVO) throws Exception;
 	public void addProductInCart(CartVO cartVO) throws Exception;
 	public boolean modifyCartQty(CartVO cartVO) throws Exception;
 	public void removeCartProduct(int cart_id) throws Exception;
+	 */
 }

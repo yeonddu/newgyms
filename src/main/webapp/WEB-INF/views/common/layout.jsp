@@ -18,8 +18,8 @@
 <link href="${contextPath}/resources/css/basic-jquery-slider.css?after" rel="stylesheet" type="text/css" media="screen">
 <link href="${contextPath}/resources/css/header.css?after" rel="stylesheet" type="text/css" media="screen">
 <link href="${contextPath}/resources/css/footer.css?after" rel="stylesheet" type="text/css" media="screen">
-<link href="${contextPath}/resources/css/product.css?after" rel="stylesheet" type="text/css" media="screen">
 <link href="${contextPath}/resources/css/main.css?after" rel="stylesheet" type="text/css" media="screen">
+<link href="${contextPath}/resources/css/product.css?after" rel="stylesheet" type="text/css" media="screen">
 <script src="${contextPath}/resources/jquery/carousel.js" type="text/javascript"></script>
 <script src="${contextPath}/resources/jquery/jquery.easing.1.3.js" type="text/javascript"></script>
 <script src="${contextPath}/resources/jquery/stickysidebar.jquery.js" type="text/javascript"></script>
@@ -48,8 +48,7 @@
    
 </head>
 <body>
-   <div id="outer_wrap">
-      <div id="wrap">
+
          <header>
                <tiles:insertAttribute name="header" />
          </header>
@@ -61,10 +60,8 @@
          <footer>
               <tiles:insertAttribute name="footer" />
            </footer>
-      </div>
        <tiles:insertAttribute name="quickMenu" />
        <tiles:insertAttribute name="topButton" />
-    </div>           
 </body>      
         
         

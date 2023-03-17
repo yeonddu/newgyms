@@ -3,7 +3,7 @@
        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
-	  <definition name="/member/loginForm" extends="baseLayout">
+     <definition name="/member/loginForm" extends="baseLayout">
          <put-attribute name="title" value="로그인 페이지" />
          <put-attribute name="body" value="/WEB-INF/views/member/loginForm.jsp" />
       </definition>  
@@ -29,29 +29,28 @@
       </definition>
       
       
-		<definition extends="baseLayout" name="/member/searchidForm">
-			<put-attribute name="title" value="아이디찾기페이지"/>
-			<put-attribute name="body" value="/WEB-INF/views/member/searchidForm.jsp"/>
-		</definition>
-		
-		
-		<definition extends="baseLayout" name="/member/foundidForm">
-			<put-attribute name="title" value="아이디찾기결과페이지"/>
-			<put-attribute name="body" value="/WEB-INF/views/member/foundidForm.jsp"/>
-		</definition>
-		
-		
-		<definition extends="baseLayout" name="/member/searchpwForm">
-			<put-attribute name="title" value="비밀번호찾기페이지"/>
-			<put-attribute name="body" value="/WEB-INF/views/member/searchpwForm.jsp"/>
-		</definition>
-		
-		
-		<definition extends="baseLayout" name="/member/foundpwForm">
-			<put-attribute name="title" value="비밀번호찾기결과페이지"/>
-			<put-attribute name="body" value="/WEB-INF/views/member/foundpwForm.jsp"/>
-		</definition>
+      <definition extends="baseLayout" name="/member/searchIdForm">
+         <put-attribute name="title" value="아이디찾기페이지"/>
+         <put-attribute name="body" value="/WEB-INF/views/member/searchIdForm.jsp"/>
+      </definition>
+      
+      
+      <definition extends="baseLayout" name="/member/foundIdForm">
+         <put-attribute name="title" value="아이디찾기결과페이지"/>
+         <put-attribute name="body" value="/WEB-INF/views/member/foundIdForm.jsp"/>
+      </definition>
+      
+      
+      <definition extends="baseLayout" name="/member/searchPwForm">
+         <put-attribute name="title" value="비밀번호찾기페이지"/>
+         <put-attribute name="body" value="/WEB-INF/views/member/searchPwForm.jsp"/>
+      </definition>
+      
+      
+      <definition extends="baseLayout" name="/member/foundPwForm">
+         <put-attribute name="title" value="비밀번호찾기결과페이지"/>
+         <put-attribute name="body" value="/WEB-INF/views/member/foundPwForm.jsp"/>
+      </definition>
   
 </tiles-definitions>
-
 

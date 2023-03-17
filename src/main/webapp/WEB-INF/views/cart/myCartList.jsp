@@ -5,6 +5,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<c:set var="cartList"  value="${cartMap.myCartList}"  />
+<c:set var="productList"  value="${cartMap.myProductList}"  />
+
+<c:set  var="totalProductNum" value="0" />  <!--주문 개수 -->
+<c:set  var="totalDeliveryPrice" value="0" /> <!-- 총 배송비 --> 
+<c:set  var="totalDiscountedPrice" value="0" /> <!-- 총 할인금액 -->
 
 <%
      //치환 변수 선언합니다.
@@ -15,98 +21,69 @@
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>상품 목록 조회</title>
-<script type="text/javascript">
-	var loopSearch=true;
-	function keywordSearch(){
-		if(loopSearch==false)
-			return;
-	 var value=document.frmSearch.searchWord.value;
-		$.ajax({
-			type : "get",
-			async : true, //false인 경우 동기식으로 처리한다.
-			url : "${contextPath}/goods/keywordSearch.do",
-			data : {keyword:value},
-			success : function(data, textStatus) {
-			    var jsonInfo = JSON.parse(data);
-				displayResult(jsonInfo);
-			},
-			/* error : function(data, textStatus) {
-				alert("에러가 발생했습니다."+data); */
-			},
-			complete : function(data, textStatus) {
-				//alert("작업을완료 했습니다");
-				
-			}
-		}); //end ajax	
-	}
-	
-	function displayResult(jsonInfo){
-		var count = jsonInfo.keyword.length;
-		if(count > 0) {
-		    var html = '';
-		    for(var i in jsonInfo.keyword){
-			   html += "<a href=\"javascript:select('"+jsonInfo.keyword[i]+"')\">"+jsonInfo.keyword[i]+"</a><br/>";
-		    }
-		    var listView = document.getElementById("suggestList");
-		    listView.innerHTML = html;
-		    show('suggest');
-		}else{
-		    hide('suggest');
-		} 
-	}
-	
-	function select(selectedKeyword) {
-		 document.frmSearch.searchWord.value=selectedKeyword;
-		 loopSearch = false;
-		 hide('suggest');
-	}
-		
-	function show(elementId) {
-		 var element = document.getElementById(elementId);
-		 if(element) {
-		  element.style.display = 'block';
-		 }
-		}
-	
-	function hide(elementId){
-	   var element = document.getElementById(elementId);
-	   if(element){
-		  element.style.display = 'none';
-	   }
-	}
+<link href="${contextPath}/resources/css/cart.css?after" rel="stylesheet" type="text/css" media="screen">
 
-</script>
+<title>장바구니</title>
+
 </head>
 <body>
+
 
 <div class="con-min-width">
 <div class="con">
 
-<div id="searchProduct">
-  <h1>상품검색</h1>
-<form name="frmSearch" action="${contextPath}/product/searchProductByCondition.do" >
-	<div class="searchByKeyword">
-	    <h2>검색조건</h2>
-		<select class="search_option" name="searchOption" id="searchOption"  >
-			<option  value="all">선택</option>
-			<option value="product_name">상품명</option>
-	        <option value="center_name">시설 이름</option>
-	 	</select>
-	  	<input class="search_input" name="searchWord"  type="text"  onKeyUp="keywordSearch()" value="${searchWord }" placeholder="검색어를 입력하세요"> 
-	  	
-	</div>
-  <div class="searchByPrice">
-    <h2>판매가격</h2>
-    <input name="minPrice" type="number"> ~ <input name="maxPrice" type="number">
-  </div>
+<div id="myCartList">
+  <h1>장바구니</h1>
   
-	<input class="search_button"name="search"  type="submit" value="검색">
-</form>
+  <table class="cart_list">
+    <div class="select_all"><input type="checkbox" name="all"> 전체선택</div>
+    <tbody>
+            <c:choose>
+	   <c:when test="${ empty cartList  }" >
+		   <tr>
+			<td colspan="6" style="text-align:center; padding:20px;">장바구니가 비어있습니다.</td>
+	 		</tr>
+	   </c:when>
+   <c:otherwise>
+            <c:forEach var="cart" items="${cartList }"> 
+               <c:forEach var="product" items="${productList }"> 
+          <tr class="cart_item">
+            <td>
+              <input type="checkbox" name="one">
+            </td>
+            <td>
+              <img alt="상품 이미지" src="${contextPath}/thumnails.do?product_id=${cart.product_id}&fileType=main_image">
+            </td>
+            <td>
+              <div class="cart_title">${product.product_name}</div>
+              <div class="cart_option">[옵션] ${product.product_option_name} (+ ${product.product_price})</div>    
+            
+            <td class="modify_option"><a>옵션변경</a></td>
+		     <td class="product_total_price">
+		       <%-- <fmt:formatNumber  value="${product.product_sales_price+product.product_optoin+price}" type="number" var="product_total_price" /> --%>
+		       ${product_total_price }
+		     </td>
+		     <td class="detele">
+		       X
+		     </td>
+          </tr>
+     </c:forEach>
+ </c:forEach>
+</c:otherwise>
+</c:choose>
+        </tbody>
+      </table>
+  <div class="cart_total_price">
+  <%-- <fmt:formatNumber  value="${product_total_price +${product_total_price },,}" type="number" var="cart_total_price" /> --%>
+  ${cart_total_price }
+  </div>
+   	선택삭제 	
+<div style="text-align:center">
+	<input class="order_button" name="order"  type="submit" value="주문하기">
+ 	<input class="back_button" name="back"  type="submit" value="쇼핑 계속하기">
+  	</div>
+  </div>
 </div>
-			
 </div>
-</div>
-<jsp:include page="/WEB-INF/views/product/productList.jsp"/>
 </body>
 </html>

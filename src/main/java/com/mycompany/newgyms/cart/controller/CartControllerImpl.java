@@ -11,18 +11,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mycompany.newgyms.cart.service.CartService;
 import com.mycompany.newgyms.cart.vo.CartVO;
 import com.mycompany.newgyms.common.base.BaseController;
 import com.mycompany.newgyms.member.vo.MemberVO;
+import com.mycompany.newgyms.product.service.ProductService;
 
 @Controller("cartController")
 @RequestMapping(value="/cart")
 public class CartControllerImpl extends BaseController implements CartController{
+
+	@Autowired
+	private ProductService productService;
+
 	@Autowired
 	private CartService cartService;
 	@Autowired
@@ -41,13 +44,35 @@ public class CartControllerImpl extends BaseController implements CartController
 		String viewName=(String)request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		HttpSession session=request.getSession();
-		MemberVO memberVO=(MemberVO)session.getAttribute("memberInfo");
-		String member_id=memberVO.getMember_id();
-		cartVO.setMember_id(member_id);
+		
+		
+		MemberVO memberVo=(MemberVO)session.getAttribute("memberInfo");
+		if (memberVo != null && memberVo.getMember_id() != null) {
+		
+			String loginMember_id=memberVo.getMember_id();
+			mav.addObject("loginMember_id", loginMember_id);
+			cartVO.setMember_id(loginMember_id);
+		}
+
+		
+		
+		 
+		
 		
 		Map<String ,List> cartMap=cartService.myCartList(cartVO);
 		session.setAttribute("cartMap", cartMap);//장바구니 목록 화면에서 상품 주문 시 사용하기 위해서 장바구니 목록을 세션에 저장한다.
 		//mav.addObject("cartMap", cartMap);
+		
+		String product_id = "cartVO.getProduct_id";
+
+		/* 제품 정보 가져오기 */
+		Map productMap = productService.productDetail(product_id);
+		mav.addObject("productMap", productMap);
+		
+		/*이미지 가져오기*/
+		Map imageMap = productService.productImage(product_id);
+		mav.addObject("imageMap",imageMap);
+		
 		return mav;
 	}
 	

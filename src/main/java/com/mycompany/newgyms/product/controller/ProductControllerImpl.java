@@ -97,8 +97,6 @@ public class ProductControllerImpl implements ProductController {
 		ProductVO productVO = (ProductVO) productMap.get("productVO");
 		String member_id = productVO.getMember_id(); /* 사업자 아이디 */
 		MemberVO memberVO = productService.ownerDetail(member_id);
-		System.out.println(memberVO.getCenter_name());
-		System.out.println(memberVO.getMember_name());
 		mav.addObject("memberVO", memberVO);		
 		
 		

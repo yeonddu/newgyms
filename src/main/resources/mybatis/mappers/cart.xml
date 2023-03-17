@@ -34,30 +34,38 @@
 		<result property="product_refund_2" column="product_refund_2" />
 		
 		<result property="product_fileName" column="fileName" />
+		
 	</resultMap>	
+
+	<resultMap id="productOptResult" type="ProductOptVO">
+	   <result property="product_id" column="product_id" />
+	   <result property="product_option_name" column="product_option_name" />
+	   <result property="product_option_price" column="product_option_price" />
+	</resultMap>
+
 
 	<select id="selectCartList"  parameterType="cartVO"  resultMap="cartResult"   >
        <![CDATA[
-      select * from t_shopping_cart 
+      select * from t_cart 
       where member_id=#{member_id}
       ]]>
    </select>
 
 	<select id="selectProductList" resultMap="productResult" parameterType="java.util.Map">
       <![CDATA[
-          select g.*,d.fileName,s.creDate from t_shopping_product g, t_product_detail_image d, t_shopping_cart s
-          where g.product_id=s.product_id
-          and g.product_id=d.product_id
+          select p.*,d.fileName,c.cart_entered_date from t_product p, t_product_detail_image d, t_cart c
+          where p.product_id=c.product_id
+          and p.product_id=d.product_id
           and d.filetype='main_image'
-           and g.product_id in
+           and p.product_id in
       ]]>
 		<foreach item="item" collection="list" open="(" separator="," close=")">
 			#{item.product_id}
 		</foreach>
-		group by g.product_id
-		order by s.creDate 
+		group by p.product_id
+		order by c.cart_entered_date 
 	</select>
-
+<!-- 
 
 	<select id="selectCountInCart" resultType="String" parameterType="cartVO">
        <![CDATA[
@@ -102,5 +110,6 @@
 			select IFNULL(max(cart_id), 0) + 1 from t_shopping_cart 
     	]]>
 	</select>
+ -->
 
 </mapper>
