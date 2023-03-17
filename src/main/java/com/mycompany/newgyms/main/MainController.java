@@ -34,7 +34,7 @@ public class MainController extends BaseController {
 		session=request.getSession();
 		session.setAttribute("side_menu", "user");
 
-		List<ProductVO> productList=productService.productList("");
+		List<ProductVO> productList=productService.productList("Çï½º/PT");
 		mav.addObject("productList", productList);
 		return mav;
 	}

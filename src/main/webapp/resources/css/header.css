@@ -10,6 +10,7 @@
   font-family: 'GmarketSansMedium';
   margin: 0px;
   padding: 0px;
+  color: rgb(51, 51, 51);
 }
 
 /* nom */
@@ -94,14 +95,20 @@ img {
   margin-bottom: 20px;
 }
 
-.login>.login_menu_1>li a {
-  font-size: 12px;
-}
-
 .login_menu_1 {
+  display: flex;
+  align-items: center;	
   width: 100%;
   justify-content: end;
   z-index: 999;
+}
+
+.login_menu_1>li a {
+  font-size: 12px;
+ 
+}
+.login_menu_1>li:hover  {
+	color:#F9C200;
 }
 
 .login_menu_1>li>a {
@@ -112,15 +119,12 @@ img {
   height: 26px;
 }
 
-.login_menu_1{
-  display: flex;
-  align-items: center;
-}
-.login_menu_1 div{
+/* .login_menu_1 div{
 width: 1px;
 height: 13px;
 background-color: rgb(95, 95, 95);
-}
+} */
+
 /* 센터 */
 .center {
   height: 50px;
@@ -205,7 +209,10 @@ background-color: rgb(95, 95, 95);
 }
 
 .nav_bar>li:first-child {
-  color: #F9C200;
+  color: rgb(51, 51, 51);
+}
+.nav_bar>li:hover:first-child {
+  color:#F9C200;
 }
 
 .nav_bar>li {
@@ -213,6 +220,9 @@ background-color: rgb(95, 95, 95);
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.nav_bar>li:hover {
+	color:#F9C200;
 }
 
 .nav_bar>li>a {
@@ -234,6 +244,7 @@ background-color: rgb(95, 95, 95);
   top: 100%;
   transition: .3s;
   z-index: 999;
+  color:rgb(51,51,51) !important;
 }
 
 .menu-box_menu-2>li>a {
@@ -251,6 +262,7 @@ background-color: rgb(95, 95, 95);
 .menu-box_menu-2>li:hover>a {
   text-decoration: underline;
   text-underline-position: under;
+  color:#F9C200;
 }
 
 .nav_bar>li:nth-child(8) {
@@ -265,6 +277,7 @@ background-color: rgb(95, 95, 95);
   top: 100%;
   transition: .3s;
   z-index: 999;
+  color:rgb(51,51,51) !important;
 }
 .menu-box_menu-1>li>a {
   display: flex;
@@ -279,14 +292,10 @@ background-color: rgb(95, 95, 95);
 .menu-box_menu-1>li:hover>a {
   text-decoration: underline;
   text-underline-position: under;
+  color:#F9C200;
 }
 
-/* "전체보기" 호버 - 아직 수정중 */
 .nav_bar>li:first-child {
   position: relative;
 }
 
-#ad_main_banner {
-   width:1000px;
-   height:250px;
-}

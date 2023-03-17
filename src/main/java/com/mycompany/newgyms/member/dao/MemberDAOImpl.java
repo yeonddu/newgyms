@@ -60,23 +60,23 @@ public class MemberDAOImpl  implements MemberDAO{
 	}
 	
 	@Override
-	public MemberVO searchid(Map searchidMap) throws DataAccessException{
-		MemberVO member=(MemberVO)sqlSession.selectOne("mapper.member.searchid",searchidMap);
+	public MemberVO searchId(Map searchidMap) throws DataAccessException{
+		MemberVO member=(MemberVO)sqlSession.selectOne("mapper.member.searchId",searchidMap);
 	   return member;
 	}
 	@Override
-	public MemberVO searchpw(Map searchidMap) throws DataAccessException{
-		MemberVO member=(MemberVO)sqlSession.selectOne("mapper.member.searchpw",searchidMap);
+	public MemberVO searchPw(Map searchidMap) throws DataAccessException{
+		MemberVO member=(MemberVO)sqlSession.selectOne("mapper.member.searchPw",searchidMap);
 		return member;
 	}
 	@Override
-	public MemberVO searchid1(Map searchidMap) throws DataAccessException{
-		MemberVO member=(MemberVO)sqlSession.selectOne("mapper.member.searchid1",searchidMap);
+	public MemberVO searchId1(Map searchidMap) throws DataAccessException{
+		MemberVO member=(MemberVO)sqlSession.selectOne("mapper.member.searchId1",searchidMap);
 		return member;
 	}
 	@Override
-	public void newpw(Map searchpwMap) throws DataAccessException{
-		sqlSession.update("mapper.member.newpw",searchpwMap);
+	public void newPw(Map searchpwMap) throws DataAccessException{
+		sqlSession.update("mapper.member.newPw",searchpwMap);
 	}
 	
 }

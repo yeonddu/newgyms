@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.cart">
+	<!-- 리절트 맵 정의 -->
+	<resultMap id="cartResult" type="CartVO">
+		<result property="cart_id" column="cart_id" />
+		<result property="product_id" column="product_id" />
+		<result property="member_id" column="product_id" />
+		<result property="cart_product_qty" column="cart_product_qty" />
+		<result property="creDate" column="creDate" />
+	</resultMap>
+	
+	<resultMap id="productResult" type="ProductVO">
+		<result property="product_id" column="product_id" />
+		<result property="product_sort" column="product_sort" />
+		<result property="member_id" column="member_id" />
+		<result property="center_name" column="center_name" />
+		<result property="product_name" column="product_name" />
+		<result property="product_main_image" column="product_main_image" />
+		<result property="product_program_details" column="product_program_details" />
+		<result property="product_price_details" column="product_price_details" />
+		<result property="product_facility_details" column="product_facility_details" />
+		<result property="product_location_details" column="product_location_details" />		
+		<result property="product_price" column="product_price" />
+		<result property="product_sales_price" column="product_sales_price" />
+		<result property="product_point" column="product_point" />
+		<result property="product_entered_date" column="product_entered_date" />		
+		<result property="sale_yn" column="sale_yn" />
+		<result property="product_intro" column="product_intro" />
+		<result property="product_refund_1" column="product_refund_1" />
+		<result property="product_refund_2" column="product_refund_2" />
+		
+		<result property="product_fileName" column="fileName" />
+	</resultMap>	
+
+	<select id="selectCartList"  parameterType="cartVO"  resultMap="cartResult"   >
+       <![CDATA[
+      select * from t_shopping_cart 
+      where member_id=#{member_id}
+      ]]>
+   </select>
+
+	<select id="selectProductList" resultMap="productResult" parameterType="java.util.Map">
+      <![CDATA[
+          select g.*,d.fileName,s.creDate from t_shopping_product g, t_product_detail_image d, t_shopping_cart s
+          where g.product_id=s.product_id
+          and g.product_id=d.product_id
+          and d.filetype='main_image'
+           and g.product_id in
+      ]]>
+		<foreach item="item" collection="list" open="(" separator="," close=")">
+			#{item.product_id}
+		</foreach>
+		group by g.product_id
+		order by s.creDate 
+	</select>
+
+
+	<select id="selectCountInCart" resultType="String" parameterType="cartVO">
+       <![CDATA[
+          select case count(*) when 0 then 'false' else 'true' end 
+          from t_shopping_cart
+         where product_id=#{product_id}
+           and member_id=#{member_id} 
+
+       ]]>
+	</select>
+	
+	<insert id="insertProductInCart" parameterType="cartVO">
+	    <![CDATA[
+		    	insert into t_shopping_cart(cart_id,
+		    	                           product_id,
+		    	                           member_id,
+		    	                           cart_product_qty)
+		        				 values(#{cart_id},
+    							        #{product_id},
+    							        #{member_id},
+    							        #{cart_product_qty})
+    	]]>
+	</insert>
+
+	<update id="updateCartProductQty" parameterType="cartVO">
+	    <![CDATA[
+			update t_shopping_cart
+			       set cart_product_qty=#{cart_product_qty}
+		 	       where member_id=#{member_id}
+			        and product_id=#{product_id}
+    	]]>
+	</update>
+	<delete id="deleteCartProduct" parameterType="int">
+	    <![CDATA[
+	      delete from t_shopping_cart
+	      where cart_id=#{cart_id}
+    	]]>
+	</delete>
+	
+	<select id="selectMaxCartId" resultType="int">
+	    <![CDATA[
+			select IFNULL(max(cart_id), 0) + 1 from t_shopping_cart 
+    	]]>
+	</select>
+
+</mapper>

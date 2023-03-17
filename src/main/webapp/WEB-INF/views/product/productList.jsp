@@ -23,6 +23,8 @@
 
 </head>
 <body>
+<div class="con-min-width">
+<div class="con">
 
 <div id="productList">
    <c:set  var="product_count" value="0" />   
@@ -51,8 +53,7 @@
             <a href="${contextPath}/product/productDetail.do?product_id=${item.product_id}">
 			   <img alt="" src="${contextPath}/download.do?product_id=${item.product_id}&fileName=${item.product_fileName}">
 			</a>
-			<div class="wish" >
-			</div>
+			<div class="wish" ></div>
 				<a id="wish" href="${contextPath }/wish/addWishList.do?product_id=${item.product_id}"><img src="${contextPath}/resources/image/heart.png" alt="찜하기"></a>
    		</div>
 		<div class="product_description">
@@ -71,6 +72,7 @@
 </c:choose>
 	</div>
 </div>
-
+</div>
+</div>
 </body>
 </html>

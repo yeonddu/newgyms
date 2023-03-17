@@ -19,7 +19,8 @@
 
 </head>
 <body>
-
+<div class="con-min-width">
+<div class="con">
 
 <div id="ProductByAddress">
 
@@ -31,6 +32,9 @@
                   <li><a href="${contextPath}/product/productByAddress.do?address=중구">중구</a></li>
                   <li><a href="${contextPath}/product/productByAddress.do?address=동구">동구</a></li>
      </ul>
+</div>
+
+</div>
 </div>
 <jsp:include page="/WEB-INF/views/product/productList.jsp"/>
 </body>

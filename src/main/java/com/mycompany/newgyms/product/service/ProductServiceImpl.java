@@ -24,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductDAO productDAO;
 	
-	/*상품검색 추가*/
+
 	public List<ProductVO> productList(String product_sort) throws Exception{
 		List productList=productDAO.selectProductList(product_sort);
 		return productList;

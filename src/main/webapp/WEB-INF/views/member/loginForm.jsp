@@ -21,6 +21,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
+<div class="con-min-width">
+<div class="con">
+
 	<p id="join_title" align="center">로그인</p>
 	<form action="${contextPath}/member/login.do" method="post" onsubmit="valid();">
       <div align = center>
@@ -47,10 +50,12 @@
         	</a>
       	</div>      
     	<br>
-       <a href="${contextPath}/member/searchidForm.do">아이디 찾기</a> |
-       <a href="${contextPath}/member/searchpwForm.do">비밀번호 찾기</a> |
+       <a href="${contextPath}/member/searchIdForm.do">아이디 찾기</a> |
+       <a href="${contextPath}/member/searchPwForm.do">비밀번호 찾기</a> |
        <a href="${contextPath}/member/joinCheck.do">회원가입</a>
     
-    </div></form>      
+    </div></form>    
+</div>
+</div>
 </body>
 </html>

@@ -119,6 +119,9 @@
 		text-decoration : none;
 		border-radius : 5px;
 	}
+	#join_idpw_btn:hover {
+		cursor : pointer;
+	}
 	#join_notice {
 		margin-top : 50px;
 		font-size : 20px;
@@ -126,11 +129,11 @@
 		color : green;
 	}
 	#notice_box {
-		width : 400px;
+		width : 500px;
 		border : 1px solid gray;
 		text-align : center;
     	margin : 10px 10px 30px 10px;
-    	padding : 60px;
+    	padding : 100px;
     	font-size : 20px;
 	}
 	#id_check, #pw_help, #pw_check {

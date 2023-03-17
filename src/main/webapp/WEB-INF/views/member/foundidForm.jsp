@@ -7,29 +7,21 @@
 <html>
 <head>
 <meta charset="utf-8">
+<link href="${contextPath}/resources/css/member.css" rel="stylesheet" />
 </head>
 <body>
-   <h2 align = center style ="color:#000000">아이디 찾기<br><br></h2>
-   <div id="detail_table" align = center>
-    
-    <h4>고객님의 정보와 일치하는 아이디 목록입니다.</h4><br>
-      <table style="border: 1px solid; width: 450px; height : 200px;"><tbody>
-      <tr><td style = "color : #3ADF00;" align = "center">${member_id}</td><tr>
-   </tbody> </table>
-      </div>
-    <br>
-      <div class="clear"  align=center>
-      <table>
-      <tr>
-         <td style="text-align: center;">
-         <a href="${contextPath}/member/loginForm.do" style="height: 30px; width: 100px; background-color:#0F0573; color:white">로그인하기</a>
-         </td>
-      <td>&nbsp</td><td>&nbsp</td><td>&nbsp</td><td>&nbsp</td>
-         <td style="text-align: center;">
-         <a href="${contextPath}/member/searchpwForm.do" style="height: 30px; width: 100px; background-color:#0F0573; color:white">비밀번호 찾기</a>
-         </td>
-      </tr>
-   </table>
-   </div>
+<div class="con-min-width">
+<div class="con">
+
+	<div id="contain" align=center>
+		<p id="join_title" align=center>아이디 찾기</p>
+		<p id="join_notice">고객님의 정보와 일치하는 아이디 목록입니다.</p>
+		<p id="notice_box"><span id="navy_color">${member_id}</span></p>
+		<button class="join_idpw_btn" onClick="location.href='${contextPath}/member/loginForm.do'">로그인 하기</button>
+		<button class="join_idpw_btn" onClick="location.href='${contextPath}/member/searchPwForm.do'">비밀번호 찾기</button>
+	</div>
+</div>
+</div>	
+	
 </body>
 </html>

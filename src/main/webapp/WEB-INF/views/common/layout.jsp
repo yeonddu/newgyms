@@ -13,22 +13,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 <!-- 상품 -->
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="${contextPath}/resources/jquery/basic-jquery-slider.js" type="text/javascript"></script>
 <link href="${contextPath}/resources/css/basic-jquery-slider.css?after" rel="stylesheet" type="text/css" media="screen">
 <link href="${contextPath}/resources/css/header.css?after" rel="stylesheet" type="text/css" media="screen">
 <link href="${contextPath}/resources/css/footer.css?after" rel="stylesheet" type="text/css" media="screen">
-<link href="${contextPath}/resources/css/member.css?after" rel="stylesheet" type="text/css" media="screen">
 <link href="${contextPath}/resources/css/product.css?after" rel="stylesheet" type="text/css" media="screen">
 <link href="${contextPath}/resources/css/main.css?after" rel="stylesheet" type="text/css" media="screen">
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="${contextPath}/resources/jquery/carousel.js" type="text/javascript"></script>
+<script src="${contextPath}/resources/jquery/jquery.easing.1.3.js" type="text/javascript"></script>
+<script src="${contextPath}/resources/jquery/stickysidebar.jquery.js" type="text/javascript"></script>
 
-<script src="${contextPath}/resources/jquery/basic-jquery-slider.js" type="text/javascript"></script>
 
 <script>
    // 슬라이드 
    $(document).ready(function() {
       $('#ad_main_banner').bjqs({
-         'width' : 1200,
-         'height' : 500,
+         'width' : 1920,
+         'height' : 700,
          'showMarkers' : true,
          'showControls' : false,
          'centerMarkers' : false
@@ -61,6 +63,7 @@
            </footer>
       </div>
        <tiles:insertAttribute name="quickMenu" />
+       <tiles:insertAttribute name="topButton" />
     </div>           
 </body>      
         

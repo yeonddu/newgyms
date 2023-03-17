@@ -58,8 +58,8 @@
 
 
 </style>
-<!-- 탭 메뉴 -->
 
+<!-- 탭 메뉴 -->
 <script type="text/javascript">
 $(document).ready(function() {
 
@@ -84,8 +84,22 @@ $(document).ready(function() {
 
 </script>
 
+<!-- QnA 목록 --> 
+<script type="text/javascript">
+    $(document).ready(function () { // 페이지 document 로딩 완료 후 스크립트 실행
+    	$('.qna_hidden').hide();
+    	$('.qna_title').on('click',function () { //제목 버튼 클릭 시 
+        	var currentRow = $(this).closest('tr'); //누른 곳의 tr값을 찾는다. 
+        	var detail = currentRow.next('tr'); //누른 tr의 다음 tr을 찾는다
+        	detail.toggle();
+ 		});
+    });
+</script>
 </head>
 <body>
+<div class="con-min-width">
+<div class="con">
+
 <div id="productDetail">
 	<div class="product_image">
 	   <img alt="" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${product.product_fileName}">			  
@@ -157,7 +171,7 @@ $(document).ready(function() {
 				        위치 정보
 		        <p>${product.product_location_details}</p>
 <!-- 지도 API -->        
-        <div id="map" style="width:800px;height:600px;"></div>
+        <div id="map" style="width:1000px;height:600px;"></div>
 
 
 
@@ -279,20 +293,6 @@ $(document).ready(function() {
               <th>등록일</th>              
             </tr>
 
-<script type="text/javascript">
-    $(document).ready(function () { // 페이지 document 로딩 완료 후 스크립트 실행
-        $('.qna_title').on('click',function () { //제목 버튼 클릭 시 
-        	var currentRow = $(this).closest('tr'); //누른 곳의 tr값을 찾는다. 
-        	var detail = currentRow.next('tr'); //누른 tr의 다음 tr을 찾는다
-        	
-        	if(detail.is(":visible")){
-        		detail.hide(); 
-        	} else {
-        		detail.show();
-        	}
-        });
-    });
-</script>
   		 <c:set  var="qna_count" value="0" />   
             <c:forEach var="question" items="${questionList }" > 
 				<c:set  var="qna_count" value="${qna_count+1 }" /> 
@@ -304,25 +304,32 @@ $(document).ready(function() {
               ${question.qna_answer_state }
             </td>
 	<c:choose>
-		<c:when test="${question.qna_secret==0}"> <!-- 공개글인 경우 -->
-            <td class="qna_title" style="cursor:pointer;">
-            	${question.qna_title}                           
-            </td>
-        </c:when>
 		<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
 			<c:choose>
-			<c:when test="${question.member_id==loginMember_id }"> <!-- 작성자와 로그인한 사람이 같은 경우 -->
+				<c:when test="${question.member_id!=loginMember_id  or loginMember_id == null}"> <!-- 작성자와 로그인한 사람이 다르거나 로그인하지 않은 경우 -->
+	            	<td class="qna_title" style="cursor:pointer;">                        
+	            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">비밀글입니다.
+	         	   </td>
+				</c:when>
+			
+			<c:otherwise> <!-- 작성자와 로그인한 사람이 같은 경우 -->
+	            <td class="qna_title" style="cursor:pointer;">
+	            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">${question.qna_title}                           
+	            </td>
+			</c:otherwise>
+			
+			</c:choose>
+		 </c:when>
+		<c:otherwise> <!-- 공개글인 경우 -->
             <td class="qna_title" style="cursor:pointer;">
             	${question.qna_title}                           
             </td>
-			</c:when>
-			<c:when test="${question.member_id!=loginMember_id  or loginMember_id == null}"> <!-- 작성자와 로그인한 사람이 다른 경우 -->
-            	<td class="qna_title" style="cursor:pointer;">                        
-            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">비밀글입니다.
-         	   </td>
-			</c:when>
-			</c:choose>
+		</c:otherwise>
+<%-- 		<c:when test="${question.qna_secret==0}"> 
         </c:when>
+			<c:when test="${question.member_id==loginMember_id }"> <!-- 작성자와 로그인한 사람이 같은 경우 -->
+			</c:when>
+ --%>        
    </c:choose>
             <td class="qna_writer">
               ${question.member_id}
@@ -332,41 +339,47 @@ $(document).ready(function() {
             </td>
           </tr>
          
-          <tr>
+          <tr class="qna_hidden">
           
-          
+    <!-- QnA 질문 내용, 답변 내용 -->     
    	<c:choose>
-		<c:when test="${question.qna_secret==0}"> <!-- 공개글인 경우 -->
-            <td colspan="5" class="qna_contents"  >
-            	<span style="font-size:16px;">Q.</span> ${question.qna_contents}  <!-- 질문글 내용 -->
-            <c:forEach var="answer" items="${answerList }" > 
-	            	<c:when test="${question.qna_no == answer.qna_parent_no }"> <!-- 답글 -->
-		            	<span style="font-size:16px;">A.</span> ${answer.qna_title} 
-		            	${answer.qna_contents} 
-            		</c:when>
-            	</c:forEach>                     
-            </td>
-        </c:when>
 		<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
 			<c:choose>
-			<c:when test="${question.member_id==loginMember_id}"> <!-- 작성자와 로그인한 사람이 같은 경우 -->
-            <td class="qna_title" style="cursor:pointer;">
-            	<span style="font-size:16px;">Q.</span> ${question.qna_contents} 
-            <c:forEach var="answer" items="${answerList }" >             	
-	            	<c:when test="${question.qna_no == answer.qna_parent_no }"> <!-- 답글 -->
-		            	<span style="font-size:16px;">A.</span> ${answer.qna_title} 
-		            	${answer.qna_contents} 
-            		</c:when>
-            	</c:forEach>                   
-            </td>
-			</c:when>
-			<c:when test="${question.member_id!=loginMember_id  or loginMember_id == null}"> <!-- 작성자와 로그인한 사람이 다른 경우 -->
-            	<td colspan="5" class="qna_contents" >                        
-            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">비밀글은 작성자만 조회할 수 있습니다.
+			<c:when test="${question.member_id!=loginMember_id  or loginMember_id == null}"> <!-- 작성자와 로그인한 사람이 다르거나 로그인하지 않은 경우 -->
+            	<td colspan="5" class="qna_contents" style="padding-left:450px;">                        
+            	비밀글은 작성자만 조회할 수 있습니다.
          	   </td>
 			</c:when>
+			<c:otherwise> <!-- 작성자와 로그인한 사람이 같은 경우 -->
+            <td class="qna_contents" colspan="5">
+            	<p><span class="Q_mark">Q</span> ${question.qna_contents} </p>  <!-- 질문 내용 -->
+            <c:forEach var="answer" items="${answerList }" >             	
+            	<c:choose>
+	            	<c:when test="${question.qna_no == answer.qna_parent_no }"> 
+		            	<p><span class="A_mark">A</span> ${answer.qna_title} <p> <!-- 답글 제목 -->
+		            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
+            		</c:when>
+            	</c:choose>
+            	</c:forEach>                   
+            </td>
+			</c:otherwise>
 			</c:choose>
         </c:when>
+        
+        <c:otherwise> <!-- 공개글인 경우 -->
+            <td colspan="5" class="qna_contents"  >
+            	<p><span class="Q_mark">Q</span> ${question.qna_contents}</p>  <!-- 질문 내용 -->
+            <c:forEach var="answer" items="${answerList }" > 
+            	<c:choose>
+	            	<c:when test="${question.qna_no == answer.qna_parent_no }"> 
+		            	<p><span class="A_mark">A</span> ${answer.qna_title} </p> <!-- 답글 제목 -->
+		            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
+            		</c:when>
+            	</c:choose>
+            	</c:forEach>                     
+            </td>
+       
+        </c:otherwise>
    </c:choose>
           </tr>
               </c:forEach>
@@ -409,5 +422,7 @@ $(document).ready(function() {
   				 </div>
  			 </div>
     </div>
+    </div>
+</div>
 </body>
 </html>

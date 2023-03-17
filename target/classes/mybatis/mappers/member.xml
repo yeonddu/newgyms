@@ -16,7 +16,6 @@
       <result property="member_birth_y" column="member_birth_y" />
       <result property="member_birth_m" column="member_birth_m" />
       <result property="member_birth_d" column="member_birth_d" />
-      <result property="member_birth_gn" column="member_birth_gn" />
       
       <result property="hp1" column="hp1" />
       <result property="hp2" column="hp2" />
@@ -136,7 +135,7 @@
                             hp1,
                             hp2,
                             hp3,
-                              smssts_yn,
+                           	smssts_yn,
                             email1,
                             email2,
                             emailsts_yn,
@@ -180,21 +179,21 @@
                              #{member_birth_d})               
    ]]>      
   </insert>
-    
+  
   <insert id="insertKakaoMember"  parameterType="memberVO">
   <![CDATA[
        insert into t_member(join_type,
                              member_id,
                              member_pw,
-                                     member_name,
-                                     email1,
-                                     email2)
+                             member_name,
+                             email1,
+                             email2)
                       values(#{join_type},
                             #{member_id},
-                           #{member_pw},
-                           #{member_name},
-                                    #{email1},
-                                    #{email2})                              
+                            #{member_pw},
+                            #{member_name},
+                            #{email1},
+                            #{email2})                              
    ]]>      
   </insert>
   
@@ -207,7 +206,7 @@
    </select>
    
    
-   <select id="searchid" parameterType="java.util.Map" resultType="memberVO">
+   <select id="searchId" parameterType="java.util.Map" resultType="memberVO">
    
    <![CDATA[
             select * from t_member
@@ -219,7 +218,7 @@
    </select>
    
    
-   <select id="searchid1" parameterType="java.util.Map" resultType="memberVO">
+   <select id="searchId1" parameterType="java.util.Map" resultType="memberVO">
    
    <![CDATA[
             select * from t_member
@@ -230,7 +229,7 @@
    </select>
    
    
-   <select id="searchpw" parameterType="java.util.Map" resultType="memberVO">
+   <select id="searchPw" parameterType="java.util.Map" resultType="memberVO">
    
    <![CDATA[
             select * from t_member
@@ -242,16 +241,19 @@
    </select>
    
 
-   <update id="newpw" parameterType="java.util.Map">
+   <update id="newPw" parameterType="java.util.Map">
    <![CDATA[
-            update t_member set member_pw=#{member_pw} where member_id=#{member_id}
+            update t_member 
+            set member_pw=#{member_pw} 
+            where member_id=#{member_id}
          ]]>
    </update>
    
-   	<select id="selectOwnerDetail" resultMap="memberResult"   parameterType="String"  >
+      	<select id="selectOwnerDetail" resultMap="memberResult"   parameterType="String"  >
 	    <![CDATA[
 		     select * from t_member
 			where member_id=#{member_id}
     	]]>
 	</select>
+   
 </mapper>

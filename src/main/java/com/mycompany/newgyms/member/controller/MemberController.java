@@ -22,10 +22,10 @@ public interface MemberController {
             HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity overlappedId(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity overlappedEid(@RequestParam("eid") String eid,HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView searchid(@RequestParam Map<String, String> searchidMap,HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView searchpw(@RequestParam Map<String, String> searchidMap,HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView searchid1(@RequestParam Map<String, String> searchidMap,HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView newpw(@RequestParam Map<String, String> searchidMap,HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView sendEmail(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView sendEmailpw(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView searchId(@RequestParam Map<String, String> searchidMap,HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView searchPw(@RequestParam Map<String, String> searchidMap,HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView searchId1(@RequestParam Map<String, String> searchidMap,HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView newPw(@RequestParam Map<String, String> searchidMap,HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView sendEmailId(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView sendEmailPw(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

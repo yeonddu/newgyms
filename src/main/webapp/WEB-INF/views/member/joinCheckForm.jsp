@@ -23,6 +23,9 @@
 </script>
 </head>
 <body>
+<div class="con-min-width">
+<div class="con">
+
 	<div id="contain" align=center>
 	<p id="join_title" align="center">회원가입</p>
 	<form action="${contextPath}/member/joinCheck.do" method="post" onsubmit="return join_valid();" >	
@@ -74,6 +77,8 @@
       	</div>
 	</form>	
 	</div>
+</div>
+</div>
 </body>
 </html>
 

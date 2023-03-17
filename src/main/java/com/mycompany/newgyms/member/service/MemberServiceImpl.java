@@ -57,20 +57,20 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public MemberVO searchid(Map searchidMap) throws Exception{
-		return memberDAO.searchid(searchidMap);
+	public MemberVO searchId(Map searchidMap) throws Exception{
+		return memberDAO.searchId(searchidMap);
 	}
 	@Override
-	public MemberVO searchpw(Map searchidMap) throws Exception{
-		return memberDAO.searchpw(searchidMap);
+	public MemberVO searchPw(Map searchidMap) throws Exception{
+		return memberDAO.searchPw(searchidMap);
 	}
 	@Override
-	public MemberVO searchid1(Map searchidMap) throws Exception{
-		return memberDAO.searchid1(searchidMap);
+	public MemberVO searchId1(Map searchidMap) throws Exception{
+		return memberDAO.searchId1(searchidMap);
 	}
 	
 	@Override
-	public void newpw(Map searchpwMap) throws Exception{
-		memberDAO.newpw(searchpwMap);
+	public void newPw(Map searchpwMap) throws Exception{
+		memberDAO.newPw(searchpwMap);
 	}
 }

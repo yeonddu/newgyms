@@ -13,8 +13,8 @@ public interface MemberService {
 	public String overlappedEid(String eid) throws Exception;
 	public void kakaoJoin(MemberVO memberVO) throws Exception;
 	public void kakaoLogin(Map loginMap) throws Exception;
-	public MemberVO searchid(Map  searchidMap) throws Exception;
-	public MemberVO searchid1(Map  searchidMap) throws Exception;
-	public MemberVO searchpw(Map  searchidMap) throws Exception;
-	public void newpw(Map searchpwMap) throws Exception;
+	public MemberVO searchId(Map  searchidMap) throws Exception;
+	public MemberVO searchId1(Map  searchidMap) throws Exception;
+	public MemberVO searchPw(Map  searchidMap) throws Exception;
+	public void newPw(Map searchpwMap) throws Exception;
 }

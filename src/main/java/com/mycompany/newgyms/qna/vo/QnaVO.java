@@ -23,10 +23,10 @@ public class QnaVO {
 	public void setQna_no(int qna_no) {
 		this.qna_no = qna_no;
 	}
-	public int getQna_answer_no() {
+	public int getQna_parent_no() {
 		return qna_parent_no;
 	}
-	public void setQna_answer_no(int qna_parent_no) {
+	public void setQna_parent_no(int qna_parent_no) {
 		this.qna_parent_no = qna_parent_no;
 	}
 	public int getProduct_id() {

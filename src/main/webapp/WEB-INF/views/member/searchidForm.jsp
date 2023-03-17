@@ -26,7 +26,7 @@ function checkOnlyOne(element) {
             hp2.disabled = false;
             const hp3 = document.getElementById("hp3");
             hp3.disabled = false;
-            const ok = document.getElementById("ok");
+            const ok = document.getElementById("ok1");
             ok.disabled = false;
       
             const member_name1 = document.getElementById("member_name1");
@@ -35,7 +35,7 @@ function checkOnlyOne(element) {
               email1.disabled = true;
               const email2 = document.getElementById("email2");
               email2.disabled = true;
-              const ok1 = document.getElementById("ok1");
+              const ok1 = document.getElementById("ok");
               ok1.disabled = true;
 }
      
@@ -46,7 +46,7 @@ function checkOnlyOne(element) {
             email1.disabled = false;
             const email2 = document.getElementById("email2");
             email2.disabled = false;
-            const ok1 = document.getElementById("ok1");
+            const ok1 = document.getElementById("ok");
             ok1.disabled = false;
       
       const member_name = document.getElementById("member_name");
@@ -57,12 +57,12 @@ function checkOnlyOne(element) {
       hp2.disabled = true;
       const hp3 = document.getElementById("hp3");
       hp3.disabled = true;
-      const ok = document.getElementById("ok");
+      const ok = document.getElementById("ok1");
       ok.disabled = true;
 }
     
     function submit2(frm) {
-        frm.action= 'sendEmail.do';
+        frm.action= 'sendEmailId.do';
         frm.submit();
         event.preventDefault();
         return true;
@@ -70,12 +70,16 @@ function checkOnlyOne(element) {
   </script>
 </head>
 <body>
+<div class="con-min-width">
+<div class="con">
+
 	<div id="contain" align=center>
 	<p id="join_title" align="center">아이디 찾기</p>
-  	<form action="${contextPath}/member/searchid.do" method="post"> 
+  	<form action="${contextPath}/member/searchId.do" method="post"> 
       <table id="search_table">
          <tr>
          	<td colspan = "2">
+         	    <input type ="hidden" name="ran" value="${ran}">
          		<input type ="checkbox" name = "checkonly" onClick='checkOnlyOne(this); checkOnlyTwo(this);'>회원 정보에 등록된 휴대전화로 인증
          	</td>
          </tr>
@@ -118,7 +122,7 @@ function checkOnlyOne(element) {
           		<p class="inline" class="join_textbox">인증번호 <span id="red_color">*</span></p>
           	</td>
            	<td colspan="2">
-           		<input type="text" size="24" name="ok" id="ok" class="join_inputbox" maxlength="6" placeholder="인증번호 숫자 6자리 입력" disabled/>
+           		<input type="text" size="24" name="ok1" id="ok1" class="join_inputbox" maxlength="6" placeholder="인증번호 숫자 6자리 입력" disabled/>
             </td>
          </tr> 
       </table>
@@ -128,7 +132,7 @@ function checkOnlyOne(element) {
 	<table id="search_table">
 		<tr>
 			<td colspan = "2">
-				<input type ="checkbox" name="checkonly" onClick='checkOnlyOne(this); checkOnlyThree(this);'>본인 확인 이메일로 인증
+				<input type ="checkbox" name="checkonly" onClick='checkOnlyOne(this); checkOnlyThree(this);' checked>본인 확인 이메일로 인증
 			</td>
 		</tr>
 		
@@ -138,7 +142,7 @@ function checkOnlyOne(element) {
         	   	<p class="inline" class="join_textbox">이름 <span id="red_color">*</span></p>
             </td>
             <td>
-            	<input name="member_name" type="text" size="24" id="member_name1" class="join_inputbox" disabled >
+            	<input name="member_name" value="${member_name}" type="text" size="24" id="member_name1" class="join_inputbox" required>
             </td>
         </tr>
         
@@ -148,8 +152,8 @@ function checkOnlyOne(element) {
           		<p class="inline" class="join_textbox">이메일 <span id="red_color">*</span></p>
           	</td>
           	<td>
-          		<input size="8" type="text" name="email1" id="email1" class="join_inputbox" disabled/> @ 
-                <select name="email2" id="email2" class="join_inputbox" disabled>
+          		<input size="8" value="${email1}" type="text" name="email1" id="email1" class="join_inputbox" required> @ 
+                <select name="email2" id="email2" class="join_inputbox">
                     <option value="naver.com" selected>naver.com</option>
                     <option value="hanmail.net">hanmail.net</option>
                 	<option value="yahoo.co.kr">yahoo.co.kr</option>
@@ -174,12 +178,14 @@ function checkOnlyOne(element) {
           		<p class="inline" class="join_textbox">인증번호 <span id="red_color">*</span></p>
           	</td>
            	<td colspan="2">
-           		<input type="text" size="24" name="ok" id="ok1" class="join_inputbox" maxlength="6" placeholder="인증번호 숫자 6자리 입력" disabled/>
+           		<input type="text" size="24" name="ok" id="ok" class="join_inputbox" maxlength="6" placeholder="인증번호 숫자 6자리 입력" required>
             </td>
          </tr> 
      </table>
             <input type="submit" id="join_btn" value="다음">
 	</form>
 	</div>   
+</div>   
+</div>   
 </body>
 </html>

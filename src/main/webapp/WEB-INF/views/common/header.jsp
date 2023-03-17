@@ -82,7 +82,7 @@
             <c:choose>
                <c:when test="${isLogOn==true and not empty memberInfo }">
                   <h5 style="color:#201D1D; margin-right:10px;">환영합니다. <span style="color:#F9C200;">${memberInfo.member_name}</span>님!</h5>
-                   <li><a href="${contextPath}/member/logout.do">로그아웃</a></li>
+                   <li><a href="${contextPath}/member/logout.do" style="color: rgb(51, 51, 51);">로그아웃</a></li>
                </c:when>
                <c:otherwise>
                   <li><a href="${contextPath}/member/loginForm.do">로그인</a></li>
@@ -115,57 +115,55 @@
                     <div>
                         <ul class="icons">
                         <c:choose>
-                     <c:when test="${isLogOn==true and not empty memberInfo.join_type =='101'}">
-                        <li><a href="${contextPath}/mypage/myPageMain.do"><img style="width:33px; height:33px;" src="${contextPath}/resources/image/person.png" alt="회원"></a></li>
-                     </c:when>
-                     <c:when test="${isLogOn==true and memberInfo.join_type =='102'}">
-                        <li><a href="#"><img style="width:33px; height:33px;" src="${contextPath}/resources/image/person.png" alt="사업자"></a></li> 
-                     </c:when>
-                     <c:when test="${isLogOn==true and memberInfo.member_id =='admin'}">
-                        <li><a href="${contextPath}/admin/goods/adminGoodsMain.do"><img style="width:33px; height:33px;" src="${contextPath}/resources/image/person.png" alt="관리자"></a></li> 
-                     </c:when> 
-                     <c:when test="${isLogOn==false}">
-                        <li><a href="#"><img style="width:33px; height:33px;" src="${contextPath}/resources/image/person.png" alt="비회원"></a></li> 
-                     </c:when>
-                  </c:choose>
+		                     <c:when test="${isLogOn==true and not empty memberInfo}">
+		                        <li><a href="${contextPath}/mypage/myPageMain.do"><img style="width:33px; height:33px;" src="${contextPath}/resources/image/person.png" alt="회원"></a></li>
+		                     </c:when>
+		                     <c:when test="${isLogOn==true and memberInfo.join_type =='102'}">
+		                        <li><a href="#"><img style="width:33px; height:33px;" src="${contextPath}/resources/image/person.png" alt="사업자"></a></li> 
+		                     </c:when>
+		                     <c:when test="${isLogOn==true and memberInfo.member_id =='admin'}">
+		                        <li><a href="${contextPath}/admin/goods/adminGoodsMain.do"><img style="width:33px; height:33px;" src="${contextPath}/resources/image/person.png" alt="관리자"></a></li> 
+		                     </c:when> 
+		                     <c:otherwise>
+		                        <li><a href="#"><img style="width:33px; height:33px;" src="${contextPath}/resources/image/person.png" alt="비회원"></a></li> 
+		                     </c:otherwise>
+	                  	</c:choose>
                   
-                  <c:choose>
-                     <c:when test="${isLogOn==true and not empty memberInfo }">
-                        <li><a href="#"><img style="width:26px; height:26px;" src="${contextPath}/resources/image/heart.png" alt="회원찜"></a></li>
-                     </c:when>
-                     <c:otherwise>
-                        <li><a href="javascript:alert('로그인이 필요합니다.');"><img style="width:26px; height:26px;" src="${contextPath}/resources/image/heart.png" alt="비회원찜"></a></li> 
-                     </c:otherwise>
-                  </c:choose>
+	                    <c:choose>
+		                     <c:when test="${isLogOn==true and not empty memberInfo }">
+		                        <li><a href="#"><img style="width:26px; height:26px;" src="${contextPath}/resources/image/heart.png" alt="회원찜"></a></li>
+		                     </c:when>
+		                     <c:otherwise>
+								<li><a href="${contextPath}/member/loginForm.do" onclick="javascript:alert('로그인이 필요합니다.');"><img style="width:26px; height:26px;" src="${contextPath}/resources/image/heart.png" alt="로그인 전"></a></li> 		                     </c:otherwise>
+	                    </c:choose>
                   
-                  <c:choose>
-                     <c:when test="${isLogOn==true and not empty memberInfo }">
-                        <li><a href="${contextPath}/cart/myCartList.do"><img style="width:30px; height:30px;" src="${contextPath}/resources/image/cart.png" alt="회원장바구니"></a></li>
-                     </c:when>
-                     <c:otherwise>
-                        <li><a href="javascript:alert('로그인이 필요합니다.');"><img style="width:30px; height:30px;" src="${contextPath}/resources/image/cart.png" alt="비회원장바구니"></a></li>
-                     </c:otherwise>
-                  </c:choose>
-                        </ul>
+		                <c:choose>
+		                     <c:when test="${isLogOn==true and not empty memberInfo }">
+		                        <li><a href="${contextPath}/cart/myCartList.do"><img style="width:30px; height:30px;" src="${contextPath}/resources/image/cart.png" alt="회원장바구니"></a></li>
+		                     </c:when>
+		                     <c:otherwise>
+		                        <li><a href="${contextPath}/cart/myCartList.do" onclick="javascript:alert('로그인이 필요합니다.');"><img style="width:30px; height:30px;" src="${contextPath}/resources/image/cart.png" alt="로그인 전"></a></li>
+		                     </c:otherwise>
+		                 </c:choose>
+                       </ul>
                     </div>
                 </div>
                 <nav class="main-menu_1">
                     <ul class="nav_bar flex">
                         <li>
                             <a href="${contextPath}/product/productByAddress.do?address=대전">지역별</a>
-                           
                         </li>
-                  <li><a href="${contextPath}/product/productList.do?productSort=헬스/PT">헬스/PT</a></li>
-                  <li><a href="${contextPath}/product/productList.do?productSort=요가/필라테스">요가/필라테스</a></li>
-                  <li><a href="${contextPath}/product/productList.do?productSort=스피닝">스피닝</a></li>
-                  <li><a href="${contextPath}/product/productList.do?productSort=크로스핏">크로스핏</a></li>
-                  <li><a href="${contextPath}/product/productList.do?productSort=기타">기타</a></li>
-                  <li>
-                            <a href="#">커뮤니티</a>
-                            <ul class="menu-box_menu-2">
-                                <li><a href="#">자유게시판</a></li>
-                                <li><a href="#">이용후기</a></li>
-                            </ul>
+	                    <li><a href="${contextPath}/product/productList.do?productSort=헬스/PT">헬스/PT</a></li>
+	                    <li><a href="${contextPath}/product/productList.do?productSort=요가/필라테스">요가/필라테스</a></li>
+	                    <li><a href="${contextPath}/product/productList.do?productSort=스피닝">스피닝</a></li>
+	                    <li><a href="${contextPath}/product/productList.do?productSort=크로스핏">크로스핏</a></li>
+	                    <li><a href="${contextPath}/product/productList.do?productSort=기타">기타</a></li>
+	                    <li>
+                           <a href="#">커뮤니티</a>
+                           <ul class="menu-box_menu-2">
+                               <li><a href="#">자유게시판</a></li>
+                               <li><a href="#">이용후기</a></li>
+                           </ul>
                         </li>
                         <li>
                          <a href="#">고객센터</a>
@@ -181,6 +179,5 @@
    </div>
    
     </div>
-   <br>
 </body>
 </html>
