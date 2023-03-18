@@ -8,9 +8,9 @@
          <put-attribute name="body" value="/WEB-INF/views/member/loginForm.jsp" />
       </definition>  
             
-      <definition name="/member/joinCheck" extends="baseLayout">
+      <definition name="/member/joinForm" extends="baseLayout">
          <put-attribute name="title" value="회원 가입 페이지" />
-         <put-attribute name="body" value="/WEB-INF/views/member/joinCheckForm.jsp" />
+         <put-attribute name="body" value="/WEB-INF/views/member/joinForm.jsp" />
       </definition>
       
       <definition name="/member/joinMember" extends="baseLayout">

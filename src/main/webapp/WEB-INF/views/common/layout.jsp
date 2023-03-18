@@ -16,9 +16,10 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script src="${contextPath}/resources/jquery/basic-jquery-slider.js" type="text/javascript"></script>
 <link href="${contextPath}/resources/css/basic-jquery-slider.css?after" rel="stylesheet" type="text/css" media="screen">
+<link href="${contextPath}/resources/css/main.css?after" rel="stylesheet" type="text/css" media="screen">
 <link href="${contextPath}/resources/css/header.css?after" rel="stylesheet" type="text/css" media="screen">
 <link href="${contextPath}/resources/css/footer.css?after" rel="stylesheet" type="text/css" media="screen">
-<link href="${contextPath}/resources/css/main.css?after" rel="stylesheet" type="text/css" media="screen">
+<link href="${contextPath}/resources/css/member.css?after" rel="stylesheet" type="text/css" media="screen">
 <link href="${contextPath}/resources/css/product.css?after" rel="stylesheet" type="text/css" media="screen">
 <script src="${contextPath}/resources/jquery/carousel.js" type="text/javascript"></script>
 <script src="${contextPath}/resources/jquery/jquery.easing.1.3.js" type="text/javascript"></script>
@@ -50,13 +51,13 @@
 <body>
 
          <header>
-               <tiles:insertAttribute name="header" />
+	        <tiles:insertAttribute name="header" />
          </header>
-         <div class="clear"></div>
-         <article class="article">
+         <div style="clear:both;"></div>
+         <article>
              <tiles:insertAttribute name="body" />
          </article> 
-         <div class="clear"></div>
+         <div style="clear:both;"></div>
          <footer>
               <tiles:insertAttribute name="footer" />
            </footer>

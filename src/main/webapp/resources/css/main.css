@@ -1,117 +1,51 @@
-@charset "UTF-8";
+/*kcc°£ÆÇ*/
 @font-face {
-  font-family: 'GmarketSansMedium';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'KCC-Ganpan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/KCC-Ganpan.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*½ºÆ÷Ä« ÇÑ »ê½º*/
+@import url('//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css');
+.spoka * { font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', 'Sans-serif'; }
+
+/*¿¡½ºÄÚ¾î µå¸²*/
+@font-face {
+     font-family: 'S-CoreDream-3Light';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
+}
+
+/*°í¿îµ¸¿ò*/
+@font-face {
+    font-family: 'GowunDodum-Regular'; 
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunDodum-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 * {
-  font-family: 'GmarketSansMedium';
-  margin: 0px;
-  padding: 0px;
-  color: rgb(51, 51, 51);
+	margin:0; padding:0; text-align: center; font-size: 1.4rem;    
 }
 
-/* cutsom */
-.con-min-width {
-  min-width: 1920px;
- }
+html { font-size:62.5%; }
 
-.con {
-  width: 1200px;
-  margin: 0 auto;
- } 
-
-/* ìŠ¬ë¼ì´ë“œ */
-#ad_main_banner {
-   width:1920px;
-   height:700px;
-   margin:0 auto;
-} 
-
-/* section-1 */
-.section-1 {
-  padding:50px 0px 50px 350px;
+body {
+  font-family: 'S-CoreDream-3Light'; color:rgb(50,50,50); 
 }
 
-/* ì¸ê¸° ì´ìš©ê¶Œ */
-.container {
-   width: 100%; font-size: 0.75em; margin-top: 20px; display: grid; grid-template-columns:repeat(4, 300px); 
+h1 {
+   font-size: 2rem;    
+}
+h1 {
+   font-size: 2rem;    
+}
+ul,li {
+  list-style: none;
 }
 
-.container .item {
-   margin: 0 10px; padding: 10px 0px; float:left;  margin: auto;
+a {
+	text-decoration:none; color:rgb(50,50,50);
 }
-
-.container .item .product_image {
-   position:relative; margin: auto;
-}
-
-.container .product_image img {
-	width: 250px; height:250px; object-fit: contain;
-}
-.container .product_image .wish{
-	 width: 40px; height:40px; position:absolute; top:190px; left:180px; border-radius: 100%; background-size:60%; background-color:white; opacity: 0.5;
-}
-
-.container .product_image #wish img{
-	 width: 40px; height:40px; position:absolute; top:190px; left:180px; 
-}
-
-.container .item  .product_description {
-   height:50px; margin: auto;
-}
-
-.container .product_description h2 a{
-  color:rgb(50, 50, 50); margin: 8px 6px; font-size: 18px; 
-}
-
-.container .product_description h3 a {
-  margin: 8px 6px; font-size: 13px; 
-}
-
-.container .item .product_price {
-   padding: 1px 5px; 
-}
-
-.container .discount_rate {
-   color: rgb(255, 0, 0); font-size: 16px; padding:3px 1px; float:left; font-weight:bold;
-}
-
-.container .sales_price {
-   font-size: 16px; padding:3px 6px; float:left; font-weight:bold;
-}
-
-.container .price{
-   color: rgb(150, 150, 150); font-size: 14px; clear:both; text-decoration: line-through; display:block;
-}
-
-/* ì´ìš©í›„ê¸° */
-.review_title {
-	margin-top:50px;
-	text-align:center;
-	
-}
-.section-3 > .section-3_title {
-  font-size:25px;
-  text-align: center;
-  margin-top:30px;
-  margin-bottom:30px;
-}
-.section-3_review {
-   display:flex;
-   justify-content:space-between;
-}
-.review_list {
-	margin-bottom:30px;
-}
-
-
-
-
-
-
-
-
-
