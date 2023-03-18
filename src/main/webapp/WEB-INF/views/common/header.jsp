@@ -74,48 +74,27 @@
 
 </script>
 <body>
-<div id="header">
-<div class="main"><a href="#">logo</a></div>
-<nav class="main_nav">
-  <ul>
-		<li><a href="#">사무소 소개</a></li>
-		<li><a href="#">매물검색</a></li>
-		<li><a href="#">시세정보</a></li>		
-		<li><a href="#">매수, 매도 의뢰</a></li>		
-		<li><a href="#">우리동네 이야기</a></li>				
-	</ul>
-</nav>
-<nav class="sub_nav">
-<ul>
-	<li>
-		<a class="mypage" href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#43A75A" ><path d="M12 2.5a5.25 5.25 0 0 0-2.519 9.857 9.005 9.005 0 0 0-6.477 8.37.75.75 0 0 0 .727.773H20.27a.75.75 0 0 0 .727-.772 9.005 9.005 0 0 0-6.477-8.37A5.25 5.25 0 0 0 12 2.5Z"></path></svg></a>
-			<ul class="mypage_list">
-	           <c:choose>
-               <c:when test="${isLogOn==true and not empty memberInfo }">
-                   <li><a href="${contextPath}/member/logout.do">로그아웃</a></li>
-               </c:when>
-               <c:otherwise>
-					<li><a href="${contextPath}/member/loginForm.do">로그인</a></li>
-					<li><a href="${contextPath}/member/joinForm.do">회원가입</a></li>
-               </c:otherwise>
-            </c:choose>
-				<li><a href="${contextPath}/member/loginForm.do">마이페이지</a></li>
-			</ul>
-	</li>	
-	<li>
-		<a class="wish" href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#43A75A"><path d="m12 20.703.343.667a.748.748 0 0 1-.686 0l-.003-.002-.007-.003-.025-.013a31.138 31.138 0 0 1-5.233-3.576C3.8 15.573 1 12.332 1 8.514v-.001C1 5.053 3.829 2.5 6.736 2.5 9.03 2.5 10.881 3.726 12 5.605 13.12 3.726 14.97 2.5 17.264 2.5 20.17 2.5 23 5.052 23 8.514c0 3.818-2.801 7.06-5.389 9.262a31.148 31.148 0 0 1-5.233 3.576l-.025.013-.007.003-.002.001ZM6.736 4C4.657 4 2.5 5.88 2.5 8.514c0 3.107 2.324 5.96 4.861 8.12a29.655 29.655 0 0 0 4.566 3.175l.073.041.073-.04c.271-.153.661-.38 1.13-.674.94-.588 2.19-1.441 3.436-2.502 2.537-2.16 4.861-5.013 4.861-8.12C21.5 5.88 19.343 4 17.264 4c-2.106 0-3.801 1.389-4.553 3.643a.751.751 0 0 1-1.422 0C10.537 5.389 8.841 4 6.736 4Z"></path></svg></a>
-	</li>
-	<li>
-		<a class="search" href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="#43A75A"><path d="M10.25 2a8.25 8.25 0 0 1 6.34 13.53l5.69 5.69a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215l-5.69-5.69A8.25 8.25 0 1 1 10.25 2ZM3.5 10.25a6.75 6.75 0 1 0 13.5 0 6.75 6.75 0 0 0-13.5 0Z"></path></svg></a>
-	</li>
-</ul>
-</nav>
-
-
-<!--
-
+<div class="con-min-width" >
+   <div class="con">
+      <header class="flex-col">
          <div class="login flex">
             <ul class="login_menu_1 flex">
+            <c:choose>
+               <c:when test="${isLogOn==true and not empty memberInfo }">
+                  <h5 style="color:#201D1D; margin-right:10px;">환영합니다. <span style="color:#F9C200;">${memberInfo.member_name}</span>님!</h5>
+                   <li><a href="${contextPath}/member/logout.do" style="color: rgb(51, 51, 51);">로그아웃</a></li>
+               </c:when>
+               <c:otherwise>
+                  <li><a href="${contextPath}/member/loginForm.do">로그인</a></li>
+                  <li><a href="${contextPath}/member/joinCheck.do">회원가입</a></li>
+               </c:otherwise>
+            </c:choose>
+               <%-- <c:if test="${isLogOn==true and memberInfo.join_type =='102' }">  
+                 <li class="no_line" ><a href="${contextPath}/admin/goods/adminGoodsMain.do" >사업자</a></li>
+              </c:if>
+              <c:if test="${isLogOn==true and memberInfo.member_id =='admin' }">  
+                 <li class="no_line" style="font-size:5px;"><a href="${contextPath}/admin/goods/adminGoodsMain.do">관리자</a></li>
+              </c:if> --%>
               </ul>
          </div>
          <div class="center flex">
@@ -159,9 +138,46 @@
 	                    </c:choose>
                   
 		                        <li><a href="${contextPath}/cart/myCartList.do"><img style="width:30px; height:30px;" src="${contextPath}/resources/image/cart.png" alt="회원장바구니"></a></li>
+<%-- 		                <c:choose>
+		                     <c:when test="${isLogOn==true and not empty memberInfo }">
+		                     </c:when>
+		                     <c:otherwise>
+		                        <li><a href="${contextPath}/cart/myCartList.do" onclick="javascript:alert('로그인이 필요합니다.');"><img style="width:30px; height:30px;" src="${contextPath}/resources/image/cart.png" alt="로그인 전"></a></li>
+		                     </c:otherwise>
+		                 </c:choose>
+ --%>                       </ul>
+                    </div>
                 </div>
--->
-</div>
-                
+                <nav class="main-menu_1">
+                    <ul class="nav_bar flex">
+                        <li>
+                            <a href="${contextPath}/product/productByAddress.do?address=대전">지역별</a>
+                        </li>
+	                    <li><a href="${contextPath}/product/productList.do?productSort=헬스/PT">헬스/PT</a></li>
+	                    <li><a href="${contextPath}/product/productList.do?productSort=요가/필라테스">요가/필라테스</a></li>
+	                    <li><a href="${contextPath}/product/productList.do?productSort=스피닝">스피닝</a></li>
+	                    <li><a href="${contextPath}/product/productList.do?productSort=크로스핏">크로스핏</a></li>
+	                    <li><a href="${contextPath}/product/productList.do?productSort=기타">기타</a></li>
+	                    <li>
+                           <a href="#">커뮤니티</a>
+                           <ul class="menu-box_menu-2">
+                               <li><a href="#">자유게시판</a></li>
+                               <li><a href="#">이용후기</a></li>
+                           </ul>
+                        </li>
+                        <li>
+                         <a href="#">고객센터</a>
+                         <ul class="menu-box_menu-1">
+                            <li><a href="#">공지사항</a></li>
+                            <li><a href="#">이벤트</a></li>
+                            <li><a href="#">Q&A</a></li>
+                         </ul>
+                       </li>
+                    </ul>
+                </nav>
+      </header>
+   </div>
+   
+    </div>
 </body>
 </html>
