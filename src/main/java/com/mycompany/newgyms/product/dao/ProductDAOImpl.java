@@ -49,12 +49,10 @@ public class ProductDAOImpl implements ProductDAO {
 	/* ¿ÃπÃ¡ˆ */
 	@Override
 	public Map<String,Object> selectProductImage(String product_id) throws DataAccessException{
-		List<ProductImageVO> mainImageList=(ArrayList)sqlSession.selectList("mapper.product.selectProductMainImage",product_id);
 		List<ProductImageVO> detailImageList=(ArrayList)sqlSession.selectList("mapper.product.selectProductDetailImage",product_id);
 		List<ProductImageVO> priceImageList =(ArrayList)sqlSession.selectList("mapper.product.selectProductPriceImage",product_id);
 		List<ProductImageVO> facilityImageList=(ArrayList)sqlSession.selectList("mapper.product.selectProductFacilityImage",product_id);
 		Map imageMap = new HashMap();
-		imageMap.put("mainImageList", mainImageList);
 		imageMap.put("detailImageList", detailImageList);
 		imageMap.put("priceImageList", priceImageList);
 		imageMap.put("facilityImageList", facilityImageList);

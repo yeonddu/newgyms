@@ -8,7 +8,7 @@ public class ProductVO {
 	private String member_id;
 	private String center_name;
 	private String product_name;
-	private String product_fileName;
+	private String product_main_image;
 	private String product_program_details;
 	private String product_price_details;
 	private String product_facility_details;
@@ -53,13 +53,13 @@ public class ProductVO {
 	public void setProduct_name(String product_name) {
 		this.product_name = product_name;
 	}
-	public String getProduct_fileName() {
-		return product_fileName;
-	}
-	public void setProduct_main_image(String product_fileName) {
-		this.product_fileName = product_fileName;
-	}
 
+	public String getProduct_main_image() {
+		return product_main_image;
+	}
+	public void setProduct_main_image(String product_main_image) {
+		this.product_main_image = product_main_image;
+	}
 	public String getProduct_program_details() {
 		return product_program_details;
 	}

@@ -27,31 +27,33 @@ public class CartDAOImpl  implements  CartDAO{
 		myProductList = sqlSession.selectList("mapper.cart.selectProductList",cartList);
 		return myProductList;
 	}
-	/*
 	
 	public boolean selectCountInCart(CartVO cartVO) throws DataAccessException {
 		String  result =sqlSession.selectOne("mapper.cart.selectCountInCart",cartVO);
 		return Boolean.parseBoolean(result);
 	}
-
+	
 	public void insertProductInCart(CartVO cartVO) throws DataAccessException{
 		int cart_id=selectMaxCartId();
 		cartVO.setCart_id(cart_id);
 		sqlSession.insert("mapper.cart.insertProductInCart",cartVO);
 	}
 	
-	public void updateCartProductQty(CartVO cartVO) throws DataAccessException{
-		sqlSession.insert("mapper.cart.updateCartProductQty",cartVO);
-	}
-	
-	public void deleteCartProduct(int cart_id) throws DataAccessException{
-		sqlSession.delete("mapper.cart.deleteCartProduct",cart_id);
-	}
-
 	private int selectMaxCartId() throws DataAccessException{
 		int cart_id =sqlSession.selectOne("mapper.cart.selectMaxCartId");
 		return cart_id;
 	}
+	/*
+
+	
+	public void updateCartProductQty(CartVO cartVO) throws DataAccessException{
+		sqlSession.insert("mapper.cart.updateCartProductQty",cartVO);
+	}
+	
+
 	 */
+	public void deleteCartProduct(int cart_id) throws DataAccessException{
+		sqlSession.delete("mapper.cart.deleteCartProduct",cart_id);
+	}
 
 }

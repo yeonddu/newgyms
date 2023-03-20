@@ -39,14 +39,17 @@ public class ProductServiceImpl implements ProductService {
 		Map productMap=new HashMap();
 		ProductVO productVO = productDAO.selectProductDetail(_product_id);
 		productMap.put("productVO", productVO);
-		
-		/* 可记 */
-		List<ProductOptVO> productOptList = productDAO.selectProductOption(_product_id);
-		productMap.put("productOptList", productOptList);
-
-		
 		return productMap;
 	}
+	
+	public Map productOption(String _product_id) throws Exception {
+		Map productOptMap=new HashMap();
+		List<ProductOptVO> productOptList = productDAO.selectProductOption(_product_id);
+		productOptMap.put("productOptList", productOptList);
+		return productOptMap; 
+	}
+	/* 可记 */
+	
 	public Map productImage(String _product_id) throws Exception {
 		/* 捞固瘤 */
 		Map imageMap =productDAO.selectProductImage(_product_id);

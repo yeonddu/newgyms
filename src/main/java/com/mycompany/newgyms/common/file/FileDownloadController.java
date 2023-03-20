@@ -70,7 +70,7 @@ public class FileDownloadController {
                             	@RequestParam("product_id") String product_id,
 			                 HttpServletResponse response) throws Exception {
 		OutputStream out = response.getOutputStream();
-		String filePath=CURR_IMAGE_REPO_PATH+"\\"+"product"+"\\"+product_id+"\\"+fileName;
+		String filePath=CURR_IMAGE_REPO_PATH+"\\"+ "product"+"\\"+product_id+"\\"+fileName;
 		File image=new File(filePath);
 		
 		if (image.exists()) { 

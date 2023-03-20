@@ -25,7 +25,6 @@
 		<result property="product_refund_1" column="product_refund_1" />
 		<result property="product_refund_2" column="product_refund_2" />
 		
-		<result property="product_fileName" column="fileName" />
 	</resultMap>	
 
 	<resultMap id="productOptResult" type="ProductOptVO">
@@ -44,8 +43,8 @@
 
 	<select id="selectProductList" resultMap="productResult"   parameterType="String"  >
      <![CDATA[
-			select t_product.*, t_member.center_name, t_product_detail_image.fileName from t_product, t_member, t_product_detail_image
-where t_product.product_sort =#{product_sort} and t_product.member_id=t_member.member_id and t_product_detail_image.filetype='main_image' and t_product.product_id = t_product_detail_image.product_id
+			select t_product.*, t_member.center_name from t_product, t_member
+where t_product.product_sort =#{product_sort} and t_product.member_id=t_member.member_id
 order by t_product.product_entered_date desc
 		]]>
 	</select>	

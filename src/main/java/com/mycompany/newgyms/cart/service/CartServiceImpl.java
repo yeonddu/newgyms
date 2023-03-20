@@ -35,24 +35,25 @@ public class CartServiceImpl  implements CartService{
 		cartMap.put("myProductList",myProductList);
 		return cartMap;
 	}
-	/*
-
+	
 	public boolean findCartProduct(CartVO cartVO) throws Exception{
-		 return cartDAO.selectCountInCart(cartVO);
-		
+		return cartDAO.selectCountInCart(cartVO);
 	}	
+	
 	public void addProductInCart(CartVO cartVO) throws Exception{
 		cartDAO.insertProductInCart(cartVO);
 	}
+	/*
+
 	
 	public boolean modifyCartQty(CartVO cartVO) throws Exception{
 		boolean result=true;
 		cartDAO.updateCartProductQty(cartVO);
 		return result;
 	}
+	 */
 	public void removeCartProduct(int cart_id) throws Exception{
 		cartDAO.deleteCartProduct(cart_id);
 	}
-	 */
 	
 }

@@ -6,7 +6,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <c:set var="product"  value="${productMap.productVO}"  />
-<c:set var="optList"  value="${productMap.productOptList }"  />
+<c:set var="optList"  value="${productOptMap.productOptList }"  />
 <c:set var="mainImage"  value="${imageMap.mainImageList }"  />
 <c:set var="detailImage"  value="${imageMap.detailImageList }"  />
 <c:set var="priceImage"  value="${imageMap.priceImageList }"  />
@@ -59,33 +59,55 @@
 
 </style>
 
-<!-- 탭 메뉴 -->
 <script type="text/javascript">
-$(document).ready(function() {
 
-	//When page loads...
-	$(".tab_content").hide(); //Hide all content
-	$("ul.tabs li:first").addClass("active").show(); //Activate first tab
-	$(".tab_content:first").show(); //Show first tab content
-
-	//On Click Event
-	$("ul.tabs li").click(function() {
-
-		$("ul.tabs li").removeClass("active"); //Remove any "active" class
-		$(this).addClass("active"); //Add "active" class to selected tab
-		$(".tab_content").hide(); //Hide all tab content
-
-		var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
-		$(activeTab).fadeIn(); //Fade in the active ID content
-		return false;
+/* 탭 메뉴 */
+	$(document).ready(function() {
+	
+		//When page loads...
+		$(".tab_content").hide(); //Hide all content
+		$("ul.tabs li:first").addClass("active").show(); //Activate first tab
+		$(".tab_content:first").show(); //Show first tab content
+	
+		//On Click Event
+		$("ul.tabs li").click(function() {
+	
+			$("ul.tabs li").removeClass("active"); //Remove any "active" class
+			$(this).addClass("active"); //Add "active" class to selected tab
+			$(".tab_content").hide(); //Hide all tab content
+	
+			var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+			$(activeTab).fadeIn(); //Fade in the active ID content
+			return false;
+		});
+	
 	});
 
-});
+ /* 총 상품금액 */ 
+	$(document).ready(function(){
+		$('#order_product_opt').on("change", function(){
+		    
+			//할인판매가격
+		    var product_sales_price = ${product.product_sales_price};
+		    var sales_price = Number(product_sales_price);
+		    
+		    //옵션가격
+		    var product_option_price = $(this).val();
+		    var option_price = Number(product_option_price);
+		    	
+		    //총 상품금액
+			var total_price = sales_price + option_price;
+			
+			const option = {
+				 maximumFractionDigits: 0
+			} 
+			
+		    document.getElementById("total_price").innerHTML = total_price.toLocaleString('ko-KR',  option) ;
+		});
+	});
 
-</script>
 
-<!-- QnA 목록 --> 
-<script type="text/javascript">
+/* QnA 목록 */
     $(document).ready(function () { // 페이지 document 로딩 완료 후 스크립트 실행
     	$('.qna_hidden').hide();
     	$('.qna_title').on('click',function () { //제목 버튼 클릭 시 
@@ -95,6 +117,60 @@ $(document).ready(function() {
  		});
     });
 </script>
+
+<!-- 장바구니 담기 -->
+<script type="text/javascript">
+function add_cart(product_id) {
+	
+	var order_product_opt = $("#order_product_opt option:checked").text();
+	console.log("옵션텍스트"+order_product_opt);
+	
+	var cart_product_opt = order_product_opt.split(" (+");
+	
+	/* 옵션명 가져오기 */
+	var cart_option_name = cart_product_opt[0];
+	
+	console.log("옵션이름: "+cart_option_name );
+	
+	/*옵션 가격만 가져오기*/
+	var cart_product_opt = cart_product_opt[1].split("원)");
+	var cart_option_price =cart_product_opt[0];
+	
+	console.log("옵션가격: "+cart_option_price );
+	
+	
+    $.ajax({
+       type : "post",
+       async : false, //false인 경우 동기식으로 처리한다.
+       url : "${contextPath}/cart/addProductInCart.do",
+       data : {
+          product_id:product_id,
+          cart_option_name:cart_option_name,
+          cart_option_price:cart_option_price
+          
+       },
+       success : function(data, textStatus) {
+          //alert(data);
+       //   $('#message').append(data);
+          if(data.trim()=='option_isnull') {
+        	 alert("옵션을 선택해주세요!");
+          }else if(data.trim()=='add_success'){
+             imagePopup('open', '.layer01');   
+          }else if(data.trim()=='already_existed'){
+             alert("이미 장바구니에 추가된 상품입니다.");   
+          }
+          
+       },
+       error : function(data, textStatus) {
+          alert("에러가 발생했습니다."+data);
+       },
+       complete : function(data, textStatus) {
+          //alert("작업을완료 했습니다");
+       }
+    }); //end ajax   
+ }	
+
+</script>
 </head>
 <body>
 <div class="con-min-width">
@@ -102,32 +178,35 @@ $(document).ready(function() {
 
 <div id="productDetail">
 	<div class="product_image">
-	   <img alt="" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${product.product_fileName}">			  
+	   <img alt="" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${product.product_main_image}">			  
 	</div>
 <div class="product_description">
   <h1>${product.product_name }</h1>
   <h2>${member.center_name }</h2>
 	<div class="product_price">         
-		<div class="sales_price"><fmt:formatNumber  value="${product.product_sales_price}" type="number"/>원</div>
+		<div class="sales_price" id="sales_price"><fmt:formatNumber  value="${product.product_sales_price}" type="number"/>원</div>
 	    <div class="price"><fmt:formatNumber  value="${product.product_price}" type="number"/>원</div>
         <div class="discount_rate"><fmt:formatNumber  value="${product.product_sales_price/product.product_price}" type="percent" var="discount_rate" />${discount_rate }</div>
 	</div>
-	
-	<div class="point"><h3>구매 시 ${product.product_point}P 적립</h3></div>
+
+	<div class="point"><h3>구매 시 <fmt:formatNumber  value="${product.product_point}" type="number"/>P 적립</h3></div>
 	<div class="option">
 		<h1>개월/횟수</h1>
-		<select id="order_goods_qty" name="order_goods_qty">
-			<option>[필수] 옵션 선택</option>
+		<select id="order_product_opt" name="order_product_opt">
+			<option value="0">[필수] 옵션 선택</option>
 				<c:forEach var="opt" items="${optList }">
-					<option>${opt.product_option_name } (+<fmt:formatNumber  value="${opt.product_option_price }" type="number"/> 원)</option>
+				<option value="${opt.product_option_price}">${opt.product_option_name} (+<fmt:formatNumber  value="${opt.product_option_price}" type="number"/> 원)</option>
 				</c:forEach>
  		</select>
 	</div>
+	
+	<div class="total_price"> 총 상품금액 <span id="total_price"><fmt:formatNumber  value="${product.product_sales_price}" type="number"/></span>원</div>
+	
 	<div class="buyCartWish">
       <ul>
 		<li><a class="wish" href="#"><img src="${contextPath}/resources/image/heart.png" alt="찜하기"></a></li>
          <li><a class="buy" href="javascript:fn_order_each_goods('${goods.goods_id }','${goods.goods_title }','${goods.goods_sales_price}','${goods.goods_fileName}');">구매하기 </a></li>
-         <li><a class="cart" href="javascript:add_cart('${goods.goods_id}','order_goods_qty')" >장바구니</a></li>
+         <li><a class="cart" href="javascript:add_cart('${product.product_id}','order_product_opt')" >장바구니</a></li>
 		</ul>
 	</div>
 	</div>

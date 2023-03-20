@@ -229,6 +229,14 @@ transform: translate(0, 0); transition: linear 0.3s;
 	 width:350px; font-size:14px; padding:6px 3px; float:left;
 }
 
+#productDetail .product_description .total_price {
+	font-size:20px; text-align:right; font-weight:bold; height:30px; padding-right:100px;
+}
+
+#productDetail .product_description #total_price {
+	font-size:22px; font-weight:bold;
+}
+
 #productDetail .product_description .buyCartWish {
 	height:0px;
 }
@@ -244,10 +252,10 @@ transform: translate(0, 0); transition: linear 0.3s;
 }
 
 #productDetail .product_description .buyCartWish ul li a.buy {
-	color:#0F0573; border:3px solid  #0F0573; padding-top: 10px; margin-left:5px; width: 150px; box-sizing: content-box;
+	color:#0F0573; border:2px solid  #0F0573; padding-top: 10px; margin-left:5px; width: 150px; box-sizing: content-box;
 }
 #productDetail .product_description .buyCartWish ul li a.cart {
-	border:3px solid  #0F0573; background-color: #0F0573;  color:white; padding-top: 10px; margin-left:5px; width: 250px; box-sizing: content-box; 
+	border:2px solid  #0F0573; background-color: #0F0573;  color:white; padding-top: 10px; margin-left:5px; width: 250px; box-sizing: content-box; 
 }
 #productDetail .product_description .buyCartWish ul li a.wish {
 	width: 40px;

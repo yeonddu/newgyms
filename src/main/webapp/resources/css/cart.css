@@ -1,19 +1,3 @@
-@charset "EUC-KR";
-@font-face {
-    font-family: 'GmarketSansMedium';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-*{
-  font-family:'GmarketSansMedium';
-	margin: 0px; padding: 0px; vertical-align:middle;
-}
-
-a {
-	color: rgb(100, 100, 100); text-decoration: none;
-}
 
 /* searchProduct */
 
@@ -26,35 +10,45 @@ a {
 }
 
 #myCartList .cart_list {
-  border-top:solid 1px rgb(150,150,150); width:1200px; margin:auto;
+  border-top:solid 1px rgb(150,150,150); border-bottom:solid 1px rgb(150,150,150);width:1200px; margin:auto;
 }
 
 #myCartList .cart_list .select_all {
   
 }
 
+
+
+
 #myCartList .cart_list td:first-child {
-  padding:5px;
+  padding:5px; 
 }
 
 #myCartList .cart_list td:nth-child(2) {
-  width:150px; padding:10px;
+  width:200px; padding:10px; 
 }
-
+#myCartList .cart_list td:nth-child(2) img {
+  width:150px;height:150px; margin:auto;
+}
 #myCartList .cart_list td {
-  
+  padding:10px; font-size:16px; height:150px; 
 }
 
 #myCartList .cart_list .cart_option {
-  font-size:14px; color:rgb(100,100,100);
+  font-size:14px; color:rgb(100,100,100); 
 }
 
 #myCartList .cart_list .modify_option {
-  width:100px; text-align:center;
+  width:400px;
 }
 
+#myCartList .cart_list .modify_option a {
+  border:1px solid rgb(200,200,200); padding:8px; border-radius:8px; font-size:14px; 
+}
+
+
 #myCartList .cart_list .product_total_price {
-  text-align:center;
+  text-align:center; width:200px; 
 }
 
 #myCartList .cart_list .cart_total_price {
@@ -63,10 +57,36 @@ a {
 
 
 #myCartList .order_button {
-  background-color:#0F0573;color:white; border:none; width:150px; padding:10px 20px; margin:20px; font-size:16px; border: 3px solid #0F0573;
+  background-color:#0F0573;color:white; width:150px; padding:10px 20px; margin:20px; font-size:16px; border: 2px solid #0F0573;
 }
 
 #myCartList .back_button {
-  background-color:white;color:#0F0573; border:none; width:150px; padding:10px 20px; margin:20px; font-size:16px; border: 3px solid #0F0573; font-weight:bold;
+  background-color:white;color:#0F0573; width:150px; padding:10px 20px; margin:20px; font-size:16px; border: 2px solid #0F0573; font-weight:bold;
 }
 
+
+#myCartList #modify_option {
+	position:absolute; left:800px; top:300px;
+	height:300px;width:400px; border:1px solid rgb(150,150,150); background:white; padding: 30px 100px;
+}
+
+#myCartList #modify_option .x_button {
+	padding-left:250px;
+}
+
+#myCartList #modify_option h6 {
+	font-size:16px; padding:20px;text-align:center;	
+}
+
+#myCartList #modify_option p {
+	font-size:14px; padding:10px 0;
+}
+
+#myCartList #modify_option select {
+	width:220px; padding:5px;
+}
+
+#myCartList #modify_option .modify_button {
+	display:block; text-align:center;
+	background-color:rgb(100,100,100);color:white;  width:110px; padding:10px 20px; margin:40px auto; 
+}

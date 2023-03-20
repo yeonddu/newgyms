@@ -41,7 +41,7 @@
 				        <div class="item">
 				          <div class="product_image">
 				            <a href="${contextPath}/product/productDetail.do?product_id=${item.product_id}">
-							   <img alt="" src="${contextPath}/download.do?product_id=${item.product_id}&fileName=${item.product_fileName}">
+							   <img alt="" src="${contextPath}/download.do?product_id=${item.product_id}&fileName=${item.product_main_image}">
 							</a>
 							<div class="wish" >
 							</div>

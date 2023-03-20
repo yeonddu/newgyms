@@ -12,6 +12,8 @@ public interface ProductService {
 	public List<ProductVO> productByAddress(String address) throws Exception;
 	public Map productDetail(String _product_id) throws Exception;
 	public MemberVO ownerDetail(String member_id) throws Exception;
+	
+	public Map productOption(String _product_id) throws Exception;
 	public Map productImage(String _product_id) throws Exception;
 
 	public List<ProductVO> productSorting(String productSort, String sortBy) throws Exception;

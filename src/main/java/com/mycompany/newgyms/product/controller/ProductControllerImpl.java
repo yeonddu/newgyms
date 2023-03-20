@@ -75,8 +75,11 @@ public class ProductControllerImpl implements ProductController {
 		Map productMap = productService.productDetail(product_id);
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("productMap", productMap);
+		
+		Map productOptMap = productService.productOption(product_id);
+		mav.addObject("productOptMap", productOptMap);
 
-		/*이미지 가져오기*/
+		/* 제품 이미지 가져오기*/
 		Map imageMap = productService.productImage(product_id);
 		mav.addObject("imageMap",imageMap);
 		

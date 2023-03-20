@@ -10,11 +10,11 @@ import com.mycompany.newgyms.product.vo.ProductVO;
 public interface CartDAO {
 	public List<CartVO> selectCartList(CartVO cartVO) throws DataAccessException;
 	public List<ProductVO> selectProductList(List<CartVO> cartList) throws DataAccessException;
-	/*
-
 	public boolean selectCountInCart(CartVO cartVO) throws DataAccessException;
 	public void insertProductInCart(CartVO cartVO) throws DataAccessException;
+
+	/*
 	public void updateCartProductQty(CartVO cartVO) throws DataAccessException;
-	public void deleteCartProduct(int cart_id) throws DataAccessException;
 	 */
+	public void deleteCartProduct(int cart_id) throws DataAccessException;
 }
