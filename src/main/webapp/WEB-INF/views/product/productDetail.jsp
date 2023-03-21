@@ -6,7 +6,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <c:set var="product"  value="${productMap.productVO}"  />
-<c:set var="optList"  value="${productOptMap.productOptList }"  />
+<c:set var="optList"  value="${productOptList }"  />
 <c:set var="mainImage"  value="${imageMap.mainImageList }"  />
 <c:set var="detailImage"  value="${imageMap.detailImageList }"  />
 <c:set var="priceImage"  value="${imageMap.priceImageList }"  />
@@ -116,32 +116,32 @@
         	detail.toggle();
  		});
     });
+    
+    
 </script>
 
 <!-- 장바구니 담기 -->
 <script type="text/javascript">
 function add_cart(product_id) {
 	
+	//선택된 옵션
 	var order_product_opt = $("#order_product_opt option:checked").text();
-	console.log("옵션텍스트"+order_product_opt);
 	
 	var cart_product_opt = order_product_opt.split(" (+");
 	
 	/* 옵션명 가져오기 */
 	var cart_option_name = cart_product_opt[0];
-	
 	console.log("옵션이름: "+cart_option_name );
 	
 	/*옵션 가격만 가져오기*/
 	var cart_product_opt = cart_product_opt[1].split("원)");
 	var cart_option_price =cart_product_opt[0];
-	
 	console.log("옵션가격: "+cart_option_price );
 	
 	
     $.ajax({
        type : "post",
-       async : false, //false인 경우 동기식으로 처리한다.
+       async : false,
        url : "${contextPath}/cart/addProductInCart.do",
        data : {
           product_id:product_id,
@@ -150,11 +150,12 @@ function add_cart(product_id) {
           
        },
        success : function(data, textStatus) {
-          //alert(data);
-       //   $('#message').append(data);
+        	  /*
           if(data.trim()=='option_isnull') {
         	 alert("옵션을 선택해주세요!");
-          }else if(data.trim()=='add_success'){
+          }else
+        	  */
+        	  if(data.trim()=='add_success'){
              imagePopup('open', '.layer01');   
           }else if(data.trim()=='already_existed'){
              alert("이미 장바구니에 추가된 상품입니다.");   
@@ -169,6 +170,22 @@ function add_cart(product_id) {
        }
     }); //end ajax   
  }	
+ 
+function imagePopup(type) {
+	if (type == 'open') {
+		// 팝업창을 연다.
+		jQuery('#layer').attr('style', 'visibility:visible');
+
+		// 페이지를 가리기위한 레이어 영역의 높이를 페이지 전체의 높이와 같게 한다.
+		jQuery('#layer').height(jQuery(document).height());
+	}
+
+	else if (type == 'close') {
+
+		// 팝업창을 닫는다.
+		jQuery('#layer').attr('style', 'visibility:hidden');
+	}
+}
 
 </script>
 </head>

@@ -9,10 +9,7 @@
          <put-attribute name="body" value="/WEB-INF/views/product/productList.jsp" />
       </definition>
 
-      <definition name="/product/productByAddress" extends="baseLayout">
-         <put-attribute name="title" value="지역별 조회 페이지" />
-         <put-attribute name="body" value="/WEB-INF/views/product/ProductByAddress.jsp" />
-      </definition>
+    
 
 	  <definition name="/product/productDetail" extends="baseLayout">
          <put-attribute name="title" value="상품 상세페이지" />

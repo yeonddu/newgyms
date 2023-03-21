@@ -150,14 +150,12 @@
                 </div>
                 <nav class="main-menu_1">
                     <ul class="nav_bar flex">
-                        <li>
-                            <a href="${contextPath}/product/productByAddress.do?address=대전">지역별</a>
-                        </li>
-	                    <li><a href="${contextPath}/product/productList.do?productSort=헬스/PT">헬스/PT</a></li>
-	                    <li><a href="${contextPath}/product/productList.do?productSort=요가/필라테스">요가/필라테스</a></li>
-	                    <li><a href="${contextPath}/product/productList.do?productSort=스피닝">스피닝</a></li>
-	                    <li><a href="${contextPath}/product/productList.do?productSort=크로스핏">크로스핏</a></li>
-	                    <li><a href="${contextPath}/product/productList.do?productSort=기타">기타</a></li>
+                        <li><a href="${contextPath}/product/productList.do?category=전체보기&address=대전">전체보기</a></li>
+	                    <li><a href="${contextPath}/product/productList.do?category=헬스/PT&address=대전">헬스/PT</a></li>
+	                    <li><a href="${contextPath}/product/productList.do?category=요가/필라테스&address=대전">요가/필라테스</a></li>
+	                    <li><a href="${contextPath}/product/productList.do?category=스피닝&address=대전">스피닝</a></li>
+	                    <li><a href="${contextPath}/product/productList.do?category=크로스핏&address=대전">크로스핏</a></li>
+	                    <li><a href="${contextPath}/product/productList.do?category=기타&address=대전">기타</a></li>
 	                    <li>
                            <a href="#">커뮤니티</a>
                            <ul class="menu-box_menu-2">

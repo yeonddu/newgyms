@@ -25,16 +25,12 @@ public class ProductServiceImpl implements ProductService {
 	private ProductDAO productDAO;
 	
 
-	public List<ProductVO> productList(String product_sort) throws Exception{
-		List productList=productDAO.selectProductList(product_sort);
+	public List<ProductVO> productList(Map listMap) throws Exception{
+		List productList=productDAO.selectProductList(listMap);
 		return productList;
 	}
 	
-	public List<ProductVO> productByAddress(String address) throws Exception {
-		List productList=productDAO.selectproductByAddress(address);
-		return productList;
-	}
-	
+
 	public Map productDetail(String _product_id) throws Exception {
 		Map productMap=new HashMap();
 		ProductVO productVO = productDAO.selectProductDetail(_product_id);
@@ -42,11 +38,13 @@ public class ProductServiceImpl implements ProductService {
 		return productMap;
 	}
 	
-	public Map productOption(String _product_id) throws Exception {
-		Map productOptMap=new HashMap();
+	public ProductOptVO selectModifyCart(String _product_id) throws Exception {
+		ProductOptVO productOptVO = productDAO.selectCartOption(_product_id);
+		return productOptVO; 
+	}
+	public List<ProductOptVO> productOption(String _product_id) throws Exception {
 		List<ProductOptVO> productOptList = productDAO.selectProductOption(_product_id);
-		productOptMap.put("productOptList", productOptList);
-		return productOptMap; 
+		return productOptList; 
 	}
 	/* ¿É¼Ç */
 	
@@ -62,8 +60,8 @@ public class ProductServiceImpl implements ProductService {
 	return memberVO;
 	}
 
-	public List<ProductVO> productSorting(String product_sort, String sortBy) throws Exception{
-		List productList= productDAO.selectSortedProduct(product_sort, sortBy);
+	public List<ProductVO> productSorting(Map sortMap) throws Exception{
+		List productList= productDAO.selectSortedProduct(sortMap);
 		return productList;
 	}
 	public List<ProductVO> searchProduct(String searchWord) throws Exception{

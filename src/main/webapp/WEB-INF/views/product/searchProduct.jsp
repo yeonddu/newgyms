@@ -25,11 +25,11 @@
 		$.ajax({
 			type : "get",
 			async : true, //false인 경우 동기식으로 처리한다.
-			url : "${contextPath}/goods/keywordSearch.do",
+			url : "${contextPath}/product/keywordSearch.do",
 			data : {keyword:value},
 			success : function(data, textStatus) {
 			    var jsonInfo = JSON.parse(data);
-				displayResult(jsonInfo);
+			    displayResult(jsonInfo);
 			},
 			/* error : function(data, textStatus) {
 				alert("에러가 발생했습니다."+data); */
@@ -104,9 +104,43 @@
 	<input class="search_button"name="search"  type="submit" value="검색">
 </form>
 </div>
-			
+	
+<div class="productList">
+	<h2 id="total_count">총 ${fn:length(productList)}건</h2>
+<div class="container">
+	<c:choose>
+	   <c:when test="${ empty productList  }" >
+			<h1 style="padding:50px 0;">검색조건에 해당하는 상품이 없습니다.</h1>
+	   </c:when>
+   <c:otherwise>
+	<c:forEach var="item" items="${productList }"> 
+	   <c:set  var="product_total_count" value="${product_count+1 }" />
+        <div class="item">
+          <div class="product_image">
+            <a href="${contextPath}/product/productDetail.do?product_id=${item.product_id}">
+			   <img alt="" src="${contextPath}/download.do?product_id=${item.product_id}&fileName=${item.product_main_image}">
+			</a>
+			<div class="wish" ></div>
+				<a id="wish" href="${contextPath }/wish/addWishList.do?product_id=${item.product_id}"><img src="${contextPath}/resources/image/heart.png" alt="찜하기"></a>
+   		</div>
+		<div class="product_description">
+  		    <h2><a href="${contextPath}/product/productDetail.do?product_id=${item.product_id}">${item.product_name }</a></h2>
+<!-- 사업장관리 페이지로 이동 -->
+            <h3><a href="">${item.center_name }</a></h3>
+		</div>
+		<div class="product_price">
+            <div class="discount_rate"><fmt:formatNumber  value="${item.product_sales_price/item.product_price}" type="percent" var="discount_rate" />${discount_rate }</div>
+            <div class="sales_price"><fmt:formatNumber  value="${item.product_sales_price}" type="number"/>원</div>
+            <div class="price"><fmt:formatNumber  value="${item.product_price}" type="number"/>원</div>					
+		</div>
+	   </div>
+	</c:forEach>
+</c:otherwise>
+</c:choose>
+	</div>
+</div>
+		
 </div>
 </div>
-<jsp:include page="/WEB-INF/views/product/productList.jsp"/>
 </body>
 </html>

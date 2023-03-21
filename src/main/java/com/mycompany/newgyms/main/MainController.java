@@ -1,5 +1,6 @@
 package com.mycompany.newgyms.main;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,8 +34,12 @@ public class MainController extends BaseController {
 		
 		session=request.getSession();
 		session.setAttribute("side_menu", "user");
+		
+		Map sortMap = new HashMap();
+		sortMap.put("product_sort", "전체보기");
+		sortMap.put("address", "대전");
 
-		List<ProductVO> productList=productService.productList("헬스/PT");
+		List<ProductVO> productList=productService.productList(sortMap);
 		mav.addObject("productList", productList);
 		return mav;
 	}

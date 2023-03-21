@@ -25,25 +25,39 @@
 <body>
 <div class="con-min-width">
 <div class="con">
+<div class="event_img"><img src="${contextPath}/resources/image/event.png" alt="이벤트이미지"></div> 
+<div class="address_menu">
+    <ul>
+         <li><a href="${contextPath}/product/productList.do?category=${productSort}&address=대전">전체</a></li>
+         <li><a href="${contextPath}/product/productList.do?category=${productSort}&address=유성구">유성구</a></li>
+         <li><a href="${contextPath}/product/productList.do?category=${productSort}&address=대덕구">대덕구</a></li>
+         <li><a href="${contextPath}/product/productList.do?category=${productSort}&address=서구">서구</a></li>
+         <li><a href="${contextPath}/product/productList.do?category=${productSort}&address=중구">중구</a></li>
+         <li><a href="${contextPath}/product/productList.do?category=${productSort}&address=동구">동구</a></li>
+     </ul>
+</div>
 
-<div id="productList">
+<div class="productList">
+
    <c:set  var="product_count" value="0" />   
-	<h1 id="category">${productSort}</h1>
+	<h1 id="current_menu">${productSort} > ${address }</h1>
+<%-- 	<h1 <span id="category">${productSort}</span> > <span id="address">${address }</span></h1> --%>
 	<!-- 총 건 -->
 	<h2 id="total_count">총 ${fn:length(productList)}건</h2>
+	
 	<div id="sorting">
 		<ul>
-			<li><a href="${contextPath}/product/productList.do?productSort=${productSort}">신상품순</a></li>
-			<li><a href="${contextPath}/product/productSorting.do?productSort=${productSort}&sortBy=popular">인기순</a></li>
-			<li><a href="${contextPath}/product/productSorting.do?productSort=${productSort}&sortBy=lowPrice">낮은가격순</a></li>
-			<li><a style="border: currentColor; border-image: none;" href="${contextPath}/product/productSorting.do?productSort=${productSort}&sortBy=highPrice">높은가격</a></li>
+			<li><a href="${contextPath}/product/productList.do?category=${productSort}&address=${address}">신상품순</a></li>
+			<li><a href="${contextPath}/product/productSorting.do?category=${productSort}&address=${address}&sortBy=popular">인기순</a></li>
+			<li><a href="${contextPath}/product/productSorting.do?category=${productSort}&address=${address}&sortBy=lowPrice">낮은가격순</a></li>
+			<li><a style="border: currentColor; border-image: none;" href="${contextPath}/product/productSorting.do?category=${productSort}&address=${address}&sortBy=highPrice">높은가격</a></li>
 		</ul>
 	</div>
 	
 	<div class="container">
 	<c:choose>
 	   <c:when test="${ empty productList  }" >
-			<h1>등록된 상품이 없습니다.</h1>
+			<h1 style="padding:50px 0;">등록된 상품이 없습니다.</h1>
 	   </c:when>
    <c:otherwise>
 	<c:forEach var="item" items="${productList }"> 

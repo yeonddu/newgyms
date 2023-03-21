@@ -10,7 +10,7 @@ public class CartVO {
 	private int product_id;
 	private String member_id;
 	private String cart_option_name;
-	private String cart_option_price;
+	private int cart_option_price;
 	private Date cart_entered_date;
 	
 	public int getCart_id() {
@@ -38,10 +38,10 @@ public class CartVO {
 	public void setCart_option_name(String cart_option_name) {
 		this.cart_option_name = cart_option_name;
 	}
-	public String getCart_option_price() {
+	public int getCart_option_price() {
 		return cart_option_price;
 	}
-	public void setCart_option_price(String cart_option_price) {
+	public void setCart_option_price(int cart_option_price) {
 		this.cart_option_price = cart_option_price;
 	}
 	public Date getCart_entered_date() {

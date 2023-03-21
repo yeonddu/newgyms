@@ -40,32 +40,32 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	@Autowired
 	private KakaoService kakaoService;
 
-	@Override
-	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
-	public ModelAndView login(@RequestParam Map<String, String> loginMap, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		memberVO = memberService.login(loginMap);
-		if (memberVO != null && memberVO.getMember_id() != null) {
-			HttpSession session = request.getSession();
-			session = request.getSession();
-			session.setAttribute("isLogOn", true);
-			session.setAttribute("memberInfo", memberVO);
+	   @Override
+	   @RequestMapping(value = "/login.do", method = RequestMethod.POST)
+	   public ModelAndView login(@RequestParam Map<String, String> loginMap, HttpServletRequest request,
+	         HttpServletResponse response) throws Exception {
+	      ModelAndView mav = new ModelAndView();
+	      memberVO = memberService.login(loginMap);
+	      if (memberVO != null && memberVO.getMember_id() != null) {
+	         HttpSession session = request.getSession();
+	         session = request.getSession();
+	         session.setAttribute("isLogOn", true);
+	         session.setAttribute("memberInfo", memberVO);
 
-			String action = (String) session.getAttribute("action");
-			if (action != null && action.equals("/order/orderEachGoods.do")) {
-				mav.setViewName("forward:" + action);
-			} else {
-				mav.setViewName("redirect:/main/main.do");
-			}
+	         String action = (String) session.getAttribute("action");
+	         if (action != null && action.equals("/order/orderEachGoods.do")) {
+	            mav.setViewName("forward:" + action);
+	         } else {
+	            mav.setViewName("redirect:/main/main.do");
+	         }
 
-		} else {
-			String message = "아이디나 비밀번호가 틀립니다. 다시 로그인해주세요";
-			mav.addObject("message", message);
-			mav.setViewName("/member/loginForm");
-		}
-		return mav;
-	}
+	      } else {
+	         String message = "아이디나 비밀번호가 올바르지 않습니다.";
+	         mav.addObject("message", message);
+	         mav.setViewName("/member/loginForm");
+	      }
+	      return mav;
+	   }
 
 	@Override
 	@RequestMapping(value = "/logout.do", method = RequestMethod.GET)

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mycompany.newgyms.member.vo.MemberVO;
 import com.mycompany.newgyms.product.service.ProductService;
+import com.mycompany.newgyms.product.vo.ProductOptVO;
 import com.mycompany.newgyms.product.vo.ProductVO;
 import com.mycompany.newgyms.qna.service.QnaService;
 import com.mycompany.newgyms.qna.vo.QnaVO;
@@ -35,36 +36,30 @@ public class ProductControllerImpl implements ProductController {
 	@Autowired
 	private QnaService qnaService;
 
-	/* 카테고리별 조회 */
+	/* 카테고리별, 지역별 조회 */
 	@RequestMapping(value = "/productList.do", method = RequestMethod.GET)
-	public ModelAndView productList(@RequestParam("productSort") String product_sort, HttpServletRequest request,
+	public ModelAndView productList(@RequestParam("category") String product_sort,@RequestParam("address") String address, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		
-		List<ProductVO> productList = productService.productList(product_sort);
+		Map listMap = new HashMap();
+		listMap.put("product_sort", product_sort);
+		listMap.put("address", address);
+		
+		List<ProductVO> productList = productService.productList(listMap);
 		
 		mav.addObject("productList", productList);
 		mav.addObject("productSort", product_sort);
-		return mav;
-	}
-	
-	
-	/* 지역별 조회 */
-	
-	@RequestMapping(value = "/productByAddress.do", method = RequestMethod.GET)
-	public ModelAndView productByAddress(@RequestParam("address") String address, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		String viewName = (String) request.getAttribute("viewName");
-		ModelAndView mav = new ModelAndView(viewName);
-		
-		List<ProductVO> productList = productService.productByAddress(address);
-		
-		mav.addObject("productList", productList);
 		mav.addObject("address", address);
 		return mav;
 	}
 	
+	
+	
+	
+	
+	/*제품 상세정보*/
 	@RequestMapping(value = "/productDetail.do", method = RequestMethod.GET)
 	public ModelAndView productDetail(@RequestParam("product_id") String product_id, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -76,8 +71,8 @@ public class ProductControllerImpl implements ProductController {
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("productMap", productMap);
 		
-		Map productOptMap = productService.productOption(product_id);
-		mav.addObject("productOptMap", productOptMap);
+		List<ProductOptVO> productOptList = productService.productOption(product_id);
+		mav.addObject("productOptList", productOptList);
 
 		/* 제품 이미지 가져오기*/
 		Map imageMap = productService.productImage(product_id);
@@ -116,14 +111,20 @@ public class ProductControllerImpl implements ProductController {
 
 	/*정렬하여 조회 - 신상품/인기순/낮은가격/높은가격 */
 	@RequestMapping(value = "/productSorting.do", method = RequestMethod.GET)
-	public ModelAndView productSorting(@RequestParam("productSort") String product_sort,
+	public ModelAndView productSorting(@RequestParam("category") String product_sort,@RequestParam("address") String address,
 			@RequestParam("sortBy") String sortBy, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
-		List<ProductVO> productList = productService.productSorting(product_sort, sortBy);
+		Map sortMap = new HashMap();
+		sortMap.put("product_sort", product_sort);
+		sortMap.put("address", address);
+		sortMap.put("sortBy", sortBy);
+		
+		List<ProductVO> productList = productService.productSorting(sortMap);
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("productList", productList);
 		mav.addObject("productSort", product_sort);
+		mav.addObject("address", address);
 		
 		return mav;
 	}
@@ -167,6 +168,19 @@ public class ProductControllerImpl implements ProductController {
 	}
 
 	/*
+	 * 
+
+	@RequestMapping(value = "/productByAddress.do", method = RequestMethod.GET)
+	public ModelAndView productByAddress(@RequestParam("address") String address, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView(viewName);
+		
+		List<ProductVO> productList = productService.productByAddress(address);
+		
+		mav.addObject("productList", productList);
+		return mav;
+	}
 	 * @RequestMapping(value="/keywordSearch.do",method = RequestMethod.GET,produces
 	 * = "application/text; charset=utf8") public @ResponseBody String
 	 * keywordSearch(@RequestParam("keyword") String keyword, HttpServletRequest

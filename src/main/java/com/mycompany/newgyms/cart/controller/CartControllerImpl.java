@@ -20,6 +20,7 @@ import com.mycompany.newgyms.cart.vo.CartVO;
 import com.mycompany.newgyms.common.base.BaseController;
 import com.mycompany.newgyms.member.vo.MemberVO;
 import com.mycompany.newgyms.product.service.ProductService;
+import com.mycompany.newgyms.product.vo.ProductOptVO;
 
 @Controller("cartController")
 @RequestMapping(value="/cart")
@@ -60,11 +61,8 @@ public class CartControllerImpl extends BaseController implements CartController
 		
 		Map<String ,List> cartMap=cartService.myCartList(cartVO);
 		session.setAttribute("cartMap", cartMap);//장바구니 목록 화면에서 상품 주문 시 사용하기 위해서 장바구니 목록을 세션에 저장한다.
-		//mav.addObject("cartMap", cartMap);
+		mav.addObject("cartMap", cartMap);
 
-		String product_id = "cartVO.getProduct_id";
-		Map productOptMap = productService.productOption(product_id);
-		mav.addObject("productOptMap", productOptMap);
 /*
  
 
@@ -75,10 +73,12 @@ public class CartControllerImpl extends BaseController implements CartController
 		
 		return mav;
 	}
+	
+	
 
 	@RequestMapping(value="/addProductInCart.do" ,method = RequestMethod.POST,produces = "application/text; charset=utf8")
 	public @ResponseBody String addProductInCart(@RequestParam("product_id") int product_id,@RequestParam("cart_option_name") String cart_option_name,
-			@RequestParam("cart_option_price") String cart_option_price, HttpServletRequest request, HttpServletResponse response)  throws Exception{
+			@RequestParam("cart_option_price") int cart_option_price, HttpServletRequest request, HttpServletResponse response)  throws Exception{
 		HttpSession session=request.getSession();
 		memberVO=(MemberVO)session.getAttribute("memberInfo");
 		if (memberVO != null && memberVO.getMember_id() != null) {
@@ -94,9 +94,14 @@ public class CartControllerImpl extends BaseController implements CartController
 		
 		boolean isAreadyExisted=cartService.findCartProduct(cartVO);
 		System.out.println("isAreadyExisted:"+isAreadyExisted);
-		if(cart_option_price == null) {
-			return "option_isnull";
-		}else if(isAreadyExisted==true){
+		
+		/*
+		  if("cart_option_price" == "") { 
+			  return "option_isnull"; 
+		  }
+		  else 
+		 * */
+			  if(isAreadyExisted==true){
 			return "already_existed";
 		}else{
 			
@@ -104,6 +109,21 @@ public class CartControllerImpl extends BaseController implements CartController
 			return "add_success";
 		}
 	}
+	
+	/*장바구니에서 옵션 가져오기*/
+	@RequestMapping(value="/selectCartOption.do" ,method = RequestMethod.GET)
+	public ModelAndView selectCartOption(@RequestParam("product_id") String product_id,
+	            HttpServletRequest request, HttpServletResponse response)  throws Exception{
+	ModelAndView mav=new ModelAndView();
+	
+	System.out.println("옵션값 가져오기");
+	
+	ProductOptVO productOptVO = productService.selectModifyCart(product_id);
+	mav.addObject("productOptVO", productOptVO);
+	return mav;
+	}
+	
+	
 	/*
 
 	

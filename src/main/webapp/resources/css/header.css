@@ -298,4 +298,24 @@ background-color: rgb(95, 95, 95);
 .nav_bar>li:first-child {
   position: relative;
 }
+/*ProductByAddress*/
+#ProductByAddress{
+	width: 1000px; height:40px; padding:20px 40px; 
+}
+
+
+#ProductByAddress ul li {
+  width: calc(100% / 7);  display: inline-block;
+}
+
+#ProductByAddress ul li a {
+  align-items: center;  height: 40px;
+}
+#ProductByAddress ul li a:hover {
+  align-items: center;  height: 40px; color:#FFC300; font-weight:bold;
+}
+
+#ProductByAddress ul li a:focus {
+  align-items: center;  height: 40px; color:#FFC300; font-weight:bold;
+}
 

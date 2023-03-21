@@ -23,15 +23,45 @@ public class ProductDAOImpl implements ProductDAO {
 
 	
 	@Override
-	public ArrayList selectProductList(String product_sort) throws DataAccessException{
-		ArrayList list=(ArrayList)sqlSession.selectList("mapper.product.selectProductList",product_sort);
-		 return list;
+	public ArrayList selectProductList(Map listMap) throws DataAccessException{
+		String product_sort = (String)listMap.get("product_sort");
+		String address = (String)listMap.get("address");
+		//전체보기
+		if(product_sort.equals("전체보기")) {
+			ArrayList list=(ArrayList)sqlSession.selectList("mapper.product.selectAllProductList", address);
+			 return list;
+			//카테고리별,지역별
+		} else {
+			ArrayList list=(ArrayList)sqlSession.selectList("mapper.product.selectProductList",listMap);
+			return list;
+		}
+
 	}
-	@Override
-	public ArrayList selectproductByAddress(String address) throws DataAccessException{
-		ArrayList list=(ArrayList)sqlSession.selectList("mapper.product.selectproductByAddress",address);
+	
+	public ArrayList selectSortedProduct(Map sortMap) throws DataAccessException{
+		
+		String sortBy = (String)sortMap.get("sortBy");
+		System.out.println(sortBy);
+		ArrayList list = new ArrayList();
+		/*
+		list=(ArrayList)sqlSession.selectList("mapper.product.selectproductSortBy",sortMap);
+		 * */
+		if(sortBy.equals("popular")) {
+			list=(ArrayList)sqlSession.selectList("mapper.product.selectproductSortByPopular",sortMap);
+		} else if (sortBy.equals("lowPrice")) {
+			list=(ArrayList)sqlSession.selectList("mapper.product.selectproductSortByLowPrice",sortMap);
+		} else if (sortBy.equals("highPrice")) {
+			list=(ArrayList)sqlSession.selectList("mapper.product.selectproductSortByHighPrice",sortMap);
+	} 
 		return list;
 	}
+	
+	/*
+	 * @Override public ArrayList selectproductByAddress(String address) throws
+	 * DataAccessException{ ArrayList
+	 * list=(ArrayList)sqlSession.selectList("mapper.product.selectproductByAddress"
+	 * ,address); return list; }
+	 */
 
 	@Override
 	public ProductVO selectProductDetail(String product_id) throws DataAccessException{
@@ -67,17 +97,11 @@ public class ProductDAOImpl implements ProductDAO {
 		return memberVO;
 	}
 	
-	 
-	public ArrayList selectSortedProduct(String product_sort, String sortBy) throws DataAccessException{
-		ArrayList list = new ArrayList();
-		if(sortBy.equals("popular")) {
-			list=(ArrayList)sqlSession.selectList("mapper.product.selectproductSortByPopular",product_sort);
-		} else if (sortBy.equals("lowPrice")) {
-			list=(ArrayList)sqlSession.selectList("mapper.product.selectproductSortByLowPrice",product_sort);
-		} else if (sortBy.equals("highPrice")) {
-			list=(ArrayList)sqlSession.selectList("mapper.product.selectproductSortByHighPrice",product_sort);
-	} 
-		return list;
+	
+	public ProductOptVO selectCartOption(String product_id) throws DataAccessException{
+		ProductOptVO productOptVO=sqlSession.selectOne("mapper.product.selectCartOption",product_id);
+		
+		return productOptVO;
 	}
 	
 	@Override

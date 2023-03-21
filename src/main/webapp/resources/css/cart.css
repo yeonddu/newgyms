@@ -38,11 +38,11 @@
   font-size:14px; color:rgb(100,100,100); 
 }
 
-#myCartList .cart_list .modify_option {
+#myCartList .cart_list .modify_option_btn {
   width:400px;
 }
 
-#myCartList .cart_list .modify_option a {
+#myCartList .cart_list .modify_option_btn a {
   border:1px solid rgb(200,200,200); padding:8px; border-radius:8px; font-size:14px; 
 }
 
@@ -51,8 +51,8 @@
   text-align:center; width:200px; 
 }
 
-#myCartList .cart_list .cart_total_price {
-  text-align:right;
+#myCartList .cart_total_price {
+  text-align:right; font-size:20px; padding:10px;
 }
 
 
@@ -65,28 +65,28 @@
 }
 
 
-#myCartList #modify_option {
+#myCartList #modify_popup {
 	position:absolute; left:800px; top:300px;
 	height:300px;width:400px; border:1px solid rgb(150,150,150); background:white; padding: 30px 100px;
 }
 
-#myCartList #modify_option .x_button {
+#myCartList #modify_popup .x_button {
 	padding-left:250px;
 }
 
-#myCartList #modify_option h6 {
+#myCartList #modify_popup h6 {
 	font-size:16px; padding:20px;text-align:center;	
 }
 
-#myCartList #modify_option p {
+#myCartList #modify_popup p {
 	font-size:14px; padding:10px 0;
 }
 
-#myCartList #modify_option select {
+#myCartList #modify_popup select {
 	width:220px; padding:5px;
 }
 
-#myCartList #modify_option .modify_button {
+#myCartList #modify_popup .modify_button {
 	display:block; text-align:center;
 	background-color:rgb(100,100,100);color:white;  width:110px; padding:10px 20px; margin:40px auto; 
 }
