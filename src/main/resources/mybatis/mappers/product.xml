@@ -24,7 +24,6 @@
 		<result property="product_intro" column="product_intro" />
 		<result property="product_refund_1" column="product_refund_1" />
 		<result property="product_refund_2" column="product_refund_2" />
-		
 	</resultMap>	
 
 	<resultMap id="productOptResult" type="ProductOptVO">
@@ -44,9 +43,9 @@
 	<select id="selectAllProductList" resultMap="productResult" parameterType="String">
      <![CDATA[
 			select t_product.*, t_member.center_name from t_product, t_member
-where t_member.road_address like concat('%',#{address},'%')
-and t_product.member_id=t_member.member_id
-order by t_product.product_entered_date desc
+			where t_member.road_address like concat('%',#{address},'%')
+			and t_product.member_id=t_member.member_id
+			order by t_product.product_entered_date desc
 		]]>
 	</select>	
 
@@ -54,58 +53,50 @@ order by t_product.product_entered_date desc
 	<select id="selectProductList" resultMap="productResult"   parameterType="java.util.HashMap"  >
      <![CDATA[
 			select t_product.*, t_member.center_name from t_product, t_member
-where t_product.product_sort =#{product_sort} and t_member.road_address like concat('%',#{address},'%')
-and t_product.member_id=t_member.member_id
-order by t_product.product_entered_date desc
+			where t_product.product_sort =#{product_sort} and t_member.road_address like concat('%',#{address},'%')
+			and t_product.member_id=t_member.member_id
+			order by t_product.product_entered_date desc
 		]]>
 	</select>	
-	
-<!-- 	<select id="selectproductByAddress" resultMap="productResult"   parameterType="String"  >
-     <![CDATA[
-			select t_product.*, t_member.center_name, t_product_detail_image.fileName from t_product, t_member, t_product_detail_image
-where t_member.road_address like concat('%',#{address},'%') and t_product.member_id=t_member.member_id and t_product_detail_image.filetype='main_image' and t_product.product_id = t_product_detail_image.product_id
-order by t_product.product_entered_date desc
-		]]>
-	</select>	 -->
 
 	<select id="selectProductDetail" resultMap="productResult"   parameterType="String"  >
 	    <![CDATA[
-		     select t_product.*, t_product_detail_image.fileName from t_product , t_product_detail_image
-where t_product.product_id=t_product_detail_image.product_id
-and t_product_detail_image.fileType='main_image'
-and t_product.product_id=#{product_id}
-order by t_product.product_id
+		    select * from t_product 
+			where product_id=#{product_id}
+			order by product_id
     	]]>
 	</select>
 	
-	<select id="selectCartOption" resultType="productOptVO"   parameterType="String"  >
+	<select id="selectProductOption" resultType="productOptVO"   parameterType="String"  >
 	    <![CDATA[
-		    	select * from  t_product_option 
-		    	where product_id=#{product_id}
+	    	select * from  t_product_option 
+	    	where product_id=#{product_id}
     	]]>
 	</select>
 	
-	<select id="selectProductOption" resultMap="productOptResult"   parameterType="String"  >
+	<select id="selectProductOptionList" resultMap="productOptResult"   parameterType="String"  >
 	    <![CDATA[
-		    	select * from  t_product_option 
-		    	where product_id=#{product_id}
+	    	select * from  t_product_option 
+	    	where product_id=#{product_id}
     	]]>
 	</select>
 	
 	<select id="selectProductMainImage" resultMap="imageResult"   parameterType="String"  >
 	    <![CDATA[
-		    	select * from  t_product_detail_image 
-		    	where fileType='main_image'
-				and product_id=#{product_id}
+	    	select * from  t_product_detail_image 
+	    	where fileType='main_image'
+			and product_id=#{product_id}
     	]]>
 	</select>
+	
 	<select id="selectProductDetailImage" resultMap="imageResult"   parameterType="String"  >
 	    <![CDATA[
-		    	select * from  t_product_detail_image 
-		    	where fileType='detail_image'
-				and product_id=#{product_id}
+	    	select * from  t_product_detail_image 
+	    	where fileType='detail_image'
+			and product_id=#{product_id}
     	]]>
 	</select>
+	
 	<select id="selectProductPriceImage" resultMap="imageResult"   parameterType="String"  >
 	    <![CDATA[
 	    	select * from  t_product_detail_image 
@@ -113,6 +104,7 @@ order by t_product.product_id
 			and product_id=#{product_id}
    		]]>
 	</select>
+	
 	<select id="selectProductFacilityImage" resultMap="imageResult"   parameterType="String"  >
 	    <![CDATA[
 	    	select * from  t_product_detail_image 
@@ -120,29 +112,17 @@ order by t_product.product_id
 			and product_id=#{product_id}
 	   	]]>
 	</select>
-	
-	<select id="selectproductSortBy" resultMap="productResult"   parameterType="java.util.HashMap"  >
-		select t_product.*, t_member.center_name from t_product, t_member
-		where t_product.product_sort =#{product_sort}  and t_member.road_address like concat('%',#{address},'%')
-		and t_product.member_id=t_member.member_id
-		order by
-		<choose>
-       
-	        <when test="#{sortBy.equals('lowPrice')}">t_product.product_price asc</when>
-	        <when test="#{sortBy.equals.('highPrice')}">t_product.product_price desc</when>
-	        <otherwise>t_product.product_price asc</otherwise>
-	   </choose>
-
-
-	</select>
 
 	<select id="selectproductSortByPopular" resultMap="productResult"   parameterType="java.util.HashMap"  >
+	  <![CDATA[
 		select t_product.*, t_member.center_name from t_product, t_member
 		where t_product.product_sort =#{product_sort}  and t_member.road_address like concat('%',#{address},'%')
 		and t_product.member_id=t_member.member_id
 		order by t_product.product_price desc
+	  ]]>
 		
 	</select>	
+	
 	<select id="selectproductSortByLowPrice" resultMap="productResult"   parameterType="java.util.HashMap"  >
      <![CDATA[
 		select t_product.*, t_member.center_name from t_product, t_member
@@ -151,6 +131,7 @@ order by t_product.product_id
 		order by t_product.product_price 
 		]]>
 	</select>	
+	
 	<select id="selectproductSortByHighPrice" resultMap="productResult"   parameterType="java.util.HashMap"  >
      <![CDATA[
 		select t_product.*, t_member.center_name from t_product, t_member
@@ -160,74 +141,47 @@ order by t_product.product_id
 		]]>
 	</select>	
 	
-	
+
    <select id="selectProductBySearchWord" resultMap="productResult"   parameterType="String"  >
      <![CDATA[
-		select DISTINCT t_product.*, t_member.center_name, t_product_detail_image.fileName from t_product, t_member, t_product_detail_image
+		select DISTINCT t_product.*, t_member.center_name from t_product, t_member
 		where (t_product.product_name like concat('%',#{searchWord},'%') or t_member.center_name like concat('%',#{searchWord},'%')) 
-		and (t_product.product_id=t_product_detail_image.product_id and t_product_detail_image.fileType='main_image') 
 		and t_product.member_id = t_member.member_id
 		order by t_product.product_entered_date desc
 		]]>
 	</select>	
 
+	
    <select id="selectProductByPrice" resultMap="productResult"   parameterType="String"  >
      <![CDATA[
-	select DISTINCT t_product.*, t_member.center_name, t_product_detail_image.fileName from t_product, t_member, t_product_detail_image
-	where (t_product.product_name like concat('%',#{searchWord},'%') or t_member.center_name like concat('%',#{searchWord},'%')) 
-	and (t_product.product_id=t_product_detail_image.product_id and t_product_detail_image.fileType='main_image') 
-	and t_product.member_id = t_member.member_id
-	and t_product.product_sales_price BETWEEN #{minPrice} AND #{maxPrice}
-	order by t_product.product_entered_date desc
-		]]>
+		select DISTINCT t_product.*, t_member.center_name from t_product, t_member
+		where (t_product.product_name like concat('%',#{searchWord},'%') or t_member.center_name like concat('%',#{searchWord},'%')) 
+		and t_product.member_id = t_member.member_id
+		and t_product.product_sales_price BETWEEN #{minPrice} AND #{maxPrice}
+		order by t_product.product_entered_date desc
+	 ]]>
 	</select>	
 
 	
    <select id="selectProductByProductName" resultMap="productResult"   parameterType="java.util.HashMap"  >
-
-	select DISTINCT t_product.*, t_member.center_name, t_product_detail_image.fileName from t_product, t_member, t_product_detail_image
-	where t_product.product_name like concat('%',#{searchWord},'%')
-	and (t_product.product_id=t_product_detail_image.product_id and t_product_detail_image.fileType='main_image') 
-	and t_product.member_id = t_member.member_id
-	and t_product.product_price BETWEEN #{minPrice} AND #{maxPrice}				
-	order by t_product.product_entered_date desc
+    <![CDATA[
+		select DISTINCT t_product.*, t_member.center_name from t_product, t_member
+		where t_product.product_name like concat('%',#{searchWord},'%')
+		and t_product.member_id = t_member.member_id
+		and t_product.product_price BETWEEN #{minPrice} AND #{maxPrice}				
+		order by t_product.product_entered_date desc
+	 ]]>
 	</select>
 		
 
    <select id="selectProductByCenterName" resultMap="productResult"   parameterType="java.util.HashMap"  >
-   
-	select DISTINCT t_product.*, t_member.center_name, t_product_detail_image.fileName from t_product, t_member, t_product_detail_image
-	where t_member.center_name like concat('%',#{searchWord},'%')
-	and (t_product.product_id=t_product_detail_image.product_id and t_product_detail_image.fileType='main_image') 
-	and t_product.member_id = t_member.member_id
-	and t_product.product_price BETWEEN #{minPrice} AND #{maxPrice}				
-	order by t_product.product_entered_date desc
+    <![CDATA[   
+		select DISTINCT t_product.*, t_member.center_name from t_product, t_member
+		where t_member.center_name like concat('%',#{searchWord},'%')
+		and t_product.member_id = t_member.member_id
+		and t_product.product_price BETWEEN #{minPrice} AND #{maxPrice}				
+		order by t_product.product_entered_date desc
+	 ]]>
 	</select>	
-
-	
-<!-- 
-      <select id="selectProductList" parameterType="String" resultMap="productResult"   >
-        <![CDATA[
-      select t.*
-          from(
-select g.*,d.fileName from t_product as g, t_product_detail_image as d
-        where g.product_id=d.product_id 
-        and d.filetype='main_image'
-        and product_status=#{productStatus}
-            order by g.product_entered_date desc) as t
-where   rowNum() <16
-	    ]]>
-	</select>
-		
-	
-	<select id="selectKeywordSearch" resultType="String"   parameterType="String"  >
-	    <![CDATA[
-        select product_name from t_product 
-        product_name like  concat('%',#{keyword},'%')
-        order by product_entered_date desc
-		]]>
-	</select>
-
--->	
 
 </mapper> 

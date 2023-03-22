@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mycompany.newgyms.member.vo.MemberVO;
@@ -55,49 +56,44 @@ public class ProductControllerImpl implements ProductController {
 		return mav;
 	}
 	
-	
-	
-	
-	
-	/*제품 상세정보*/
+	/*제품 상세정보 가져오기*/
 	@RequestMapping(value = "/productDetail.do", method = RequestMethod.GET)
 	public ModelAndView productDetail(@RequestParam("product_id") String product_id, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		HttpSession session = request.getSession();
 
-		/* 제품 정보 가져오기 */
+		/* 제품 정보 */
 		Map productMap = productService.productDetail(product_id);
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("productMap", productMap);
 		
-		List<ProductOptVO> productOptList = productService.productOption(product_id);
+		List<ProductOptVO> productOptList = productService.productOptionList(product_id);
 		mav.addObject("productOptList", productOptList);
 
-		/* 제품 이미지 가져오기*/
+		/* 제품 이미지 */
 		Map imageMap = productService.productImage(product_id);
 		mav.addObject("imageMap",imageMap);
 		
-		 /* 제품 리뷰 가져오기 */
+		 /* 제품 리뷰 */
 		List<ReviewVO> reviewList=reviewService.productReviewList(product_id); 
 		mav.addObject("reviewList",reviewList);
 		
-		/* 제품 질문 목록 가져오기 */
+		/* 제품 질문 목록 */
 		List<QnaVO> questionList=qnaService.productQuestionList(product_id); 
 		mav.addObject("questionList",questionList);
 		
-		/* 제품 답변 목록 가져오기 */
+		/* 제품 답변 목록 */
 		List<QnaVO> answerList=qnaService.productAnswerList(product_id); 
 		mav.addObject("answerList",answerList);
-
 		
-		/* 사업자 정보 가져오기 */
+		/* 사업자 정보 */
 		ProductVO productVO = (ProductVO) productMap.get("productVO");
 		String member_id = productVO.getMember_id(); /* 사업자 아이디 */
 		MemberVO memberVO = productService.ownerDetail(member_id);
 		mav.addObject("memberVO", memberVO);		
 		
-		
+		/*현재 로그인된 ID */
 		MemberVO memberVo=(MemberVO)session.getAttribute("memberInfo");
 		if (memberVo != null && memberVo.getMember_id() != null) {
 		
@@ -138,6 +134,7 @@ public class ProductControllerImpl implements ProductController {
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("productList", productList);
 		mav.addObject("searchWord", searchWord);
+		
 		return mav;
 
 	}
@@ -163,42 +160,58 @@ public class ProductControllerImpl implements ProductController {
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("productList", productList);
 		mav.addObject("searchWord", searchWord);
+		mav.addObject("maxPrice", maxPrice);
+		mav.addObject("minPrice", minPrice);
+		
 		return mav;
 		
 	}
-
+	
 	/*
-	 * 
-
-	@RequestMapping(value = "/productByAddress.do", method = RequestMethod.GET)
-	public ModelAndView productByAddress(@RequestParam("address") String address, HttpServletRequest request,
+	@RequestMapping(value="/keywordSearch.do",method = RequestMethod.GET,produces = "application/text; charset=utf8") 
+	public @ResponseBody String keywordSearch(@RequestParam("keyword") String keyword, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		response.setContentType("text/html;charset=utf-8");
+		response.setCharacterEncoding("utf-8"); //System.out.println(keyword);
+		if(keyword == null || keyword.equals("")) return null ;
+		
+		keyword = keyword.toUpperCase(); 
+		List<String> keywordList=productService.keywordSearch(keyword);
+		
+		// 최종 완성될 JSONObject 선언(전체) JSONObject jsonObject = new JSONObject();
+		jsonObject.put("keyword", keywordList);
+		
+		String jsonInfo = jsonObject.toString(); // System.out.println(jsonInfo);
+		return jsonInfo ; 
+		
+		}
+	
+	@RequestMapping(value = "/searchProductByCondition.do", method = RequestMethod.GET)
+	public ModelAndView searchProductByCondition(@RequestParam("searchOption") String searchOption, @RequestParam("searchWord") String searchWord, 
+			@RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice,HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
+		if(minPrice.equals("")) {
+			minPrice = "0";
+		}
+		if (maxPrice.equals("")) {
+			maxPrice = "100000000";
+		}
+		Map searchMap = new HashMap();
+		searchMap.put("searchOption", searchOption);
+		searchMap.put("searchWord", searchWord);
+		searchMap.put("minPrice", minPrice);
+		searchMap.put("maxPrice", maxPrice);
+		List<ProductVO> productList = productService.searchProductByCondition(searchMap);
 		ModelAndView mav = new ModelAndView(viewName);
-		
-		List<ProductVO> productList = productService.productByAddress(address);
-		
 		mav.addObject("productList", productList);
+		mav.addObject("searchWord", searchWord);
+		
 		return mav;
 	}
-	 * @RequestMapping(value="/keywordSearch.do",method = RequestMethod.GET,produces
-	 * = "application/text; charset=utf8") public @ResponseBody String
-	 * keywordSearch(@RequestParam("keyword") String keyword, HttpServletRequest
-	 * request, HttpServletResponse response) throws Exception{
-	 * response.setContentType("text/html;charset=utf-8");
-	 * response.setCharacterEncoding("utf-8"); //System.out.println(keyword);
-	 * if(keyword == null || keyword.equals("")) return null ;
-	 * 
-	 * keyword = keyword.toUpperCase(); List<String> keywordList
-	 * =productService.keywordSearch(keyword);
-	 * 
-	 * // 최종 완성될 JSONObject 선언(전체) JSONObject jsonObject = new JSONObject();
-	 * jsonObject.put("keyword", keywordList);
-	 * 
-	 * String jsonInfo = jsonObject.toString(); // System.out.println(jsonInfo);
-	 * return jsonInfo ; }
-	 * 
-	 * 
+	 */
+
+	  
+	 /*
 	 * private void addProductInQuick(String product_id,ProductVO
 	 * productVO,HttpSession session){ boolean already_existed=false;
 	 * List<ProductVO> quickProductList; //최근 본 상품 저장 ArrayList

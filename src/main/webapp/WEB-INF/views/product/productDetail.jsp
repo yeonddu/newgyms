@@ -17,10 +17,10 @@
 <c:set var="answerList"  value="${answerList }"  />
 <c:set var="member"  value="${memberVO}"  />
  <%
-     //치환 변수 선언합니다.
-      //pageContext.setAttribute("crcn", "\r\n"); //개행문자
-      pageContext.setAttribute("crcn" , "\n"); //Ajax로 변경 시 개행 문자 
-      pageContext.setAttribute("br", "<br/>"); //br 태그
+   //치환 변수 선언합니다.
+    //pageContext.setAttribute("crcn", "\r\n"); //개행문자
+    pageContext.setAttribute("crcn" , "\n"); //Ajax로 변경 시 개행 문자 
+    pageContext.setAttribute("br", "<br/>"); //br 태그
 %>  
 <!DOCTYPE html>
 <html>
@@ -28,62 +28,9 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.js" charset="utf-8"></script>
 <meta charset="EUC-KR">
 <title>제품 상세페이지</title>
-<style>
-
-
-#layer {
-	z-index: 2;
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-}
-
-#popup {
-	z-index: 3;
-	position: fixed;
-	text-align: center;
-	left: 50%;
-	top: 45%;
-	width: 300px;
-	height: 200px;
-	background-color: #ccffff;
-	border: 3px solid #87cb42;
-}
-
-#close {
-	z-index: 4;
-	float: right;
-}
-
-
-</style>
 
 <script type="text/javascript">
-
-/* 탭 메뉴 */
-	$(document).ready(function() {
-	
-		//When page loads...
-		$(".tab_content").hide(); //Hide all content
-		$("ul.tabs li:first").addClass("active").show(); //Activate first tab
-		$(".tab_content:first").show(); //Show first tab content
-	
-		//On Click Event
-		$("ul.tabs li").click(function() {
-	
-			$("ul.tabs li").removeClass("active"); //Remove any "active" class
-			$(this).addClass("active"); //Add "active" class to selected tab
-			$(".tab_content").hide(); //Hide all tab content
-	
-			var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
-			$(activeTab).fadeIn(); //Fade in the active ID content
-			return false;
-		});
-	
-	});
-
- /* 총 상품금액 */ 
+	/* 총 상품금액 출력*/ 
 	$(document).ready(function(){
 		$('#order_product_opt').on("change", function(){
 		    
@@ -105,130 +52,113 @@
 		    document.getElementById("total_price").innerHTML = total_price.toLocaleString('ko-KR',  option) ;
 		});
 	});
+	
+	/* 장바구니 담기 */
+	function add_cart(product_id) {
+		//선택된 옵션
+		var order_product_opt = $("#order_product_opt option:checked").text();
+		console.log(order_product_opt)
+		
+		if ($("#order_product_opt option:checked").val() == '') {
+			alert("옵션을 선택해주세요");
+			return;
+		} 
+	
+		/* 옵션명 가져오기 */
+		var cart_product_opt = order_product_opt.split(" (+"); 
+		var cart_option_name = cart_product_opt[0]; /*옵션명*/
+		
+		var cart_option_price = $("#order_product_opt option:checked").val(); /*옵션가격*/
+		console.log(cart_option_price);
+		
+	    $.ajax({
+	       type : "post",
+	       async : false,
+	       url : "${contextPath}/cart/addProductInCart.do",
+	       data : {
+	          product_id:product_id,
+	          cart_option_name:cart_option_name,
+	          cart_option_price:cart_option_price
+	       },
+	       success : function(data, textStatus) {
+	       	  if(data.trim()=='add_success'){
+	       		var con_cart = confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?"); 
+	       		if(con_cart==true) {
+	       			location.href="${contextPath}/cart/myCartList.do";
+	       		} 
+	          }else if(data.trim()=='already_existed'){
+	             alert("이미 장바구니에 추가된 상품입니다.");   
+	          }
+	          
+	       },
+	       error : function(data, textStatus) {
+	          alert("에러가 발생했습니다."+data);
+	       },
+	       complete : function(data, textStatus) {
+	          //alert("작업을완료 했습니다");
+	       }
+	    }); //end ajax   
+	 }	 
 
 
-/* QnA 목록 */
-    $(document).ready(function () { // 페이지 document 로딩 완료 후 스크립트 실행
-    	$('.qna_hidden').hide();
-    	$('.qna_title').on('click',function () { //제목 버튼 클릭 시 
-        	var currentRow = $(this).closest('tr'); //누른 곳의 tr값을 찾는다. 
-        	var detail = currentRow.next('tr'); //누른 tr의 다음 tr을 찾는다
-        	detail.toggle();
- 		});
-    });
-    
-    
-</script>
-
-<!-- 장바구니 담기 -->
-<script type="text/javascript">
-function add_cart(product_id) {
+	function cartPopup(type) {
+		if (type == 'open') {
+			// 팝업창을 연다.
+			jQuery('#layer').attr('style', 'visibility:visible');
 	
-	//선택된 옵션
-	var order_product_opt = $("#order_product_opt option:checked").text();
+			// 페이지를 가리기위한 레이어 영역의 높이를 페이지 전체의 높이와 같게 한다.
+			jQuery('#layer').height(jQuery(document).height());
+		}
 	
-	var cart_product_opt = order_product_opt.split(" (+");
+		else if (type == 'close') {
 	
-	/* 옵션명 가져오기 */
-	var cart_option_name = cart_product_opt[0];
-	console.log("옵션이름: "+cart_option_name );
-	
-	/*옵션 가격만 가져오기*/
-	var cart_product_opt = cart_product_opt[1].split("원)");
-	var cart_option_price =cart_product_opt[0];
-	console.log("옵션가격: "+cart_option_price );
-	
-	
-    $.ajax({
-       type : "post",
-       async : false,
-       url : "${contextPath}/cart/addProductInCart.do",
-       data : {
-          product_id:product_id,
-          cart_option_name:cart_option_name,
-          cart_option_price:cart_option_price
-          
-       },
-       success : function(data, textStatus) {
-        	  /*
-          if(data.trim()=='option_isnull') {
-        	 alert("옵션을 선택해주세요!");
-          }else
-        	  */
-        	  if(data.trim()=='add_success'){
-             imagePopup('open', '.layer01');   
-          }else if(data.trim()=='already_existed'){
-             alert("이미 장바구니에 추가된 상품입니다.");   
-          }
-          
-       },
-       error : function(data, textStatus) {
-          alert("에러가 발생했습니다."+data);
-       },
-       complete : function(data, textStatus) {
-          //alert("작업을완료 했습니다");
-       }
-    }); //end ajax   
- }	
- 
-function imagePopup(type) {
-	if (type == 'open') {
-		// 팝업창을 연다.
-		jQuery('#layer').attr('style', 'visibility:visible');
-
-		// 페이지를 가리기위한 레이어 영역의 높이를 페이지 전체의 높이와 같게 한다.
-		jQuery('#layer').height(jQuery(document).height());
+			// 팝업창을 닫는다.
+			jQuery('#layer').attr('style', 'visibility:hidden');
+		}
 	}
-
-	else if (type == 'close') {
-
-		// 팝업창을 닫는다.
-		jQuery('#layer').attr('style', 'visibility:hidden');
-	}
-}
-
 </script>
 </head>
 <body>
 <div class="con-min-width">
 <div class="con">
 
-<div id="productDetail">
+  <div id="productDetail">
 	<div class="product_image">
 	   <img alt="" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${product.product_main_image}">			  
 	</div>
-<div class="product_description">
-  <h1>${product.product_name }</h1>
-  <h2>${member.center_name }</h2>
-	<div class="product_price">         
-		<div class="sales_price" id="sales_price"><fmt:formatNumber  value="${product.product_sales_price}" type="number"/>원</div>
-	    <div class="price"><fmt:formatNumber  value="${product.product_price}" type="number"/>원</div>
-        <div class="discount_rate"><fmt:formatNumber  value="${product.product_sales_price/product.product_price}" type="percent" var="discount_rate" />${discount_rate }</div>
+	<div class="product_description">
+		<h1>${product.product_name }</h1>
+		<h2>${member.center_name }</h2>
+		
+		<div class="product_price">         
+			<div class="sales_price" id="sales_price"><fmt:formatNumber  value="${product.product_sales_price}" type="number"/>원</div>
+		    <div class="price"><fmt:formatNumber  value="${product.product_price}" type="number"/>원</div>
+	        <div class="discount_rate"><fmt:formatNumber  value="${product.product_sales_price/product.product_price}" type="percent" var="discount_rate" />${discount_rate }</div>
+		</div>
+	
+		<div class="point"><h3>구매 시 <fmt:formatNumber  value="${product.product_point}" type="number"/>P 적립</h3></div>
+		<div class="option">
+			<h1>개월/횟수</h1>
+			<select id="order_product_opt" name="order_product_opt">
+				<option value="">[필수] 옵션 선택</option>
+					<c:forEach var="opt" items="${optList }">
+						<option value="${opt.product_option_price}">${opt.product_option_name} (+<fmt:formatNumber  value="${opt.product_option_price}" type="number"/> 원)</option>
+					</c:forEach>
+	 		</select>
+		</div>
+		
+		<div class="total_price"> 총 상품금액 <span id="total_price"><fmt:formatNumber  value="${product.product_sales_price}" type="number"/></span>원</div>
+		
+		<div class="buyCartWish">
+	      <ul>
+			<li><a class="wish" href="#"><img src="${contextPath}/resources/image/heart.png" alt="찜하기"></a></li>
+	         <li><a class="buy" href="javascript:fn_order_each_goods('${goods.goods_id }','${goods.goods_title }','${goods.goods_sales_price}','${goods.goods_fileName}');">구매하기 </a></li>
+	         <li><a class="cart" href="javascript:add_cart('${product.product_id}')" >장바구니</a></li>
+			</ul>
+		</div>
 	</div>
 
-	<div class="point"><h3>구매 시 <fmt:formatNumber  value="${product.product_point}" type="number"/>P 적립</h3></div>
-	<div class="option">
-		<h1>개월/횟수</h1>
-		<select id="order_product_opt" name="order_product_opt">
-			<option value="0">[필수] 옵션 선택</option>
-				<c:forEach var="opt" items="${optList }">
-				<option value="${opt.product_option_price}">${opt.product_option_name} (+<fmt:formatNumber  value="${opt.product_option_price}" type="number"/> 원)</option>
-				</c:forEach>
- 		</select>
-	</div>
-	
-	<div class="total_price"> 총 상품금액 <span id="total_price"><fmt:formatNumber  value="${product.product_sales_price}" type="number"/></span>원</div>
-	
-	<div class="buyCartWish">
-      <ul>
-		<li><a class="wish" href="#"><img src="${contextPath}/resources/image/heart.png" alt="찜하기"></a></li>
-         <li><a class="buy" href="javascript:fn_order_each_goods('${goods.goods_id }','${goods.goods_title }','${goods.goods_sales_price}','${goods.goods_fileName}');">구매하기 </a></li>
-         <li><a class="cart" href="javascript:add_cart('${product.product_id}','order_product_opt')" >장바구니</a></li>
-		</ul>
-	</div>
-	</div>
-
-	<!-- 내용 들어 가는 곳 -->
+	<!-- 제품 상세페이지 내용 들어 가는 곳 -->
 	<div class="product_detail">
 		<ul class="tabs">
 			<li><a href="#tab1">프로그램 안내</a></li>
@@ -267,222 +197,207 @@ function imagePopup(type) {
 				        위치 정보
 		        <p>${product.product_location_details}</p>
 <!-- 지도 API -->        
-        <div id="map" style="width:1000px;height:600px;"></div>
-
-
-
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=de674c4e967f5ef6143551099c5edf72&libraries=services"></script>
-<script>
-	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-	    mapOption = {
-	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-	        level: 3 // 지도의 확대 레벨
-	    };  
-	
-	// 지도를 생성합니다    
-	var map = new kakao.maps.Map(mapContainer, mapOption); 
-	
-	//도로명 주소 가져오기
-	var road_address = '${member.road_address}';
-	
-	// 주소-좌표 변환 객체를 생성합니다
-	var geocoder = new kakao.maps.services.Geocoder();
-	
-	// 주소로 좌표를 검색합니다
-	geocoder.addressSearch(road_address, function(result, status) {
-	
-	    // 정상적으로 검색이 완료됐으면 
-	     if (status === kakao.maps.services.Status.OK) {
-	
-	
-	        /* 	마커 이미지 변경 */
-	    	var imageSrc = 'https://cdn-icons-png.flaticon.com/512/8059/8059174.png', // 마커이미지의 주소입니다    
-	        imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
-	        imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-	          
-	    	// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-	    	var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
-	    	    markerPosition = new kakao.maps.LatLng(result[0].y, result[0].x); // 마커가 표시될 위치입니다
-	    	
-	    	// 마커를 생성합니다
-	    	var marker = new kakao.maps.Marker({
-	    	    position: markerPosition, 
-	    	    image: markerImage // 마커이미지 설정 
-	    	});
-	    	
-	    	// 마커가 지도 위에 표시되도록 설정합니다
-	    	marker.setMap(map); 
-	    	/* 	마커 이미지 변경 */
-	    	
-	
-	        // 인포윈도우로 장소에 대한 설명을 표시합니다
-	        var infowindow = new kakao.maps.InfoWindow({
-	            content: '<div class="infoWindow">${member.center_name }</div>'
-	        });
-	        infowindow.open(map, marker);
-	
-	        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-	        map.setCenter(markerPosition);
-	    } 
-	});    
-</script>		
+			        <div id="map" style="width:1000px;height:600px;"></div>
+			
+					<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=de674c4e967f5ef6143551099c5edf72&libraries=services"></script>
+					<script>
+						var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+						    mapOption = {
+						        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+						        level: 3 // 지도의 확대 레벨
+						    };  
+						
+						// 지도를 생성합니다    
+						var map = new kakao.maps.Map(mapContainer, mapOption); 
+						//도로명 주소 가져오기
+						var road_address = '${member.road_address}';
+						// 주소-좌표 변환 객체를 생성합니다
+						var geocoder = new kakao.maps.services.Geocoder();
+						// 주소로 좌표를 검색합니다
+						geocoder.addressSearch(road_address, function(result, status) {
+						    // 정상적으로 검색이 완료됐으면 
+						     if (status === kakao.maps.services.Status.OK) {
+						
+						        /* 	마커 이미지 변경 */
+						    	var imageSrc = 'https://cdn-icons-png.flaticon.com/512/8059/8059174.png', // 마커이미지의 주소입니다    
+						        imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+						        imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+						          
+						    	// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+						    	var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+						    	    markerPosition = new kakao.maps.LatLng(result[0].y, result[0].x); // 마커가 표시될 위치입니다
+						    	
+						    	// 마커를 생성합니다
+						    	var marker = new kakao.maps.Marker({
+						    	    position: markerPosition, 
+						    	    image: markerImage // 마커이미지 설정 
+						    	});
+						    	
+						    	// 마커가 지도 위에 표시되도록 설정합니다
+						    	marker.setMap(map); 
+						    	/* 	마커 이미지 변경 */
+						
+						        // 인포윈도우로 장소에 대한 설명을 표시합니다
+						        var infowindow = new kakao.maps.InfoWindow({
+						            content: '<div class="infoWindow">${member.center_name }</div>'
+						        });
+						        infowindow.open(map, marker);
+						
+						        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+						        map.setCenter(markerPosition);
+						    } 
+						});    
+					</script>		
 		        </div>
-					</div>
+			</div>
 
 			<div class="tab_content" id="tab2">
-			<div class="tab_title">이용후기</div>
-        <table class="review_list">
-          <tbody>
-            <c:choose>
-	   <c:when test="${ empty reviewList  }" >
-		   <tr>
-			<td>등록된 이용후기가 없습니다.</td>
-	 		</tr>
-	   </c:when>
-   <c:otherwise>
-        	<h2 class="total_count">총 ${fn:length(reviewList)}건</h2>
-
-            <c:forEach var="review" items="${reviewList }"> 
-          <tr class="review_item">
-            <td>
-              <img alt="이용후기 이미지" src="${contextPath}/reviewImage.do?review_no=${review.review_no}&fileName=${review.review_image}">
-            </td>
-            <td>
-              <div class="review_title">${review.review_title}</div>
-              <div class="review_option">[옵션] ${review.product_option}</div>    
-              <div class="review_content">${review.review_contents}</div>
-            </td>
-            <td class="review_writer">                          
-              <div>${review.member_id}</div>
-            </td>
-            <td class="review_writeDate">
-              <div>${review.review_write_date}</div>
-            </td>
-          </tr>
- </c:forEach>
-</c:otherwise>
-</c:choose>
-        </tbody>
-      </table>
+				<div class="tab_title">이용후기</div>
+	        	<table class="review_list">
+	      	    <tbody>
+		            <c:choose>
+					   <c:when test="${ empty reviewList  }" >
+						   <tr>
+								<td>등록된 이용후기가 없습니다.</td>
+					 	   </tr>
+					   </c:when>
+					   <c:otherwise>
+					        	<h2 class="total_count">총 ${fn:length(reviewList)}건</h2>
+					
+					            <c:forEach var="review" items="${reviewList }"> 
+						          <tr class="review_item">
+						            <td>
+						              <img alt="이용후기 이미지" src="${contextPath}/reviewImage.do?review_no=${review.review_no}&fileName=${review.review_image}">
+						            </td>
+						            <td>
+						              <div class="review_title">${review.review_title}</div>
+						              <div class="review_option">[옵션] ${review.product_option}</div>    
+						              <div class="review_content">${review.review_contents}</div>
+						            </td>
+						            <td class="review_writer">                          
+						              <div>${review.member_id}</div>
+						            </td>
+						            <td class="review_writeDate">
+						              <div>${review.review_write_date}</div>
+						            </td>
+						          </tr>
+							 </c:forEach>
+					</c:otherwise>
+				</c:choose>
+	    	 </tbody>
+	     	 </table>
 
           </div>
 
 			<div class="tab_content" id="tab3">
 				<div class="tab_title">Q&A</div>
-        <a class="qna_write">문의하기</a>
-          <table class="qna_list">
-          <tbody>      
- <c:choose>
-	   <c:when test="${ empty questionList  }" >
-		   <tr>
-			<td>등록된 Q&A가 없습니다.</td>
-	 		</tr>
-	   </c:when>
-   <c:otherwise>
-        	<h2 class="total_count">총 ${fn:length(questionList)}건</h2>
-
-            <tr>
-              <th>번호</th>
-              <th>답변상태</th>
-              <th>제목</th>
-              <th>작성자</th>
-              <th>등록일</th>              
-            </tr>
-
-  		 <c:set  var="qna_count" value="0" />   
-            <c:forEach var="question" items="${questionList }" > 
-				<c:set  var="qna_count" value="${qna_count+1 }" /> 
-          <tr class="qna_item">
-            <td>
-            ${qna_count }
-            </td>	   
-            <td>
-              ${question.qna_answer_state }
-            </td>
-	<c:choose>
-		<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
-			<c:choose>
-				<c:when test="${question.member_id!=loginMember_id  or loginMember_id == null}"> <!-- 작성자와 로그인한 사람이 다르거나 로그인하지 않은 경우 -->
-	            	<td class="qna_title" style="cursor:pointer;">                        
-	            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">비밀글입니다.
-	         	   </td>
-				</c:when>
-			
-			<c:otherwise> <!-- 작성자와 로그인한 사람이 같은 경우 -->
-	            <td class="qna_title" style="cursor:pointer;">
-	            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">${question.qna_title}                           
-	            </td>
-			</c:otherwise>
-			
-			</c:choose>
-		 </c:when>
-		<c:otherwise> <!-- 공개글인 경우 -->
-            <td class="qna_title" style="cursor:pointer;">
-            	${question.qna_title}                           
-            </td>
-		</c:otherwise>
-<%-- 		<c:when test="${question.qna_secret==0}"> 
-        </c:when>
-			<c:when test="${question.member_id==loginMember_id }"> <!-- 작성자와 로그인한 사람이 같은 경우 -->
-			</c:when>
- --%>        
-   </c:choose>
-            <td class="qna_writer">
-              ${question.member_id}
-            </td>
-            <td class="qna_writeDate">
-              ${question.qna_write_date}
-            </td>
-          </tr>
-         
-          <tr class="qna_hidden">
-          
-    <!-- QnA 질문 내용, 답변 내용 -->     
-   	<c:choose>
-		<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
-			<c:choose>
-			<c:when test="${question.member_id!=loginMember_id  or loginMember_id == null}"> <!-- 작성자와 로그인한 사람이 다르거나 로그인하지 않은 경우 -->
-            	<td colspan="5" class="qna_contents" style="padding-left:450px;">                        
-            	비밀글은 작성자만 조회할 수 있습니다.
-         	   </td>
-			</c:when>
-			<c:otherwise> <!-- 작성자와 로그인한 사람이 같은 경우 -->
-            <td class="qna_contents" colspan="5">
-            	<p><span class="Q_mark">Q</span> ${question.qna_contents} </p>  <!-- 질문 내용 -->
-            <c:forEach var="answer" items="${answerList }" >             	
-            	<c:choose>
-	            	<c:when test="${question.qna_no == answer.qna_parent_no }"> 
-		            	<p><span class="A_mark">A</span> ${answer.qna_title} <p> <!-- 답글 제목 -->
-		            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
-            		</c:when>
-            	</c:choose>
-            	</c:forEach>                   
-            </td>
-			</c:otherwise>
-			</c:choose>
-        </c:when>
-        
-        <c:otherwise> <!-- 공개글인 경우 -->
-            <td colspan="5" class="qna_contents"  >
-            	<p><span class="Q_mark">Q</span> ${question.qna_contents}</p>  <!-- 질문 내용 -->
-            <c:forEach var="answer" items="${answerList }" > 
-            	<c:choose>
-	            	<c:when test="${question.qna_no == answer.qna_parent_no }"> 
-		            	<p><span class="A_mark">A</span> ${answer.qna_title} </p> <!-- 답글 제목 -->
-		            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
-            		</c:when>
-            	</c:choose>
-            	</c:forEach>                     
-            </td>
-       
-        </c:otherwise>
-   </c:choose>
-          </tr>
-              </c:forEach>
-     </c:otherwise>
-</c:choose>
-        </tbody>
-      </table>
+			        <a class="qna_write">문의하기</a>
+		          <table class="qna_list">
+		          <tbody>      
+					 <c:choose>
+					   <c:when test="${ empty questionList  }" >
+						   <tr>
+								<td>등록된 Q&A가 없습니다.</td>
+					 		</tr>
+					   </c:when>
+					   <c:otherwise>
+					        	<h2 class="total_count">총 ${fn:length(questionList)}건</h2>
+					
+					            <tr>
+					              <th>번호</th>
+					              <th>답변상태</th>
+					              <th>제목</th>
+					              <th>작성자</th>
+					              <th>등록일</th>              
+					            </tr>
+					
+					  		 <c:set  var="qna_count" value="0" />   
+					            <c:forEach var="question" items="${questionList }" > 
+								<c:set  var="qna_count" value="${qna_count+1 }" /> 
+						          <tr class="qna_item">
+						            <td>
+						            ${qna_count }
+						            </td>	   
+						            <td>
+						              ${question.qna_answer_state }
+						            </td>
+										<c:choose>
+											<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
+												<c:choose>
+													<c:when test="${question.member_id!=loginMember_id  or loginMember_id == null}"> <!-- 작성자와 로그인한 사람이 다르거나 로그인하지 않은 경우 -->
+										            	<td class="qna_title" style="cursor:pointer;">                        
+										            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">비밀글입니다.
+										         	   </td>
+													</c:when>
+												
+												<c:otherwise> <!-- 작성자와 로그인한 사람이 같은 경우 -->
+										            <td class="qna_title" style="cursor:pointer;">
+										            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">${question.qna_title}                           
+										            </td>
+												</c:otherwise>
+												
+												</c:choose>
+											 </c:when>
+											<c:otherwise> <!-- 공개글인 경우 -->
+									            <td class="qna_title" style="cursor:pointer;">
+									            	${question.qna_title}                           
+									            </td>
+											</c:otherwise>
+									   </c:choose>
+						            <td class="qna_writer">
+						              ${question.member_id}
+						            </td>
+						            <td class="qna_writeDate">
+						              ${question.qna_write_date}
+						            </td>
+						          </tr>
+					         
+						          <tr class="qna_hidden">
+									    <!-- QnA 질문 내용, 답변 내용 -->     
+									   	<c:choose>
+											<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
+												<c:choose>
+												<c:when test="${question.member_id!=loginMember_id  or loginMember_id == null}"> <!-- 작성자와 로그인한 사람이 다르거나 로그인하지 않은 경우 -->
+									            	<td colspan="5" class="qna_contents" style="padding-left:450px;">                        
+									            	비밀글은 작성자만 조회할 수 있습니다.
+									         	   </td>
+												</c:when>
+												<c:otherwise> <!-- 작성자와 로그인한 사람이 같은 경우 -->
+									            <td class="qna_contents" colspan="5">
+									            	<p><span class="Q_mark">Q</span> ${question.qna_contents} </p>  <!-- 질문 내용 -->
+									            <c:forEach var="answer" items="${answerList }" >             	
+									            	<c:choose>
+										            	<c:when test="${question.qna_no == answer.qna_parent_no }"> 
+											            	<p><span class="A_mark">A</span> ${answer.qna_title} <p> <!-- 답글 제목 -->
+											            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
+									            		</c:when>
+									            	</c:choose>
+									            	</c:forEach>                   
+									            </td>
+												</c:otherwise>
+												</c:choose>
+									        </c:when>
+									        
+									        <c:otherwise> <!-- 공개글인 경우 -->
+									            <td colspan="5" class="qna_contents"  >
+									            	<p><span class="Q_mark">Q</span> ${question.qna_contents}</p>  <!-- 질문 내용 -->
+									            <c:forEach var="answer" items="${answerList }" > 
+									            	<c:choose>
+										            	<c:when test="${question.qna_no == answer.qna_parent_no }"> 
+											            	<p><span class="A_mark">A</span> ${answer.qna_title} </p> <!-- 답글 제목 -->
+											            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
+									            		</c:when>
+									            	</c:choose>
+									            	</c:forEach>                     
+									            </td>
+									        </c:otherwise>
+										  </c:choose>
+						    	      </tr>
+					              </c:forEach>
+					     </c:otherwise>
+					</c:choose>
+		        </tbody>
+		      </table>
 			</div>
 			<div class="tab_content" id="tab4">
 				<div class="tab_title">취소 및 환불 규정</div>        
@@ -505,20 +420,8 @@ function imagePopup(type) {
 	</div>
 	
 
-			<div id="layer" style="visibility: hidden">
-				<!-- visibility:hidden 으로 설정하여 해당 div안의 모든것들을 가려둔다. -->
-				<div id="popup">
-					<!-- 팝업창 닫기 버튼 -->
-					<a href="javascript:" onClick="javascript:imagePopup('close', '.layer01');"> <img
-						src="${contextPath}/resources/image/close.png" id="close" />
-					</a> <br /> <font size="12" id="contents">장바구니에 담았습니다.</font><br>
-		<form   action='${contextPath}/cart/myCartList.do'  >				
-				<input  type="submit" value="장바구니 보기">
-		</form>
-  				 </div>
- 			 </div>
-    </div>
-    </div>
+  </div>
+</div>
 </div>
 </body>
 </html>

@@ -41,11 +41,8 @@ public class ProductDAOImpl implements ProductDAO {
 	public ArrayList selectSortedProduct(Map sortMap) throws DataAccessException{
 		
 		String sortBy = (String)sortMap.get("sortBy");
-		System.out.println(sortBy);
 		ArrayList list = new ArrayList();
-		/*
-		list=(ArrayList)sqlSession.selectList("mapper.product.selectproductSortBy",sortMap);
-		 * */
+
 		if(sortBy.equals("popular")) {
 			list=(ArrayList)sqlSession.selectList("mapper.product.selectproductSortByPopular",sortMap);
 		} else if (sortBy.equals("lowPrice")) {
@@ -56,13 +53,6 @@ public class ProductDAOImpl implements ProductDAO {
 		return list;
 	}
 	
-	/*
-	 * @Override public ArrayList selectproductByAddress(String address) throws
-	 * DataAccessException{ ArrayList
-	 * list=(ArrayList)sqlSession.selectList("mapper.product.selectproductByAddress"
-	 * ,address); return list; }
-	 */
-
 	@Override
 	public ProductVO selectProductDetail(String product_id) throws DataAccessException{
 		ProductVO productVO=(ProductVO)sqlSession.selectOne("mapper.product.selectProductDetail",product_id);
@@ -71,8 +61,8 @@ public class ProductDAOImpl implements ProductDAO {
 	
 	/* ¿É¼Ç */
 	@Override
-	public List<ProductOptVO> selectProductOption(String product_id) throws DataAccessException{
-		List<ProductOptVO> productOptList=(ArrayList)sqlSession.selectList("mapper.product.selectProductOption",product_id);
+	public List<ProductOptVO> selectProductOptionList(String product_id) throws DataAccessException{
+		List<ProductOptVO> productOptList=(ArrayList)sqlSession.selectList("mapper.product.selectProductOptionList",product_id);
 		return productOptList;
 	}
 
@@ -98,8 +88,8 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 	
 	
-	public ProductOptVO selectCartOption(String product_id) throws DataAccessException{
-		ProductOptVO productOptVO=sqlSession.selectOne("mapper.product.selectCartOption",product_id);
+	public ProductOptVO selectProductOption(String product_id) throws DataAccessException{
+		ProductOptVO productOptVO=sqlSession.selectOne("mapper.product.selectProductOption",product_id);
 		
 		return productOptVO;
 	}
@@ -126,42 +116,4 @@ public class ProductDAOImpl implements ProductDAO {
 		return list;
 	}
 	
-	/*
-	@Override
-	public ArrayList searchProductByCondition(String searchOption, String searchWord, String minPrice, String maxPrice) throws DataAccessException{
-		Map searchMap = new HashMap();
-		searchMap.put("searchOption", searchOption);
-		searchMap.put("searchWord", searchWord);
-		searchMap.put("minPrice", minPrice);
-		searchMap.put("maxPrice", maxPrice);
-		
-		ArrayList list = new ArrayList();		
-		list=(ArrayList)sqlSession.selectList("mapper.product.selectProductByCondition",searchMap);				
-		/*		
-		if (searchOption.equals("product_name")) {
-				list=(ArrayList)sqlSession.selectList("mapper.product.selectProductByProductName",searchMap);				
-				
-		} else if (searchOption.equals("center_name")) {
-				list=(ArrayList)sqlSession.selectList("mapper.product.selectProductByCenterName",searchMap);
-		}
-		return list;
-	}
-	
-	 */
-		
-	/*
-	@Override
-	public List<ProductVO> selectProductList(String productStatus ) throws DataAccessException {
-		List<ProductVO> productList=(ArrayList)sqlSession.selectList("mapper.product.selectProductList",productStatus);
-		return productList;	
-		
-	}
-	@Override
-	public List<String> selectKeywordSearch(String keyword) throws DataAccessException {
-	   List<String> list=(ArrayList)sqlSession.selectList("mapper.product.selectKeywordSearch",keyword);
-	   return list;
-	}
-	
-	
-	*/
 }

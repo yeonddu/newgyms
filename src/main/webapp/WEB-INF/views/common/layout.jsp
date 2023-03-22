@@ -23,6 +23,7 @@
 <script src="${contextPath}/resources/jquery/carousel.js" type="text/javascript"></script>
 <script src="${contextPath}/resources/jquery/jquery.easing.1.3.js" type="text/javascript"></script>
 <script src="${contextPath}/resources/jquery/stickysidebar.jquery.js" type="text/javascript"></script>
+<script src="${contextPath}/resources/jquery/product.js" type="text/javascript"></script>
 
 
 <script>

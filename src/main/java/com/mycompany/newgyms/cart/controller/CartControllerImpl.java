@@ -73,8 +73,6 @@ public class CartControllerImpl extends BaseController implements CartController
 		
 		return mav;
 	}
-	
-	
 
 	@RequestMapping(value="/addProductInCart.do" ,method = RequestMethod.POST,produces = "application/text; charset=utf8")
 	public @ResponseBody String addProductInCart(@RequestParam("product_id") int product_id,@RequestParam("cart_option_name") String cart_option_name,
@@ -94,33 +92,22 @@ public class CartControllerImpl extends BaseController implements CartController
 		
 		boolean isAreadyExisted=cartService.findCartProduct(cartVO);
 		System.out.println("isAreadyExisted:"+isAreadyExisted);
-		
-		/*
-		  if("cart_option_price" == "") { 
-			  return "option_isnull"; 
-		  }
-		  else 
-		 * */
-			  if(isAreadyExisted==true){
+
+		if(isAreadyExisted==true){
 			return "already_existed";
 		}else{
-			
 			cartService.addProductInCart(cartVO);
 			return "add_success";
 		}
 	}
 	
 	/*장바구니에서 옵션 가져오기*/
-	@RequestMapping(value="/selectCartOption.do" ,method = RequestMethod.GET)
-	public ModelAndView selectCartOption(@RequestParam("product_id") String product_id,
+	@RequestMapping(value="/selectProductOption.do" ,method = RequestMethod.GET)
+	
+	public @ResponseBody List<ProductOptVO> selectProductOption(@RequestParam("product_id") String product_id,
 	            HttpServletRequest request, HttpServletResponse response)  throws Exception{
-	ModelAndView mav=new ModelAndView();
-	
-	System.out.println("옵션값 가져오기");
-	
-	ProductOptVO productOptVO = productService.selectModifyCart(product_id);
-	mav.addObject("productOptVO", productOptVO);
-	return mav;
+	List<ProductOptVO> productOptList = productService.productOptionList(product_id);
+	return productOptList;
 	}
 	
 	

@@ -38,18 +38,19 @@ public class ProductServiceImpl implements ProductService {
 		return productMap;
 	}
 	
-	public ProductOptVO selectModifyCart(String _product_id) throws Exception {
-		ProductOptVO productOptVO = productDAO.selectCartOption(_product_id);
+	public ProductOptVO selectProductOption(String _product_id) throws Exception {
+		ProductOptVO productOptVO = productDAO.selectProductOption(_product_id);
 		return productOptVO; 
 	}
-	public List<ProductOptVO> productOption(String _product_id) throws Exception {
-		List<ProductOptVO> productOptList = productDAO.selectProductOption(_product_id);
+	
+	/* 옵션 */
+	public List<ProductOptVO> productOptionList(String _product_id) throws Exception {
+		List<ProductOptVO> productOptList = productDAO.selectProductOptionList(_product_id);
 		return productOptList; 
 	}
-	/* 옵션 */
 	
+	/* 이미지 */
 	public Map productImage(String _product_id) throws Exception {
-		/* 이미지 */
 		Map imageMap =productDAO.selectProductImage(_product_id);
 		return imageMap;
 	}
@@ -73,18 +74,5 @@ public class ProductServiceImpl implements ProductService {
 		List productList=productDAO.searchProductByCondition(searchMap);
 		return productList;
 	}
-	/*
-	public List<ProductVO> searchProductByCondition(String searchOption, String searchWord, String minPrice, String maxPrice) throws Exception{
-		List productList=productDAO.searchProductByCondition(searchOption, searchWord, minPrice, maxPrice);
-		return productList;
-	}
-	*/
-	/*
-
-	public List<String> keywordSearch(String keyword) throws Exception {
-		List<String> list=productDAO.selectKeywordSearch(keyword);
-		return list;
-	}
 	
-	*/
 }

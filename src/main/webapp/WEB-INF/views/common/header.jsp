@@ -12,67 +12,7 @@
 
 </style>
 
-<script type="text/javascript">
-   var loopSearch=true;
-   function keywordSearch(){
-      if(loopSearch==false)
-         return;
-    var value=document.frmSearch.searchWord.value;
-      $.ajax({
-         type : "get",
-         async : true, //false인 경우 동기식으로 처리한다.
-         url : "${contextPath}/goods/keywordSearch.do",
-         data : {keyword:value},
-         success : function(data, textStatus) {
-             var jsonInfo = JSON.parse(data);
-            displayResult(jsonInfo);
-         },
-         /* error : function(data, textStatus) {
-            alert("에러가 발생했습니다."+data); */
-         },
-         complete : function(data, textStatus) {
-            //alert("작업을완료 했습니다");
-            
-         }
-      }); //end ajax   
-   }
-   
-   function displayResult(jsonInfo){
-      var count = jsonInfo.keyword.length;
-      if(count > 0) {
-          var html = '';
-          for(var i in jsonInfo.keyword){
-            html += "<a href=\"javascript:select('"+jsonInfo.keyword[i]+"')\">"+jsonInfo.keyword[i]+"</a><br/>";
-          }
-          var listView = document.getElementById("suggestList");
-          listView.innerHTML = html;
-          show('suggest');
-      }else{
-          hide('suggest');
-      } 
-   }
-   
-   function select(selectedKeyword) {
-       document.frmSearch.searchWord.value=selectedKeyword;
-       loopSearch = false;
-       hide('suggest');
-   }
-      
-   function show(elementId) {
-       var element = document.getElementById(elementId);
-       if(element) {
-        element.style.display = 'block';
-       }
-      }
-   
-   function hide(elementId){
-      var element = document.getElementById(elementId);
-      if(element){
-        element.style.display = 'none';
-      }
-   }
 
-</script>
 <body>
 <div class="con-min-width" >
    <div class="con">
@@ -104,7 +44,7 @@
                     <div class="flex-grow"></div>
                     
                     <div class="search" >
-                     <form name="frmSearch" action="${contextPath}/product/searchProduct.do" >
+                      <form name="frmSearch" action="${contextPath}/product/searchProduct.do" >
                         <input class="search_input" name="searchWord"  type="text"  onKeyUp="keywordSearch()" placeholder="검색어를 입력하세요"> 
                         <input class="search_img" type="image" src="${contextPath}/resources/image/search.png" alt="search" style="width:20px; height:20px;" name="search">
                      </form>

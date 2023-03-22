@@ -9,7 +9,84 @@
 %> 
 <link href="${contextPath}/resources/css/main.css?after" rel="stylesheet" type="text/css"/>
 
-     <!-- 슬라이드 -->
+<!-- 타임세일타이머  -->
+<script>
+function remaindTime() {
+     var now = new Date();
+     var end = new Date(
+       now.getFullYear(),
+       now.getMonth(),
+       now.getDate(),
+       21,
+       00,
+       00
+     );
+     var open = new Date(
+       now.getFullYear(),
+       now.getMonth(),
+       now.getDate(),
+       09,
+       00,
+       00
+     );
+
+     var nt = now.getTime();
+     var ot = open.getTime();
+     var et = end.getTime();
+
+     if (nt < ot) {
+       $(".time").fadeIn();
+       $("p.time-title").html("금일 오픈까지 남은 시간");
+       sec = parseInt(ot - nt) / 1000;
+       day = parseInt(sec / 60 / 60 / 24);
+       sec = sec - day * 60 * 60 * 24;
+       hour = parseInt(sec / 60 / 60);
+       sec = sec - hour * 60 * 60;
+       min = parseInt(sec / 60);
+       sec = parseInt(sec - min * 60);
+       if (hour < 10) {
+         hour = "0" + hour;
+       }
+       if (min < 10) {
+         min = "0" + min;
+       }
+       if (sec < 10) {
+         sec = "0" + sec;
+       }
+       $(".hours").html(hour);
+       $(".minutes").html(min);
+       $(".seconds").html(sec);
+     } else if (nt > et) {
+       $("p.time-title").html("금일 마감");
+       $(".time").fadeOut();
+     } else {
+       $(".time").fadeIn();
+       $("p.time-title").html("금일 마감까지 남은 시간");
+       sec = parseInt(et - nt) / 1000;
+       day = parseInt(sec / 60 / 60 / 24);
+       sec = sec - day * 60 * 60 * 24;
+       hour = parseInt(sec / 60 / 60);
+       sec = sec - hour * 60 * 60;
+       min = parseInt(sec / 60);
+       sec = parseInt(sec - min * 60);
+       if (hour < 10) {
+         hour = "0" + hour;
+       }
+       if (min < 10) {
+         min = "0" + min;
+       }
+       if (sec < 10) {
+         sec = "0" + sec;
+       }
+       $(".hours").html(hour);
+       $(".minutes").html(min);
+       $(".seconds").html(sec);
+     }
+   }
+   setInterval(remaindTime, 1000);
+</script>
+
+     <!-- 1. 슬라이드 -->
       <div id="ad_main_banner" style="margin-top:7px;">
         <ul class="bjqs">       
            <li><img width="1920" height="700" src="${contextPath}/resources/image/main_slide1.png"></li>
@@ -20,104 +97,106 @@
      </div> 
  <div class="con-min-width" >
    <div class="con"> 
-      <!-- 1. 이런분들께 추천합니다 -->
-      <div>
-      	<div class="section-1">
+      <!-- 이런분들에게 추천합니다(일단위치보류) -->
+      <%-- <div style="text-align:center; margin-top:70px;">
+         <div class="section-1">
             <img src="${contextPath}/resources/image/recommand.png" alt="이런분들에게 추천합니다!" style="width:600px; height:548px;">
         </div>
+      </div> --%>
+        
+      <!-- 2. 타임세일타이머 -->
+      <div class="saleTimer">
+      <hr style="margin-top:2px;">
+         <p class="timer-title">3/21 오늘의 할인가!</p>
+         <div class="timer-text">마감임박!</div>
+         <!-- <p class="runTimeCon font25">PM 09:00 ~ PM 09:00</p> 
+              <p class="font15 time-title">금일 마감까지 남은 시간</p> -->
+         <div class="time">
+            <span class="hours"></span>
+            <span class="col">:</span> 
+            <span class="minutes"></span>
+            <span class="col">:</span> 
+            <span class="seconds"></span>
+         </div>
+         <hr style="margin-bottom:1px;">
       </div>
-        
-      <!-- 2. 인기이용권 -->
+
+     <!-- 3. 인기이용권 -->
+  <div class="productList">     
       <h2>인기 이용권</h2>
-	   <c:set  var="product_count" value="0" />   
-		<div class="container">
-					<c:choose>
-					   <c:when test="${ empty productList  }" >
-							<div style="font-size:16px;">등록된 상품이 없습니다.</div>
-					   </c:when>
-				   <c:otherwise>
-					<c:forEach var="item" items="${productList }"> 
-					   <c:set  var="product_total_count" value="${product_count+1 }" />
-				        <div class="item">
-				          <div class="product_image">
-				            <a href="${contextPath}/product/productDetail.do?product_id=${item.product_id}">
-							   <img alt="" src="${contextPath}/download.do?product_id=${item.product_id}&fileName=${item.product_main_image}">
-							</a>
-							<div class="wish" >
-							</div>
-								<a id="wish" href=""><img src="${contextPath}/resources/image/heart.png" alt="찜하기"></a>
-				   		</div>
-						<div class="product_description">
-				  		    <h2><a href="${contextPath}/product/productDetail.do?product_id=${item.product_id}">${item.product_name }</a></h2>
-					<!-- 사업장관리 페이지로 이동 -->
-				            <h3><a href="">${item.center_name }</a></h3>
-						</div>
-						<div class="product_price">
-				            <div class="discount_rate"><fmt:formatNumber  value="${item.product_sales_price/item.product_price}" type="percent" var="discount_rate" />${discount_rate }</div>
-				            <div class="sales_price"><fmt:formatNumber  value="${item.product_sales_price}" type="number"/>원</div>
-				            <div class="price"><fmt:formatNumber  value="${item.product_price}" type="number"/>원</div>					
-						</div>
-					   </div>
-					</c:forEach>
-				</c:otherwise>
-				</c:choose>
-			 </div>
-        
-        <!-- 3. 이용후기 -->
+      <c:set  var="product_count" value="0" />   
+      <div class="container">
+               <c:choose>
+                  <c:when test="${ empty productList  }" >
+                     <div style="font-size:16px;">등록된 상품이 없습니다.</div>
+                  </c:when>
+               <c:otherwise>
+               <c:forEach var="item" items="${productList }"> 
+                  <c:set  var="product_total_count" value="${product_count+1 }" />
+                    <div class="item">
+                      <div class="product_image">
+                        <a href="${contextPath}/product/productDetail.do?product_id=${item.product_id}">
+                        <img alt="" src="${contextPath}/download.do?product_id=${item.product_id}&fileName=${item.product_main_image}">
+                     </a>
+                     <div class="wish" >
+                     </div>
+                        <a id="wish" href=""><img src="${contextPath}/resources/image/heart.png" alt="찜하기"></a>
+                     </div>
+                  <div class="product_description">
+                        <h2><a href="${contextPath}/product/productDetail.do?product_id=${item.product_id}">${item.product_name }</a></h2>
+               <!-- 사업장관리 페이지로 이동 -->
+                        <h3><a href="">${item.center_name }</a></h3>
+                  </div>
+                  <div class="product_price">
+                        <div class="discount_rate"><fmt:formatNumber  value="${item.product_sales_price/item.product_price}" type="percent" var="discount_rate" />${discount_rate }</div>
+                        <div class="sales_price"><fmt:formatNumber  value="${item.product_sales_price}" type="number"/>원</div>
+                        <div class="price"><fmt:formatNumber  value="${item.product_price}" type="number"/>원</div>               
+                  </div>
+                  </div>
+               </c:forEach>
+            </c:otherwise>
+            </c:choose>
+          </div>
+</div>       
+        <!-- 4. 이용후기 -->
         <div class="tab_content" id="tab2">
         <h2 class="review_title">이용후기</h2>
         <table class="review_list">
           <tbody>
             <c:choose>
-			   <c:when test="${ empty reviewList  }" >
-				   <tr>
-					<td>등록된 이용후기가 없습니다.</td>
-			 		</tr>
-			   </c:when>
-			   	<c:otherwise>
-			        <c:forEach var="review" items="${reviewList }"> 
-			          <tr class="review_item">
-			            <td>
-			              <img alt="이용후기 이미지" src="${contextPath}/reviewImage.do?review_no=${review.review_no}&fileName=${review.review_image}">
-			            </td>
-			            <td>
-			              <div class="review_title">${review.review_title}</div>
-			              <div class="review_option">[옵션] ${review.product_option}</div>    
-			              <div class="review_content">${review.review_contents}</div>
-			            </td>
-			            <td class="review_writer">                          
-			              <div>${review.member_id}</div>
-			            </td>
-			            <td class="review_writeDate">
-			              <div>${review.review_write_date}</div>
-			            </td>
-			          </tr>
-				 </c:forEach>
-				</c:otherwise>
-			</c:choose>
-	        </tbody>
-	      </table>
-	      </div> 
-	      </div>
-	      </div>
+            <c:when test="${ empty reviewList  }" >
+               <tr>
+               <td>등록된 이용후기가 없습니다.</td>
+                </tr>
+            </c:when>
+               <c:otherwise>
+                 <c:forEach var="review" items="${reviewList }"> 
+                   <tr class="review_item">
+                     <td>
+                       <img alt="이용후기 이미지" src="${contextPath}/reviewImage.do?review_no=${review.review_no}&fileName=${review.review_image}">
+                     </td>
+                     <td>
+                       <div class="review_title">${review.review_title}</div>
+                       <div class="review_option">[옵션] ${review.product_option}</div>    
+                       <div class="review_content">${review.review_contents}</div>
+                     </td>
+                     <td class="review_writer">                          
+                       <div>${review.member_id}</div>
+                     </td>
+                     <td class="review_writeDate">
+                       <div>${review.review_write_date}</div>
+                     </td>
+                   </tr>
+             </c:forEach>
+            </c:otherwise>
+         </c:choose>
+           </tbody>
+         </table>
+         </div> 
+         </div>
+         </div>
       
       <div class="line-1" style="width:1920px; height: 2px; background-color:#f4f2f2;"></div>
-          
-   <%--      <div class="line-2" style="width:1200px; height: 2px; background-color:#f4f2f2;"></div>
-        <div class="section-3">
-           <div class="section-3_title">이용후기</div>
-           <div class="section-3_review">
-              <ul style="display:flex;">
-                 <li><a href="#"><img style="width:220px; height:220px;" src="${contextPath}/resources/image/review-1.jpg" alt=""></a></li>
-                 <li><a href="#"><img style="width:220px; height:220px;" src="${contextPath}/resources/image/review-2.jpg" alt=""></a></li>
-                 <li><a href="#"><img style="width:220px; height:220px;" src="${contextPath}/resources/image/review-3.jpg" alt=""></a></li>
-                 <li><a href="#"><img style="width:220px; height:220px;" src="${contextPath}/resources/image/review-4.jpg" alt=""></a></li>
-                 <li><a href="#"><img style="width:220px; height:220px;" src="${contextPath}/resources/image/review-5.jpg" alt=""></a></li>
-              </ul>
-           </div>
-        </div>
-        <div class="line-3" style="width:1200px; height: 2px; background-color:#f4f2f2;"></div> --%>
-
 
    
    
