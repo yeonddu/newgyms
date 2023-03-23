@@ -17,62 +17,61 @@ import com.mycompany.newgyms.product.vo.ProductVO;
 import com.mycompany.newgyms.review.vo.ReviewVO;
 
 @Service("productService")
-@Transactional(propagation=Propagation.REQUIRED)
+@Transactional(propagation = Propagation.REQUIRED)
 public class ProductServiceImpl implements ProductService {
 
 	private static final String String = null;
 	@Autowired
 	private ProductDAO productDAO;
-	
 
-	public List<ProductVO> productList(Map listMap) throws Exception{
-		List productList=productDAO.selectProductList(listMap);
+	public List<ProductVO> productList(Map listMap) throws Exception {
+		List productList = productDAO.selectProductList(listMap);
 		return productList;
 	}
-	
 
 	public Map productDetail(String _product_id) throws Exception {
-		Map productMap=new HashMap();
 		ProductVO productVO = productDAO.selectProductDetail(_product_id);
+		Map productMap = new HashMap();
 		productMap.put("productVO", productVO);
 		return productMap;
 	}
-	
+
 	public ProductOptVO selectProductOption(String _product_id) throws Exception {
 		ProductOptVO productOptVO = productDAO.selectProductOption(_product_id);
-		return productOptVO; 
+		return productOptVO;
 	}
-	
+
 	/* 옵션 */
 	public List<ProductOptVO> productOptionList(String _product_id) throws Exception {
 		List<ProductOptVO> productOptList = productDAO.selectProductOptionList(_product_id);
-		return productOptList; 
+		return productOptList;
 	}
-	
+
 	/* 이미지 */
 	public Map productImage(String _product_id) throws Exception {
-		Map imageMap =productDAO.selectProductImage(_product_id);
+		Map imageMap = productDAO.selectProductImage(_product_id);
 		return imageMap;
 	}
 
-	/*사업자 정보 가져오기*/
+	/* 사업자 정보 가져오기 */
 	public MemberVO ownerDetail(String member_id) throws Exception {
-	MemberVO memberVO = productDAO.selectOwnerDetail(member_id);
-	return memberVO;
+		MemberVO memberVO = productDAO.selectOwnerDetail(member_id);
+		return memberVO;
 	}
 
-	public List<ProductVO> productSorting(Map sortMap) throws Exception{
-		List productList= productDAO.selectSortedProduct(sortMap);
+	public List<ProductVO> productSorting(Map sortMap) throws Exception {
+		List productList = productDAO.selectSortedProduct(sortMap);
 		return productList;
 	}
-	public List<ProductVO> searchProduct(String searchWord) throws Exception{
-		List productList=productDAO.selectProductBySearchWord(searchWord);
+
+	public List<ProductVO> searchProduct(String searchWord) throws Exception {
+		List productList = productDAO.selectProductBySearchWord(searchWord);
 		return productList;
 	}
-	
-	public List<ProductVO> searchProductByCondition(Map searchMap) throws Exception{
-		List productList=productDAO.searchProductByCondition(searchMap);
+
+	public List<ProductVO> searchProductByCondition(Map searchMap) throws Exception {
+		List productList = productDAO.searchProductByCondition(searchMap);
 		return productList;
 	}
-	
+
 }

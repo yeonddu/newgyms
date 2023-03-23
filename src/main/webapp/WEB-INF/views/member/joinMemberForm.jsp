@@ -31,7 +31,7 @@ $(document).ready(function(){
 function changeFn(){
 	if($("#check_1").prop("checked")){
 	   $("#check_1").prop("checked",true);
-	   $("#check_total").prop("checked",false);
+	   $("#check_all").prop("checked",false);
 	}
 	if($("#check_2").prop("checked")){
 	   $("#check_2").prop("checked",true);
@@ -214,6 +214,23 @@ function execDaumPostcode() {
 	  }).open();
 	}
 
+
+$(function(){   
+   $(document).ready(function(){
+      $("select[name=email_op]").on("change", function(){
+          var $addr = $('input[name=email2]');
+          if ($(this).val() == "etc") {
+             $addr.val('');
+             $addr.prop("readonly",false);
+      
+          } else {
+             $addr.val($(this).val());
+             $addr.prop("readonly",true);
+          }
+      });
+   });
+});
+
 </script>
 </head>
 <body>
@@ -241,7 +258,7 @@ function execDaumPostcode() {
 			</td>
 			<td>
 				<input name="member_id" id="member_id" class="join_inputbox" type="text" size="25" maxlength="20" 
-				pattern="[a-z0-9]{6,20}" required title="아이디는 영문자(소문자)와 숫자로 이루어진 6~20 자리를 입력해주세요." onkeyup="idRegexp()" placeholder="영문, 숫자 혼합 5자리 이상" >
+				pattern="[a-z0-9]{5,20}" required title="아이디는 영문자(소문자)와 숫자로 이루어진 5~20 자리를 입력해주세요." onkeyup="idRegexp()" placeholder="영문, 숫자 혼합 5자리 이상" >
 			</td>
 			<td>
 				<input type="button" class="btn" id="btnOverlappedId" value="중복확인" onClick="fn_overlappedId()" />
@@ -340,19 +357,19 @@ function execDaumPostcode() {
 			<td>	
 				<p class="inline" class="join_textbox">이메일 <span id="red_color">*</span></p>
 			</td>
-			<td>
+			<td colspan="2"	>
 				<input name="email1" class="join_inputbox" type="text" size="9" pattern="[a-z0-9]{3,20}" required title="이메일 주소를 입력해주세요."> @
-				<select name="email2" class="join_inputbox" required>
-					<option selected> </option>
-					<option>naver.com</option>
-					<option>gmail.com</option>
-					<option>kakao.com</option>
-					<option>hanmail.net</option>
-					<option>nate.com</option>
+				<input name="email2" class="join_inputbox" type="text" size="12" > &nbsp;
+				<select name="email_op" class="join_inputbox" required>
+					<option value="etc">직접입력</option>
+					<option value="naver.com">naver.com</option>
+					<option value="daum.net">daum.net</option>
+					<option value="gmail.com">gmail.com</option>
+					<option value="nate.com">nate.com</option>
+					<option value="kakao.com">kakao.com</option>
+					<option value="hanmail.net">hanmail.net</option>
+					<option value="nate.com">nate.com</option>
 				</select>
-			</td>
-			<td>
-				<input type="checkbox" name="emailsts_yn" value="Y" checked /><span id="join_subtext"> 이메일 수신 동의</span>
 			</td>
 		</tr>
 		
@@ -364,6 +381,9 @@ function execDaumPostcode() {
 			<td>
 				<input type="radio" name="member_gender" value="M" checked /> 남자
 				<input type="radio" name="member_gender" value="W" /> 여자
+			</td>
+			<td>
+				<input type="checkbox" name="emailsts_yn" value="Y" checked /><span id="join_subtext"> 이메일 수신 동의</span>
 			</td>
 		</tr>
 		

@@ -28,7 +28,7 @@
 
 	<div id="contain" align=center>
 	<p id="join_title" align="center">회원가입</p>
-	<form action="${contextPath}/member/joinCheck.do" method="post" onsubmit="return join_valid();" >	
+	<form action="${contextPath}/member/joinCheck.do" method="post" >	
 	<table id="join_table">	
 		<!-- 회원구분 -->
 		<tr>

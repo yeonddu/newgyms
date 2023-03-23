@@ -52,7 +52,7 @@ public class KakaoServiceImpl implements KakaoService {
              bw.flush();
              
              //  RETURN 값 result 변수에 저장
-             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
              String br_line = "";
              String result = "";
  
@@ -94,7 +94,7 @@ public class KakaoServiceImpl implements KakaoService {
              int responseCode = conn.getResponseCode();
              System.out.println("responseCode : " + responseCode);
  
-             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
  
              String br_line = "";
              String result = "";
@@ -137,7 +137,7 @@ public class KakaoServiceImpl implements KakaoService {
             if(responseCode == 400)
                 throw new RuntimeException("카카오 로그아웃 도중 오류 발생");
             
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
             
             String br_line = "";
             String result = "";

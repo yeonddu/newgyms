@@ -152,7 +152,7 @@
 	</select>	
 
 	
-   <select id="selectProductByPrice" resultMap="productResult"   parameterType="String"  >
+   <select id="selectProductByAll" resultMap="productResult"   parameterType="String"  >
      <![CDATA[
 		select DISTINCT t_product.*, t_member.center_name from t_product, t_member
 		where (t_product.product_name like concat('%',#{searchWord},'%') or t_member.center_name like concat('%',#{searchWord},'%')) 

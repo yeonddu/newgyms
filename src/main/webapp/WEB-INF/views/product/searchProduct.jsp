@@ -56,19 +56,23 @@
 				   <c:set  var="product_total_count" value="${product_count+1 }" />
 				   
 			        <div class="item">
+			        <!-- 상품이미지 -->
 			          <div class="product_image">
 			            <a href="${contextPath}/product/productDetail.do?product_id=${item.product_id}">
 						   <img alt="" src="${contextPath}/download.do?product_id=${item.product_id}&fileName=${item.product_main_image}">
 						</a>
+						<!-- 찜하기 -->
 						<div class="wish" ></div>
 							<a id="wish" href="${contextPath }/wish/addWishList.do?product_id=${item.product_id}"><img src="${contextPath}/resources/image/heart.png" alt="찜하기"></a>
 			   		</div>
 			   		
 					<div class="product_description">
+						<!-- 상품명 -->
 			  		    <h2><a href="${contextPath}/product/productDetail.do?product_id=${item.product_id}">${item.product_name }</a></h2>
-			            <h3><a href="">${item.center_name }</a></h3><!-- 사업장관리 페이지로 이동 -->
+			            <h3><a href="">${item.center_name }</a></h3><!-- 사업장관리 페이지로 이동 추가예정-->
 					</div>
 					
+					<!-- 상품가격 -->
 					<div class="product_price">
 			            <div class="discount_rate"><fmt:formatNumber  value="${item.product_sales_price/item.product_price}" type="percent" var="discount_rate" />${discount_rate }</div>
 			            <div class="sales_price"><fmt:formatNumber  value="${item.product_sales_price}" type="number"/>원</div>

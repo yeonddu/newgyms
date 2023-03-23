@@ -40,32 +40,35 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	@Autowired
 	private KakaoService kakaoService;
 
-	   @Override
-	   @RequestMapping(value = "/login.do", method = RequestMethod.POST)
-	   public ModelAndView login(@RequestParam Map<String, String> loginMap, HttpServletRequest request,
-	         HttpServletResponse response) throws Exception {
-	      ModelAndView mav = new ModelAndView();
-	      memberVO = memberService.login(loginMap);
-	      if (memberVO != null && memberVO.getMember_id() != null) {
-	         HttpSession session = request.getSession();
-	         session = request.getSession();
-	         session.setAttribute("isLogOn", true);
-	         session.setAttribute("memberInfo", memberVO);
+	@Override
+	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
+	public ModelAndView login(@RequestParam Map<String, String> loginMap, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		ModelAndView mav = new ModelAndView();
+		memberVO = memberService.login(loginMap);
+		if (memberVO != null && memberVO.getMember_id() != null) {
+			HttpSession session = request.getSession();
+			session = request.getSession();
+			session.setAttribute("isLogOn", true);
+			session.setAttribute("memberInfo", memberVO);
 
-	         String action = (String) session.getAttribute("action");
-	         if (action != null && action.equals("/order/orderEachGoods.do")) {
-	            mav.setViewName("forward:" + action);
-	         } else {
-	            mav.setViewName("redirect:/main/main.do");
-	         }
+			String action = (String) session.getAttribute("action");
+			if (action != null && action.equals("/order/orderEachGoods.do")) {
+				mav.setViewName("forward:" + action);
+			} else {
+				mav.setViewName("redirect:/main/main.do");
+			}
 
-	      } else {
-	         String message = "아이디나 비밀번호가 올바르지 않습니다.";
-	         mav.addObject("message", message);
-	         mav.setViewName("/member/loginForm");
-	      }
-	      return mav;
-	   }
+		} else {
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('로그인에 실패했습니다.');</script>");
+			out.flush();
+			mav.setViewName("/member/loginForm");
+		}
+		return mav;
+	}
 
 	@Override
 	@RequestMapping(value = "/logout.do", method = RequestMethod.GET)
@@ -86,6 +89,7 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		request.setCharacterEncoding("utf-8");
 		ModelAndView mav = new ModelAndView();
 		memberVO = memberService.joinCheck(joinCheckMap);
+		
 		String member_name = request.getParameter("member_name");
 		String member_rrn1 = request.getParameter("member_rrn1");
 		String member_rrn2 = request.getParameter("member_rrn2");
@@ -126,7 +130,8 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		ResponseEntity resEntity = null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
-		
+
+		//주민등록번호 앞 6자리를 생년월일로 저장
 		String member_rrn1 = request.getParameter("member_rrn1");
 		String member_birth_y = member_rrn1.substring(0, 2);
 		String member_birth_m = member_rrn1.substring(2, 4);
@@ -134,7 +139,7 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		_memberVO.setMember_birth_y(member_birth_y);
 		_memberVO.setMember_birth_m(member_birth_m);
 		_memberVO.setMember_birth_d(member_birth_d);
-		
+
 		try {
 			memberService.joinMember(_memberVO);
 			message = "<script>";
@@ -162,7 +167,7 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		ResponseEntity resEntity = null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
-		
+
 		String member_rrn1 = request.getParameter("member_rrn1");
 		String member_birth_y = member_rrn1.substring(0, 2);
 		String member_birth_m = member_rrn1.substring(2, 4);
@@ -170,7 +175,7 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		_memberVO.setMember_birth_y(member_birth_y);
 		_memberVO.setMember_birth_m(member_birth_m);
 		_memberVO.setMember_birth_d(member_birth_d);
-		
+
 		try {
 			memberService.joinOwner(_memberVO);
 			message = "<script>";
@@ -210,256 +215,260 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	}
 
 	@RequestMapping(value = "/kakaoLogin.do")
-    public String kakaoLogin() {
-        StringBuffer loginUrl = new StringBuffer();
-        loginUrl.append("https://kauth.kakao.com/oauth/authorize?client_id=");
-        loginUrl.append("46b3bd1331c738d34ac33651f62775f7"); 
-        loginUrl.append("&redirect_uri=");
-        loginUrl.append("http://localhost:8080/newgyms/member/kakaoJoin.do"); 
-        loginUrl.append("&response_type=code");
-        
-        return "redirect:"+loginUrl.toString();
-    }
+	public String kakaoLogin() {
+		StringBuffer loginUrl = new StringBuffer();
+		loginUrl.append("https://kauth.kakao.com/oauth/authorize?client_id=");
+		loginUrl.append("46b3bd1331c738d34ac33651f62775f7");
+		loginUrl.append("&redirect_uri=");
+		loginUrl.append("http://localhost:8080/newgyms/member/kakaoJoin.do");
+		loginUrl.append("&response_type=code");
+
+		return "redirect:" + loginUrl.toString();
+	}
 
 	@RequestMapping(value = "/kakaoJoin.do", method = RequestMethod.GET)
-    public String redirectKakao(@RequestParam String code, HttpSession session) throws Exception {
-            System.out.println(code);
-            
-            //접속토큰 get
-            String kakaoToken = kakaoService.getReturnAccessToken(code);
-            System.out.println("kakaoToken : " + kakaoToken);
-            
-            //접속자 정보 get
-            Map<String, Object> result = kakaoService.getUserInfo(kakaoToken);
-            System.out.println("result: " + result);
-            String member_id = (String) result.get("id");
-            String member_name = (String) result.get("nickname");
-            String email = (String) result.get("email");
-            String member_pw = member_id;
-            
-            System.out.printf("member_id : " + member_id);
-            System.out.printf("member_name : " + member_name);
-            System.out.printf("email : " + email);
-            System.out.printf("member_pw" + member_pw);
-            
-            // 분기
-            MemberVO memberVO = new MemberVO();
-            
-            // 아이디 중복 확인, 없을 시 회원가입 진행
-            if (memberService.overlappedId(member_id).equals("false")) {
-                System.out.println("카카오 계정으로 회원가입");
-                String email1 = email.substring(0, email.indexOf("@"));
-                String email2 = email.substring(email.indexOf("@")+1);
-                memberVO.setEmail1(email1);
-                memberVO.setEmail2(email2);
-                memberVO.setMember_id(member_id);
-                memberVO.setMember_pw(member_pw);
-                memberVO.setMember_name(member_name);
-                memberVO.setJoin_type("101");
-                memberService.kakaoJoin(memberVO);
-                return "redirect:/member/kakaoLogin.do";
-                
-            } else {
-                session.setAttribute("isLogOn", true);
-    			session.setAttribute("memberInfo", memberVO);
-            }
-            
-            session.setAttribute("kakaoToken", kakaoToken);
-   
-        return "redirect:/main/main.do";
-    }
-	
+	public String redirectKakao(@RequestParam String code, HttpSession session) throws Exception {
+		System.out.println(code);
+
+		// 접속토큰 get
+		String kakaoToken = kakaoService.getReturnAccessToken(code);
+		System.out.println("kakaoToken : " + kakaoToken);
+
+		// 접속자 정보 get
+		Map<String, Object> result = kakaoService.getUserInfo(kakaoToken);
+		System.out.println("result: " + result);
+		String member_id = (String) result.get("id");
+		String member_name = (String) result.get("nickname");
+		String email = (String) result.get("email");
+		String member_pw = member_id;
+
+		System.out.printf("member_id : " + member_id);
+		System.out.printf("member_name : " + member_name);
+		System.out.printf("email : " + email);
+		System.out.printf("member_pw" + member_pw);
+
+		// 분기
+		MemberVO memberVO = new MemberVO();
+
+		// 아이디 중복 확인, 없을 시 회원가입 진행
+		if (memberService.overlappedId(member_id).equals("false")) {
+			System.out.println("카카오 계정으로 회원가입");
+			String email1 = email.substring(0, email.indexOf("@"));
+			String email2 = email.substring(email.indexOf("@") + 1);
+			memberVO.setEmail1(email1);
+			memberVO.setEmail2(email2);
+			memberVO.setMember_id(member_id);
+			memberVO.setMember_pw(member_pw);
+			memberVO.setMember_name(member_name);
+			memberVO.setJoin_type("101");
+			memberService.kakaoJoin(memberVO);
+			return "redirect:/member/kakaoLogin.do";
+
+		} else {
+			session.setAttribute("isLogOn", true);
+			session.setAttribute("memberInfo", memberVO);
+		}
+
+		session.setAttribute("kakaoToken", kakaoToken);
+
+		return "redirect:/main/main.do";
+	}
+
 	// 핸드폰 아이디 조회
-	   @Override
-	   @RequestMapping(value = "/searchId.do", method = RequestMethod.POST)
-	   public ModelAndView searchId(@RequestParam Map<String, String> searchidMap, HttpServletRequest request,
-	      HttpServletResponse response) throws Exception {
-		  response.setContentType("text/html; charset=UTF-8");
-	      request.setCharacterEncoding("utf-8");
-	      ModelAndView mav = new ModelAndView();
-	      HttpSession session = request.getSession();
-	      memberVO = memberService.searchId(searchidMap);
-	      String ran = (String) searchidMap.get("ran");
-	      String ok = (String) searchidMap.get("ok");
-	      System.out.println(ran);
-	      System.out.println(ok);
-	      if (ran.equals(ok)) {
-	         if (memberVO != null) {
-	            String member_id = memberVO.getMember_id();
-	            String member_pw = memberVO.getMember_pw();
-	            session.setAttribute("member_id", member_id);
-	            session.setAttribute("member_pw", member_pw);
-	            mav.setViewName("forward:/member/foundIdForm.do");
-	         } else {
-	            mav.setViewName("forward:/member/searchId1.do");
-	         }         
-	      } else {
-	    	 PrintWriter out = response.getWriter();
-	         out.println("<script>alert('인증번호가 올바르지 않습니다.');</script>");
-	         out.flush();
-	         mav.setViewName("forward:/member/searchIdForm.do");
-	      }
-	      return mav;
-	   }
+	@Override
+	@RequestMapping(value = "/searchId.do", method = RequestMethod.POST)
+	public ModelAndView searchId(@RequestParam Map<String, String> searchidMap, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
+		memberVO = memberService.searchId(searchidMap);
+		String ran = (String) searchidMap.get("ran");
+		String ok = (String) searchidMap.get("ok");
+		System.out.println(ran);
+		System.out.println(ok);
+		if (ran.equals(ok)) {
+			if (memberVO != null) {
+				String member_id = memberVO.getMember_id();
+				String member_pw = memberVO.getMember_pw();
+				session.setAttribute("member_id", member_id);
+				session.setAttribute("member_pw", member_pw);
+				mav.setViewName("forward:/member/foundIdForm.do");
+			} else {
+				mav.setViewName("forward:/member/searchId1.do");
+			}
+		} else {
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('인증번호가 올바르지 않습니다.');</script>");
+			out.flush();
+			mav.setViewName("forward:/member/searchIdForm.do");
+		}
+		return mav;
+	}
 
-	   // 이메일 아이디 조회
-	   @Override
-	   @RequestMapping(value = "/searchId1.do", method = RequestMethod.POST)
-	   public ModelAndView searchId1(@RequestParam Map<String, String> searchidMap, HttpServletRequest request,
-	         HttpServletResponse response) throws Exception {
-	      ModelAndView mav = new ModelAndView();
-	      HttpSession session = request.getSession();
-	      memberVO = memberService.searchId1(searchidMap); 
-	      if (memberVO != null) {
-	         String member_id = memberVO.getMember_id();
-	         session.setAttribute("member_id", member_id);
-	         mav.setViewName("forward:/member/foundIdForm.do");
-	      } else {
-	         String message = "회원정보를 찾을 수 없습니다.";
-	         mav.addObject("member_id", message);
-	         mav.setViewName("redirect:/member/foundIdForm.do");
-	      }
-	      return mav;
-	   }
+	// 이메일 아이디 조회
+	@Override
+	@RequestMapping(value = "/searchId1.do", method = RequestMethod.POST)
+	public ModelAndView searchId1(@RequestParam Map<String, String> searchidMap, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
+		memberVO = memberService.searchId1(searchidMap);
+		if (memberVO != null) {
+			String member_id = memberVO.getMember_id();
+			session.setAttribute("member_id", member_id);
+			mav.setViewName("forward:/member/foundIdForm.do");
+		} else {
+			String message = "회원정보를 찾을 수 없습니다.";
+			mav.addObject("member_id", message);
+			mav.setViewName("redirect:/member/foundIdForm.do");
+		}
+		return mav;
+	}
 
-	   // 비밀번호 조희
-	      @Override
-	      @RequestMapping(value = "/searchPw.do", method = RequestMethod.POST)
-	      public ModelAndView searchPw(@RequestParam Map<String, String> searchpwMap, HttpServletRequest request,HttpServletResponse response) throws Exception {
-	    	  response.setContentType("text/html; charset=UTF-8");
-	    	  request.setCharacterEncoding("utf-8");
-	    	  ModelAndView mav = new ModelAndView();
-	    	  HttpSession session = request.getSession();
-	    	  memberVO = memberService.searchPw(searchpwMap);
-	    	  String ran_num = searchpwMap.get("ran");
-	    	  String ok1_num = searchpwMap.get("ok1");
-	    	  System.out.println(ran_num);
-	    	  System.out.println(ok1_num);
-	    	  
-	    	  if (ran_num.equals(ok1_num)) {
-	            if (memberVO != null) {
-	               String member_id = memberVO.getMember_id();
-	               session.setAttribute("member_id", member_id);
-	               mav.setViewName("forward:/member/foundPwForm.do");
-	            } else {
-	               mav.setViewName("forward:/member/searchPw.do");
-	            }
-	         } else {
-	        	 PrintWriter out = response.getWriter();
-		         out.println("<script>alert('인증번호가 올바르지 않습니다.');</script>");
-		         out.flush();
-	            mav.setViewName("forward:/member/searchPwForm.do");
-	         }
-	         return mav;
-	      }
+	// 비밀번호 조희
+	@Override
+	@RequestMapping(value = "/searchPw.do", method = RequestMethod.POST)
+	public ModelAndView searchPw(@RequestParam Map<String, String> searchpwMap, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
+		memberVO = memberService.searchPw(searchpwMap);
+		String ran_num = searchpwMap.get("ran");
+		String ok1_num = searchpwMap.get("ok1");
+		System.out.println(ran_num);
+		System.out.println(ok1_num);
 
-	      // 새로운 비밀번호
-	      @Override
-	      @RequestMapping(value = "/newPw.do", method = RequestMethod.POST)
-	      public ModelAndView newPw(@RequestParam Map<String, String> searchpwMap, HttpServletRequest request,HttpServletResponse response) throws Exception {
-	    	  response.setContentType("text/html; charset=UTF-8");
-	          request.setCharacterEncoding("utf-8");
-	          ModelAndView mav = new ModelAndView();
-	          String member_pw = (String)searchpwMap.get("member_pw");
-	          String member_pw_confirm = (String)searchpwMap.get("member_pw_confirm");
-	          if (member_pw.equals(member_pw_confirm)) {
-		          memberService.newPw(searchpwMap);
-		          PrintWriter out = response.getWriter();
-		          out.println("<script>alert('비밀번호 변경이 완료되었습니다.');</script>");
-		          out.flush();
-		          mav.setViewName("/member/loginForm");
-	          } else {
-	              PrintWriter out = response.getWriter();
-	              out.println("<script>alert('비밀번호가 다릅니다.');</script>");
-	              out.flush();
-	              mav.setViewName("forward:/member/foundPwForm.do");
-	          }
-	          return mav;
-	      }
-	      
-	      @Override
-	      @RequestMapping(value = "/sendEmailId.do", method = RequestMethod.POST)
-	      public ModelAndView sendEmailId(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	         ModelAndView mav = new ModelAndView();
-	         int ran = (int)(Math.random()*999999)+1;
-	         String member_name = (String)request.getParameter("member_name");
-	         String email1 = (String)request.getParameter("email1");
-	         String email2 = (String)request.getParameter("email2");
-	         String email = email1 + "@" + email2;
-	         String host = "smtp.naver.com";
-	         final String username="leehm0311";
-	         final String password="leehm010311";
-	         int port=587;
-	         String subject = "newGym's 아이디 인증번호입니다.";
-	         String body="인증번호는 "+ran+"입니다.";
-	         Properties props = System.getProperties();
-	         props.put("mail.smtp.host", host);
-	         props.put("mail.smtp.port", port);
-	         props.put("mail.smtp.auth", "true");
-	         props.put("mail.smpt.ssl.trust", host);
-	         Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-	            String un = username;
-	            String pw = password;
-	            protected PasswordAuthentication getPasswordAuthentication() {
-	               return new PasswordAuthentication(un,pw);
-	            }
-	         });
-	         session.setDebug(true);
-	         Message mimeMessage = new MimeMessage(session);
-	         mimeMessage.setFrom(new InternetAddress("leehm0311@naver.com"));
-	         mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
-	         mimeMessage.setSubject(subject);
-	         mimeMessage.setText(body);
-	         Transport.send(mimeMessage);
-	         
-	         mav.addObject("ran",ran);
-	         mav.addObject("member_name", member_name);
-	         mav.addObject("email1", email1);
-	         mav.setViewName("forward:/member/searchIdForm.do");
-	         return mav;
-	      }
-	      
-	      @Override
-	      @RequestMapping(value = "/sendEmailPw.do", method = RequestMethod.POST)
-	      public ModelAndView sendEmailPw(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	         ModelAndView mav = new ModelAndView();
-	         int ran = (int)(Math.random()*999999)+1;
-	         String member_id = (String)request.getParameter("member_id");
-	         String member_name = (String)request.getParameter("member_name");
-	         String email1 = (String)request.getParameter("email1");
-	         String email2 = (String)request.getParameter("email2");
-	         String email = email1 + "@" + email2;
-	         String host = "smtp.naver.com";
-	         final String username="leehm0311";
-	         final String password="leehm010311";
-	         int port=587;
-	         String subject = "newGym's 비밀번호 인증번호입니다.";
-	         String body="인증번호는 "+ran+"입니다.";
-	         Properties props = System.getProperties();
-	         props.put("mail.smtp.host", host);
-	         props.put("mail.smtp.port", port);
-	         props.put("mail.smtp.auth", "true");
-	         props.put("mail.smpt.ssl.trust", host);
-	         Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-	            String un = username;
-	            String pw = password;
-	            protected PasswordAuthentication getPasswordAuthentication() {
-	               return new PasswordAuthentication(un,pw);
-	            }
-	         });
-	         session.setDebug(true);
-	         Message mimeMessage = new MimeMessage(session);
-	         mimeMessage.setFrom(new InternetAddress("leehm0311@naver.com"));
-	         mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
-	         mimeMessage.setSubject(subject);
-	         mimeMessage.setText(body);
-	         Transport.send(mimeMessage);
-	         
-	         mav.addObject("ran", ran);
-	         mav.addObject("member_id", member_id);
-	         mav.addObject("member_name", member_name);
-	         mav.addObject("email1", email1);
-	         mav.setViewName("forward:/member/searchPwForm.do");
-	         return mav;
-	      }
+		if (ran_num.equals(ok1_num)) {
+			if (memberVO != null) {
+				String member_id = memberVO.getMember_id();
+				session.setAttribute("member_id", member_id);
+				mav.setViewName("forward:/member/foundPwForm.do");
+			} else {
+				mav.setViewName("forward:/member/searchPw.do");
+			}
+		} else {
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('인증번호가 올바르지 않습니다.');</script>");
+			out.flush();
+			mav.setViewName("forward:/member/searchPwForm.do");
+		}
+		return mav;
+	}
+
+	// 새로운 비밀번호
+	@Override
+	@RequestMapping(value = "/newPw.do", method = RequestMethod.POST)
+	public ModelAndView newPw(@RequestParam Map<String, String> searchpwMap, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		ModelAndView mav = new ModelAndView();
+		String member_pw = (String) searchpwMap.get("member_pw");
+		String member_pw_confirm = (String) searchpwMap.get("member_pw_confirm");
+		if (member_pw.equals(member_pw_confirm)) {
+			memberService.newPw(searchpwMap);
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('비밀번호 변경이 완료되었습니다.');</script>");
+			out.flush();
+			mav.setViewName("/member/loginForm");
+		} else {
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('비밀번호가 다릅니다.');</script>");
+			out.flush();
+			mav.setViewName("forward:/member/foundPwForm.do");
+		}
+		return mav;
+	}
+
+	@Override
+	@RequestMapping(value = "/sendEmailId.do", method = RequestMethod.POST)
+	public ModelAndView sendEmailId(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		int ran = (int) (Math.random() * 999999) + 1;
+		String member_name = (String) request.getParameter("member_name");
+		String email1 = (String) request.getParameter("email1");
+		String email2 = (String) request.getParameter("email2");
+		String email = email1 + "@" + email2;
+		String host = "smtp.naver.com";
+		final String username = "leehm0311@naver.com";
+		final String password = "asdfzxcv1!";
+		int port = 587;
+		String subject = "newGym's 아이디 인증번호입니다.";
+		String body = "인증번호는 " + ran + "입니다.";
+		Properties props = System.getProperties();
+		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.port", port);
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smpt.ssl.trust", host);
+		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+			String un = username;
+			String pw = password;
+
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(un, pw);
+			}
+		});
+		session.setDebug(true);
+		Message mimeMessage = new MimeMessage(session);
+		mimeMessage.setFrom(new InternetAddress("leehm0311@naver.com"));
+		mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
+		mimeMessage.setSubject(subject);
+		mimeMessage.setText(body);
+		Transport.send(mimeMessage);
+
+		mav.addObject("ran", ran);
+		mav.addObject("member_name", member_name);
+		mav.addObject("email1", email1);
+		mav.setViewName("forward:/member/searchIdForm.do");
+		return mav;
+	}
+
+	@Override
+	@RequestMapping(value = "/sendEmailPw.do", method = RequestMethod.POST)
+	public ModelAndView sendEmailPw(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		int ran = (int) (Math.random() * 999999) + 1;
+		String member_id = (String) request.getParameter("member_id");
+		String member_name = (String) request.getParameter("member_name");
+		String email1 = (String) request.getParameter("email1");
+		String email2 = (String) request.getParameter("email2");
+		String email = email1 + "@" + email2;
+		String host = "smtp.naver.com";
+		final String username = "leehm0311";
+		final String password = "asdfzxcv1!";
+		int port = 587;
+		String subject = "newGym's 비밀번호 인증번호입니다.";
+		String body = "인증번호는 " + ran + "입니다.";
+		Properties props = System.getProperties();
+		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.port", port);
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smpt.ssl.trust", host);
+		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+			String un = username;
+			String pw = password;
+
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(un, pw);
+			}
+		});
+		session.setDebug(true);
+		Message mimeMessage = new MimeMessage(session);
+		mimeMessage.setFrom(new InternetAddress("leehm0311@naver.com"));
+		mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
+		mimeMessage.setSubject(subject);
+		mimeMessage.setText(body);
+		Transport.send(mimeMessage);
+
+		mav.addObject("ran", ran);
+		mav.addObject("member_id", member_id);
+		mav.addObject("member_name", member_name);
+		mav.addObject("email1", email1);
+		mav.setViewName("forward:/member/searchPwForm.do");
+		return mav;
+	}
 }
