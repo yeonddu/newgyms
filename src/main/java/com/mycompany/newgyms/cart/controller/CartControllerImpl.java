@@ -110,21 +110,23 @@ public class CartControllerImpl extends BaseController implements CartController
 	return productOptList;
 	}
 	
-	
-	/*
-
-	
-	@RequestMapping(value="/modifyCartQty.do" ,method = RequestMethod.POST)
-	public @ResponseBody String  modifyCartQty(@RequestParam("product_id") int product_id,
-			                                   @RequestParam("cart_option") String cart_option,
+	/*변경한 옵션 저장하기*/
+	@RequestMapping(value="/modifyCartOption.do" ,method = RequestMethod.POST)
+	public @ResponseBody String  modifyCartOption(@RequestParam("product_id") int product_id,
+			                                   @RequestParam("cart_option_name") String cart_option_name, @RequestParam("cart_option_price") int cart_option_price,
 			                                    HttpServletRequest request, HttpServletResponse response)  throws Exception{
 		HttpSession session=request.getSession();
+		System.out.println("컨트롤러 실행");
+		
 		memberVO=(MemberVO)session.getAttribute("memberInfo");
 		String member_id=memberVO.getMember_id();
+		
 		cartVO.setProduct_id(product_id);
 		cartVO.setMember_id(member_id);
-		cartVO.setCart_option(cart_option);
-		boolean result=cartService.modifyCartQty(cartVO);
+		cartVO.setCart_option_name(cart_option_name);
+		cartVO.setCart_option_price(cart_option_price);
+		
+		boolean result=cartService.modifyCartOption(cartVO);
 
 		
 		if(result==true){
@@ -134,8 +136,7 @@ public class CartControllerImpl extends BaseController implements CartController
 		}
 		
 	}
-			
-		 */
+
 	@RequestMapping(value="/removeCartProduct.do" ,method = RequestMethod.POST)
 	public ModelAndView removeCartProduct(@RequestParam("cart_id") int cart_id,
 			HttpServletRequest request, HttpServletResponse response)  throws Exception{

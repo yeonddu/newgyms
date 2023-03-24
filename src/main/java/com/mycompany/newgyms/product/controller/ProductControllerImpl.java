@@ -158,6 +158,7 @@ public class ProductControllerImpl implements ProductController {
 		searchMap.put("searchWord", searchWord);
 		searchMap.put("minPrice", minPrice);
 		searchMap.put("maxPrice", maxPrice);
+		
 		List<ProductVO> productList = productService.searchProductByCondition(searchMap);
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("productList", productList);

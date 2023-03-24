@@ -43,15 +43,13 @@ public class CartDAOImpl  implements  CartDAO{
 		int cart_id =sqlSession.selectOne("mapper.cart.selectMaxCartId");
 		return cart_id;
 	}
-	/*
 
 	
-	public void updateCartProductQty(CartVO cartVO) throws DataAccessException{
-		sqlSession.insert("mapper.cart.updateCartProductQty",cartVO);
+	public void updateCartProductOption(CartVO cartVO) throws DataAccessException{
+		sqlSession.insert("mapper.cart.updateCartProductOption",cartVO);
 	}
 	
 
-	 */
 	public void deleteCartProduct(int cart_id) throws DataAccessException{
 		sqlSession.delete("mapper.cart.deleteCartProduct",cart_id);
 	}

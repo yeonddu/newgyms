@@ -88,10 +88,8 @@
 			select IFNULL(max(cart_id), 0) + 1 from t_cart 
     	]]>
 	</select>
-<!-- 
 
-
-	<update id="updateCartProductQty" parameterType="cartVO">
+	<update id="updateCartProductOption" parameterType="cartVO">
 	    <![CDATA[
 			update t_cart
 			       set cart_option_name=#{cart_option_name}
@@ -101,7 +99,6 @@
     	]]>
 	</update>
 	
- -->
 	<delete id="deleteCartProduct" parameterType="int">
 	    <![CDATA[
 	      delete from t_cart

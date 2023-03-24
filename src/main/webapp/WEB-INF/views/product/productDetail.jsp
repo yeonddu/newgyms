@@ -65,8 +65,8 @@
 		} 
 	
 		/* 옵션명 가져오기 */
-		var cart_product_opt = order_product_opt.split(" (+"); 
-		var cart_option_name = cart_product_opt[0]; /*옵션명*/
+		var order_product_opt_spl = order_product_opt.split(" (+"); 
+		var cart_option_name = order_product_opt_spl[0]; /*옵션명*/
 		
 		var cart_option_price = $("#order_product_opt option:checked").val(); /*옵션가격*/
 		console.log(cart_option_price);

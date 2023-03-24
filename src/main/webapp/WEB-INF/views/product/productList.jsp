@@ -61,7 +61,7 @@
 		   </c:when>
 		   <c:otherwise>
 			<c:forEach var="item" items="${productList }"> 
-			   <c:set  var="product_total_count" value="${product_count+1 }" />
+			   <c:set var="product_total_count" value="${product_count+1 }" />
 			   
 		       	 <div class="item">
 		       	 

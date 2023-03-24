@@ -43,15 +43,13 @@ public class CartServiceImpl  implements CartService{
 	public void addProductInCart(CartVO cartVO) throws Exception{
 		cartDAO.insertProductInCart(cartVO);
 	}
-	/*
-
 	
-	public boolean modifyCartQty(CartVO cartVO) throws Exception{
+	public boolean modifyCartOption(CartVO cartVO) throws Exception{
 		boolean result=true;
-		cartDAO.updateCartProductQty(cartVO);
+		cartDAO.updateCartProductOption(cartVO);
 		return result;
 	}
-	 */
+
 	public void removeCartProduct(int cart_id) throws Exception{
 		cartDAO.deleteCartProduct(cart_id);
 	}
