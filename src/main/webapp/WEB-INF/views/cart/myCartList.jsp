@@ -172,23 +172,52 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 	}
 	
 	/* 선택 삭제 */
-	function delete_select_cart_product() {
-		//선택된 체크박스의 값(cart_id) 가져오기
-		var del_cart_id = []; //배열 선언해서 선택된 cart_id 가져오기
+	function javascript:delete_select_cart_product() {
 		
-		
-		$('input[name="check_one"]: checked').each(function() {
-			var cart_id = $(this).val();
-			del_cart_id.push(cart_id);
-		console.log(del_cart_id)
-		console.log(cart_id)
-		})
-		
-//		var del_cart_id = $('#del_cart_id').val();
-//		var del_cart_id = $('input:checkbox[id="del_cart_id"]').val();
 	}
 	
 	
+	
+	$(document).ready(function() {
+		$('.del_check').on('click', function() { 
+			var thisRow = $(this).closest('tr'); //누른 곳의 tr값을 찾는다. 
+			var product_id = thisRow.find('#current_product_id').val();
+			
+			console.log("현재 product_id " + product_id);
+
+
+			$.ajax({
+				type : "GET",
+				async : false,
+				url : "${contextPath}/cart/selectProductOption.do",
+				data : {
+					product_id : currentProduct_id,
+				},
+				dataType : 'json',
+				contentType : "application/json;charset=UTF-8",
+				success : function(data) {
+					var data_length = Object.keys(data).length; //JSON 객체의 길이 구하기
+					
+					$('#cart_product_opt').empty(); //option 초기화
+					$('#cart_product_opt').append("<option value=''>[필수] 옵션 선택</option>");
+					
+					for (var i=0;i<data_length;i++) {
+						console.log(data[i]);
+						var product_option_name = data[i].product_option_name;
+						var product_option_price = data[i].product_option_price;
+						$('#cart_product_opt').append("<option value='"+product_option_price+"'>" + product_option_name +  " (+"+product_option_price + "원)" + "</option>");
+					}
+				},
+				error : function(data) {
+					alert("에러가 발생했습니다." + data);
+				},
+				complete : function(data) {
+					//alert("작업을완료 했습니다");
+				}
+
+			});
+		});
+	});
 	
 	
 </script>
@@ -225,7 +254,7 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 													<!-- cart_item의 product_id --> 
 													<input id="current_product_id" type="hidden" value="${product.product_id}" />
 													
-												<input type="checkbox" name="check_one" id="del_cart_id" value="${cart.cart_id}">
+												<input type="checkbox" name="check_one" id="del__product_id" value="${product.product_id}">
 												</td>
 												<td><a href="${contextPath}/product/productDetail.do?product_id=${product.product_id}">
 														<img alt="상품 이미지" src="${contextPath}/thumbnails.do?product_id=${cart.product_id}&fileName=${product.product_main_image}">
