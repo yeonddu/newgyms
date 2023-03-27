@@ -14,7 +14,7 @@ public interface MemberDAO {
 	public String selectOverlappedID(String id) throws DataAccessException;
 	public String selectOverlappedEID(String eid) throws DataAccessException;
 	public void insertKakaoMember(MemberVO memberVO) throws DataAccessException;
-	public MemberVO kakaoLogin(Map loginMap) throws DataAccessException;
+	public MemberVO kakaoLogin(String member_id) throws DataAccessException;
 	public MemberVO searchId(Map searchidMap) throws DataAccessException;
 	public MemberVO searchPw(Map searchidMap) throws DataAccessException;
 	public MemberVO searchId1(Map searchidMap) throws DataAccessException;

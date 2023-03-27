@@ -31,25 +31,70 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 <title>장바구니</title>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script>
+
+	/* 전체 선택,해제 */
 	$(document).ready(function() {
 		$("#check_all").click(function() {
-			if ($("#check_all").is(":checked"))
+			if ($("#check_all").is(":checked")) {
 				$("input[name=check_one]").prop("checked", true);
-			else
+				
+				var str_cart_total_price = $('#total_price').val();
+				var cart_total_price = Number(str_cart_total_price);
+				console.log(cart_total_price)
+			}
+			else {
 				$("input[name=check_one]").prop("checked", false);
+	            var cart_total_price = 0;
+			}
+				const option = {
+						 maximumFractionDigits: 0
+					} 
+			    document.getElementById("cart_total_price").innerHTML = cart_total_price.toLocaleString('ko-KR',  option) ;
 		});
 
-		$("input[name=check_one]").click(function() {
+		
+			$("input[name=check_one]").click(function() {
 			var total = $("input[name=check_one]").length;
 			var checked = $("input[name=check_one]:checked").length;
 
-			if (total != checked)
+			if (total != checked) {
 				$("#check_all").prop("checked", false);
-			else
+			}
+			else {
 				$("#check_all").prop("checked", true);
-		});
+			}
+			
+		}); 
+		
 	});
 
+	/* 총 상품금액 */
+	$(function () {
+		//개별 checkbox
+	    $("input[name=check_one]").click( function() {
+	    	var total = $("input[name=check_one]").length;
+			var checked = $("input[name=check_one]:checked").length;
+			
+			 $("#cart_total_price").empty();
+	            var cart_total_price = Number(0);
+	        
+	        $("input[type=checkbox]:checked").each( function() {
+	            var thisRow = $(this).closest('tr');
+	            /* 상품 금액 */
+	            var str_total_price = thisRow.find('#product_total_price').val();
+	            var product_total_price = Number(str_total_price.replace(",", "")); //숫자로 변환
+	            
+	            cart_total_price += product_total_price;
+
+				const option = {
+						 maximumFractionDigits: 0
+					} 
+					
+			    document.getElementById("cart_total_price").innerHTML = cart_total_price.toLocaleString('ko-KR',  option) ;
+	        });
+	    });
+	});
+	
 	/* 옵션변경 팝업창 띄우기 */
 	function modifyPopup(type) {
 
@@ -57,7 +102,7 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 			$('#modify_popup').attr('style', 'visibility:visible'); // 팝업창을 연다.
 			
 		} else if (type == 'close') {
-			$('#modify_popup').attr('style', 'visibility:hidden');
+			$('#modify_popup').attr('style', 'visibility:hidden');ㅣ
 		}
 	}
 	
@@ -114,13 +159,12 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 		var cart_product_opt = $("#cart_product_opt option:checked").text();
 		
 		if ($("#cart_product_opt option:checked").val() == '') {
-			alert("옵션을 선택해주세요");
+			alert("옵션을 선택해주세요 :( )");
 			return;
 		} 
 	
-		/* 옵션명 가져오기 */
+		/* 옵션 가져오기 */
 		var cart_product_opt_spl = cart_product_opt.split(" (+"); 
-		
 		var cart_option_name = cart_product_opt_spl[0]; /*옵션명*/
 		
 		var cart_option_price = $("#cart_product_opt option:checked").val(); /*옵션가격*/
@@ -138,10 +182,10 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 	      success : function(data, textStatus) {
 	         //alert(data);
 	         if(data.trim()=='modify_success'){
-	            alert("옵션 변경이 완료되었습니다!");   
+	            alert("옵션 변경이 완료되었습니다. :)");   
 				location.reload();
 	         }else{
-	            alert("다시 시도해 주세요!!");   
+	            alert("작업 중 오류가 발생했습니다. 다시 시도해 주세요 :()");   
 	         }
 	         
 	      },
@@ -157,6 +201,7 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 		
 	
 	/* 개별 삭제 */
+	/*
 	function delete_each_cart_product(cart_id) {
 		var cart_id = Number(cart_id);
 		var formObj = document.createElement("form");
@@ -167,30 +212,45 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 		formObj.appendChild(i_cart);
 		document.body.appendChild(formObj);
 		formObj.method = "post";
-		formObj.action = "${contextPath}/cart/removeCartProduct.do";
+		formObj.action = "${contextPath}/cart/removeEachCartProduct.do";
 		formObj.submit();
 	}
+	*/
 	
 	/* 선택 삭제 */
 	function delete_select_cart_product() {
-		//선택된 체크박스의 값(cart_id) 가져오기
-		var del_cart_id = []; //배열 선언해서 선택된 cart_id 가져오기
+		//선택된 cart_id를 담을 배열 생성
+		var cart_id_list = [];
+		
+		//선택된 checkbox의 값 저장 
+		$("input[name=check_one]:checked").each(function(){
+			cart_id_list.push($(this).val());
+		});
+		
+		//var cart_id_list = {"cart_id_list": JSON.stringify(cart_id_values)};
 		
 		
-		$('input[name="check_one"]: checked').each(function() {
-			var cart_id = $(this).val();
-			del_cart_id.push(cart_id);
-		console.log(del_cart_id)
-		console.log(cart_id)
-		})
-		
-//		var del_cart_id = $('#del_cart_id').val();
-//		var del_cart_id = $('input:checkbox[id="del_cart_id"]').val();
+		console.log("체크된 값 : " + cart_id_list);
+		$.ajax({
+		      type : "post",
+		      async : false, //false인 경우 동기식으로 처리한다.
+		      url : "${contextPath}/cart/removeCartProduct.do",
+		      data : {cart_id : cart_id_list},
+		     // dataType : "json",
+		      success : function(data) {
+		            alert("삭제가 완료되었습니다 :)");   
+		            location.reload();
+		      },
+		      error : function(data) {
+		         alert("에러가 발생했습니다." + data);
+		      },
+		      complete : function(data) {
+		         //alert("작업을완료 했습니다");
+		         
+		      }
+		   }); //end ajax
 	}
-	
-	
-	
-	
+
 </script>
 
 </head>
@@ -225,7 +285,7 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 													<!-- cart_item의 product_id --> 
 													<input id="current_product_id" type="hidden" value="${product.product_id}" />
 													
-												<input type="checkbox" name="check_one" id="del_cart_id" value="${cart.cart_id}">
+												<input type="checkbox" name="check_one" value="${cart.cart_id}">
 												</td>
 												<td><a href="${contextPath}/product/productDetail.do?product_id=${product.product_id}">
 														<img alt="상품 이미지" src="${contextPath}/thumbnails.do?product_id=${cart.product_id}&fileName=${product.product_main_image}">
@@ -241,17 +301,24 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 													<a href="javascript:modifyPopup('open', '.layer01');">옵션변경</a>
 												</td>
 												<td class="product_total_price">
+													
 													<fmt:formatNumber value="${product.product_sales_price+cart.cart_option_price}" type="number" var="product_total_price" />
 													${product_total_price }원
+													<!-- 장바구니 총 상품금액 구하기 위한 상품 금액 hidden처리 --> <input id="product_total_price" type="hidden" value="${product_total_price }" >
 												</td>
 
 													<!-- 장바구니 총 상품금액 구하기 -->
 													<fmt:parseNumber value="${product_total_price } " var ="product_total_price"/>
 													<fmt:parseNumber value="${cart_total_price } " var ="cart_total_price"/>
 													<c:set var="cart_total_price" value="${cart_total_price+product_total_price}" />
+										
 													
 												<td class="x_button">
-													<a href="javascript:delete_each_cart_product('${cart.cart_id}');">X</a>
+<%--
+ 													<a href="javascript:delete_each_cart_product('${cart.cart_id}');">X</a> 
+ 													--%>
+													<a href="${contextPath}/cart/removeEachCartProduct.do?cart_id=${cart.cart_id}">X</a>
+
 												</td>
 											</tr>
 										</c:if>
@@ -262,9 +329,11 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 					</tbody>
 				</table>
 				
-				<div class="cart_total_price">
-					총 상품금액 <fmt:formatNumber value="${cart_total_price}" type="number" />원
-				</div>
+					<div class="cart_total_price"> 총 상품금액 <span id="cart_total_price"><fmt:formatNumber  value="0" type="number"/></span>원</div>
+					<!-- 장바구니 총 상품금액 hidden처리 --> <input id="total_price" value="${cart_total_price}" type="hidden" />
+<!-- 				
+				<a href="${contextPath}/cart/removeCartProduct.do">선택삭제</a>
+				 -->
 				<a href="javascript:delete_select_cart_product();">선택삭제</a>
 				<div style="text-align: center">
 					<input class="order_button" name="order" type="submit" value="주문하기">

@@ -61,7 +61,7 @@
 						<ul class="icons">
 							<c:choose>
 								<c:when test="${isLogOn==true and not empty memberInfo}">
-									<li><a href="${contextPath}/mypage/myPageMain.do"><img
+									<li><a href="${contextPath}/mypage/myOrderList.do?member_id=${memberInfo.member_id}"><img
 											style="width: 33px; height: 33px;"
 											src="${contextPath}/resources/image/person.png" alt="회원"></a></li>
 								</c:when>
@@ -77,7 +77,7 @@
 											src="${contextPath}/resources/image/person.png" alt="관리자"></a></li>
 								</c:when>
 								<c:otherwise>
-									<li><a href="#"><img
+									<li><a href="${contextPath}/order/nonMemberOrder.do"><img
 											style="width: 33px; height: 33px;"
 											src="${contextPath}/resources/image/person.png" alt="비회원"></a></li>
 								</c:otherwise>

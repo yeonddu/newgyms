@@ -52,8 +52,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public void kakaoLogin(Map loginMap) throws Exception{
-		memberDAO.kakaoLogin(loginMap);
+	public MemberVO kakaoLogin(String member_id) throws Exception {
+		return memberDAO.kakaoLogin(member_id);
 	}
 	
 	@Override

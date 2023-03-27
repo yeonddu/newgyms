@@ -36,14 +36,15 @@
    #login_table {
         width : 60%;
         margin : auto;
-        margin-top : 50px;
+        margin-top : 30px;
         font-size : 15px;
         text-align : center;
+        line-height : 50px;
    }
    .login_inputbox {
-      padding : 15px;
-      border : none;
-      border-bottom : 1px solid #D8D8D8;
+    	padding : 15px;
+      	border : none;
+      	border-bottom : 1px solid #D8D8D8;
    }
    #join_table {
         width : 40%;
@@ -54,10 +55,10 @@
         font-size : 15px;
    }
    #join_table2 {
-        width : 50%;
-         margin-top : 50px;
+       width : 50%;
+       margin-top : 50px;
        padding-left : 70px;
-       line-height : 50px;
+       line-height : 60px;
    }
    #search_table {
         width : 50%;
@@ -74,6 +75,20 @@
       padding : 3px;
       border : none;
       border-bottom : 1px solid #D8D8D8;
+   }
+   #join_agree {
+      	width : 65%;
+      	margin-top : 10px;
+        line-height : 30px;
+        font-size : 13px;
+        text-align : left;
+   }
+   .checkbox_group {
+   		margin-top : 20px;
+   		padding : 15px;
+    	width : 40%;
+   		border : 1px solid #D8D8D8;
+   		border-radius : 30px;
    }
    #check_btn {
       margin-top : 20px;
@@ -115,12 +130,6 @@
    #join_subtext {
       color : #848484;
       font-size : 12px;
-   }
-   #join_agree {
-      width : 40%;
-      margin-top : 30px;
-        line-height : 30px;
-        font-size : 13px;
    }
    .join_idpw_btn {
        margin : 20px 5px 10px 5px;

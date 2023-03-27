@@ -1,6 +1,7 @@
 package com.mycompany.newgyms.cart.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,11 @@ public class CartDAOImpl  implements  CartDAO{
 	}
 	
 
-	public void deleteCartProduct(int cart_id) throws DataAccessException{
-		sqlSession.delete("mapper.cart.deleteCartProduct",cart_id);
+	public void deleteEachCartProduct(int cart_id) throws DataAccessException{
+		sqlSession.delete("mapper.cart.deleteEachCartProduct",cart_id);
+	}
+	public void deleteCartProduct(Map cartMap) throws DataAccessException {
+		sqlSession.delete("mapper.cart.deleteCartProduct",cartMap);
 	}
 
 }

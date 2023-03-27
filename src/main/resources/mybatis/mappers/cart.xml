@@ -99,11 +99,21 @@
     	]]>
 	</update>
 	
-	<delete id="deleteCartProduct" parameterType="int">
+	<delete id="deleteEachCartProduct" parameterType="int">
 	    <![CDATA[
 	      delete from t_cart
 	      where cart_id=#{cart_id}
     	]]>
 	</delete>
+	
+	<delete id="deleteCartProduct" parameterType="java.util.Map">
+	    <![CDATA[
+			delete from t_cart
+	   	   where cart_id in 
+		]]>
+		<foreach item="item" collection="cart_id_list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete> 
 
 </mapper>

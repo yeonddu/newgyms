@@ -65,6 +65,8 @@ function checkOnlyOne(element) {
         frm.action= 'sendEmailId.do';
         frm.submit();
         event.preventDefault();
+        
+        alert("인증번호가 발송되었습니다.")
         return true;
     }
   </script>
@@ -142,7 +144,7 @@ function checkOnlyOne(element) {
         	   	<p class="inline" class="join_textbox">이름 <span id="red_color">*</span></p>
             </td>
             <td>
-            	<input name="member_name" value="${member_name}" type="text" size="24" id="member_name1" class="join_inputbox" required>
+            	<input name="member_name" value="${member_name}" type="text" size="24" id="member_name1" class="join_inputbox" required title="이름을 입력해주세요." >
             </td>
         </tr>
         
@@ -152,7 +154,8 @@ function checkOnlyOne(element) {
           		<p class="inline" class="join_textbox">이메일 <span id="red_color">*</span></p>
           	</td>
           	<td>
-          		<input size="8" value="${email1}" type="text" name="email1" id="email1" class="join_inputbox" required> @ 
+          		<input size="8" value="${email1}" type="text" name="email1" id="email1" class="join_inputbox" 
+          		pattern="[a-z0-9]{3,20}" required title="이메일을 입력해주세요." > @ 
                 <select name="email2" id="email2" class="join_inputbox">
                     <option value="naver.com" selected>naver.com</option>
                     <option value="hanmail.net">hanmail.net</option>
@@ -178,7 +181,8 @@ function checkOnlyOne(element) {
           		<p class="inline" class="join_textbox">인증번호 <span id="red_color">*</span></p>
           	</td>
            	<td colspan="2">
-           		<input type="text" size="24" name="ok" id="ok" class="join_inputbox" maxlength="6" placeholder="인증번호 숫자 6자리 입력" required>
+           		<input type="text" size="24" name="ok" id="ok" class="join_inputbox" maxlength="6" placeholder="인증번호 숫자 6자리 입력" 
+           		pattern="[0-9]{6}" required title="인증번호 숫자 6자리를 입력해주세요.">
             </td>
          </tr> 
      </table>

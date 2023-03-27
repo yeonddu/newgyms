@@ -44,7 +44,8 @@
        <![CDATA[
          select * from t_member 
           where member_id=#{member_id}
-          and member_pw=#{member_pw}                   
+          and member_pw=#{member_pw}
+          and join_type=#{join_type}                   
       ]]>
    </select>
    
@@ -178,28 +179,54 @@
    ]]>      
   </insert>
   
-  <insert id="insertKakaoMember"  parameterType="memberVO">
+  <insert id="insertKakaoMember" parameterType="memberVO">
   <![CDATA[
        insert into t_member(join_type,
                              member_id,
                              member_pw,
                              member_name,
                              email1,
-                             email2)
+                             email2,
+                             emailsts_yn,
+                             member_gender,
+                             member_birth_y,
+                             member_birth_m,
+                             member_birth_d,
+                             zipcode,
+                             road_address,
+                             jibun_address,
+                             namuji_address,
+                             hp1,
+                             hp2,
+                             hp3,
+                             smssts_yn)
                       values(#{join_type},
                             #{member_id},
                             #{member_pw},
                             #{member_name},
                             #{email1},
-                            #{email2})                              
+                            #{email2},
+                            #{emailsts_yn},
+                            #{member_gender},
+                            #{member_birth_y},
+                            #{member_birth_m},
+                            #{member_birth_d},
+                            #{zipcode},
+                            #{road_address},
+                            #{jibun_address},
+                            #{namuji_address},
+                            #{hp1},
+                            #{hp2},
+                            #{hp3},
+                            #{smssts_yn})                              
    ]]>      
   </insert>
   
-  <select id="kakaoLogin" resultType="memberVO"  parameterType="java.util.Map"  >
+  <select id="kakaoLogin" resultType="memberVO"  parameterType="String"  >
        <![CDATA[
          select * 
          from t_member 
-         where member_id=#{member_id} and member_pw=#{member_pw}   and email1=#{email1} and email2=#{email2}                
+         where member_id=#{member_id}
       ]]>
    </select>
    

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+    <definition name="/mypage/myOrderList" extends="baseLayout">
+       <put-attribute name="title" value="마이페이지 메인" />
+       <put-attribute name="body" value="/WEB-INF/views/mypage/myOrderList.jsp" />
+    </definition>
+    <definition name="/mypage/myOrderDetail" extends="baseLayout">
+       <put-attribute name="title" value="주문 상세 페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/mypage/myOrderDetail.jsp" />
+    </definition>
+    <definition name="/mypage/myOrderCancel" extends="baseLayout">
+       <put-attribute name="title" value="주문 취소 페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/mypage/myOrderCancel.jsp" />
+    </definition>
+</tiles-definitions>

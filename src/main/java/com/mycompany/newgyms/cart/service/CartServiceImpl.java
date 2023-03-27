@@ -50,8 +50,11 @@ public class CartServiceImpl  implements CartService{
 		return result;
 	}
 
-	public void removeCartProduct(int cart_id) throws Exception{
-		cartDAO.deleteCartProduct(cart_id);
+	public void removeEachCartProduct(int cart_id) throws Exception{
+		cartDAO.deleteEachCartProduct(cart_id);
+	}
+	public void removeCartProduct(Map cartMap) throws Exception{
+		cartDAO.deleteCartProduct(cartMap);
 	}
 	
 }

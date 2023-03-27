@@ -1,6 +1,7 @@
 package com.mycompany.newgyms.cart.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
@@ -13,5 +14,6 @@ public interface CartDAO {
 	public boolean selectCountInCart(CartVO cartVO) throws DataAccessException;
 	public void insertProductInCart(CartVO cartVO) throws DataAccessException;
 	public void updateCartProductOption(CartVO cartVO) throws DataAccessException;
-	public void deleteCartProduct(int cart_id) throws DataAccessException;
+	public void deleteEachCartProduct(int cart_id) throws DataAccessException;
+	public void deleteCartProduct(Map cartMap) throws DataAccessException;
 }

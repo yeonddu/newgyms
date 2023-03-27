@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mypage">
+<!-- 리절트 맵 정의 -->
+	<resultMap id="orderProductResult" type="orderVO">
+		<result property="order_seq_num" column="order_seq_num" />
+		<result property="order_id" column="order_id" />
+		<result property="member_id" column="member_id" />
+		<result property="product_id" column="product_id" />
+		<result property="orderer_name" column="orderer_name" />
+		<result property="orderer_hp1" column="orderer_hp1" />
+		<result property="orderer_hp2" column="orderer_hp2" />
+		<result property="orderer_hp3" column="orderer_hp3" />
+		<result property="nonmember_pw" column="nonmember_pw" />
+		<result property="center_name" column="center_name" />
+		<result property="product_name" column="product_name" />
+		<result property="product_main_image" column="product_main_image" />
+		<result property="product_price" column="product_price" />
+		<result property="product_sales_price" column="product_sales_price" />
+		<result property="total_price" column="total_price" />
+		<result property="goods_filename" column="goods_filename" />
+		<result property="receiver_name" column="receiver_name" />
+		<result property="receiver_hp1" column="receiver_hp1" />
+		<result property="receiver_hp2" column="receiver_hp2" />
+		<result property="receiver_hp3" column="receiver_hp3" />
+		<result property="pay_method" column="pay_method" />
+		<result property="card_com_name" column="card_com_name" />
+		<result property="card_pay_month" column="card_pay_month" />
+		<result property="pay_order_time" column="pay_order_time" />
+		<result property="order_state" column="order_state" />
+		<result property="option_id" column="option_id" />
+		<result property="option_name" column="option_name" />
+	</resultMap> 
+
+	
+	 <select id="selectMyOrderList" resultMap="orderProductResult" parameterType="String">
+	    <![CDATA[
+			select * 
+			from t_order
+            where member_id=#{member_id} 
+            order by pay_order_time desc
+		]]>
+	</select>
+	
+	<select id="selectMyOrderDetail" resultMap="orderProductResult" parameterType="String">
+	    <![CDATA[
+			select * 
+			from t_order
+            where order_id=#{order_id}
+		]]>
+	</select>
+	
+	<select id="selectMyOrderCancel" resultMap="orderProductResult" parameterType="java.util.Map">
+	    <![CDATA[
+			select * 
+			from t_order
+            where order_seq_num in
+		]]>
+		<foreach item="item" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+	<insert id="refundMyOrder" parameterType="mypageVO">
+	<![CDATA[
+		insert into t_refund(order_state,
+							order_seq_num,
+							account_holder,
+							account_bank,
+							account_number,
+							cancel_reason,
+							refund_price)
+					 values(#{order_state},
+						    #{order_seq_num},
+						    #{account_holder},
+							#{account_bank},
+							#{account_number},
+							#{cancel_reason},
+							#{refund_price})
+	]]>   
+	</insert>
+</mapper>

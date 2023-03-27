@@ -60,7 +60,7 @@
 		console.log(order_product_opt)
 		
 		if ($("#order_product_opt option:checked").val() == '') {
-			alert("옵션을 선택해주세요");
+			alert("옵션을 선택해주세요 :( )");
 			return;
 		} 
 	
@@ -82,12 +82,12 @@
 	       },
 	       success : function(data, textStatus) {
 	       	  if(data.trim()=='add_success'){
-	       		var con_cart = confirm("장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?"); 
+	       		var con_cart = confirm("장바구니에 추가되었습니다. 장바구니로 이동할까요?"); 
 	       		if(con_cart==true) {
 	       			location.href="${contextPath}/cart/myCartList.do";
 	       		} 
 	          }else if(data.trim()=='already_existed'){
-	             alert("이미 장바구니에 추가된 상품입니다.");   
+	             alert("이미 장바구니에 추가된 상품입니다. :) ");   
 	          }
 	          
 	       },
@@ -101,21 +101,6 @@
 	 }	 
 
 
-	function cartPopup(type) {
-		if (type == 'open') {
-			// 팝업창을 연다.
-			jQuery('#layer').attr('style', 'visibility:visible');
-	
-			// 페이지를 가리기위한 레이어 영역의 높이를 페이지 전체의 높이와 같게 한다.
-			jQuery('#layer').height(jQuery(document).height());
-		}
-	
-		else if (type == 'close') {
-	
-			// 팝업창을 닫는다.
-			jQuery('#layer').attr('style', 'visibility:hidden');
-		}
-	}
 </script>
 </head>
 <body>

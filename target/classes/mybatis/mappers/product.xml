@@ -116,7 +116,7 @@
 	<select id="selectproductSortByPopular" resultMap="productResult"   parameterType="java.util.HashMap"  >
 	  <![CDATA[
 		select t_product.*, t_member.center_name from t_product, t_member
-		where t_product.product_sort =#{product_sort}  and t_member.road_address like concat('%',#{address},'%')
+		where t_product.product_sort =#{product_sort} and t_member.road_address like concat('%',#{address},'%')
 		and t_product.member_id=t_member.member_id
 		order by t_product.product_price desc
 	  ]]>

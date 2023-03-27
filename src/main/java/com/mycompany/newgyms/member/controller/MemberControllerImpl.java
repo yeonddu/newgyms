@@ -63,7 +63,7 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 
 		} else {
 			PrintWriter out = response.getWriter();
-			out.println("<script>alert('로그인에 실패했습니다.');</script>");
+			out.println("<script>alert('아이디나 비밀번호가 올바르지 않습니다.');</script>");
 			out.flush();
 			mav.setViewName("/member/loginForm");
 		}
@@ -89,7 +89,6 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		request.setCharacterEncoding("utf-8");
 		ModelAndView mav = new ModelAndView();
 		memberVO = memberService.joinCheck(joinCheckMap);
-		
 		String member_name = request.getParameter("member_name");
 		String member_rrn1 = request.getParameter("member_rrn1");
 		String member_rrn2 = request.getParameter("member_rrn2");
@@ -131,11 +130,22 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
 
-		//주민등록번호 앞 6자리를 생년월일로 저장
 		String member_rrn1 = request.getParameter("member_rrn1");
 		String member_birth_y = member_rrn1.substring(0, 2);
 		String member_birth_m = member_rrn1.substring(2, 4);
 		String member_birth_d = member_rrn1.substring(4, 6);
+		
+		
+		// 1900 or 2000 년도 붙이기
+		if (Integer.parseInt(member_birth_y) >= 30) { // 1930 ~ 1999
+			member_birth_y = "19" + member_birth_y;
+		} else if (Integer.parseInt(member_birth_y) < 30) { // 2000 ~ 2029
+			member_birth_y = "20" + member_birth_y;
+		}
+		
+		// 1 ~ 9월 한자리로 자르기
+		member_birth_m = member_birth_m.replace("0", "");
+		
 		_memberVO.setMember_birth_y(member_birth_y);
 		_memberVO.setMember_birth_m(member_birth_m);
 		_memberVO.setMember_birth_d(member_birth_d);
@@ -214,64 +224,101 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		return resEntity;
 	}
 
+	@Override
 	@RequestMapping(value = "/kakaoLogin.do")
-	public String kakaoLogin() {
-		StringBuffer loginUrl = new StringBuffer();
-		loginUrl.append("https://kauth.kakao.com/oauth/authorize?client_id=");
-		loginUrl.append("46b3bd1331c738d34ac33651f62775f7");
-		loginUrl.append("&redirect_uri=");
-		loginUrl.append("http://localhost:8080/newgyms/member/kakaoJoin.do");
-		loginUrl.append("&response_type=code");
-
-		return "redirect:" + loginUrl.toString();
-	}
-
-	@RequestMapping(value = "/kakaoJoin.do", method = RequestMethod.GET)
-	public String redirectKakao(@RequestParam String code, HttpSession session) throws Exception {
-		System.out.println(code);
-
+	public ModelAndView kakaoLogin(@RequestParam("code") String code, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
 		// 접속토큰 get
-		String kakaoToken = kakaoService.getReturnAccessToken(code);
-		System.out.println("kakaoToken : " + kakaoToken);
+		String access_token = kakaoService.getReturnAccessToken(code);
+		Map<String, Object> userInfo = kakaoService.getUserInfo(access_token);
+		System.out.println("userInfo : " + userInfo);
 
-		// 접속자 정보 get
-		Map<String, Object> result = kakaoService.getUserInfo(kakaoToken);
-		System.out.println("result: " + result);
-		String member_id = (String) result.get("id");
-		String member_name = (String) result.get("nickname");
-		String email = (String) result.get("email");
+		String member_id = (String) userInfo.get("id");
+		String member_name = (String) userInfo.get("nickname");
+		String email = (String) userInfo.get("email");
+		String gender = (String) userInfo.get("gender");
+		String member_gender;
+		// 성별 진단 male = M(남성), 그 외 = W(여성)
+		if (gender.equals("male")) {
+			member_gender = "M";
+		} else {
+			member_gender = "W";
+		}
 		String member_pw = member_id;
 
-		System.out.printf("member_id : " + member_id);
-		System.out.printf("member_name : " + member_name);
-		System.out.printf("email : " + email);
-		System.out.printf("member_pw" + member_pw);
+		memberVO = memberService.kakaoLogin(member_id);
+		
+		// 카카오 계정으로 받은 아이디로 가입되어 있는지 확인 후 있으면 로그인 진행
+		if (memberVO != null && memberVO.getMember_id() != null) {
+			System.out.println("카카오 로그인을 진행합니다.");
+			session.setAttribute("isLogon", true);
+			session.setAttribute("access_token", access_token);
 
-		// 분기
-		MemberVO memberVO = new MemberVO();
+			try {
+				// 아이디를 바탕으로 회원 정보를 가져옴
+				session.setAttribute("memberInfo", memberVO);
+				session.setAttribute("isLogOn", true);
+				mav.setViewName("redirect:/main/main.do");
+			} catch (Exception e) {
+				e.printStackTrace();
+				mav.setViewName("redirect:/main/main.do");
+			}
 
-		// 아이디 중복 확인, 없을 시 회원가입 진행
-		if (memberService.overlappedId(member_id).equals("false")) {
-			System.out.println("카카오 계정으로 회원가입");
-			String email1 = email.substring(0, email.indexOf("@"));
-			String email2 = email.substring(email.indexOf("@") + 1);
-			memberVO.setEmail1(email1);
-			memberVO.setEmail2(email2);
-			memberVO.setMember_id(member_id);
-			memberVO.setMember_pw(member_pw);
-			memberVO.setMember_name(member_name);
-			memberVO.setJoin_type("101");
-			memberService.kakaoJoin(memberVO);
-			return "redirect:/member/kakaoLogin.do";
+		} else { // 없을 시 카카오 회원가입(추가입력) 페이지로 이동
+			System.out.println("카카오 회원가입을 진행합니다.");
+			String result = String.valueOf(memberService.overlappedId(member_id));
+			System.out.println(result);
+			if (result.equals("false")) {
+				String email1 = email.substring(0, email.indexOf("@"));
+				String email2 = email.substring(email.indexOf("@") + 1);
+				System.out.println(email1);
+				System.out.println(email2);
+				
+				MemberVO memberVO = new MemberVO();
+				memberVO.setEmail1(email1);
+				memberVO.setEmail2(email2);
+				memberVO.setMember_id(member_id);
+				memberVO.setMember_pw(member_pw);
+				memberVO.setMember_name(member_name);
+				memberVO.setMember_gender(member_gender);
 
-		} else {
-			session.setAttribute("isLogOn", true);
-			session.setAttribute("memberInfo", memberVO);
+				session.setAttribute("memberInfo", memberVO);
+				mav.setViewName("redirect:/member/kakaoJoinForm.do");
+			} else {
+				mav.setViewName("redirect:/main/main.do");
+			}
 		}
+		return mav;
+	}
 
-		session.setAttribute("kakaoToken", kakaoToken);
+	@Override
+	@RequestMapping(value = "/kakaoJoin.do", method = RequestMethod.POST)
+	public ResponseEntity kakaoJoin(@ModelAttribute("memberVO") MemberVO memberVO, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		String message = null;
+		ResponseEntity resEntity = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
 
-		return "redirect:/main/main.do";
+		try {
+			memberService.kakaoJoin(memberVO);
+			message = "<script>";
+			message += " alert('뉴짐스의 회원이 되신것을 환영합니다. :)');";
+			message += " location.href='" + request.getContextPath() + "/member/loginForm.do';";
+			message += " </script>";
+		} catch (Exception e) {
+			message = "<script>";
+			message += " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요');";
+			message += " location.href='" + request.getContextPath() + "/member/kakaoJoinForm.do';";
+			message += " </script>";
+			e.printStackTrace();
+		}
+		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
+		return resEntity;
 	}
 
 	// 핸드폰 아이디 조회
@@ -348,7 +395,7 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 				session.setAttribute("member_id", member_id);
 				mav.setViewName("forward:/member/foundPwForm.do");
 			} else {
-				mav.setViewName("forward:/member/searchPw.do");
+				mav.setViewName("forward:/member/searchPwForm.do");
 			}
 		} else {
 			PrintWriter out = response.getWriter();

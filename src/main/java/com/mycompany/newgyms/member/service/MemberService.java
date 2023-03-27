@@ -12,7 +12,7 @@ public interface MemberService {
 	public String overlappedId(String id) throws Exception;
 	public String overlappedEid(String eid) throws Exception;
 	public void kakaoJoin(MemberVO memberVO) throws Exception;
-	public void kakaoLogin(Map loginMap) throws Exception;
+	public MemberVO kakaoLogin(String member_id) throws Exception;
 	public MemberVO searchId(Map  searchidMap) throws Exception;
 	public MemberVO searchId1(Map  searchidMap) throws Exception;
 	public MemberVO searchPw(Map  searchidMap) throws Exception;

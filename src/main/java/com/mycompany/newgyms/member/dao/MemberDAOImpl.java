@@ -52,11 +52,10 @@ public class MemberDAOImpl  implements MemberDAO{
 	public void insertKakaoMember(MemberVO memberVO) throws DataAccessException{
 		sqlSession.insert("mapper.member.insertKakaoMember", memberVO);
 	}
-	
-	@Override
-	public MemberVO kakaoLogin(Map loginMap) throws DataAccessException{
-		MemberVO member = (MemberVO)sqlSession.selectOne("mapper.member.kakaoLogin", loginMap);
-	   return member;
+
+	public MemberVO kakaoLogin(String member_id) throws DataAccessException {
+		MemberVO member = (MemberVO)sqlSession.selectOne("mapper.member.kakaoLogin", member_id);
+		return member;
 	}
 	
 	@Override

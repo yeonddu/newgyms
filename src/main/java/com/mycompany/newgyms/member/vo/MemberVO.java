@@ -39,15 +39,7 @@ public class MemberVO {
    public MemberVO() {
       
    }
-   
-   // 회원가입 중복검사 생성자
-   /*
-    * public MemberVO(String join_type, String member_name, String member_rrn1,
-    * String member_rrn2) { this.join_type = join_type; this.member_name =
-    * member_name; this.member_rrn1 = member_rrn1; this.member_rrn2 = member_rrn2;
-    * }
-    */
-   
+
    // 일반 회원가입 생성자
    public MemberVO(
          String join_type,
@@ -148,22 +140,6 @@ public class MemberVO {
       this.member_birth_y = member_birth_y;
       this.member_birth_m = member_birth_m;
       this.member_birth_d = member_birth_d;
-   }
-      
-   // 카카오 간편 회원가입 생성자
-   public MemberVO(
-         String join_type,
-         String member_name,
-         String member_id,
-         String member_pw,
-         String email1,
-         String email2) {
-      this.join_type = join_type;
-      this.member_name = member_name;
-      this.member_id = member_id;
-      this.member_pw = member_pw;
-      this.email1 = email1;
-      this.email2 = email2;
    }
       public MemberVO(
             String member_id,
