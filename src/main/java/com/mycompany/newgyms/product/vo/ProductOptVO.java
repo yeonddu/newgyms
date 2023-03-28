@@ -1,10 +1,17 @@
 package com.mycompany.newgyms.product.vo;
 
 public class ProductOptVO {
-
+	private int option_id;
 	private int product_id;
 	private String product_option_name;
 	private int product_option_price;
+	
+	public int getOption_id() {
+		return option_id;
+	}
+	public void setOption_id(int option_id) {
+		this.option_id = option_id;
+	}
 	public int getProduct_id() {
 		return product_id;
 	}

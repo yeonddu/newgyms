@@ -28,6 +28,7 @@
 
 	<resultMap id="productOptResult" type="ProductOptVO">
 	   <result property="product_id" column="product_id" />
+	   <result property="option_id" column="option_id" />
 	   <result property="product_option_name" column="product_option_name" />
 	   <result property="product_option_price" column="product_option_price" />
 	</resultMap>
@@ -39,7 +40,9 @@
 	   <result property="image_id" column="image_id" />
 	   <result property="fileType" column="fileType" />
 	</resultMap>
-	
+
+
+	<!-- 상품 목록 --> 	
 	<select id="selectAllProductList" resultMap="productResult" parameterType="String">
      <![CDATA[
 			select t_product.*, t_member.center_name from t_product, t_member
@@ -58,19 +61,117 @@
 			order by t_product.product_entered_date desc
 		]]>
 	</select>	
+	
+	
+	<!-- 상품 정렬 --> 	
+	<select id="selectAllproductSortByPopular" resultMap="productResult"   parameterType="java.util.HashMap"  >
+	  <![CDATA[
+		select t_product.*, t_member.center_name, IFNULL((SELECT count(product_id) from t_order WHERE t_product.product_id = t_order.product_id), 0) as orderCnt
+		from t_product, t_member
+		where t_member.road_address like concat('%',#{address},'%')
+		and t_product.member_id=t_member.member_id
+		order by orderCnt desc
+	  ]]>
+	</select>	
+	
+	<select id="selectAllproductSortByLowPrice" resultMap="productResult"   parameterType="java.util.HashMap"  >
+     <![CDATA[
+		select t_product.*, t_member.center_name from t_product, t_member
+		where t_member.road_address like concat('%',#{address},'%')
+		and t_product.member_id=t_member.member_id 
+		order by t_product.product_sales_price 
+		]]>
+	</select>	
+	
+	<select id="selectAllproductSortByHighPrice" resultMap="productResult"   parameterType="java.util.HashMap"  >
+     <![CDATA[
+		select t_product.*, t_member.center_name from t_product, t_member
+		where t_member.road_address like concat('%',#{address},'%')
+		and t_product.member_id=t_member.member_id 
+		order by t_product.product_sales_price desc
+		]]>
+	</select>	
+	
+	<select id="selectproductSortByPopular" resultMap="productResult"   parameterType="java.util.HashMap"  >
+	  <![CDATA[
+		select t_product.*, t_member.center_name, IFNULL((SELECT count(product_id) from t_order WHERE t_product.product_id = t_order.product_id), 0) as orderCnt
+		from t_product, t_member
+		where t_product.product_sort =#{product_sort} and t_member.road_address like concat('%',#{address},'%')
+		and t_product.member_id=t_member.member_id
+		order by orderCnt desc
+	  ]]>
+	</select>	
+	
+	<select id="selectproductSortByLowPrice" resultMap="productResult"   parameterType="java.util.HashMap"  >
+     <![CDATA[
+		select t_product.*, t_member.center_name from t_product, t_member
+		where t_product.product_sort =#{product_sort}  and t_member.road_address like concat('%',#{address},'%')
+		and t_product.member_id=t_member.member_id 
+		order by t_product.product_sales_price 
+		]]>
+	</select>	
+	
+	<select id="selectproductSortByHighPrice" resultMap="productResult"   parameterType="java.util.HashMap"  >
+     <![CDATA[
+		select t_product.*, t_member.center_name from t_product, t_member
+		where t_product.product_sort =#{product_sort}  and t_member.road_address like concat('%',#{address},'%')
+		and t_product.member_id=t_member.member_id 
+		order by t_product.product_sales_price desc
+		]]>
+	</select>	
+			
+			
+	<!-- 상품 검색 -->
+   <select id="selectProductBySearchWord" resultMap="productResult"   parameterType="String"  >
+     <![CDATA[
+		select DISTINCT t_product.*, t_member.center_name from t_product, t_member
+		where (t_product.product_name like concat('%',#{searchWord},'%') or t_member.center_name like concat('%',#{searchWord},'%')) 
+		and t_product.member_id = t_member.member_id
+		order by t_product.product_entered_date desc
+		]]>
+	</select>	
 
+
+	<!-- 상품 상세검색 -->
+   <select id="selectProductByAll" resultMap="productResult"   parameterType="String"  >
+     <![CDATA[
+		select DISTINCT t_product.*, t_member.center_name from t_product, t_member
+		where (t_product.product_name like concat('%',#{searchWord},'%') or t_member.center_name like concat('%',#{searchWord},'%')) 
+		and t_product.member_id = t_member.member_id
+		and t_product.product_sales_price BETWEEN #{minPrice} AND #{maxPrice}
+		order by t_product.product_entered_date desc
+	 ]]>
+	</select>	
+
+	
+   <select id="selectProductByProductName" resultMap="productResult"   parameterType="java.util.HashMap"  >
+    <![CDATA[
+		select DISTINCT t_product.*, t_member.center_name from t_product, t_member
+		where t_product.product_name like concat('%',#{searchWord},'%')
+		and t_product.member_id = t_member.member_id
+		and t_product.product_price BETWEEN #{minPrice} AND #{maxPrice}				
+		order by t_product.product_entered_date desc
+	 ]]>
+	</select>
+		
+
+   <select id="selectProductByCenterName" resultMap="productResult"   parameterType="java.util.HashMap"  >
+    <![CDATA[   
+		select DISTINCT t_product.*, t_member.center_name from t_product, t_member
+		where t_member.center_name like concat('%',#{searchWord},'%')
+		and t_product.member_id = t_member.member_id
+		and t_product.product_price BETWEEN #{minPrice} AND #{maxPrice}				
+		order by t_product.product_entered_date desc
+	 ]]>
+	</select>	
+	
+	
+	<!-- 상품 상세페이지 --> 	
 	<select id="selectProductDetail" resultMap="productResult"   parameterType="String"  >
 	    <![CDATA[
 		    select * from t_product 
 			where product_id=#{product_id}
 			order by product_id
-    	]]>
-	</select>
-	
-	<select id="selectProductOption" resultType="productOptVO"   parameterType="String"  >
-	    <![CDATA[
-	    	select * from  t_product_option 
-	    	where product_id=#{product_id}
     	]]>
 	</select>
 	
@@ -113,75 +214,5 @@
 	   	]]>
 	</select>
 
-	<select id="selectproductSortByPopular" resultMap="productResult"   parameterType="java.util.HashMap"  >
-	  <![CDATA[
-		select t_product.*, t_member.center_name from t_product, t_member
-		where t_product.product_sort =#{product_sort} and t_member.road_address like concat('%',#{address},'%')
-		and t_product.member_id=t_member.member_id
-		order by t_product.product_price desc
-	  ]]>
-		
-	</select>	
-	
-	<select id="selectproductSortByLowPrice" resultMap="productResult"   parameterType="java.util.HashMap"  >
-     <![CDATA[
-		select t_product.*, t_member.center_name from t_product, t_member
-		where t_product.product_sort =#{product_sort}  and t_member.road_address like concat('%',#{address},'%')
-		and t_product.member_id=t_member.member_id 
-		order by t_product.product_price 
-		]]>
-	</select>	
-	
-	<select id="selectproductSortByHighPrice" resultMap="productResult"   parameterType="java.util.HashMap"  >
-     <![CDATA[
-		select t_product.*, t_member.center_name from t_product, t_member
-		where t_product.product_sort =#{product_sort}  and t_member.road_address like concat('%',#{address},'%')
-		and t_product.member_id=t_member.member_id 
-		order by t_product.product_price desc
-		]]>
-	</select>	
-	
-
-   <select id="selectProductBySearchWord" resultMap="productResult"   parameterType="String"  >
-     <![CDATA[
-		select DISTINCT t_product.*, t_member.center_name from t_product, t_member
-		where (t_product.product_name like concat('%',#{searchWord},'%') or t_member.center_name like concat('%',#{searchWord},'%')) 
-		and t_product.member_id = t_member.member_id
-		order by t_product.product_entered_date desc
-		]]>
-	</select>	
-
-	
-   <select id="selectProductByAll" resultMap="productResult"   parameterType="String"  >
-     <![CDATA[
-		select DISTINCT t_product.*, t_member.center_name from t_product, t_member
-		where (t_product.product_name like concat('%',#{searchWord},'%') or t_member.center_name like concat('%',#{searchWord},'%')) 
-		and t_product.member_id = t_member.member_id
-		and t_product.product_sales_price BETWEEN #{minPrice} AND #{maxPrice}
-		order by t_product.product_entered_date desc
-	 ]]>
-	</select>	
-
-	
-   <select id="selectProductByProductName" resultMap="productResult"   parameterType="java.util.HashMap"  >
-    <![CDATA[
-		select DISTINCT t_product.*, t_member.center_name from t_product, t_member
-		where t_product.product_name like concat('%',#{searchWord},'%')
-		and t_product.member_id = t_member.member_id
-		and t_product.product_price BETWEEN #{minPrice} AND #{maxPrice}				
-		order by t_product.product_entered_date desc
-	 ]]>
-	</select>
-		
-
-   <select id="selectProductByCenterName" resultMap="productResult"   parameterType="java.util.HashMap"  >
-    <![CDATA[   
-		select DISTINCT t_product.*, t_member.center_name from t_product, t_member
-		where t_member.center_name like concat('%',#{searchWord},'%')
-		and t_product.member_id = t_member.member_id
-		and t_product.product_price BETWEEN #{minPrice} AND #{maxPrice}				
-		order by t_product.product_entered_date desc
-	 ]]>
-	</select>	
 
 </mapper> 

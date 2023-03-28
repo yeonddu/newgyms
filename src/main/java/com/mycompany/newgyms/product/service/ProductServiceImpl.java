@@ -36,11 +36,6 @@ public class ProductServiceImpl implements ProductService {
 		return productMap;
 	}
 
-	public ProductOptVO selectProductOption(String _product_id) throws Exception {
-		ProductOptVO productOptVO = productDAO.selectProductOption(_product_id);
-		return productOptVO;
-	}
-
 	/* ¿É¼Ç */
 	public List<ProductOptVO> productOptionList(String _product_id) throws Exception {
 		List<ProductOptVO> productOptList = productDAO.selectProductOptionList(_product_id);

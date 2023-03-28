@@ -38,16 +38,20 @@
 		    var product_sales_price = ${product.product_sales_price};
 		    var sales_price = Number(product_sales_price);
 		    
-		    //옵션가격
-		    var product_option_price = $(this).val();
-		    var option_price = Number(product_option_price);
-		    	
+		    //선택된 옵션에서 옵션가격 가져오기
+		    var product_option = $("#order_product_opt option:checked").text(); //옵션명 (+가격원)
+			var product_option_spl = product_option.split(' (+'); 
+			var product_option_spl = product_option_spl[1].split('원)');
+		    
+			/*옵션가격*/
+			var str_product_option_price = product_option_spl[0]; 
+		    var option_price =  Number(str_product_option_price.replace(/,/g, '')); //숫자로 변환
 		    //총 상품금액
 			var total_price = sales_price + option_price;
 			
 			const option = {
 				 maximumFractionDigits: 0
-			} 
+			}
 			
 		    document.getElementById("total_price").innerHTML = total_price.toLocaleString('ko-KR',  option) ;
 		});
@@ -55,21 +59,14 @@
 	
 	/* 장바구니 담기 */
 	function add_cart(product_id) {
-		//선택된 옵션
-		var order_product_opt = $("#order_product_opt option:checked").text();
-		console.log(order_product_opt)
 		
-		if ($("#order_product_opt option:checked").val() == '') {
-			alert("옵션을 선택해주세요 :( )");
+		/* option_id 가져오기 */
+		var option_id = $("#order_product_opt option:checked").val(); 
+		
+		if (option_id == '') {
+			alert("옵션을 선택해주세요 :( ");
 			return;
 		} 
-	
-		/* 옵션명 가져오기 */
-		var order_product_opt_spl = order_product_opt.split(" (+"); 
-		var cart_option_name = order_product_opt_spl[0]; /*옵션명*/
-		
-		var cart_option_price = $("#order_product_opt option:checked").val(); /*옵션가격*/
-		console.log(cart_option_price);
 		
 	    $.ajax({
 	       type : "post",
@@ -77,8 +74,7 @@
 	       url : "${contextPath}/cart/addProductInCart.do",
 	       data : {
 	          product_id:product_id,
-	          cart_option_name:cart_option_name,
-	          cart_option_price:cart_option_price
+	          option_id:option_id
 	       },
 	       success : function(data, textStatus) {
 	       	  if(data.trim()=='add_success'){
@@ -116,7 +112,7 @@
 		<h2>${member.center_name }</h2>
 		
 		<div class="product_price">         
-			<div class="sales_price" id="sales_price"><fmt:formatNumber  value="${product.product_sales_price}" type="number"/>원</div>
+			<div class="sales_price" id="sales_price"><fmt:formatNumber value="${product.product_sales_price}" type="number"/>원</div>
 		    <div class="price"><fmt:formatNumber  value="${product.product_price}" type="number"/>원</div>
 	        <div class="discount_rate"><fmt:formatNumber  value="${product.product_sales_price/product.product_price}" type="percent" var="discount_rate" />${discount_rate }</div>
 		</div>
@@ -127,7 +123,7 @@
 			<select id="order_product_opt" name="order_product_opt">
 				<option value="">[필수] 옵션 선택</option>
 					<c:forEach var="opt" items="${optList }">
-						<option value="${opt.product_option_price}">${opt.product_option_name} (+<fmt:formatNumber  value="${opt.product_option_price}" type="number"/> 원)</option>
+						<option value="${opt.option_id}">${opt.product_option_name} (+<fmt:formatNumber  value="${opt.product_option_price}" type="number"/>원)</option>
 					</c:forEach>
 	 		</select>
 		</div>

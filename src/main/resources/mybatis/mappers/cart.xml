@@ -8,12 +8,13 @@
 	<resultMap id="cartResult" type="CartVO">
 		<result property="cart_id" column="cart_id" />
 		<result property="product_id" column="product_id" />
-		<result property="member_id" column="product_id" />
-		<result property="cart_option_name" column="cart_option_name" />
-		<result property="cart_option_price" column="cart_option_price" />
+		<result property="member_id" column="member_id" />
+		<result property="option_id" column="option_id" />
+		
+		<result property="product_option_name" column="product_option_name" />
+		<result property="product_option_price" column="product_option_price" />
+		
 		<result property="cart_entered_date" column="cart_entered_date" />
-		<result property="product_main_image" column="product_main_image" />		
-		<result property="product_price" column="product_price" />
 	</resultMap>
 	
 	<resultMap id="productResult" type="ProductVO">
@@ -40,8 +41,8 @@
 
 	<select id="selectCartList"  parameterType="cartVO"  resultMap="cartResult"   >
        <![CDATA[
-      select * from t_cart 
-      where member_id=#{member_id}
+      select c.*, o.product_option_name, o.product_option_price from t_cart c, t_product_option o
+      where member_id=#{member_id} and c.option_id=o.option_id
       ]]>
    </select>
 
@@ -67,33 +68,28 @@
 
        ]]>
 	</select>
-	
-	<insert id="insertProductInCart" parameterType="cartVO">
-	    <![CDATA[
-		    	insert into t_cart(cart_id,
-		    	                           product_id,
-		    	                           member_id,
-		    	                           cart_option_name,
-		    	                           cart_option_price)
-		        				 values(#{cart_id},
-    							        #{product_id},
-    							        #{member_id},
-    							        #{cart_option_name},
-    							        #{cart_option_price})
-    	]]>
-	</insert>
 
 	<select id="selectMaxCartId" resultType="int">
 	    <![CDATA[
 			select IFNULL(max(cart_id), 0) + 1 from t_cart 
     	]]>
 	</select>
+	
+	<insert id="insertProductInCart" parameterType="cartVO">
+	    <![CDATA[
+		    	insert into t_cart(cart_id, product_id, member_id, option_id)
+		        				 values(#{cart_id},
+    							        #{product_id},
+    							        #{member_id},
+    							        #{option_id})
+    	]]>
+	</insert>
 
 	<update id="updateCartProductOption" parameterType="cartVO">
 	    <![CDATA[
 			update t_cart
-			       set cart_option_name=#{cart_option_name}
-			       , cart_option_price=#{cart_option_price}
+			       set option_id=#{option_id}
+			       
 		 	       where member_id=#{member_id}
 			        and product_id=#{product_id}
     	]]>

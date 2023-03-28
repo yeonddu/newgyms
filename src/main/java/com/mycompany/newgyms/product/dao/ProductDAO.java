@@ -28,6 +28,4 @@ public interface ProductDAO {
 	
 	public List<ProductVO> searchProductByCondition(Map searchMap) throws DataAccessException;
 	
-	public ProductOptVO selectProductOption(String product_id) throws DataAccessException;
-
 }

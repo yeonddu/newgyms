@@ -12,6 +12,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
+
+
+ <link rel="shortcut icon" type="image/x-icon" href="${contextPath }/resources/image/icon.png">
 <!-- 상품 -->
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script src="${contextPath}/resources/jquery/basic-jquery-slider.js" type="text/javascript"></script>

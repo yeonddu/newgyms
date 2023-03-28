@@ -19,10 +19,10 @@ public class CartServiceImpl  implements CartService{
 	@Autowired
 	private CartDAO cartDAO;
 		
+	/*장바구니 목록*/
 	public Map<String ,List> myCartList(CartVO cartVO) throws Exception{
 		Map<String,List> cartMap=new HashMap<String,List>();
 		
-		//장바구니 목록 가져오기
 		List<CartVO> myCartList=cartDAO.selectCartList(cartVO);
 		if(myCartList.size()==0){ 
 			System.out.println("장바구니가 비어있습니다.");
@@ -35,7 +35,8 @@ public class CartServiceImpl  implements CartService{
 		cartMap.put("myProductList",myProductList);
 		return cartMap;
 	}
-	
+
+	/* 장바구니 추가 */
 	public boolean findCartProduct(CartVO cartVO) throws Exception{
 		return cartDAO.selectCountInCart(cartVO);
 	}	
@@ -44,12 +45,14 @@ public class CartServiceImpl  implements CartService{
 		cartDAO.insertProductInCart(cartVO);
 	}
 	
+	/*장바구니 옵션 변경*/	
 	public boolean modifyCartOption(CartVO cartVO) throws Exception{
 		boolean result=true;
 		cartDAO.updateCartProductOption(cartVO);
 		return result;
 	}
 
+	/* 장바구니 삭제 */
 	public void removeEachCartProduct(int cart_id) throws Exception{
 		cartDAO.deleteEachCartProduct(cart_id);
 	}

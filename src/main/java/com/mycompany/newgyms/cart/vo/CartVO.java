@@ -9,8 +9,9 @@ public class CartVO {
 	private int cart_id;
 	private int product_id;
 	private String member_id;
-	private String cart_option_name;
-	private int cart_option_price;
+	private int option_id;
+	private String product_option_name;
+	private int product_option_price;
 	private Date cart_entered_date;
 	
 	public int getCart_id() {
@@ -32,24 +33,29 @@ public class CartVO {
 		this.member_id = member_id;
 	}
 	
-	public String getCart_option_name() {
-		return cart_option_name;
+	public int getOption_id() {
+		return option_id;
 	}
-	public void setCart_option_name(String cart_option_name) {
-		this.cart_option_name = cart_option_name;
+	public void setOption_id(int option_id) {
+		this.option_id = option_id;
 	}
-	public int getCart_option_price() {
-		return cart_option_price;
+	public String getProduct_option_name() {
+		return product_option_name;
 	}
-	public void setCart_option_price(int cart_option_price) {
-		this.cart_option_price = cart_option_price;
+	public void setProduct_option_name(String product_option_name) {
+		this.product_option_name = product_option_name;
+	}
+	public int getProduct_option_price() {
+		return product_option_price;
+	}
+	public void setProduct_option_price(int product_option_price) {
+		this.product_option_price = product_option_price;
 	}
 	public Date getCart_entered_date() {
 		return cart_entered_date;
 	}
-	public void setCart_entered_date(Date cart_entered_date) {
-		this.cart_entered_date = cart_entered_date;
+	public void setCart_entered_date(Date product_entered_date) {
+		this.cart_entered_date = product_entered_date;
 	}
-	
 	
 }

@@ -21,6 +21,7 @@ public class ProductDAOImpl implements ProductDAO {
 	@Autowired
 	private SqlSession sqlSession;
 
+	/* 상품 목록 */
 	@Override
 	public ArrayList selectProductList(Map listMap) throws DataAccessException {
 		String product_sort = (String) listMap.get("product_sort");
@@ -36,72 +37,46 @@ public class ProductDAOImpl implements ProductDAO {
 		}
 
 	}
-
+	
+	/* 상품 정렬 */
 	public ArrayList selectSortedProduct(Map sortMap) throws DataAccessException {
-
+		String product_sort = (String) sortMap.get("product_sort");
 		String sortBy = (String) sortMap.get("sortBy");
+		
 		ArrayList list = new ArrayList();
-
-		if (sortBy.equals("popular")) {
-			list = (ArrayList) sqlSession.selectList("mapper.product.selectproductSortByPopular", sortMap);
-		} else if (sortBy.equals("lowPrice")) {
-			list = (ArrayList) sqlSession.selectList("mapper.product.selectproductSortByLowPrice", sortMap);
-		} else if (sortBy.equals("highPrice")) {
-			list = (ArrayList) sqlSession.selectList("mapper.product.selectproductSortByHighPrice", sortMap);
+		if (product_sort.equals("전체보기")) {
+			if (sortBy.equals("popular")) {
+				list = (ArrayList) sqlSession.selectList("mapper.product.selectAllproductSortByPopular", sortMap);
+			} else if (sortBy.equals("lowPrice")) {
+				list = (ArrayList) sqlSession.selectList("mapper.product.selectAllproductSortByLowPrice", sortMap);
+			} else if (sortBy.equals("highPrice")) {
+				list = (ArrayList) sqlSession.selectList("mapper.product.selectAllproductSortByHighPrice", sortMap);
+			}
+			return list;
+			// 카테고리별,지역별
+		} else {
+			if (sortBy.equals("popular")) {
+				list = (ArrayList) sqlSession.selectList("mapper.product.selectproductSortByPopular", sortMap);
+			} else if (sortBy.equals("lowPrice")) {
+				list = (ArrayList) sqlSession.selectList("mapper.product.selectproductSortByLowPrice", sortMap);
+			} else if (sortBy.equals("highPrice")) {
+				list = (ArrayList) sqlSession.selectList("mapper.product.selectproductSortByHighPrice", sortMap);
+			}
+			return list;
 		}
-		return list;
+		
+		
+		
 	}
 
-	@Override
-	public ProductVO selectProductDetail(String product_id) throws DataAccessException {
-		ProductVO productVO = (ProductVO) sqlSession.selectOne("mapper.product.selectProductDetail", product_id);
-		return productVO;
-	}
-
-	/* 옵션 */
-	@Override
-	public List<ProductOptVO> selectProductOptionList(String product_id) throws DataAccessException {
-		List<ProductOptVO> productOptList = (ArrayList) sqlSession.selectList("mapper.product.selectProductOptionList",
-				product_id);
-		return productOptList;
-	}
-
-	/* 이미지 */
-	@Override
-	public Map<String, Object> selectProductImage(String product_id) throws DataAccessException {
-		List<ProductImageVO> detailImageList = (ArrayList) sqlSession
-				.selectList("mapper.product.selectProductDetailImage", product_id);
-		List<ProductImageVO> priceImageList = (ArrayList) sqlSession
-				.selectList("mapper.product.selectProductPriceImage", product_id);
-		List<ProductImageVO> facilityImageList = (ArrayList) sqlSession
-				.selectList("mapper.product.selectProductFacilityImage", product_id);
-		Map imageMap = new HashMap();
-		imageMap.put("detailImageList", detailImageList);
-		imageMap.put("priceImageList", priceImageList);
-		imageMap.put("facilityImageList", facilityImageList);
-
-		return imageMap;
-	}
-
-	/* 사업자 정보 */
-	@Override
-	public MemberVO selectOwnerDetail(String member_id) throws DataAccessException {
-		MemberVO memberVO = (MemberVO) sqlSession.selectOne("mapper.member.selectOwnerDetail", member_id);
-		return memberVO;
-	}
-
-	public ProductOptVO selectProductOption(String product_id) throws DataAccessException {
-		ProductOptVO productOptVO = sqlSession.selectOne("mapper.product.selectProductOption", product_id);
-
-		return productOptVO;
-	}
-
+	/* 상품검색 */
 	@Override
 	public ArrayList selectProductBySearchWord(String searchWord) throws DataAccessException {
 		ArrayList list = (ArrayList) sqlSession.selectList("mapper.product.selectProductBySearchWord", searchWord);
 		return list;
 	}
-
+	
+	/* 상품 상세검색 */
 	@Override
 	public ArrayList searchProductByCondition(Map searchMap) throws DataAccessException {
 		String searchOption = (String) searchMap.get("searchOption");
@@ -116,6 +91,45 @@ public class ProductDAOImpl implements ProductDAO {
 			list = (ArrayList) sqlSession.selectList("mapper.product.selectProductByCenterName", searchMap);
 		}
 		return list;
+	}
+	
+	/* 상세정보 */
+	@Override
+	public ProductVO selectProductDetail(String product_id) throws DataAccessException {
+		ProductVO productVO = (ProductVO) sqlSession.selectOne("mapper.product.selectProductDetail", product_id);
+		return productVO;
+	}
+
+	/* 옵션 */
+	@Override
+	public List<ProductOptVO> selectProductOptionList(String product_id) throws DataAccessException {
+		List<ProductOptVO> productOptList = (ArrayList) sqlSession.selectList("mapper.product.selectProductOptionList", product_id);
+		return productOptList;
+	}
+
+	/* 이미지 */
+	@Override
+	public Map<String, Object> selectProductImage(String product_id) throws DataAccessException {
+		/* 프로그램 상세정보 */
+		List<ProductImageVO> detailImageList = (ArrayList) sqlSession.selectList("mapper.product.selectProductDetailImage", product_id);
+		/* 가격 정보 */
+		List<ProductImageVO> priceImageList = (ArrayList) sqlSession.selectList("mapper.product.selectProductPriceImage", product_id);
+		/* 시설 정보 */
+		List<ProductImageVO> facilityImageList = (ArrayList) sqlSession.selectList("mapper.product.selectProductFacilityImage", product_id);
+		
+		Map imageMap = new HashMap();
+		imageMap.put("detailImageList", detailImageList);
+		imageMap.put("priceImageList", priceImageList);
+		imageMap.put("facilityImageList", facilityImageList);
+
+		return imageMap;
+	}
+
+	/* 사업자 정보 */
+	@Override
+	public MemberVO selectOwnerDetail(String member_id) throws DataAccessException {
+		MemberVO memberVO = (MemberVO) sqlSession.selectOne("mapper.member.selectOwnerDetail", member_id);
+		return memberVO;
 	}
 
 }

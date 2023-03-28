@@ -57,55 +57,6 @@ public class ProductControllerImpl implements ProductController {
 		return mav;
 	}
 
-	/* 제품 상세정보 가져오기 */
-	@RequestMapping(value = "/productDetail.do", method = RequestMethod.GET)
-	public ModelAndView productDetail(@RequestParam("product_id") String product_id, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		String viewName = (String) request.getAttribute("viewName");
-		HttpSession session = request.getSession();
-
-		/* 제품 정보 */
-		Map productMap = productService.productDetail(product_id);
-		ModelAndView mav = new ModelAndView(viewName);
-		mav.addObject("productMap", productMap);
-
-		List<ProductOptVO> productOptList = productService.productOptionList(product_id);
-		mav.addObject("productOptList", productOptList);
-
-		/* 제품 이미지 */
-		Map imageMap = productService.productImage(product_id);
-		mav.addObject("imageMap", imageMap);
-
-		/* 제품 리뷰 */
-		List<ReviewVO> reviewList = reviewService.productReviewList(product_id);
-		mav.addObject("reviewList", reviewList);
-
-		/* 제품 질문 목록 */
-		List<QnaVO> questionList = qnaService.productQuestionList(product_id);
-		mav.addObject("questionList", questionList);
-
-		/* 제품 답변 목록 */
-		List<QnaVO> answerList = qnaService.productAnswerList(product_id);
-		mav.addObject("answerList", answerList);
-
-		/* 사업자 정보 */
-		ProductVO productVO = (ProductVO) productMap.get("productVO");
-		String member_id = productVO.getMember_id(); /* 사업자 아이디 */
-		MemberVO memberVO = productService.ownerDetail(member_id);
-		mav.addObject("memberVO", memberVO);
-
-		/* 현재 로그인된 ID */
-		MemberVO memberVo = (MemberVO) session.getAttribute("memberInfo");
-		if (memberVo != null && memberVo.getMember_id() != null) {
-
-			String loginMember_id = memberVo.getMember_id();
-			mav.addObject("loginMember_id", loginMember_id);
-		}
-
-		/* addProductInQuick(product_id,productVO,session); */ //추가작업예정
-		return mav;
-	}
-
 	/* 정렬하여 조회 - 신상품/인기순/낮은가격/높은가격 */
 	@RequestMapping(value = "/productSorting.do", method = RequestMethod.GET)
 	public ModelAndView productSorting(@RequestParam("category") String product_sort,
@@ -170,6 +121,56 @@ public class ProductControllerImpl implements ProductController {
 
 	}
 
+	/* 상품 상세페이지 */
+	@RequestMapping(value = "/productDetail.do", method = RequestMethod.GET)
+	public ModelAndView productDetail(@RequestParam("product_id") String product_id, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		HttpSession session = request.getSession();
+
+		/* 상세정보 */
+		Map productMap = productService.productDetail(product_id);
+		ModelAndView mav = new ModelAndView(viewName);
+		mav.addObject("productMap", productMap);
+
+		/* 옵션 */
+		List<ProductOptVO> productOptList = productService.productOptionList(product_id);
+		mav.addObject("productOptList", productOptList);
+
+		/* 이미지 */
+		Map imageMap = productService.productImage(product_id);
+		mav.addObject("imageMap", imageMap);
+
+		/* 리뷰 */
+		List<ReviewVO> reviewList = reviewService.productReviewList(product_id);
+		mav.addObject("reviewList", reviewList);
+
+		/* 질문 목록 */
+		List<QnaVO> questionList = qnaService.productQuestionList(product_id);
+		mav.addObject("questionList", questionList);
+
+		/* 답변 목록 */
+		List<QnaVO> answerList = qnaService.productAnswerList(product_id);
+		mav.addObject("answerList", answerList);
+
+		/* 현재 로그인된 ID */
+		MemberVO memberVo = (MemberVO) session.getAttribute("memberInfo");
+		if (memberVo != null && memberVo.getMember_id() != null) {
+			
+			String loginMember_id = memberVo.getMember_id();
+			mav.addObject("loginMember_id", loginMember_id);
+		}
+		
+		/* 사업자 정보 */
+		ProductVO productVO = (ProductVO) productMap.get("productVO");
+		String member_id = productVO.getMember_id(); /* 사업자 아이디 */
+		MemberVO memberVO = productService.ownerDetail(member_id);
+		mav.addObject("memberVO", memberVO);
+
+		/* addProductInQuick(product_id,productVO,session); */ //추가작업예정
+		
+		return mav;
+	}
 	
 
 }

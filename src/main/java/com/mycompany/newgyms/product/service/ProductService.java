@@ -13,8 +13,6 @@ public interface ProductService {
 	public Map productDetail(String _product_id) throws Exception;
 	public MemberVO ownerDetail(String member_id) throws Exception;
 	
-	public ProductOptVO selectProductOption(String _product_id) throws Exception;
-	
 	public List<ProductOptVO> productOptionList(String _product_id) throws Exception;
 	public Map productImage(String _product_id) throws Exception;
 
