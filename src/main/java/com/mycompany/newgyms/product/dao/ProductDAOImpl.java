@@ -95,21 +95,21 @@ public class ProductDAOImpl implements ProductDAO {
 	
 	/* 상세정보 */
 	@Override
-	public ProductVO selectProductDetail(String product_id) throws DataAccessException {
+	public ProductVO selectProductDetail(int product_id) throws DataAccessException {
 		ProductVO productVO = (ProductVO) sqlSession.selectOne("mapper.product.selectProductDetail", product_id);
 		return productVO;
 	}
 
 	/* 옵션 */
 	@Override
-	public List<ProductOptVO> selectProductOptionList(String product_id) throws DataAccessException {
+	public List<ProductOptVO> selectProductOptionList(int product_id) throws DataAccessException {
 		List<ProductOptVO> productOptList = (ArrayList) sqlSession.selectList("mapper.product.selectProductOptionList", product_id);
 		return productOptList;
 	}
 
 	/* 이미지 */
 	@Override
-	public Map<String, Object> selectProductImage(String product_id) throws DataAccessException {
+	public Map<String, Object> selectProductImage(int product_id) throws DataAccessException {
 		/* 프로그램 상세정보 */
 		List<ProductImageVO> detailImageList = (ArrayList) sqlSession.selectList("mapper.product.selectProductDetailImage", product_id);
 		/* 가격 정보 */

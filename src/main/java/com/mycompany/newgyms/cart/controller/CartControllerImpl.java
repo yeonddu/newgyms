@@ -56,25 +56,22 @@ public class CartControllerImpl extends BaseController implements CartController
 		
 		HttpSession session=request.getSession();
 		Boolean isLogOn=(Boolean)session.getAttribute("isLogOn");
-System.out.println("isLogOn :"+isLogOn);
 		MemberVO memberVO=(MemberVO)session.getAttribute("memberInfo");
+		session.setAttribute("memberInfo", memberVO);
 		
 		//로그인한 경우
-		if (isLogOn == true && memberVO!= null && memberVO.getMember_id() != null) {
+		if (isLogOn != null && isLogOn == true && memberVO!= null && memberVO.getMember_id() != null) {
 			
-			//로그인한 member_id
-			session.setAttribute("memberInfo", memberVO);
-			String member_id=memberVO.getMember_id();
+			String member_id=memberVO.getMember_id(); //로그인한 member_id
 			cartVO.setMember_id(member_id);
 			/* mav.addObject("member_id", member_id); */
 			
 		//로그인 하지 않은 경우
-		} else if (isLogOn == null || isLogOn == false || memberVO!= null) {
+		} else if (isLogOn == null || isLogOn == false || memberVO == null) {
 			
 			String member_id = session.getId(); //session Id를 member_id에 저장
-System.out.println("session Id"+member_id);
 			cartVO.setMember_id(member_id);
-			
+
 		}
 		
 		Map<String ,List> cartMap=cartService.myCartList(cartVO);
@@ -90,21 +87,19 @@ System.out.println("session Id"+member_id);
 		//로그인 정보 가져오기
 		HttpSession session=request.getSession();
 		Boolean isLogOn=(Boolean)session.getAttribute("isLogOn");
-System.out.println("isLogOn :"+isLogOn);
 		memberVO=(MemberVO)session.getAttribute("memberInfo");
 		
+		//로그인한 경우
 		if (isLogOn == true && memberVO!= null && memberVO.getMember_id() != null) {
 			
 			String member_id=memberVO.getMember_id(); //로그인한 member_id
 			cartVO.setMember_id(member_id);
 			
-		} else if (isLogOn == null || isLogOn == false || memberVO!= null) {
+		//로그인 하지 않은 경우
+		} else if (isLogOn == null || isLogOn == false || memberVO == null) {
 			
 			String member_id = session.getId(); //session Id를 member_id에 저장
-System.out.println("session Id"+member_id);
 			cartVO.setMember_id(member_id);
-			session.setMaxInactiveInterval(1*60);
-			session.setAttribute("isLogOn", false);
 			
 		}
 		
@@ -125,8 +120,7 @@ System.out.println("session Id"+member_id);
 	
 	/*장바구니 옵션 변경*/
 	@RequestMapping(value="/selectProductOption.do" ,method = RequestMethod.GET)
-	
-	public @ResponseBody List<ProductOptVO> selectProductOption(@RequestParam("product_id") String product_id, HttpServletRequest request, HttpServletResponse response)  throws Exception{
+	public @ResponseBody List<ProductOptVO> selectProductOption(@RequestParam("product_id") int product_id, HttpServletRequest request, HttpServletResponse response)  throws Exception{
 		List<ProductOptVO> productOptList = productService.productOptionList(product_id);
 		return productOptList;
 	}
@@ -134,13 +128,27 @@ System.out.println("session Id"+member_id);
 	/*변경한 옵션 저장*/
 	@RequestMapping(value="/modifyCartOption.do" ,method = RequestMethod.POST)
 	public @ResponseBody String  modifyCartOption(@RequestParam("product_id") int product_id, @RequestParam("option_id") int option_id, HttpServletRequest request, HttpServletResponse response)  throws Exception{
+		
+		
+		//로그인 정보 가져오기
 		HttpSession session=request.getSession();
-		
+		Boolean isLogOn=(Boolean)session.getAttribute("isLogOn");
 		memberVO=(MemberVO)session.getAttribute("memberInfo");
-		String member_id=memberVO.getMember_id();
 		
+		//로그인한 경우
+		if (isLogOn == true && memberVO!= null && memberVO.getMember_id() != null) {
+			String member_id=memberVO.getMember_id(); //로그인한 member_id
+			cartVO.setMember_id(member_id);
+			
+		//로그인 하지 않은 경우
+		} else if (isLogOn == null || isLogOn == false || memberVO == null) {
+			
+			String member_id = session.getId(); //session Id를 member_id에 저장
+			cartVO.setMember_id(member_id);
+			
+		}
+
 		cartVO.setProduct_id(product_id);
-		cartVO.setMember_id(member_id);
 		cartVO.setOption_id(option_id);
 		
 		boolean result=cartService.modifyCartOption(cartVO);

@@ -79,11 +79,11 @@ a {
 
 
 .address_menu ul li a:hover {
-  color:#FFC300; font-weight:bold;
+  color:#FFC300; 
 }
 
 .address_menu ul li a:focus {
-   color:#FFC300; font-weight:bold;
+   color:#FFC300; 
 }
 
 .productList #current_menu {

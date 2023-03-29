@@ -126,7 +126,13 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 						console.log(data[i]);
 						var option_id = data[i].option_id;
 						var product_option_name = data[i].product_option_name;
-						var product_option_price = data[i].product_option_price;
+						var _product_option_price = data[i].product_option_price;
+						
+						const option = {
+								 maximumFractionDigits: 0
+						} 
+						var product_option_price = _product_option_price.toLocaleString('ko-KR',  option) ;
+						
 						$('#cart_product_opt').append("<option value='"+option_id+"'>" + product_option_name +  " (+"+product_option_price + "원)" + "</option>");
 					}
 				},
@@ -262,9 +268,12 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 												<td class="modify_option_btn">
 													<a href="javascript:modifyPopup('open', '.layer01');">옵션변경</a>
 												</td>
+												<td class="product_price">
+													<fmt:formatNumber value="${product.product_price}" type="number" var="product_price" />
+													${product_price }원
+												</td>
 												<td class="product_total_price">
-													
-													<fmt:formatNumber value="${product.product_sales_price+cart.product_option_price}" type="number" var="product_total_price" />
+													<fmt:formatNumber value="${product.product_sales_price + cart.product_option_price}" type="number" var="product_total_price" />
 													${product_total_price }원
 													<!-- 장바구니 총 상품금액 구하기 위한 상품 금액 hidden처리 --> 
 													<input id="product_total_price" type="hidden" value="${product_total_price }" >
@@ -277,11 +286,7 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 										
 													
 												<td class="x_button">
-<%--
- 													<a href="javascript:delete_each_cart_product('${cart.cart_id}');">X</a> 
- 													--%>
 													<a href="${contextPath}/cart/removeEachCartProduct.do?cart_id=${cart.cart_id}">X</a>
-
 												</td>
 											</tr>
 										</c:if>
@@ -291,7 +296,7 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 						</c:choose>
 					</tbody>
 				</table>
-				
+					
 					<div class="cart_total_price"> 총 상품금액 <span id="cart_total_price"><fmt:formatNumber  value="${cart_total_price}" type="number"/></span>원</div>
 					<!-- 장바구니 총 상품금액 hidden처리 --> 
 					<input id="total_price" value="${cart_total_price}" type="hidden" />

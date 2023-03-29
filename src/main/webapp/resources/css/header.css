@@ -119,11 +119,19 @@ img {
   height: 26px;
 }
 
-/* .login_menu_1 div{
-width: 1px;
-height: 13px;
-background-color: rgb(95, 95, 95);
-} */
+/* 로그인 뱃지 */
+.member_btn, .owner_btn, .admin_btn {
+   font-size: 10px;
+   color: #130875;
+   border-radius: 24px;
+   width: 45px;
+   height: 20px;
+   line-height:20px;
+   background-color: white;
+   border: 1px solid #ddd;
+   margin-right:8px;
+}
+
 
 /* 센터 */
 .center {
@@ -260,8 +268,10 @@ background-color: rgb(95, 95, 95);
 }
 
 .menu-box_menu-2>li:hover>a {
+ /*
   text-decoration: underline;
   text-underline-position: under;
+ */
   color:#F9C200;
 }
 
@@ -290,8 +300,10 @@ background-color: rgb(95, 95, 95);
   height: 120px;
 }
 .menu-box_menu-1>li:hover>a {
+	/*
   text-decoration: underline;
   text-underline-position: under;
+	*/
   color:#F9C200;
 }
 

@@ -17,11 +17,11 @@ public class QnaServiceImpl implements QnaService{
 	@Autowired
 	private QnaDAO qnaDAO;
 	
-	public List<QnaVO> productQuestionList(String product_id) throws Exception{
+	public List<QnaVO> productQuestionList(int product_id) throws Exception{
 		List questionList= qnaDAO.selectproductQuestionList(product_id);
 		return questionList;
 	}
-	public List<QnaVO> productAnswerList(String product_id) throws Exception{
+	public List<QnaVO> productAnswerList(int product_id) throws Exception{
 		List answerList= qnaDAO.selectproductAnswerList(product_id);
 		return answerList;
 	}

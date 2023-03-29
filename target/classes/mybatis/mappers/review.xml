@@ -18,11 +18,17 @@
 		<result property="review_write_date" column="review_wirte_date" />
 	</resultMap>
 
-	<!-- 상품검색 추가 -->	
 	<select id="selectProductReviewList" resultMap="reviewResult"   parameterType="String"  >
      <![CDATA[
 			select * from t_review
 			where product_id=#{product_id}
+			order by review_write_date desc
+		]]>
+	</select>	
+	
+	<select id="selectReviewList" resultMap="reviewResult"  >
+     <![CDATA[
+			select * from t_review
 			order by review_write_date desc
 		]]>
 	</select>	

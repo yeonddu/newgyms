@@ -10,11 +10,11 @@ import com.mycompany.newgyms.product.vo.ProductVO;
 public interface ProductService {
 	public List<ProductVO> productList(Map listMap) throws Exception;
 
-	public Map productDetail(String _product_id) throws Exception;
+	public Map productDetail(int product_id) throws Exception;
 	public MemberVO ownerDetail(String member_id) throws Exception;
 	
-	public List<ProductOptVO> productOptionList(String _product_id) throws Exception;
-	public Map productImage(String _product_id) throws Exception;
+	public List<ProductOptVO> productOptionList(int product_id) throws Exception;
+	public Map productImage(int product_id) throws Exception;
 
 	public List<ProductVO> productSorting(Map sortMap) throws Exception;
 	public List<ProductVO> searchProduct(String searchWord) throws Exception;

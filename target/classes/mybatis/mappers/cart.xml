@@ -10,10 +10,6 @@
 		<result property="product_id" column="product_id" />
 		<result property="member_id" column="member_id" />
 		<result property="option_id" column="option_id" />
-		
-		<result property="product_option_name" column="product_option_name" />
-		<result property="product_option_price" column="product_option_price" />
-		
 		<result property="cart_entered_date" column="cart_entered_date" />
 	</resultMap>
 	

@@ -16,11 +16,39 @@
 <head>
 <meta charset="EUC-KR">
 <title>상품 목록 조회</title>
-<style>
+<script>
+function add_wishList(product_id) {
+    $.ajax({
+	       type : "post",
+	       async : false,
+	       url : "${contextPath}/wish/addWishList.do",
+	       data : {
+	          product_id:product_id
+	       },
+	       success : function(data, textStatus) {
+	    	   if(data.trim()=='add_success'){
+		       		var con_wish = confirm("찜 목록에 추가되었습니다. 찜 목록으로 이동할까요?"); 
+		       		if(con_wish==true) {
+		       			location.href="${contextPath}/wish/myWishList.do";
+		       		} 
+	          }else if(data.trim()=='already_existed'){
+	             alert("이미 찜 목록에 추가된 상품입니다. :) ");   
+   
+	          }else if(data.trim()=='add_failed'){
+	             alert("로그인이 필요합니다. :) ");   
+	          }
+	          
+	       },
+	       error : function(data, textStatus) {
+	          alert("에러가 발생했습니다."+data);
+	       },
+	       complete : function(data, textStatus) {
+	          //alert("작업을완료 했습니다");
+	       }
+	    }); //end ajax   
+}
 
-
-</style>
-
+</script>
 </head>
 <body>
 <div class="con-min-width">
@@ -70,7 +98,7 @@
 						   <img alt="" src="${contextPath}/download.do?product_id=${item.product_id}&fileName=${item.product_main_image}">
 						</a>
 						<div class="wish" ></div>
-							<a id="wish" href="${contextPath }/wish/addWishList.do?product_id=${item.product_id}"><img src="${contextPath}/resources/image/heart.png" alt="찜하기"></a>
+							<a id="wish" href="javascript:add_wishList('${item.product_id}');"><img src="${contextPath}/resources/image/heart.png" alt="찜하기"></a>
 			   		 </div>
 			   		 
 					<div class="product_description">

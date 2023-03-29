@@ -13,13 +13,13 @@ public class QnaDAOImpl implements QnaDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public ArrayList selectproductQuestionList(String product_id) throws DataAccessException{
+	public ArrayList selectproductQuestionList(int product_id) throws DataAccessException{
 		ArrayList questionList = new ArrayList();
 		questionList=(ArrayList)sqlSession.selectList("mapper.qna.selectProductQuestionList",product_id);
 		return questionList;
 	}
 	
-	public ArrayList selectproductAnswerList(String product_id) throws DataAccessException{
+	public ArrayList selectproductAnswerList(int product_id) throws DataAccessException{
 		ArrayList answerList = new ArrayList();
 		answerList=(ArrayList)sqlSession.selectList("mapper.qna.selectProductAnswerList",product_id);
 		return answerList;

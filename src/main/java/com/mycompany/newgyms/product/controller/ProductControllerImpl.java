@@ -24,6 +24,8 @@ import com.mycompany.newgyms.qna.service.QnaService;
 import com.mycompany.newgyms.qna.vo.QnaVO;
 import com.mycompany.newgyms.review.service.ReviewService;
 import com.mycompany.newgyms.review.vo.ReviewVO;
+import com.mycompany.newgyms.wish.service.WishService;
+import com.mycompany.newgyms.wish.vo.WishVO;
 
 @Controller("productController")
 @RequestMapping(value = "/product")
@@ -37,6 +39,11 @@ public class ProductControllerImpl implements ProductController {
 	@Autowired
 	private QnaService qnaService;
 
+	@Autowired
+	private WishService wishService;
+	
+	@Autowired
+	private WishVO wishVO;
 	/* 카테고리별, 지역별 조회 */
 	@RequestMapping(value = "/productList.do", method = RequestMethod.GET)
 	public ModelAndView productList(@RequestParam("category") String product_sort,
@@ -123,11 +130,11 @@ public class ProductControllerImpl implements ProductController {
 
 	/* 상품 상세페이지 */
 	@RequestMapping(value = "/productDetail.do", method = RequestMethod.GET)
-	public ModelAndView productDetail(@RequestParam("product_id") String product_id, HttpServletRequest request,
+	public ModelAndView productDetail(@RequestParam("product_id") int product_id, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		HttpSession session = request.getSession();
-
+		
 		/* 상세정보 */
 		Map productMap = productService.productDetail(product_id);
 		ModelAndView mav = new ModelAndView(viewName);
@@ -159,6 +166,13 @@ public class ProductControllerImpl implements ProductController {
 			
 			String loginMember_id = memberVo.getMember_id();
 			mav.addObject("loginMember_id", loginMember_id);
+			
+			wishVO.setMember_id(loginMember_id);
+			wishVO.setProduct_id(product_id);
+			boolean isAreadyExisted=wishService.findWishProduct(wishVO);
+			mav.addObject("isAreadyExisted", isAreadyExisted);
+			
+
 		}
 		
 		/* 사업자 정보 */

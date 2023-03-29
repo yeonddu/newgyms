@@ -1,5 +1,6 @@
 package com.mycompany.newgyms.mypage.controller;
 
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,15 +30,45 @@ import com.mycompany.newgyms.order.vo.OrderVO;
 public class MyPageControllerImpl implements MyPageController {
 	@Autowired
 	private MyPageService myPageService;
+	@Autowired
+	private MemberVO memberVO;
+	@Autowired
+	private OrderVO orderVO;
+	@Autowired
+	private MyPageVO mypageVO;
 	
 	@Override
 	@RequestMapping(value="/myOrderList.do", method = RequestMethod.GET)
 	public ModelAndView myOrderList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
+		// 조건 검색 결과를 위한 변수(조건) 받음
 		String member_id = request.getParameter("member_id");
-		List<OrderVO> myOrderList = myPageService.listMyOrders(member_id);
+		String chapter = request.getParameter("chapter");
+		String order_state = request.getParameter("order_state");
+		String firstDate = request.getParameter("firstDate"); if (firstDate == "") firstDate = "1900-01-01";
+		String secondDate = request.getParameter("secondDate"); if (secondDate == "") secondDate = "2100-01-01";
+		String text_box = request.getParameter("text_box");
+		Map<String, Object> condMap = new HashMap<String, Object>();
+		condMap.put("member_id", member_id);
+		condMap.put("chapter", chapter);
+		condMap.put("order_state", order_state);
+		condMap.put("firstDate", firstDate);
+		condMap.put("secondDate", secondDate);
+		condMap.put("text_box", text_box);
+		String maxnum = myPageService.maxNumSelect(condMap);
+		condMap.put("maxnum", maxnum);
 		
+		List<OrderVO> myOrderList = myPageService.listMyOrders(condMap);
+		// 조건 검색에 따른 결과 입력 
+		mav.addObject("member_id", member_id);
+		mav.addObject("chapter", chapter);
+		mav.addObject("maxnum", maxnum);
+		mav.addObject("order_state", order_state);
+		mav.addObject("firstDate", firstDate);
+		mav.addObject("secondDate", secondDate);
+		mav.addObject("text_box", text_box);
 		mav.addObject("myOrderList", myOrderList);
+		
 		mav.setViewName("/mypage/myOrderList");
 		
 		return mav;
@@ -119,4 +150,79 @@ public class MyPageControllerImpl implements MyPageController {
 
 		return resEntity;
 	}
+	
+	@Override
+	@RequestMapping(value="/myPageModify.do", method = RequestMethod.GET)
+	public ModelAndView myPageInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/mypage/myPageModify");
+		
+		return mav;
+	}
+	
+	@Override
+	@RequestMapping(value="/myDetailInfo.do", method = RequestMethod.POST)
+	public ModelAndView myDetailInfo(@RequestParam Map<String, String> mypageMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		ModelAndView mav = new ModelAndView();
+		memberVO = myPageService.myPageDetail(mypageMap);
+		
+		if (memberVO != null && memberVO.getMember_id() != null) {
+			HttpSession session = request.getSession();
+			session = request.getSession();
+			session.setAttribute("memberInfo", memberVO);
+			mav.setViewName("/mypage/myDetailInfo");
+
+		} else {
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('비밀번호가 올바르지 않습니다.');</script>");
+			out.flush();
+			mav.setViewName("/mypage/myPageModify");
+		}
+				
+		return mav;
+	}
+	
+	@Override
+	@RequestMapping(value="modifyMyInfo.do", method = RequestMethod.POST)
+	public ModelAndView modifyMyInfo(@RequestParam Map<String, String> modifyMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		ModelAndView mav = new ModelAndView();
+
+		memberVO = myPageService.modifyMyInfo(modifyMap);
+		System.out.println(memberVO);
+		
+		HttpSession session = request.getSession();
+		PrintWriter out = response.getWriter();
+		session.setAttribute("memberInfo", memberVO);
+		out.println("<script>alert('회원정보 수정이 완료되었습니다. :)');</script>");
+		out.flush();
+		
+		mav.setViewName("/mypage/myPageModify");
+		
+		return mav;
+	}
+	
+	@Override
+	@RequestMapping(value="/deleteMemberForm.do", method = RequestMethod.POST)
+	public ModelAndView deleteMemberForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		System.out.println("회원탈퇴 페이지로 이동합니다.");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/mypage/deleteMemberForm");
+		return mav;
+	}
+	
+	@Override
+	@RequestMapping(value="/deleteMember.do" ,method = RequestMethod.POST)
+	public ModelAndView deleteMember(@RequestParam Map<String, String> deleteMap, HttpServletRequest request, HttpServletResponse response)  throws Exception{
+		System.out.println("회원 탈퇴를 진행합니다.");
+		ModelAndView mav = new ModelAndView();
+		myPageService.deleteMember(deleteMap);
+		
+		mav.setViewName("redirect:/member/logout.do");
+		return mav;
+	}
+
 }

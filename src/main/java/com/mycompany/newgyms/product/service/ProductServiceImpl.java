@@ -29,22 +29,22 @@ public class ProductServiceImpl implements ProductService {
 		return productList;
 	}
 
-	public Map productDetail(String _product_id) throws Exception {
-		ProductVO productVO = productDAO.selectProductDetail(_product_id);
+	public Map productDetail(int product_id) throws Exception {
+		ProductVO productVO = productDAO.selectProductDetail(product_id);
 		Map productMap = new HashMap();
 		productMap.put("productVO", productVO);
 		return productMap;
 	}
 
 	/* 옵션 */
-	public List<ProductOptVO> productOptionList(String _product_id) throws Exception {
-		List<ProductOptVO> productOptList = productDAO.selectProductOptionList(_product_id);
+	public List<ProductOptVO> productOptionList(int product_id) throws Exception {
+		List<ProductOptVO> productOptList = productDAO.selectProductOptionList(product_id);
 		return productOptList;
 	}
 
 	/* 이미지 */
-	public Map productImage(String _product_id) throws Exception {
-		Map imageMap = productDAO.selectProductImage(_product_id);
+	public Map productImage(int product_id) throws Exception {
+		Map imageMap = productDAO.selectProductImage(product_id);
 		return imageMap;
 	}
 

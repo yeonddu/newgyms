@@ -14,11 +14,11 @@ import com.mycompany.newgyms.product.vo.ProductVO;
 public interface ProductDAO {
 	public List<ProductVO> selectProductList(Map listMap) throws DataAccessException;
 
-	public ProductVO selectProductDetail(String product_id) throws DataAccessException;
+	public ProductVO selectProductDetail(int product_id) throws DataAccessException;
 	
-	public List<ProductOptVO> selectProductOptionList(String product_id) throws DataAccessException;
+	public List<ProductOptVO> selectProductOptionList(int product_id) throws DataAccessException;
 	
-	public Map<String,Object> selectProductImage(String product_id) throws DataAccessException;
+	public Map<String,Object> selectProductImage(int product_id) throws DataAccessException;
 	
 	public MemberVO selectOwnerDetail(String member_id) throws DataAccessException;
 	
