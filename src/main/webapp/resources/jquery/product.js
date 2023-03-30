@@ -24,8 +24,8 @@
 
 /* QnA 목록 토글*/
     $(document).ready(function () { // 페이지 document 로딩 완료 후 스크립트 실행
-    	$('.qna_hidden').hide();
-    	$('.qna_title').on('click',function () { //제목 버튼 클릭 시 
+    	$('.toggle_hidden').hide();
+    	$('.toggle_show').on('click',function () { //제목 버튼 클릭 시 
         	var currentRow = $(this).closest('tr'); //누른 곳의 tr값을 찾는다. 
         	var detail = currentRow.next('tr'); //누른 tr의 다음 tr을 찾는다
         	detail.toggle();

@@ -4,5 +4,81 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
    
 <mapper namespace="mapper.board">
-
+	<resultMap id="articlesResult" type="articleVO">
+		<result property="level" column="level" />
+		<result property="articleNO" column="articleNO" />
+		<result property="parentNO" column="parentNO" />
+		<result property="board_title" column="board_title" />
+		<result property="board_content" column="board_content" />
+		<result property="board_write_date" column="board_write_date" />
+		<result property="board_image" column="board_image" />
+	</resultMap>
+	
+	<resultMap id="imgResult" type="imageVO">
+		<result property="imageFileNO" column="imageFileNO" />
+		<result property="articleNO" column="articleNO" />
+		<result property="board_image" column="board_image" />
+	</resultMap>
+	
+	<select id="selectAllArticlesList" resultMap="articlesResult">
+		<![CDATA[
+			SELECT CASE WHEN LEVEL -1 > 0 then CONCAT(CONCAT(REPEAT(' ', 
+			level-1),'<'), board.board_title) ELSE board.board_title END AS board_title, board.articleNO, 
+			board.parentNO, result.level, board.board_content, board.member_id, date_format(board.board_write_date, '%Y-%m-%d') as board_write_date
+			FROM (SELECT function_hierarchical() AS articleNO, @level AS level 
+			FROM (SELECT @start_with:=0, @articleNO:= @start_with, @level:=0) tbl JOIN t_board) 
+			result JOIN t_board board ON board.articleNO = result.articleNO
+		]]>
+	</select>
+	
+	<insert id="insertNewArticle" parameterType="java.util.Map">
+		<![CDATA[
+			insert into t_board(articleNO, board_title, board_content, board_image, member_id)
+			values(#{articleNO}, #{board_title}, #{board_content}, #{board_image}, #{member_id})
+		]]>
+	</insert>
+	
+	<select id="selectNewArticleNO" resultType="int">
+		<![CDATA[
+			select ifnull(max(articleNO), 0) + 1 from t_board
+		]]>
+	</select>
+	
+	<select id="selectArticle" resultType="articleVO" parameterType="int">
+		<![CDATA[
+			select * from t_board
+			where articleNO=#{articleNO}
+		]]>
+	</select>
+	
+	<update id="updateArticle" parameterType="java.util.Map">
+		<![CDATA[
+			update t_board
+			set board_title=#{board_title}, board_content=#{board_content}, board_image=#{board_image}
+			where articleNO = #{articleNO}
+		]]>
+	</update>
+	
+	<delete id="deleteArticle" parameterType="int">
+		<![CDATA[
+			delete from t_board
+			where articleNO in (
+				SELECT articleNO FROM t_board 
+				WHERE articleNO = #{articleNO} OR parentNO = #{articleNO})
+		]]>
+	</delete>
+	
+	<select id="selectNewImageFileNO" resultType="int">
+		<![CDATA[
+			select ifnull(max(imageFileNO),0) from t_board_image
+		]]>
+	</select>
+	
+	<select id="selectImageFileList" resultMap="imgResult" parameterType="int">
+		<![CDATA[
+			select * from t_board_image
+			where articleNO=#{articleNO}
+		]]>
+	</select>
+	
 </mapper>

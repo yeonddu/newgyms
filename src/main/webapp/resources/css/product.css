@@ -5,6 +5,12 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'UhBeeZZIBA-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/UhBeeZZIBA-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 *{
   font-family:'GmarketSansMedium';
@@ -121,7 +127,7 @@ padding: 0px 8px; border-right-color: rgb(150, 150, 150); border-right-width: 1p
 }
 
 .productList .container .product_image img {
-	width: 250px; height:250px; object-fit: contain; max-width:100%;transition:all 0.2s linear;
+	width: 250px; height:250px;  object-fit: cover; max-width:100%;transition:all 0.2s linear;
 }
 .productList .container .product_image .wish{
 	 width: 40px; height:40px; position:absolute; top:190px; left:180px; border-radius: 100%; background-size:60%; background-color: #FFFDF6; opacity: 0.5;
@@ -329,41 +335,67 @@ transform: translate(0, 0); transition: linear 0.3s;
 margin: 10px 5px 0px; color: rgb(50, 50, 50); font-size: 12px; float:left; width:100%; height:20px;border-bottom : solid 1px rgb(150, 150, 150); 
 }
 
-#productDetail .product_detail .tab_container .review_item {
-  height:200px; 
-}
-	
-#productDetail .product_detail .tab_container .review_item img {
- margin:0px; height:150px; width:150px; object-fit: contain; 
-	
-}
-#productDetail .product_detail .tab_container .review_item td:first-child {
- width:150px; padding:10px;        
-}
-#productDetail .product_detail .tab_container .review_item td {
- width:700px; vertical-align : top; padding:20px;
-}
-	
-#productDetail .product_detail .tab_container .review_item .review_title {
-	margin:5px 0;
+#productDetail .product_detail .tab_container .review_list {
+  padding:10px;  
 }
 
-#productDetail .product_detail .tab_container .review_item .review_option {
-	margin:5px 0;color:rgb(150, 150, 150); font-size:12px;
+#productDetail .product_detail .tab_container .review_list th{
+ padding:5px;
 }
-#productDetail .product_detail .tab_container .review_item .review_content {
-	margin:5px 0; font-size:14px;
+	
+#productDetail .product_detail .tab_container .review_list td {
+ border-top:1px solid rgb(200,200,200);
 }
-#productDetail .product_detail .tab_container .review_item .review_writer {
-	width:150px; text-align:center; font-size:14px;
+ 
+#productDetail .product_detail .tab_container .review_list td:first-child {
+ width:60px;        
 }
-#productDetail .product_detail .tab_container .review_item .review_writeDate  {
-	width:200px; text-align:center; color: rgb(100, 100, 100); font-size:14px;
+
+#productDetail .product_detail .tab_container .review_list td:nth-child(2) {
+ width:900px; padding:10px;
+}
+
+#productDetail .product_detail .tab_container .review_list td:nth-child(3) {
+ width:150px;
 } 
+ 
+#productDetail .product_detail .tab_container .review_list td:nth-child(3) .review_score {
+ color: #FFC300; font-family: 'UhBeeZZIBA-Regular'; letter-spacing: 2px; font-size:18px;
+}
+ 
+#productDetail .product_detail .tab_container .review_list td:nth-child(4) {
+ width:150px; 
+}
+
+
+#productDetail .product_detail .tab_container .review_list td:nth-child(5) {
+ width:200px;
+}
+
+#productDetail .product_detail .tab_container .review_list tr.toggle_hidden td:nth-child(2) {
+ width:250px;
+}
+ 
+#productDetail .product_detail .tab_container .review_list tr.toggle_hidden td:nth-child(2) .review_option {
+	margin:5px 0;color:rgb(150, 150, 150); font-size:14px;
+}
+
+#productDetail .product_detail .tab_container .review_list tr.toggle_hidden td:nth-child(2) img {
+ margin:0px; height:150px; width:150px; object-fit: contain;
+}
+#productDetail .product_detail .tab_container .review_list tr.toggle_hidden td:nth-child(3) {
+ padding:20px;
+}
+#productDetail .product_detail .tab_container .review_list .review_contents {
+	margin:5px; padding:10px; font-size:14px;
+}
+
+
+
+ 
 #productDetail .product_detail .tab_container .qna_write {
 	background-color: #0F0573;  color:white; padding:5px 20px;  display: inline-block; float:right;
 }
-
 
 #productDetail .product_detail .tab_container .review_list, .qna_list {
 	clear:both; margin:0 auto;

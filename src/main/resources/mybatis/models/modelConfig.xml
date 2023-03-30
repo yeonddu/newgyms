@@ -4,7 +4,8 @@
 
 <configuration>
   <typeAliases>
-  	<typeAlias type="com.mycompany.newgyms.board.vo.BoardVO" alias="boardVO" />
+  	<typeAlias alias="articleVO" type="com.mycompany.newgyms.board.vo.ArticleVO"/>
+	<typeAlias alias="imageVO" type="com.mycompany.newgyms.board.vo.ImageVO"/>
     <typeAlias type="com.mycompany.newgyms.cart.vo.CartVO" alias="cartVO" />
     <typeAlias type="com.mycompany.newgyms.event.vo.EventVO" alias="eventVO" />
     <typeAlias type="com.mycompany.newgyms.member.vo.MemberVO" alias="memberVO" />
@@ -16,6 +17,7 @@
     <typeAlias type="com.mycompany.newgyms.product.vo.ProductImageVO" alias="productImageVO" />
     <typeAlias type="com.mycompany.newgyms.qna.vo.QnaVO" alias="qnaVO" />
     <typeAlias type="com.mycompany.newgyms.review.vo.ReviewVO" alias="reviewVO" />
+    <typeAlias type="com.mycompany.newgyms.review.vo.ReviewImageVO" alias="reviewImageVO" />
     <typeAlias type="com.mycompany.newgyms.wish.vo.WishVO" alias="wishVO" />
 </typeAliases>
 </configuration>

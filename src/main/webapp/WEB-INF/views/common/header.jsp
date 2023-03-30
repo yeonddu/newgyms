@@ -104,8 +104,8 @@
 							href="${contextPath}/product/productList.do?category=기타&address=대전">기타</a></li>
 						<li><a href="#">커뮤니티</a>
 							<ul class="menu-box_menu-2">
-								<li><a href="#">자유게시판</a></li>
-								<li><a href="#">이용후기</a></li>
+								<li><a href="${contextPath }/board/listArticles.do">자유게시판</a></li>
+								<li><a href="${contextPath }/review/reviewList.do">이용후기</a></li>
 							</ul></li>
 						<li><a href="#">고객센터</a>
 							<ul class="menu-box_menu-1">

@@ -18,7 +18,7 @@ import net.coobird.thumbnailator.Thumbnails;
 
 @Controller
 public class FileDownloadController {
-	private static String CURR_IMAGE_REPO_PATH = "C:\\newgyms\\file_repo";
+	private static String CURR_IMAGE_REPO_PATH = "C:\\newgyms";
 	
 	@RequestMapping("/download")
 	protected void download(@RequestParam("fileName") String fileName,
@@ -42,16 +42,15 @@ public class FileDownloadController {
 		out.close();
 	}
 	
+	//∏Æ∫‰ ¿ÃπÃ¡ˆ
 	@RequestMapping("/reviewImage")
-	protected void reviewImage(@RequestParam("fileName") String review_image,
-		                 	@RequestParam("review_no") String review_no,
-			                 HttpServletResponse response) throws Exception {
+	protected void reviewImage(@RequestParam("fileName") String fileName, @RequestParam("review_no") String review_no, HttpServletResponse response) throws Exception {
 		OutputStream out = response.getOutputStream();
-		String filePath=CURR_IMAGE_REPO_PATH+"\\"+"review"+"\\"+review_no+"\\"+review_image;
+		String filePath=CURR_IMAGE_REPO_PATH+"\\"+"review"+"\\"+review_no+"\\"+fileName;
 		File image=new File(filePath);
 
 		response.setHeader("Cache-Control","no-cache");
-		response.addHeader("Content-disposition", "attachment; fileName="+review_image);
+		response.addHeader("Content-disposition", "attachment; fileName="+fileName);
 		FileInputStream in=new FileInputStream(image); 
 		byte[] buffer=new byte[1024*8];
 		while(true){

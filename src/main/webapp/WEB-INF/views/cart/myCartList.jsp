@@ -73,7 +73,7 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 	            var thisRow = $(this).closest('tr');
 	            /* 상품 금액 */
 	            var str_total_price = thisRow.find('#product_total_price').val();
-	            var product_total_price = Number(str_total_price.replace(",", "")); //숫자로 변환
+	            var product_total_price = Number(str_total_price.replace(/,/g, ''));  //숫자로 변환
 	            cart_total_price += product_total_price; //cart_total_price에 합산
 	        });
 		} else {

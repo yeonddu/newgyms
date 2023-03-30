@@ -347,29 +347,67 @@
 		            <c:choose>
 					   <c:when test="${ empty reviewList  }" >
 						   <tr>
-								<td>등록된 이용후기가 없습니다.</td>
+								<td style="width:1200px; text-align:center; border:none;">등록된 이용후기가 없습니다.</td>
 					 	   </tr>
 					   </c:when>
 					   <c:otherwise>
 					        	<h2 class="total_count">총 ${fn:length(reviewList)}건</h2>
+					            <tr>
+					              <th>번호</th>
+					              <th colspan="2">제목</th>
+					              <th>평점</th>
+					              <th>작성자</th>
+					              <th>작성일</th>              
+					            </tr>
 					
+					  		 <c:set  var="review_count" value="0" />
 					            <c:forEach var="review" items="${reviewList }"> 
-						          <tr class="review_item">
+					            <c:set  var="review_count" value="${review_count+1 }" /> 
+						          <!-- 리뷰 제목 -->
+						          <tr class="review_title ">
 						            <td>
-						              <img alt="이용후기 이미지" src="${contextPath}/reviewImage.do?review_no=${review.review_no}&fileName=${review.review_image}">
+						              ${review_count }
 						            </td>
-						            <td>
-						              <div class="review_title">${review.review_title}</div>
-						              <div class="review_option">[옵션] ${review.product_option}</div>    
-						              <div class="review_content">${review.review_contents}</div>
+						            <td colspan="2">
+						              <div class="toggle_show" style="cursor:pointer;">${review.review_title}</div>
 						            </td>
-						            <td class="review_writer">                          
+						            <td class="review_score">
+						            	<c:choose>
+						            		<c:when test="${review.review_score == 1  }">
+						            			<div class="review_score">★☆☆☆☆</div>
+						            		</c:when>
+						            		<c:when test="${review.review_score == 2  }">
+						            			<div class="review_score">★★☆☆☆</div>
+						            		</c:when>
+						            		<c:when test="${review.review_score == 3  }">
+						            			<div class="review_score">★★★☆☆</div>
+						            		</c:when>
+						            		<c:when test="${review.review_score == 4  }">
+						            			<div class="review_score">★★★★☆</div>
+						            		</c:when>
+            							   <c:otherwise>
+						            			<div class="review_score">★★★★★</div>
+            							   </c:otherwise>
+						            	</c:choose>
+						            </td>
+						          
+						            <td>                          
 						              <div>${review.member_id}</div>
 						            </td>
-						            <td class="review_writeDate">
+						            <td>
 						              <div>${review.review_write_date}</div>
 						            </td>
 						          </tr>
+						          <!-- 리뷰 내용 -->
+						          <tr class="toggle_hidden">
+							          <td></td>
+							          <td colspan="5">
+							              <div class="review_option">[옵션] ${review.product_option_name} (+${review.product_option_price }원)</div> 
+							              <div class="review_contents">${review.review_contents}</div>
+<%-- 						              <img alt="이용후기 이미지" src="${contextPath}/reviewImage.do?review_no=${review.review_no}&fileName=${review.review_image}"> --%>
+							              <img src="#" alt="이용후기 이미지">
+							          </td>
+					              </tr>
 							 </c:forEach>
 					</c:otherwise>
 				</c:choose>
@@ -397,7 +435,7 @@
 					              <th>답변상태</th>
 					              <th>제목</th>
 					              <th>작성자</th>
-					              <th>등록일</th>              
+					              <th>작성일</th>              
 					            </tr>
 					
 					  		 <c:set  var="qna_count" value="0" />   
@@ -414,13 +452,13 @@
 											<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
 												<c:choose>
 													<c:when test="${question.member_id!=loginMember_id  or loginMember_id == null}"> <!-- 작성자와 로그인한 사람이 다르거나 로그인하지 않은 경우 -->
-										            	<td class="qna_title" style="cursor:pointer;">                        
+										            	<td class="toggle_show" style="cursor:pointer;">                        
 										            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">비밀글입니다.
 										         	   </td>
 													</c:when>
 												
 												<c:otherwise> <!-- 작성자와 로그인한 사람이 같은 경우 -->
-										            <td class="qna_title" style="cursor:pointer;">
+										            <td class="toggle_show" style="cursor:pointer;">
 										            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">${question.qna_title}                           
 										            </td>
 												</c:otherwise>
@@ -428,7 +466,7 @@
 												</c:choose>
 											 </c:when>
 											<c:otherwise> <!-- 공개글인 경우 -->
-									            <td class="qna_title" style="cursor:pointer;">
+									            <td class="toggle_show" style="cursor:pointer;">
 									            	${question.qna_title}                           
 									            </td>
 											</c:otherwise>
@@ -441,7 +479,7 @@
 						            </td>
 						          </tr>
 					         
-						          <tr class="qna_hidden">
+						          <tr class="toggle_hidden">
 									    <!-- QnA 질문 내용, 답변 내용 -->     
 									   	<c:choose>
 											<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->

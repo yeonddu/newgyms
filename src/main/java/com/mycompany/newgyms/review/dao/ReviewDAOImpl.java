@@ -11,6 +11,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.mycompany.newgyms.product.vo.ProductImageVO;
+import com.mycompany.newgyms.review.vo.ReviewImageVO;
+import com.mycompany.newgyms.review.vo.ReviewVO;
 
 @Repository("reviewDAO")
 public class ReviewDAOImpl implements ReviewDAO {
@@ -30,11 +32,15 @@ public class ReviewDAOImpl implements ReviewDAO {
 		return list;
 	}
 	
-	public Map<String, Object> selectReviewImage() throws DataAccessException {
-		List<ProductImageVO> detailImageList = (ArrayList) sqlSession.selectList("mapper.product.selectProductDetailImage", product_id);
-		Map imageMap = new HashMap();
-		imageMap.put("detailImageList", detailImageList);
-
-		return imageMap;
+	@Override
+	public ReviewVO selectReviewDetail(int review_no) throws DataAccessException {
+		ReviewVO reviewVO = sqlSession.selectOne("mapper.review.selectReviewDetail", review_no);
+		return reviewVO;
+	}
+	
+	@Override
+	public List<ReviewImageVO> selectReviewImageList(int review_no) throws DataAccessException {
+		List<ReviewImageVO> reviewImageList = (ArrayList) sqlSession.selectList("mapper.review.selectReviewImageList", review_no);
+		return reviewImageList;
 	}
 }
