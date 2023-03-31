@@ -7,9 +7,12 @@
          <put-attribute name="title" value="이용후기 목록" />
          <put-attribute name="body" value="/WEB-INF/views/review/reviewList.jsp" />
       </definition>
-
+      
+ 
+<!-- 
 	  <definition name="/review/viewReview" extends="baseLayout">
          <put-attribute name="title" value="이용후기 상세페이지" />
          <put-attribute name="body" value="/WEB-INF/views/review/viewReview.jsp" />
       </definition>  
+ -->
 </tiles-definitions>

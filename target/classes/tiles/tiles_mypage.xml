@@ -15,4 +15,23 @@
        <put-attribute name="title" value="주문 취소 페이지" />
        <put-attribute name="body" value="/WEB-INF/views/mypage/myOrderCancel.jsp" />
     </definition>
+    
+    <definition name="/mypage/myStackList" extends="baseLayout">
+       <put-attribute name="title" value="적립금 조회 페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/mypage/myStackList.jsp" />
+    </definition>
+    
+    <definition name="/mypage/myPageModify" extends="baseLayout">
+       <put-attribute name="title" value="회원정보 수정 비밀번호 확인 페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/mypage/myPageModify.jsp" />
+    </definition>
+    <definition name="/mypage/myDetailInfo" extends="baseLayout">
+       <put-attribute name="title" value="회원정보 수정 페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/mypage/myDetailInfo.jsp" />
+    </definition>
+    <definition name="/mypage/deleteMemberForm" extends="baseLayout">
+       <put-attribute name="title" value="회원탈퇴 페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/mypage/deleteMemberForm.jsp" />
+    </definition>
+    
 </tiles-definitions>

@@ -216,13 +216,6 @@ body {
 }
 
 
-#review_title {
-	margin-top: 30px;
-	margin-bottom: 20px;
-	padding: 5px;
-	font-size: 25px;
-	text-align: center;
-}
 
 #reviewList .container {
 	width: 100%; font-size: 0.75em; margin-top: 20px; display: grid; grid-template-columns:repeat(4, 240px); 
@@ -266,47 +259,98 @@ body {
 }
 
 
-
-#viewReview #review_title {
-	margin-top: 68px;
-	margin-bottom: 5px;
-	padding: 5px;
-	font-size: 25px;
-	background-color: white;
-	border: none;
+#review_popup {
+	position: fixed; left:650px; top:240px; 	
+	height:500px;width:800px; border:1px solid rgb(150,150,150); background:white; padding: 20px;
+	border-radius:20px;
 }
 
-#viewReview #review_table {
-	margin-top: 5px;
-	width: 100%;
-	padding: 10px;
-	line-height: 40px;
-	border-top: 1px solid #D8D8D8;
-	border-bottom: 1px solid #D8D8D8;
-	text-align: center;
+#review_popup .review_image {
+	width:55%; float:left;
 }
 
-#viewReview .product_info {
-	padding:10px;
-}
-#viewReview .product_info img {
-margin: 5px 10px 10px; width:70px; height:70px; object-fit: cover; float:left; 
+#review_popup .review_image .slide{
+        width: 400px;
+        height: 400px;
+        overflow: hidden;
+        position: relative;
+        text-align:center;
+      }
+      
+#review_popup .review_image .slide ul{
+        position: absolute;
+        top:0;
+        left:0;
+        font-size: 0;
+      }
+#review_popup .review_image .slide ul li{
+        display: inline-block;
+      }
+
+#review_popup .review_image .slide ul li img {
+        width:400px; height:400px; object-fit: cover;
+      }
+
+#review_popup .review_image #back{
+        position: absolute;
+        top: 200px;
+        left: 0px;
+        cursor: pointer;
+        z-index: 1;        
+        font-size:30px;
+        background:rgb(200,200,200,0.4); padding:4px;
+      }
+#review_popup .review_image #next{
+        position: absolute;
+        top: 200px;
+        right: 0px;
+        cursor: pointer;
+        z-index: 1;
+        font-size:30px;
+                background:rgb(200,200,200,0.4); padding:4px;
+      }
+
+
+#review_popup .review_text {
+	width:45%; float:right; 
 }
 
-#viewReview .product_name {
-	display:block; margin:10px 20px; font-weight:bold;
+#review_popup .product_info {
+	margin-top:20px; height:60px; 
 }
 
-#viewReview .center_name {
-	display:block; margin:10px 20px; font-size:14px;
+#review_popup .product_info img {
+	width:50px; height:50px; float:left;
 }
 
-#viewReview .product_option {
-	padding: 10px; color:rgb(150,150,150);  font-size:12px;
+#review_popup .product_info .product_name {
+	font-weight:bold; margin:10px 5px; 
 }
 
-#viewReview hr {
- background:rgb(200,200,200);
-    height:1px;
-    border:0
+#review_popup .product_info .center_name {
+	 margin:5px; 
+}
+
+#review_popup .review_info p, #member_id, #review_write_date, #product_option_name, #product_option_price {
+	color:rgb(100,100,100); font-size:14px; margin:2px 0;
+}
+
+#review_popup .review_info p:first-child {
+	float:left;
+}
+
+#review_popup .review_info p:nth-child(2) {
+	float:right; margin-right:20px;
+}
+
+#review_popup .review_detail {
+	height:220px;
+}
+
+#review_popup .review_title, .review_contents  {
+	text-align:left; padding:5px 0; margin:0;
+}
+
+#review_popup .x_button {
+	border:1px solid rgb(150,150,150); border-radius:5px; padding:5px;  margin-top:30px; float:right;
 }

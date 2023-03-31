@@ -6,7 +6,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="${contextPath}/resources/css/member.css" rel="stylesheet" />
 </head>
 <body>
 	<div id="mypage_sidebar">
@@ -16,12 +15,14 @@
 			</li>
 			<div id="mypage_hr"></div>
 			
-			<!-- 글씨 크기 줄이고 hover 넣기(글씨 색 변환, 밑줄 추가) -->
 			<li>
-				<a href="${contextPath}/mypage/myOrderList.do?member_id=${memberInfo.member_id}">결제 내역 조회</a>
+				<a href="${contextPath}/mypage/myOrderList.do?member_id=${memberInfo.member_id}&chapter=1&order_state=&firstDate=&secondDate=&text_box=">결제내역 조회</a>
 			</li>
 			<li>
-				<a href="#">쿠폰/적립금 조회</a>
+				<a href="${contextPath}/mypage/myStackList.do?chapter=1&member_id=${memberInfo.member_id}">적립금 조회</a>
+			</li>
+			<li>
+				<a href="#">게시글 관리</a>
 			</li>
 			<li>
 				<a href="#">이용후기 관리</a>
@@ -30,7 +31,7 @@
 				<a href="#">Q&A 관리</a>
 			</li>
 			<li>
-				<a href="#">회원정보 수정</a>
+				<a href="${contextPath}/mypage/myPageModify.do?member_id=${memberInfo.member_id}">회원정보 수정</a>
 			</li>
 		</ul>
 	</div>

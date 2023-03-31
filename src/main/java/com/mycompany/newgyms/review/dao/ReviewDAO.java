@@ -13,5 +13,5 @@ public interface ReviewDAO {
 	public ArrayList selectproductReviewList(int product_id) throws DataAccessException;
 	public ArrayList selectReviewList() throws DataAccessException;
 	public ReviewVO selectReviewDetail(int review_no)  throws DataAccessException;
-	public List<ReviewImageVO> selectReviewImageList(int review_no) throws DataAccessException;
+	public ArrayList selectReviewImageList(int review_no) throws DataAccessException;
 }

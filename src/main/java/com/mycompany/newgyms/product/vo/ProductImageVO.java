@@ -6,6 +6,7 @@ public class ProductImageVO {
 	private String fileName;
 	private String fileType;
 	private String reg_id;
+	
 	public int getProduct_id() {
 		return product_id;
 	}

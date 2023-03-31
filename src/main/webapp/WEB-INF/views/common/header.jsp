@@ -59,7 +59,7 @@
 						<ul class="icons">
 							<c:choose>
 								<c:when test="${isLogOn==true and not empty memberInfo}">
-									<li><a href="${contextPath}/mypage/myOrderList.do?member_id=${memberInfo.member_id}"><img style="width: 33px; height: 33px;" src="${contextPath}/resources/image/person.png" alt="회원"></a></li>
+									<li><a href="${contextPath}/mypage/myOrderList.do?member_id=${memberInfo.member_id}&chapter=1&order_state=&firstDate=&secondDate=&text_box="><img style="width: 33px; height: 33px;" src="${contextPath}/resources/image/person.png" alt="회원"></a></li>
 								</c:when>
 								<c:when test="${isLogOn==true and memberInfo.join_type =='102'}">
 									<li><a href="#"><img style="width: 33px; height: 33px;" src="${contextPath}/resources/image/person.png" alt="사업자"></a></li>

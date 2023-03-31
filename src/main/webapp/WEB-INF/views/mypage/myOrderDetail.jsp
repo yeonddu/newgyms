@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -9,23 +10,22 @@
 <link href="${contextPath}/resources/css/mypage.css" rel="stylesheet" />
 </head>
 <body>
-	<div class="con-min-width">
-		<div class="con">
-			<div id="contain">
-				<!-- 마이페이지 사이드 메뉴 -->
-				<div id="mypage_sidebar">
-					<jsp:include page="/WEB-INF/views/mypage/myPageSide.jsp" />
-				</div>
+	<form action="${contextPath}/mypage/myOrderCancel.do?total_price=${myOrderDetail[0].total_price}" method="post">
 
-				<form action="${contextPath}/mypage/myOrderCancel.do" method="post">
+		<div class="con-min-width">
+			<div class="con">
+				<div id="contain">
+					<!-- 마이페이지 사이드 메뉴 -->
+					<jsp:include page="/WEB-INF/views/mypage/myPageSide.jsp" />
+
 
 					<div id="contain_right">
 						<p id="mypage_order_title">주문/결제 상세 조회</p>
-						<table style="margin-bottom: 10px; padding: 3px;">
+						<table style="margin-bottom: 3px; padding: 3px;">
 							<tr>
-								<td>주문번호 &nbsp; <span id="gray_color">${myOrderDetail[0].order_seq_num}</span>
+								<td>&nbsp;주문번호&nbsp; <span id="gray_color">${myOrderDetail[0].order_seq_num}</span>
 								</td>
-								<td style="padding-left: 487px;">결제상태 &nbsp; <span
+								<td style="padding-left: 704px;">결제상태 &nbsp; <span
 									id="gray_color">${myOrderDetail[0].order_state}</span>
 								</td>
 							</tr>
@@ -34,38 +34,57 @@
 						<table id="order_detail">
 							<!-- 상품 정보 -->
 							<tr>
-								<td colspan="6"><span id="mypage_info_title">상품 정보</span></td>
+								<td colspan="7"><span id="mypage_info_title">상품 정보</span></td>
 							</tr>
 
 							<!-- 1건의 주문에 대한 상품이 2개 이상일 경우 여러개 표시 -->
 							<c:forEach var="item" items="${myOrderDetail}" varStatus="j">
 								<tr>
-									<td width="3%" align=center><input type="checkbox" name="cancel" value="${item.order_seq_num}" >
+									<!-- 체크박스 -->
+									<td width="3%" align=center>
+										<!-- 결제취소 및 환불완료 상태일때는 결제취소 선택 불가능 -->
+										<c:if test="${item.order_state == '결제완료'}">
+											<input type="checkbox" name="cancel" value="${item.order_seq_num}">
+										</c:if>
 									</td>
+									
+									<!-- 상품 이미지 -->
 									<td width="15%">
 										<div id="img_file">
 											<img alt="img" width="100%" height="100%"
 												src="${contextPath}/download.do?product_id=${item.product_id}&fileName=${item.product_main_image}">
 										</div>
 									</td>
-									<td colspan="2"
-										style="width: 55%; line-height: 25px; padding-left: 10px;">${item.product_name}<br>
-										<span id="gray_color" style="font-size: 15px;">[옵션]
-											${item.option_name}</span><br> <span>${item.center_name}</span>
+									
+									<!-- 상품명 & 옵션명 -->
+									<td style="width: 30%; line-height: 25px; padding-left: 10px; font-size:15px;">${item.product_name}<br>
+										<span id="gray_color" style="font-size:13px;">[옵션]
+											${item.product_option_name}</span>
+									</td>
+									
+									<!-- 사업장명 -->
+									<td width="15%" align=center>
+										<span id="navy_color" style="font-size:12px;">${item.center_name}</span>
 									</td>
 
-									<td align=center width="13%">판매가 <br> 할인가
+									<!-- 주문상태 -->
+									<td width="15%" align=center>
+										${item.order_state}
 									</td>
-									<td width="13%">${item.product_price}원<br>
-										${item.product_sales_price}원
+									
+									<!-- 구매 가격 (상품가격 + 옵션가격) -->
+									<td width="12%" align=center>구매가</td>	
+									<td width="12%" align=center style="line-height:25px;">
+										<s style="color:red;"><span id="gray_color"><fmt:formatNumber value="${item.product_price+item.product_option_price}" type="number" />원</span></s>
+										<fmt:formatNumber value="${item.product_sales_price+item.product_option_price}" type="number" />원
 									</td>
 							</c:forEach>
 						</table>
-						
-						<div id="center">
+
+						<div id="align_center" style="margin-bottom:20px;">
 							<input type="submit" class="submit_btn" value="주문취소">
 						</div>
-						
+
 						<table id="order_detail">
 							<!-- 주문자 정보 -->
 							<tr>
@@ -96,29 +115,37 @@
 							</tr>
 
 							<tr>
-								<td width="10%" style="padding-left: 10px;">주문금액 <br>
+								<td width="10%" style="padding-left: 10px;">
+									주문금액 <br>
 									결제수단
 								</td>
-								<td width="20%"><span id="gray_color">&nbsp;
-										${myOrderDetail[0].total_price}원</span> <br> <span
-									id="gray_color">&nbsp; ${myOrderDetail[0].pay_method}</span>
-								<td width="10%" align=right>은행 <br> 할부기간
+								
+								<td width="20%">
+									<span id="gray_color">&nbsp; <fmt:formatNumber value="${myOrderDetail[0].total_price}" type="number" />원</span> <br>
+									<span id="gray_color">&nbsp; ${myOrderDetail[0].pay_method}</span>
 								</td>
-								<td colspan="3"><span id="gray_color">&nbsp;
-										${myOrderDetail[0].card_com_name}</span> <br> <span
-									id="gray_color">&nbsp;
-										${myOrderDetail[0].card_pay_month}</span></td>
+								
+								<td width="10%" align=right>
+									은행 <br> 
+									할부기간
+								</td>
+								
+								<td colspan="3">
+									<span id="gray_color">&nbsp; ${myOrderDetail[0].card_com_name}</span> <br>
+									<span id="gray_color">&nbsp; ${myOrderDetail[0].card_pay_month}</span>
+								</td>
 							</tr>
 						</table>
-						<div id="center">
-							<button class="submit_btn2"
-								onclick="location.href='${contextPath}/mypage/myOrderList.do?member_id=${memberInfo.member_id}'">목록으로</button>
+						
+						<div style="text-align:center; margin-top:20px;">
+							<a href="${contextPath}/mypage/myOrderList.do?member_id=${memberInfo.member_id}&chapter=1&order_state=&firstDate=&secondDate=&text_box=" style="line-height:32px;">
+							<span class="submit_btn2" style="padding:10px 95px 10px 95px;">목록으로</span></a>
 						</div>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
-	</div>
+	</form>
 
 </body>
 </html>

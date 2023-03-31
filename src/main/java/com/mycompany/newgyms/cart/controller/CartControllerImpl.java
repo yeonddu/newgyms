@@ -200,7 +200,6 @@ public class CartControllerImpl extends BaseController implements CartController
 		
 		Map<String, Object> cartMap = new HashMap<String, Object>();
 		cartMap.put("cart_id_list", cart_id_list);
-		System.out.println(cartMap);
 		try {
 			cartService.removeCartProduct(cartMap);
 			message = "<script>";

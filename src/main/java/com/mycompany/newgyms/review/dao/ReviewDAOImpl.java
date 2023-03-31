@@ -21,15 +21,15 @@ public class ReviewDAOImpl implements ReviewDAO {
 	private SqlSession sqlSession;
 	
 	public ArrayList selectproductReviewList(int product_id) throws DataAccessException{
-		ArrayList list = new ArrayList();
-		list=(ArrayList)sqlSession.selectList("mapper.review.selectProductReviewList",product_id);
-		return list;
+		ArrayList reviewList = new ArrayList();
+		reviewList=(ArrayList)sqlSession.selectList("mapper.review.selectProductReviewList",product_id);
+		return reviewList;
 	}
 	
 	@Override
 	public ArrayList selectReviewList() throws DataAccessException {
-		ArrayList list = (ArrayList) sqlSession.selectList("mapper.review.selectReviewList");
-		return list;
+		ArrayList reviewList = (ArrayList) sqlSession.selectList("mapper.review.selectReviewList");
+		return reviewList;
 	}
 	
 	@Override
@@ -39,8 +39,10 @@ public class ReviewDAOImpl implements ReviewDAO {
 	}
 	
 	@Override
-	public List<ReviewImageVO> selectReviewImageList(int review_no) throws DataAccessException {
-		List<ReviewImageVO> reviewImageList = (ArrayList) sqlSession.selectList("mapper.review.selectReviewImageList", review_no);
+	public ArrayList selectReviewImageList(int review_no) throws DataAccessException {
+		
+		ArrayList reviewImageList = new ArrayList();
+		reviewImageList = (ArrayList) sqlSession.selectList("mapper.review.selectReviewImageList", review_no);
 		return reviewImageList;
 	}
 }

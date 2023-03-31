@@ -21,9 +21,7 @@ public class FileDownloadController {
 	private static String CURR_IMAGE_REPO_PATH = "C:\\newgyms";
 	
 	@RequestMapping("/download")
-	protected void download(@RequestParam("fileName") String fileName,
-		                 	@RequestParam("product_id") String product_id,
-			                 HttpServletResponse response) throws Exception {
+	protected void download(@RequestParam("fileName") String fileName, @RequestParam("product_id") String product_id, HttpServletResponse response) throws Exception {
 		OutputStream out = response.getOutputStream();
 		String filePath=CURR_IMAGE_REPO_PATH+"\\"+ "product"+"\\"+product_id+"\\"+fileName;
 		File image=new File(filePath);
@@ -64,6 +62,30 @@ public class FileDownloadController {
 	}
 		
 
+	
+	//자유게시판 이미지
+	@RequestMapping("/boardImage")
+	protected void reviewImage(@RequestParam("board_image") String board_image,
+		                 	@RequestParam("articleNO") int articleNO,
+			                 HttpServletResponse response) throws Exception {
+		OutputStream out = response.getOutputStream();
+		String filePath=CURR_IMAGE_REPO_PATH+"\\"+"board"+"\\"+"article_image"+"\\"+articleNO+"\\"+board_image;
+		File image=new File(filePath);
+
+		response.setHeader("Cache-Control","no-cache");
+		response.addHeader("Content-disposition", "attachment; fileName="+board_image);
+		FileInputStream in=new FileInputStream(image); 
+		byte[] buffer=new byte[1024*8];
+		while(true){
+			int count=in.read(buffer); //버퍼에 읽어들인 문자개수
+			if(count==-1)  //버퍼의 마지막에 도달했는지 체크
+				break;
+			out.write(buffer,0,count);
+		}
+		in.close();
+		out.close();
+	}
+	
 	@RequestMapping("/thumbnails.do")
 	protected void thumbnails(@RequestParam("fileName") String fileName,
                             	@RequestParam("product_id") String product_id,

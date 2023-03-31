@@ -35,7 +35,7 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 	
 	public List<ReviewImageVO> reviewImageList(int review_no) throws Exception {
-		List<ReviewImageVO> reviewImageList = reviewDAO.selectReviewImageList(review_no);
+		List reviewImageList = reviewDAO.selectReviewImageList(review_no);
 		return reviewImageList;
 	}
 	

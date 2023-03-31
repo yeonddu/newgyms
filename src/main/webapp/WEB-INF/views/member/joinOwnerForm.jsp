@@ -486,34 +486,97 @@ $(function(){
 					</table>
 
 					<div class="checkbox_group">
-						<input type="checkbox" id="check_all"> <label
-							for="check_all" style="font-size: 20px; margin-bottom: 10px;">모두
-							동의합니다.</label> <br>
-						<div
-							style="margin-top: 10px; width: 300px; border: 1px solid #D8D8D8; border-radius: 5px;"></div>
-						<div id="join_agree">
-							<!-- 이용약관동의 -->
+                  <input type="checkbox" id="check_all"> <label
+                     for="check_all" style="font-size: 20px; margin-bottom: 10px;">모두
+                     동의합니다. </label> <br>
 
-							<input type="checkbox" id="check_1" class="normal"
-								onclick="changeFn();" required> <label for="check_1"><a
-								href="" style="color: blue">서비스 이용약관</a>에 동의합니다.<span
-								id="red_color">(필수)</span></label> <br> <input type="checkbox"
-								id="check_2" class="normal" onclick="changeFn();" required>
-							<label for="check_2"><a href="" style="color: blue">개인정보
-									수집/이용</a>에 동의합니다.<span id="red_color">(필수)</span></label> <br> <input
-								type="checkbox" id="check_3" class="normal"
-								onclick="changeFn();"> <label for="check_3"><a
-								href="" style="color: blue">위치기반 서비스 이용약관</a>에 동의합니다.(선택)</label> <br>
-							<input type="checkbox" id="check_4" class="normal"
-								onclick="changeFn();"> <label for="check_4">뉴짐스에
-								충성을 다 할것을 맹세합니다.(선택)</label>
-						</div>
-					</div>
+                  <div
+                     style="margin-top: 10px; width: 300px; border: 1px solid #D8D8D8; border-radius: 5px;"></div>
+                  <!-- 이용약관동의 -->
+                  <div id="join_agree">
 
-					<input type="submit" value="가입하기" id="join_btn" align="center">
-				</form>
-			</div>
-		</div>
-	</div>
+                     <input type="checkbox" id="check_1" class="normal"
+                        onclick="changeFn();" required> <label for="check_1">
+                        <a href="#popup1" style="color: blue">서비스 이용약관</a>에 동의합니다. <span
+                        id="red_color">(필수)</span>
+                     </label> <br> <input type="checkbox" id="check_2" class="normal"
+                        onclick="changeFn();" required> <label for="check_2">
+                        <a href="#popup2" style="color: blue">개인정보 수집/이용</a>에 동의합니다. <span
+                        id="red_color">(필수)</span>
+                     </label> <br> <input type="checkbox" id="check_3" class="normal"
+                        onclick="changeFn();"> <label for="check_3"> <a
+                        href="#popup3" style="color: blue">위치기반 서비스 이용약관</a>에 동의합니다.(선택)
+                     </label> <br> <input type="checkbox" id="check_4" class="normal"
+                        onclick="changeFn();"> <label for="check_4">뉴짐스에
+                        충성을 다할것을 맹세합니다.(선택) </label>
+
+                  </div>
+               </div>
+
+               <input type="submit" value="가입하기" id="join_btn" align="center">
+            </form>
+         </div>
+      </div>
+   </div>
+
+   <!-- 약관동의 모달 -->
+   <div class="popup" id="popup1">
+      <div class="popup-inner">
+         <div class="popup__photo">
+            <img src="${contextPath}/resources/image/newgyms.png" alt="NEWGYMS">
+         </div>
+         <div class="popup__text">
+            <h2 style="color:#0F0573; padding:5px;">서비스 이용약관</h2>
+            <p>이 약관은 NEWGYMS 주식회사 ("회사" 또는 "뉴짐스")가 제공하는 뉴짐스 및 뉴짐스 관련 제반 서비스의 이용과 관련하여 회사와 회원과의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.</p>
+         </div>
+         <a class="popup__close" href="#">X</a>
+      </div>
+   </div>
+   
+   <div class="popup" id="popup2">
+      <div class="popup-inner">
+         <div class="popup__photo">
+            <img src="${contextPath}/resources/image/newgyms.png" alt="NEWGYMS">
+         </div>
+         <div class="popup__text">
+            <h2 style="color:#0F0573; padding:5px;">개인정보 수집/이용</h2>
+            <p>본인확인 및 회원관리 서비스 제공을 위하여 아래와 같이 회원의 개인정보를 수집, 활용합니다.</p>
+            <table>
+               <tr>
+                  <th colspan="2">이용목적</th>
+                  <th>수집항목</th>
+                  <th>보유 기간</th>
+               </tr>
+               
+               <tr>
+                  <td rowspan="2" width="20%">회원가입 및 관리</td>
+                  <td width="10%">본인확인</td>
+                  <td width="30%">[필수]휴대폰 번호, 이메일</td>
+                  <td width="40%">확인 후 즉시 파기</td>
+               </tr>
+               
+               <tr>
+                  <td>회원관리</td>
+                  <td>[필수] 성명, 휴대폰 번호, 이메일 주소, 아이디, 비밀번호   </td>
+                  <td>회원탈퇴 후 파기<br>다만 관계법령에 의해 보존할 경우 그 의무기간 동안 별도 보관되며 불, 편법 행위의 방지 및 대응의 목적으로 6개월 보관됩니다.</td>
+               </tr>
+            </table>
+         </div>
+         <a class="popup__close" href="#">X</a>
+      </div>      
+   </div>
+   
+   <div class="popup" id="popup3">
+      <div class="popup-inner">
+         <div class="popup__photo">
+            <img src="${contextPath}/resources/image/newgyms.png" alt="NEWGYMS">
+         </div>
+         <div class="popup__text">
+            <h2 style="color:#0F0573; padding:5px;">위치기반 서비스 이용약관</h2>
+            <p>이 약관은 NEWGYMS 주식회사 ("회사" 또는 "뉴짐스")가 제공하는 위치기반서비스와 관련하여 회사와 개인위치정보주체와의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.</p>
+         </div>
+         <a class="popup__close" href="#">X</a>
+      </div>      
+   </div>
 </body>
 </html>

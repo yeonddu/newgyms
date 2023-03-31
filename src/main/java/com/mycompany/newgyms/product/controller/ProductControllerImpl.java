@@ -44,6 +44,7 @@ public class ProductControllerImpl implements ProductController {
 	
 	@Autowired
 	private WishVO wishVO;
+	
 	/* 카테고리별, 지역별 조회 */
 	@RequestMapping(value = "/productList.do", method = RequestMethod.GET)
 	public ModelAndView productList(@RequestParam("category") String product_sort,

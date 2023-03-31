@@ -405,6 +405,10 @@
 							              <div class="review_option">[옵션] ${review.product_option_name} (+${review.product_option_price }원)</div> 
 							              <div class="review_contents">${review.review_contents}</div>
 <%-- 						              <img alt="이용후기 이미지" src="${contextPath}/reviewImage.do?review_no=${review.review_no}&fileName=${review.review_image}"> --%>
+								            <c:forEach var="image" items="${ImageList}"> 
+			    	      			            <img class="review_image" alt="이용후기 이미지" src="${contextPath}/reviewImage.do?review_no=${image.review_no}&fileName=${image.fileName}">
+											</c:forEach>
+
 							              <img src="#" alt="이용후기 이미지">
 							          </td>
 					              </tr>
