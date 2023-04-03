@@ -1,12 +1,15 @@
 package com.mycompany.newgyms.review.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mycompany.newgyms.product.vo.ProductVO;
 import com.mycompany.newgyms.review.dao.ReviewDAO;
 import com.mycompany.newgyms.review.vo.ReviewImageVO;
 import com.mycompany.newgyms.review.vo.ReviewVO;
@@ -19,9 +22,20 @@ public class ReviewServiceImpl implements ReviewService{
 	private ReviewDAO reviewDAO;
 	
 	
-	public List<ReviewVO> productReviewList(int product_id) throws Exception{
-		List reviewList= reviewDAO.selectproductReviewList(product_id);
-		return reviewList;
+	public Map<String ,List> productReviewList(int product_id) throws Exception{
+		Map<String,List> reviewMap=new HashMap<String,List>();
+		
+		List<ReviewVO> reviewList= reviewDAO.selectproductReviewList(product_id);
+		
+		if(reviewList.size()!=0){ 
+			List<ReviewImageVO> reviewImageList=reviewDAO.selectProductReviewImageList(reviewList);
+			reviewMap.put("reviewImageList",reviewImageList);
+		}
+
+
+		reviewMap.put("reviewList", reviewList);
+		return reviewMap;
+
 	}
 	
 	public List<ReviewVO> reviewList() throws Exception {

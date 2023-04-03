@@ -21,9 +21,16 @@ public class QnaServiceImpl implements QnaService{
 		List questionList= qnaDAO.selectproductQuestionList(product_id);
 		return questionList;
 	}
+	
+	@Override
 	public List<QnaVO> productAnswerList(int product_id) throws Exception{
 		List answerList= qnaDAO.selectproductAnswerList(product_id);
 		return answerList;
+	}
+	
+	@Override
+	public void addQuestion(QnaVO qnaVO) throws Exception {
+		qnaDAO.insertQuestion(qnaVO);
 	}
 	
 }

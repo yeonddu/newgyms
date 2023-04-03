@@ -40,6 +40,18 @@
 		]]>
 	</select>	
 	
+	
+	<select id="selectProductReviewImageList" resultMap="reviewImageResult"   parameterType="java.util.Map"  >
+     <![CDATA[
+			select * from t_review_image
+			where review_no in 
+		]]>
+		<foreach item="item" collection="list" open="(" separator="," close=")">
+			#{item.review_no}
+		</foreach>
+			order by review_no
+	</select>	
+
 	<select id="selectReviewList" resultMap="reviewResult"  >
      <![CDATA[
 		SELECT distinct r.*, o.product_id, o.product_name, o.product_main_image,o.center_name

@@ -233,6 +233,10 @@ body {
 	width: 200px; height:200px; object-fit: cover;
 }
 
+#reviewList .container .item .review_image p {
+	font-size:14px; font-weight:bold; margin:5px 0;
+}
+
 #reviewList .container .item  .review_description {
 	height:50px; margin: auto;
 }

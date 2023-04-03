@@ -256,10 +256,12 @@ transform: translate(0, 0); transition: linear 0.3s;
 }
 
 #productDetail .product_description .buyCartWish ul li a.buy {
-	color:#0F0573; border:2px solid  #0F0573; padding-top: 10px; margin-left:5px; width: 150px; box-sizing: content-box;
+border-radius: 5px;	
+ color:#0F0573; border:2px solid  #0F0573; padding-top: 10px; margin-left:5px; width: 150px; box-sizing: content-box;
 }
 #productDetail .product_description .buyCartWish ul li a.cart {
-	border:2px solid  #0F0573; background-color: #0F0573;  color:white; padding-top: 10px; margin-left:5px; width: 250px; box-sizing: content-box; 
+border-radius: 5px;	
+ border:2px solid  #0F0573; background-color: #0F0573;  color:white; padding-top: 10px; margin-left:5px; width: 250px; box-sizing: content-box; 
 }
 #productDetail .product_description .buyCartWish ul li a.wish {
 	width: 40px;
@@ -390,11 +392,19 @@ margin: 10px 5px 0px; color: rgb(50, 50, 50); font-size: 12px; float:left; width
 	margin:5px; padding:10px; font-size:14px;
 }
 
+#productDetail .product_detail .tab_container .review_list .review_imageList {
+	width:100%; 
+}
 
+#productDetail .product_detail .tab_container .review_list .review_imageList img {
+ width:150px; height:150px; object-fit: contain;
+ display:inline-block;
+}
 
  
 #productDetail .product_detail .tab_container .qna_write {
 	background-color: #0F0573;  color:white; padding:5px 20px;  display: inline-block; float:right;
+	border-radius:5px;
 }
 
 #productDetail .product_detail .tab_container .review_list, .qna_list {
@@ -437,4 +447,37 @@ margin: 10px 5px 0px; color: rgb(50, 50, 50); font-size: 12px; float:left; width
 	display:inline-block; padding:6px 8px; margin-right:5px; width:30px; height:30px;color:white;background-color:rgb(150,150,150);border-radius: 100%;
 }
 
+#qna_write_popup {
+	width:600px; height:450px; padding:20px;
+    background:white; border:1px solid rgb(150,150,150); border-radius:25px;
+   	position: absolute; left:650px; top:650px; 	
+ 
+}
 
+#qna_write_popup>p:first-child {
+ font-size:16px; font-weight:bold; 
+}
+ 
+#qna_write_popup .product_info {
+ clear:both; padding:10px 0; 
+}
+ 
+#qna_write_popup .product_info img {
+ float:left; display:inline-block; width:80px; height:80px; 
+}
+
+#qna_write_popup .product_info>p {
+ display:inline-block; width:300px; padding:5px 10px; 
+}
+ 
+ 
+#qna_write_popup .qna_text {
+	clear:both; 
+}
+#qna_write_popup .qna_text .qna_title, .qna_contents  {
+ padding:10px; font-size:14px;
+}
+
+#qna_write_popup .qna_text .qna_title input, textarea {
+ width:450px;
+}

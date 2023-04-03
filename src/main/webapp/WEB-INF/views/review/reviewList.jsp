@@ -28,6 +28,7 @@ function reviewPopup(type) {
 	}
 }
 
+/* 이용후기 조회 */
 $(document).ready(function() {
 	$('.view_review_btn').on('click', function() { 
 		var review_no = $(this).find('#review_no').val(); //누른 review의 review_no 가져오기
@@ -53,8 +54,6 @@ $(document).ready(function() {
 			var member_id = reviewVO.member_id;
 			var review_write_date = reviewVO.review_write_date;
 			var product_option_name = reviewVO.product_option_name;
-			
-			
 			var product_option_price = Number(reviewVO.product_option_price.replace(/,/g, '')); 
 			var review_score = reviewVO.review_score;
 			var review_title = reviewVO.review_title;
@@ -116,7 +115,7 @@ $(document).ready(function() {
 		});
 		
 
-		/* 이용후기 이미지 */		
+		/* 이용후기 이미지 슬라이드 */		
 		  var imgs;
 		  var img_count;
 		  var img_position = 1;
@@ -148,7 +147,6 @@ $(document).ready(function() {
 		      img_position++;
 		    }
 		  }
-
 	});
 });		
 
@@ -183,11 +181,8 @@ $(document).ready(function() {
 				            <a href="javascript:reviewPopup('open', '.layer01');">
 				            <img alt="이용후기 이미지" src="${contextPath}/reviewImage.do?review_no=${item.review_no}&fileName=${item.review_main_image}">
 							</a>
-			  		    <h2>${item.review_title }</h2>
+			  		    <p>${item.review_title }</p>
 				   		</div>
-<%-- 			       		<div class="review_writer">${item.member_id }</div>       <div class="write_date">${item.review_write_date}</div>
-			  		    <h2><a href="${contextPath}/review/viewReview.do?review_no=${item.review_no}">${item.review_title }</a></h2>
---%>					
 					</div>
 					<div class="review_description">			
 					

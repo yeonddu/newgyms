@@ -199,7 +199,6 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 			cart_id_list.push($(this).val());
 		});
 		
-		console.log("체크된 값 : " + cart_id_list);
 		$.ajax({
 		      type : "post",
 		      async : false, //false인 경우 동기식으로 처리한다.
@@ -220,6 +219,40 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 		   }); //end ajax
 	}
 
+	/* 주문/결제 */
+	function order_cart_product() {
+		
+		//선택된 cart_id를 담을 배열 생성
+		var cart_id_list = [];
+		
+		//선택된 checkbox의 값 저장 
+		$("input[name=check_one]:checked").each(function(){
+			cart_id_list.push($(this).val());
+		});
+		
+		console.log(cart_id_list)
+		
+		$.ajax({
+		      type : "post",
+		      async : false, //false인 경우 동기식으로 처리한다.
+		      url : "${contextPath}/order/orderCartProduct.do",
+		      data : {
+		    	  cart_id : cart_id_list
+	    	  },
+		     // dataType : "json",
+		      success : function(data) {
+		            alert("주문창으로 이동합니다 :)");   
+		            location.reload();
+		      },
+		      error : function(data) {
+		         alert("에러가 발생했습니다." + data);
+		      },
+		      complete : function(data) {
+		         //alert("작업을완료 했습니다");
+		         
+		      }
+		   }); //end ajax
+	}
 </script>
 
 </head>
@@ -304,9 +337,12 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 				<a href="javascript:delete_select_cart_product();">선택삭제</a>
 
 				<div style="text-align: center">
-					<input class="order_button" name="order" type="submit" value="주문하기">
+ 					<a class="order_button" href="javascript:order_cart_product();">주문하기</a>
 					<input class="back_button" name="back" type="submit" value="쇼핑 계속하기">
-				</div>
+<!--
+ 					<input class="order_button" name="order" type="submit" value="주문하기">
+					<input class="back_button" name="back" type="submit" value="쇼핑 계속하기">
+ -->				</div>
 
 				<!-- 옵션 변경 팝업창 -->
 				<div id="modify_popup" style="visibility: hidden">

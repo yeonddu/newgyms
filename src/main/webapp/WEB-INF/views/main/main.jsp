@@ -148,7 +148,7 @@ function remaindTime() {
                         <h3><a href="">${item.center_name }</a></h3>
                   </div>
                   <div class="product_price">
-                        <div class="discount_rate"><fmt:formatNumber  value="${item.product_sales_price/item.product_price}" type="percent" var="discount_rate" />${discount_rate }</div>
+                        <div class="discount_rate"><fmt:formatNumber  value="${(item.product_price - item.product_sales_price)/item.product_price}" type="percent" var="discount_rate" />${discount_rate }</div>
                         <div class="sales_price"><fmt:formatNumber  value="${item.product_sales_price}" type="number"/>원</div>
                         <div class="price"><fmt:formatNumber  value="${item.product_price}" type="number"/>원</div>               
                   </div>

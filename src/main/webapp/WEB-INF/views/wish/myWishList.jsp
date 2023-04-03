@@ -242,7 +242,7 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 													</div>			
 													
 	                          			            <div class="wish_price"> 
-	                          			            	<span class="discount_rate"><fmt:formatNumber  value="${product.product_sales_price/product.product_price}" type="percent" var="discount_rate" />${discount_rate }</span>
+	                          			            	<span class="discount_rate"><fmt:formatNumber  value="${(product.product_price - product.product_sales_price)/product.product_price}" type="percent" var="discount_rate" />${discount_rate }</span>
 														<span class="product_total_price"><fmt:formatNumber value="${product.product_sales_price}" type="number" /></span>
 														<span class="product_price"><fmt:formatNumber value="${product.product_price}" type="number" />${product_price }원</span>
 	           										</div>

@@ -12,7 +12,10 @@
 <c:set var="priceImage"  value="${imageMap.priceImageList }"  />
 <c:set var="facilityImage"  value="${imageMap.facilityImageList }"  />
 
-<c:set var="reviewList"  value="${reviewList }"  />
+<c:set var="reviewList" value="${reviewMap.reviewList}" />
+<c:set var="reviewImageList" value="${reviewMap.reviewImageList}" />
+
+
 <c:set var="questionList"  value="${questionList }"  />
 <c:set var="answerList"  value="${answerList }"  />
 <c:set var="member"  value="${memberVO}"  />
@@ -30,6 +33,7 @@
 <title>제품 상세페이지</title>
 
 <script type="text/javascript">
+
 	/* 총 상품금액 출력*/ 
 	$(document).ready(function(){
 		$('#order_product_opt').on("change", function(){
@@ -57,6 +61,7 @@
 		});
 	});
 	
+	/* 찜 */
 	function add_wishList(product_id) {
 	    $.ajax({
 		       type : "post",
@@ -70,6 +75,8 @@
 			       		var con_wish = confirm("찜 목록에 추가되었습니다. 찜 목록으로 이동할까요?"); 
 			       		if(con_wish==true) {
 			       			location.href="${contextPath}/wish/myWishList.do";
+			       		} else {
+				             location.reload();
 			       		} 
 		          }else if(data.trim()=='already_existed'){
 		             alert("찜 목록에서 삭제되었습니다 :) ");   
@@ -196,7 +203,25 @@
 	       }
 	    }); //end ajax   
 	 }	 
-
+	
+	
+	
+	/* 문의글 작성 팝업 */
+	function qnaPopup(isLogOn, loginForm, type) {
+		var product_id = ${product.product_id};
+		if (isLogOn == '' || isLogOn == 'false') {
+			alert("로그인 후 글쓰기가 가능합니다.");
+			location.href = loginForm;
+		} else {
+			if (type == 'open') {
+				$('#qna_write_popup').attr('style', 'visibility:visible');
+				
+			} else if (type == 'close') {
+				$('#qna_write_popup').attr('style', 'visibility:hidden');
+			}
+		}
+	}
+	
 
 </script>
 </head>
@@ -215,7 +240,7 @@
 		<div class="product_price">         
 			<div class="sales_price" id="sales_price"><fmt:formatNumber value="${product.product_sales_price}" type="number"/>원</div>
 		    <div class="price"><fmt:formatNumber  value="${product.product_price}" type="number"/>원</div>
-	        <div class="discount_rate"><fmt:formatNumber  value="${product.product_sales_price/product.product_price}" type="percent" var="discount_rate" />${discount_rate }</div>
+	        <div class="discount_rate"><fmt:formatNumber  value="${(product.product_price - product.product_sales_price)/product.product_price}" type="percent" var="discount_rate" />${discount_rate }</div>
 		</div>
 	
 		<div class="point"><h3>구매 시 <fmt:formatNumber  value="${product.product_point}" type="number"/>P 적립</h3></div>
@@ -369,7 +394,9 @@
 						              ${review_count }
 						            </td>
 						            <td colspan="2">
-						              <div class="toggle_show" style="cursor:pointer;">${review.review_title}</div>
+						              <div class="toggle_show" style="cursor:pointer;">
+						              	${review.review_title}
+						              </div>
 						            </td>
 						            <td class="review_score">
 						            	<c:choose>
@@ -402,14 +429,16 @@
 						          <tr class="toggle_hidden">
 							          <td></td>
 							          <td colspan="5">
-							              <div class="review_option">[옵션] ${review.product_option_name} (+${review.product_option_price }원)</div> 
+							              <div class="review_option">[옵션] ${review.product_option_name} (+<fmt:formatNumber  value="${review.product_option_price }" type="number"/>원)</div> 
 							              <div class="review_contents">${review.review_contents}</div>
-<%-- 						              <img alt="이용후기 이미지" src="${contextPath}/reviewImage.do?review_no=${review.review_no}&fileName=${review.review_image}"> --%>
-								            <c:forEach var="image" items="${ImageList}"> 
-			    	      			            <img class="review_image" alt="이용후기 이미지" src="${contextPath}/reviewImage.do?review_no=${image.review_no}&fileName=${image.fileName}">
-											</c:forEach>
-
-							              <img src="#" alt="이용후기 이미지">
+							              <div class="review_imageList">
+							              <c:forEach var="image" items="${reviewImageList }">
+											<c:if test="${review.review_no == image.review_no}">
+			    	      			            <img class="review_image" alt="이용후기 이미지" src="${contextPath}/reviewImage.do?review_no=${image.review_no}&fileName=${image.fileName}">												
+											</c:if>
+										</c:forEach>
+										
+							              </div>
 							          </td>
 					              </tr>
 							 </c:forEach>
@@ -422,7 +451,7 @@
 
 			<div class="tab_content" id="tab3">
 				<div class="tab_title">Q&A</div>
-			        <a class="qna_write">문의하기</a>
+			        <a class="qna_write" href="javascript:qnaPopup('${isLogOn}', '${contextPath}/member/loginForm.do','open', '.layer01');">문의하기</a>
 		          <table class="qna_list">
 		          <tbody>      
 					 <c:choose>
@@ -531,8 +560,8 @@
 		      </table>
 			</div>
 			<div class="tab_content" id="tab4">
-				<div class="tab_title">취소 및 환불 규정</div>        
-				<h5>취소 및 환불 요청 가능 기간</h5>
+				<div class="tab_title">환불 안내</div>        
+				<h5>취소 및 환불 규정</h5>
 				 <p>${fn:replace(product.product_refund_1 ,crcn,br)}</p> 
 				<h5>취소 및 환불 불가한 경우</h5>
 				 <p>${fn:replace(product.product_refund_2 ,crcn,br)}</p> 
@@ -550,7 +579,39 @@
 		</div>
 	</div>
 	
-
+	
+	<!-- Q&A 문의하기 팝업 -->
+			<div id="qna_write_popup"  style="visibility: hidden" ><!-- -->
+			<p style="float:left">상품 문의하기</p>
+			<a style="float:right" class="x_button"  href="javascript:" onClick="javascript:qnaPopup('${isLogOn}','${contextPath}/member/loginForm.do','close', '.layer01');">X</a>		
+			<form action="${contextPath }/qna/addQuestion.do" method="post">
+				<div class="product_info">
+					<input type="hidden" name="product_id" value="${product.product_id }">
+					<div id="product_main_image">
+					   <img alt="" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${product.product_main_image}">			  
+					</div>
+						<p>${product.product_name }</p>
+						<p>${member.center_name }</p>
+				</div>
+			
+				<div class="qna_text">
+					<p class="qna_title">제목 <input name="qna_title" type="text" required
+                        title="제목을 입력해주세요."></p>
+					<p class="qna_contents">내용 <textarea name="qna_contents" cols="50" rows="10" required
+                        title="내용을 입력해주세요."></textarea></p>
+				</div>
+			
+				<input type="checkbox" name="secret"><span style="font-size:14px; margin-left:5px">비밀글</span>
+			
+				<div>
+					<input type="submit" value="등록하기">
+					<a >등록하기</a>
+				</div>
+			</form>
+			</div>
+			
+		</div>
+	</div>
   </div>
 </div>
 </div>

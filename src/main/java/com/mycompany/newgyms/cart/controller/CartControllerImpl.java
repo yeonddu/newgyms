@@ -197,7 +197,6 @@ public class CartControllerImpl extends BaseController implements CartController
 		ResponseEntity resEntity = null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
-		
 		Map<String, Object> cartMap = new HashMap<String, Object>();
 		cartMap.put("cart_id_list", cart_id_list);
 		try {

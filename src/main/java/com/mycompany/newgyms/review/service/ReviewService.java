@@ -8,7 +8,7 @@ import com.mycompany.newgyms.review.vo.ReviewVO;
 
 
 public interface ReviewService {
-	public List<ReviewVO> productReviewList(int product_id) throws Exception;
+	public Map<String ,List> productReviewList(int product_id) throws Exception;
 	public List<ReviewVO> reviewList() throws Exception;
 	public ReviewVO viewReview(int review_no) throws Exception;
 	public List<ReviewImageVO> reviewImageList(int review_no) throws Exception;

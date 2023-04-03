@@ -15,7 +15,6 @@
 		<result column="qna_title" property="qna_title"/>
 		<result column="qna_contents" property="qna_contents"/>
 		<result column="qna_wirte_date" property="qna_write_date"/>
-		<result column="product_name" property="product_name"/>
 	</resultMap>
 	
 
@@ -35,4 +34,23 @@
 		]]>
 	</select>
 
+	<insert id="insertQuestion"  parameterType="qnaVO">
+	  <![CDATA[
+	       insert into t_qna(qna_parent_no,
+	                            product_id,
+	                            member_id,
+	                            qna_answer_state,
+	                            qna_secret,
+	                            qna_title,
+	                            qna_contents)
+	                      values(#{qna_parent_no},
+	                             #{product_id},
+	                             #{member_id},
+	                             #{qna_answer_state},
+	                             #{qna_secret},
+	                             #{qna_title},
+	                             #{qna_contents})
+	                                      
+	   ]]>      
+	  </insert>
 </mapper>

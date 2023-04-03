@@ -11,7 +11,7 @@ public class OrderVO {
 	private String member_id;
 	private int product_id;
 	private int option_id;
-	private String option_name;
+	
 	private String orderer_name;
 	private String orderer_hp1;
 	private String orderer_hp2;
@@ -38,49 +38,6 @@ public class OrderVO {
 	private Date pay_order_time;
 	private int refund_price;
 
-	public OrderVO() {
-
-	}
-
-	public OrderVO(int order_seq_num, int order_id, String member_id, int product_id, int option_id, String option_name,
-			String orderer_name, String orderer_hp1, String orderer_hp2, String orderer_hp3, String nonmember_pw,
-
-			String center_name, String product_name, String product_option_name, String product_option_price,
-			String product_main_image, int product_price, int product_sales_price, int total_price,
-
-			String receiver_name, String receiver_hp1, String receiver_hp2, String receiver_hp3, String pay_method,
-			String card_com_name, String card_pay_month, String order_state, Date pay_order_time) {
-		this.order_seq_num = order_seq_num;
-		this.order_id = order_id;
-		this.member_id = member_id;
-		this.product_id = product_id;
-		this.option_id = option_id;
-		this.option_name = option_name;
-		this.orderer_name = orderer_name;
-		this.orderer_hp1 = orderer_hp1;
-		this.orderer_hp2 = orderer_hp2;
-		this.orderer_hp3 = orderer_hp3;
-		this.nonmember_pw = nonmember_pw;
-
-		this.center_name = center_name;
-		this.product_name = product_name;
-		this.product_option_name = product_option_name;
-		this.product_option_price = product_option_price;
-		this.product_main_image = product_main_image;
-		this.product_price = product_price;
-		this.product_sales_price = product_sales_price;
-		this.total_price = total_price;
-		
-		this.receiver_name = receiver_name;
-		this.receiver_hp1 = receiver_hp1;
-		this.receiver_hp2 = receiver_hp2;
-		this.receiver_hp3 = receiver_hp3;
-		this.pay_method = pay_method;
-		this.card_com_name = card_com_name;
-		this.card_pay_month = card_pay_month;
-		this.order_state = order_state;
-		this.pay_order_time = pay_order_time;
-	}
 
 	public int getOrder_seq_num() {
 		return order_seq_num;
@@ -120,14 +77,6 @@ public class OrderVO {
 
 	public void setOption_id(int option_id) {
 		this.option_id = option_id;
-	}
-
-	public String getOption_name() {
-		return option_name;
-	}
-
-	public void setOption_name(String option_name) {
-		this.option_name = option_name;
 	}
 
 	public String getOrderer_name() {

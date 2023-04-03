@@ -52,7 +52,6 @@
 		]]>
 	</select>	
 
-
 	<select id="selectProductList" resultMap="productResult"   parameterType="java.util.HashMap"  >
      <![CDATA[
 			select t_product.*, t_member.center_name from t_product, t_member
@@ -179,6 +178,7 @@
 	    <![CDATA[
 	    	select * from  t_product_option 
 	    	where product_id=#{product_id}
+	    	order by product_id asc, product_option_price asc
     	]]>
 	</select>
 	

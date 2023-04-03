@@ -53,10 +53,12 @@
 
 #myCartList .order_button {
   background-color:#0F0573;color:white; width:150px; padding:10px 20px; margin:20px; font-size:16px; border: 2px solid #0F0573;
+  border-radius:5px;
 }
 
 #myCartList .back_button {
   background-color:white;color:#0F0573; width:150px; padding:10px 20px; margin:20px; font-size:16px; border: 2px solid #0F0573; font-weight:bold;
+  border-radius:5px;
 }
 
 

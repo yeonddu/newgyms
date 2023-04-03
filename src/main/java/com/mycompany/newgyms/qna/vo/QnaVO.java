@@ -15,7 +15,6 @@ public class QnaVO {
 	private String qna_title;
 	private String qna_contents;
 	private Date qna_write_date;
-	private String product_name;
 	
 	public int getQna_no() {
 		return qna_no;
@@ -72,12 +71,5 @@ public class QnaVO {
 	public void setQna_write_date(Date qna_write_date) {
 		this.qna_write_date = qna_write_date;
 	}
-	public String getProduct_name() {
-		return product_name;
-	}
-	public void setProduct_name(String product_name) {
-		this.product_name = product_name;
-	}
-
 	
 }

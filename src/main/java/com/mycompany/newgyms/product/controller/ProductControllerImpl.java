@@ -150,8 +150,9 @@ public class ProductControllerImpl implements ProductController {
 		mav.addObject("imageMap", imageMap);
 
 		/* 리뷰 */
-		List<ReviewVO> reviewList = reviewService.productReviewList(product_id);
-		mav.addObject("reviewList", reviewList);
+		Map<String ,List> reviewMap = reviewService.productReviewList(product_id);
+		mav.addObject("reviewMap", reviewMap);
+	
 
 		/* 질문 목록 */
 		List<QnaVO> questionList = qnaService.productQuestionList(product_id);
