@@ -257,11 +257,11 @@ transform: translate(0, 0); transition: linear 0.3s;
 
 #productDetail .product_description .buyCartWish ul li a.buy {
 border-radius: 5px;	
- color:#0F0573; border:2px solid  #0F0573; padding-top: 10px; margin-left:5px; width: 150px; box-sizing: content-box;
+ color:#0F0573; border:1px solid  #0F0573; padding-top: 10px; margin-left:5px; width: 150px; box-sizing: content-box;
 }
 #productDetail .product_description .buyCartWish ul li a.cart {
 border-radius: 5px;	
- border:2px solid  #0F0573; background-color: #0F0573;  color:white; padding-top: 10px; margin-left:5px; width: 250px; box-sizing: content-box; 
+ border:1px solid  #0F0573; background-color: #0F0573;  color:white; padding-top: 10px; margin-left:5px; width: 250px; box-sizing: content-box; 
 }
 #productDetail .product_description .buyCartWish ul li a.wish {
 	width: 40px;

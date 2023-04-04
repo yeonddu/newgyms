@@ -10,6 +10,7 @@ public class CartVO {
 	private int product_id;
 	private String member_id;
 	private int option_id;
+	private String center_name;
 	private String product_option_name;
 	private int product_option_price;
 	private Date cart_entered_date;
@@ -38,6 +39,13 @@ public class CartVO {
 	}
 	public void setOption_id(int option_id) {
 		this.option_id = option_id;
+	}
+	
+	public String getCenter_name() {
+		return center_name;
+	}
+	public void setCenter_name(String center_name) {
+		this.center_name = center_name;
 	}
 	public String getProduct_option_name() {
 		return product_option_name;

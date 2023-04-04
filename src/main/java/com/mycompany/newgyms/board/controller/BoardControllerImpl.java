@@ -82,10 +82,10 @@ public class BoardControllerImpl implements BoardController {
       HttpHeaders responseHeaders = new HttpHeaders();
       responseHeaders.add("Content-Type", "text/html; charset=utf-8");
       try {
-         int articleNO = boardService.addNewArticle(articleMap);
+         int article_no = boardService.addNewArticle(articleMap);
          if(board_image != null && board_image.length() != 0) {
             File srcFile = new File(ARTICLE_IMAGE_REPO + "\\" + "temp" + "\\" + board_image);
-            File destDir = new File(ARTICLE_IMAGE_REPO + "\\" + articleNO);
+            File destDir = new File(ARTICLE_IMAGE_REPO + "\\" + article_no);
             FileUtils.moveFileToDirectory(srcFile, destDir, true);
          }
          
@@ -133,9 +133,9 @@ public class BoardControllerImpl implements BoardController {
    // 자유게시판 글 상세보기
    @Override
    @RequestMapping(value="/viewArticle.do", method=RequestMethod.GET)
-   public ModelAndView viewArticle(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+   public ModelAndView viewArticle(@RequestParam("article_no") int article_no, HttpServletRequest request, HttpServletResponse response) throws Exception {
       String viewName = (String)request.getAttribute("viewName");
-      articleVO = boardService.viewArticle(articleNO);
+      articleVO = boardService.viewArticle(article_no);
       ModelAndView mav = new ModelAndView();
       mav.setViewName(viewName);
       mav.addObject("article", articleVO);
@@ -146,9 +146,9 @@ public class BoardControllerImpl implements BoardController {
    // 자유게시판 글 수정 페이지로 이동하기
    @Override
    @RequestMapping(value="/modArticleForm.do", method=RequestMethod.POST)
-   public ModelAndView modArticleForm(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+   public ModelAndView modArticleForm(@RequestParam("article_no") int article_no, HttpServletRequest request, HttpServletResponse response) throws Exception {
       String viewName = (String)request.getAttribute("viewName");
-      articleVO = boardService.viewArticle(articleNO);
+      articleVO = boardService.viewArticle(article_no);
       ModelAndView mav = new ModelAndView();
       mav.setViewName(viewName);
       mav.addObject("article", articleVO);
@@ -171,7 +171,7 @@ public class BoardControllerImpl implements BoardController {
       String board_image = upload(multipartRequest);
       articleMap.put("board_image", board_image);
       
-      String articleNO = (String)articleMap.get("articleNO");
+      String article_no = (String)articleMap.get("article_no");
       String message;
       ResponseEntity resEnt = null;
       HttpHeaders responseHeaders = new HttpHeaders();
@@ -181,7 +181,7 @@ public class BoardControllerImpl implements BoardController {
          boardService.modArticle(articleMap);
          if (board_image != null && board_image.length() != 0) {
             File srcFile = new File(ARTICLE_IMAGE_REPO + "\\" + "temp" + "\\" + board_image);
-            File destDir = new File(ARTICLE_IMAGE_REPO + "\\" + articleNO);
+            File destDir = new File(ARTICLE_IMAGE_REPO + "\\" + article_no);
             FileUtils.moveFileToDirectory(srcFile, destDir, true);
             
             String originalFileName = (String)articleMap.get("originalFileName");
@@ -191,7 +191,7 @@ public class BoardControllerImpl implements BoardController {
          
          message = "<script>";
          message += "alert('글을 수정했습니다.');";
-         message += "location.href='" + multipartRequest.getContextPath() + "/board/viewArticle.do?articleNO="+articleNO+"';";
+         message += "location.href='" + multipartRequest.getContextPath() + "/board/viewArticle.do?article_no="+article_no+"';";
          message += "</script>";
          resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
       } catch (Exception e) {
@@ -199,7 +199,7 @@ public class BoardControllerImpl implements BoardController {
          srcFile.delete();
          message = "<script>";
          message += "alert('오류가 발생했습니다. 다시 수정해주세요.');";
-         message += "location.href = '" + multipartRequest.getContextPath() + "/board/viewArticle.do?articleNO="+articleNO+"';";
+         message += "location.href = '" + multipartRequest.getContextPath() + "/board/viewArticle.do?article_no="+article_no+"';";
          message += "</script>";
          resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
       }
@@ -211,7 +211,7 @@ public class BoardControllerImpl implements BoardController {
    @Override
    @RequestMapping(value="/removeArticle.do", method=RequestMethod.POST)
    @ResponseBody
-   public ResponseEntity removeArticle(@RequestParam("articleNO") int articleNO, 
+   public ResponseEntity removeArticle(@RequestParam("article_no") int article_no, 
          HttpServletRequest request, HttpServletResponse response) throws Exception {
       response.setContentType("text/html; charset=UTF-8");
       String message;
@@ -220,8 +220,8 @@ public class BoardControllerImpl implements BoardController {
       responseHeaders.add("Content-Type", "text/html; charset=utf-8");
       
       try {
-         boardService.removeArticle(articleNO);
-         File destDir = new File(ARTICLE_IMAGE_REPO + "\\" + articleNO);
+         boardService.removeArticle(article_no);
+         File destDir = new File(ARTICLE_IMAGE_REPO + "\\" + article_no);
          FileUtils.deleteDirectory(destDir);
          
          message = "<script>";

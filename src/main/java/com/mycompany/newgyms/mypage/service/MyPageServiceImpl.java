@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mycompany.newgyms.board.vo.ArticleVO;
 import com.mycompany.newgyms.member.vo.MemberVO;
 import com.mycompany.newgyms.mypage.dao.MyPageDAO;
 import com.mycompany.newgyms.mypage.vo.PointVO;
 import com.mycompany.newgyms.order.vo.OrderVO;
+import com.mycompany.newgyms.review.vo.ReviewVO;
 
 @Service("myPageService")
 @Transactional(propagation=Propagation.REQUIRED)
@@ -70,6 +72,28 @@ public class MyPageServiceImpl implements MyPageService {
     public String maxStack(Map condMap) throws Exception {
         return myPageDAO.maxStackSelect(condMap);
      }
+	
+	// 게시글 관리
+	@Override
+	public List<ArticleVO> myArticleList(String member_id) throws Exception {
+		List<ArticleVO> myArticleList = myPageDAO.selectMyArticleList(member_id);
+		return myArticleList;
+	}
+	
+	// 이용후기 관리
+		@Override
+		public String reviewMaxNum(Map condMap) throws Exception {
+			return myPageDAO.reviewMaxNum(condMap);
+		}
+		@Override
+		public List<ReviewVO> listMyReviews(Map condMap) throws Exception {
+			return myPageDAO.listMyReviews(condMap);
+		}
+		@Override
+		public void deleteReview(Map condMap) throws Exception {
+			myPageDAO.deleteReview(condMap);
+		}
+
 	
 	// 회원정보 수정/탈퇴
 	@Override

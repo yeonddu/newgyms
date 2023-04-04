@@ -30,15 +30,15 @@ const result = arr.reduce(function add(sum, currValue) {
 					<div id="contain_right">
 						<p id="mypage_order_title">적립금 조회</p>
 						
-						<div style="font-size: 20px;margin-right:50px;color:#0F0573;text-align:right;">현재 적립금 : ${nowPoint}원</div>
+						<div style="font-size: 20px; margin-right:50px; margin-bottom:15px; text-align:right;">현재 적립금 : <span id="navy_color">${nowPoint}원</span></div>
 						<c:choose>
 							<c:when test="${empty myStackList}">
-								<table id="order_detail2">
+								<table id="stack_detail">
 									<tr>
-										<td width="10%">구분</td>
-										<td width="10%">내용</td>
-										<td width="10%">적립금</td>
-										<td width="10%">일자</td>
+										<th width="10%">구분</th>
+										<th width="10%">내용</th>
+										<th width="10%">적립금</th>
+										<th width="10%">일자</th>
 									</tr>
 									<tr>
 										<td colspan="7" style="color: blue;">조회된 적립금이 없습니다. 😂</td>
@@ -46,12 +46,12 @@ const result = arr.reduce(function add(sum, currValue) {
 								</table>
 							</c:when>
 							<c:otherwise>
-								<table id="order_detail2">
+								<table id="stack_detail">
 									<tr>
-										<td width="10%">구분</td>
-										<td width="10%">내용</td>
-										<td width="10%">적립금</td>
-										<td width="10%">일자</td>
+										<th width="10%">구분</th>
+										<th width="10%">내용</th>
+										<th width="10%">적립금</th>
+										<th width="10%">일자</th>
 									</tr>
 									<c:forEach var="item" items="${myStackList}" varStatus="j">
 										<tr>

@@ -16,6 +16,7 @@ public class BoardDAOImpl implements BoardDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	@Override
 	public List selectAllArticlesList() throws DataAccessException {
 		List<ArticleVO> articlesList = sqlSession.selectList("mapper.board.selectAllArticlesList");
 		return articlesList;
@@ -23,15 +24,15 @@ public class BoardDAOImpl implements BoardDAO {
 	
 	@Override
 	public int insertNewArticle(Map articleMap) throws DataAccessException {
-		int articleNO = selectNewArticleNO();
-		articleMap.put("articleNO", articleNO);
+		int article_no = selectNewArticleNO();
+		articleMap.put("article_no", article_no);
 		sqlSession.insert("mapper.board.insertNewArticle", articleMap);
-		return articleNO;
+		return article_no;
 	}
 	
 	@Override
-	public ArticleVO selectArticle(int articleNO) throws DataAccessException {
-		return sqlSession.selectOne("mapper.board.selectArticle", articleNO);
+	public ArticleVO selectArticle(int article_no) throws DataAccessException {
+		return sqlSession.selectOne("mapper.board.selectArticle", article_no);
 	}
 	
 	@Override
@@ -40,14 +41,14 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 	
 	@Override
-	public void deleteArticle(int articleNO) throws DataAccessException {
-		sqlSession.delete("mapper.board.deleteArticle", articleNO);
+	public void deleteArticle(int article_no) throws DataAccessException {
+		sqlSession.delete("mapper.board.deleteArticle", article_no);
 	}
 	
 	@Override
-	public List selectImageFileList(int articleNO) throws DataAccessException {
+	public List selectImageFileList(int article_no) throws DataAccessException {
 		List<ImageVO> imageFileList = null;
-		imageFileList = sqlSession.selectList("mapper.board.selectImageFileList", articleNO);
+		imageFileList = sqlSession.selectList("mapper.board.selectImageFileList", article_no);
 		return imageFileList;
 	}
 	

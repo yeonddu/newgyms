@@ -24,8 +24,7 @@ public class CartDAOImpl  implements  CartDAO{
 	
 	//장바구니 상품 정보 가져오기
 	public List<ProductVO> selectProductList(List<CartVO> cartList) throws DataAccessException {
-		List<ProductVO> myProductList;
-		myProductList = sqlSession.selectList("mapper.cart.selectProductList",cartList);
+		List<ProductVO> myProductList = sqlSession.selectList("mapper.cart.selectProductList",cartList);
 		return myProductList;
 	}
 	

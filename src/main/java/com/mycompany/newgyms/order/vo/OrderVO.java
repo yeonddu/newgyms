@@ -26,11 +26,13 @@ public class OrderVO {
 	private String product_main_image;
 	private int product_price;
 	private int product_sales_price;
+	private int product_point;
 
 	private String receiver_name;
 	private String receiver_hp1;
 	private String receiver_hp2;
 	private String receiver_hp3;
+	
 	private String pay_method;
 	private String card_com_name;
 	private String card_pay_month;
@@ -173,6 +175,14 @@ public class OrderVO {
 
 	public void setProduct_sales_price(int product_sales_price) {
 		this.product_sales_price = product_sales_price;
+	}
+
+	public int getProduct_point() {
+		return product_point;
+	}
+
+	public void setProduct_point(int product_point) {
+		this.product_point = product_point;
 	}
 
 	public String getReceiver_name() {

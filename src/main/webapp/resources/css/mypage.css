@@ -312,3 +312,33 @@ button:hover {
 	background-color: #0F0573;
 	border-radius: 5px;
 }
+
+#stack_detail {
+	width: 100%;
+	padding: 10px;
+	line-height: 40px;
+}
+
+#stack_detail th {
+	border-bottom: 1px solid rgb(244, 244, 244);
+}
+
+#stack_detail td {
+	border-bottom: 1px solid rgb(244, 244, 244);
+	text-align: center;
+}
+
+#article_detail {
+	width: 100%;
+	padding: 10px;
+	line-height: 40px;
+}
+
+#article_detail th {
+	border-bottom: 1px solid rgb(244, 244, 244);
+}
+
+#article_detail td {
+	border-bottom: 1px solid rgb(244, 244, 244);
+	text-align: center;
+}

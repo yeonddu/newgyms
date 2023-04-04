@@ -10,35 +10,48 @@
       <result property="order_id" column="order_id" />
       <result property="member_id" column="member_id" />
       <result property="product_id" column="product_id" />
-      <result property="orderer_name" column="orderer_name" />
-      <result property="orderer_hp1" column="orderer_hp1" />
-      <result property="orderer_hp2" column="orderer_hp2" />
-      <result property="orderer_hp3" column="orderer_hp3" />
-      <result property="nonmember_pw" column="nonmember_pw" />
       <result property="center_name" column="center_name" />
       <result property="product_name" column="product_name" />
       <result property="product_main_image" column="product_main_image" />
       <result property="product_price" column="product_price" />
       <result property="product_sales_price" column="product_sales_price" />
-      <result property="goods_filename" column="goods_filename" />
+      <result property="product_point" column="product_point" />
+      
+      <result property="orderer_name" column="orderer_name" />
+      <result property="orderer_hp1" column="orderer_hp1" />
+      <result property="orderer_hp2" column="orderer_hp2" />
+      <result property="orderer_hp3" column="orderer_hp3" />
+      <result property="nonmember_pw" column="nonmember_pw" />
+      
+      
       <result property="receiver_name" column="receiver_name" />
       <result property="receiver_hp1" column="receiver_hp1" />
       <result property="receiver_hp2" column="receiver_hp2" />
       <result property="receiver_hp3" column="receiver_hp3" />
+      
       <result property="pay_method" column="pay_method" />
       <result property="card_com_name" column="card_com_name" />
       <result property="card_pay_month" column="card_pay_month" />
-      <result property="pay_order_time" column="pay_order_time" />
       <result property="order_state" column="order_state" />
-      <result property="option_id" column="option_id" />
-      <result property="option_name" column="option_name" />
+      <result property="pay_order_time" column="pay_order_time" />
    </resultMap>
+   
+   
+	<!-- 보유한 적립금 -->
+	<select id="orderPoint" parameterType="String" resultType="String">
+	<![CDATA[
+           SELECT (SELECT SUM(case when point_state='적립' then point_price ELSE 0 END))- (SELECT SUM(case when point_state='이용' then point_price ELSE 0 END)) AS now
+         FROM t_point
+         WHERE member_id=#{member_id}
+         ORDER BY point_id desc
+	      ]]>
+	</select>
 
 	<select id="selectOrderProductList" resultMap="orderProductResult" parameterType="java.util.Map">
 	    <![CDATA[
 	    
-  			SELECT c.*, m.member_name, m.member_hp1, m.member_hp2, m.member_hp3, p.product_name, p.product_price, p.product_sales_price, o.product_option_name, o.product_option_price from t_cart c , t_member m, t_product p, t_product_option o
-	   	    WHERE  c.product_id = p.product_id AND c.option_id = o.option_id AND c.member_id = m.member_id
+  			SELECT c.*, m.center_name, p.product_name, p.product_main_image, p.product_price, p.product_sales_price, p.product_point, o.product_option_name, o.product_option_price from t_cart c , t_member m, t_product p, t_product_option o
+	   	    WHERE  c.product_id = p.product_id AND c.option_id = o.option_id AND p.member_id = m.member_id
 			AND cart_id IN 
 		]]>
 		<foreach item="item" collection="cart_id_list" open="(" separator="," close=")">
@@ -46,4 +59,60 @@
 		</foreach>
 	</select> 
 
+	<insert id="insertNewOrder" parameterType="orderVO">
+    <![CDATA[
+		insert into t_order(order_seq_num,
+		                    order_id,
+							member_id,
+							center_name,
+							product_id,
+							product_main_image,
+							product_name,
+							product_option_name,
+							product_option_price,
+							product_price,
+							product_sales_price,
+							orderer_name,
+							orderer_hp1,
+							orderer_hp2,
+							orderer_hp3,
+							receiver_name,
+							receiver_hp1,
+				            receiver_hp2,
+				            receiver_hp3,
+					        pay_method,
+					        card_com_name,
+					        card_pay_month,
+					        order_state)
+						     values(#{order_seq_num},
+						            #{order_id},
+								    #{member_id},
+								    #{center_name},
+								    #{product_id},
+								    #{product_main_image},
+								    #{product_name},
+								    #{product_option_name},
+								    #{product_option_price},
+								    #{product_price},
+								    #{product_sales_price},
+								    #{orderer_name},
+								    #{orderer_hp1},
+								    #{orderer_hp2},
+								    #{orderer_hp3},
+								    #{receiver_name},
+								    #{receiver_hp1},
+				                    #{receiver_hp2},
+				                    #{receiver_hp3},
+					                #{pay_method},
+					                #{card_com_name},
+					                #{card_pay_month},
+					                #{order_state})
+    	]]>
+	</insert>
+
+	<select id="selectOrderID" resultType="int">
+	    <![CDATA[
+		    select MAX(order_id) from t_order
+    	]]>
+	</select>
 </mapper>

@@ -59,7 +59,8 @@
 									<!-- 상품명 & 옵션명 -->
 									<td style="width: 30%; line-height: 25px; padding-left: 10px; font-size:15px;">${item.product_name}<br>
 										<span id="gray_color" style="font-size:13px;">[옵션]
-											${item.product_option_name}</span>
+											${item.product_option_name}
+											(+<fmt:formatNumber	value="${item.product_option_price}" type="number" />원)</span>
 									</td>
 									
 									<!-- 사업장명 -->
@@ -68,13 +69,13 @@
 									</td>
 
 									<!-- 주문상태 -->
-									<td width="15%" align=center>
+									<td width="10%" align=center>
 										${item.order_state}
 									</td>
 									
 									<!-- 구매 가격 (상품가격 + 옵션가격) -->
-									<td width="12%" align=center>구매가</td>	
-									<td width="12%" align=center style="line-height:25px;">
+									<td width="10%" align=center>구매가</td>	
+									<td width="15%" align=center style="line-height:25px;">
 										<s style="color:red;"><span id="gray_color"><fmt:formatNumber value="${item.product_price+item.product_option_price}" type="number" />원</span></s>
 										<fmt:formatNumber value="${item.product_sales_price+item.product_option_price}" type="number" />원
 									</td>

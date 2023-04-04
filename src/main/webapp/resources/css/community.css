@@ -94,16 +94,6 @@ body {
 	border-radius: 5px;
 }
 
-#article_table {
-	margin-top: 44px;
-	width: 100%;
-	padding: 10px;
-	line-height: 40px;
-	border-top: 1px solid #D8D8D8;
-	border-bottom: 1px solid #D8D8D8;
-	text-align: center;
-}
-
 .submit_btn {
 	margin: 20px 5px 10px 5px;
 	border: none;
@@ -171,7 +161,7 @@ body {
 }
 
 #article_table {
-	margin-top: 5px;
+/* 	margin-top: 44px; */
 	width: 100%;
 	padding: 10px;
 	line-height: 40px;

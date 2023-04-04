@@ -31,7 +31,7 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.js" charset="utf-8"></script>
 <meta charset="EUC-KR">
 <title>제품 상세페이지</title>
-
+<link href="${contextPath}/resources/css/product.css?after" rel="stylesheet" type="text/css" media="screen">
 <script type="text/javascript">
 
 	/* 총 상품금액 출력*/ 
@@ -99,6 +99,13 @@
 	
 	/* 구매하기 */
 	function order_each_product(product_id,product_name, product_main_image, product_price, product_sales_price, center_name) {
+		/* option_id 가져오기 */
+		var option_id = $("#order_product_opt option:checked").val(); 
+		
+		if (option_id == '') {
+			alert("옵션을 선택해주세요 :( ");
+			return;
+		} 
 		
 	    //선택된 옵션에서 옵션가격 가져오기
 	    var product_option = $("#order_product_opt option:checked").text(); //옵션명 (+가격원)
@@ -114,13 +121,6 @@
 	    var product_option_price =  Number(str_product_option_price.replace(/,/g, '')); //숫자로 변환
 
 		
-		/* option_id 가져오기 */
-		var option_id = $("#order_product_opt option:checked").val(); 
-		
-		if (option_id == '') {
-			alert("옵션을 선택해주세요 :( ");
-			return;
-		} 
 
 		var formObj=document.createElement("form");
 		var i_product_id = document.createElement("input"); 
@@ -243,7 +243,7 @@
 	        <div class="discount_rate"><fmt:formatNumber  value="${(product.product_price - product.product_sales_price)/product.product_price}" type="percent" var="discount_rate" />${discount_rate }</div>
 		</div>
 	
-		<div class="point"><h3>구매 시 <fmt:formatNumber  value="${product.product_point}" type="number"/>P 적립</h3></div>
+		<div class="point"><h3>회원 구매 시 <fmt:formatNumber  value="${product.product_point}" type="number"/>P 적립</h3></div>
 		<div class="option">
 			<h1>개월/횟수</h1>
 			<select id="order_product_opt" name="order_product_opt">

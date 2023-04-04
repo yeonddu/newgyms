@@ -21,6 +21,16 @@
        <put-attribute name="body" value="/WEB-INF/views/mypage/myStackList.jsp" />
     </definition>
     
+    <definition name="/mypage/myArticleList" extends="baseLayout">
+       <put-attribute name="title" value="게시글 관리 페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/mypage/myArticleList.jsp" />
+    </definition>
+    
+    <definition name="/mypage/myReviewList" extends="baseLayout">
+		<put-attribute name="title" value="이용후기 페이지" />
+		<put-attribute name="body"	value="/WEB-INF/views/mypage/myReviewList.jsp" />
+	</definition>
+    
     <definition name="/mypage/myPageModify" extends="baseLayout">
        <put-attribute name="title" value="회원정보 수정 비밀번호 확인 페이지" />
        <put-attribute name="body" value="/WEB-INF/views/mypage/myPageModify.jsp" />

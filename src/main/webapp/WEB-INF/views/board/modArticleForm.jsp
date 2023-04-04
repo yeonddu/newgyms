@@ -43,7 +43,7 @@
 					<form method="post" action="${contextPath}/board/updateArticle.do"
 						enctype="multipart/form-data">
 						<!-- 글 번호 -->
-						<input type="hidden" name="articleNO" value="${article.articleNO}">
+						<input type="hidden" name="article_no" value="${article.article_no}">
 						<table id="article_table" align=center>
 							<!-- 제목 -->
 							<tr>
@@ -78,7 +78,7 @@
 									<c:when
 										test="${not empty article.board_image && article.board_image != 'null' }">
 										<img id="preview"
-											src="${contextPath}/boardImage.do?articleNO=${article.articleNO}&board_image=${article.board_image}" />
+											src="${contextPath}/boardImage.do?article_no=${article.article_no}&board_image=${article.board_image}" />
 									</c:when>
 									<c:otherwise>
 									<img id="preview"

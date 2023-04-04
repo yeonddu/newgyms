@@ -109,8 +109,8 @@
 							</ul></li>
 						<li><a href="#">고객센터</a>
 							<ul class="menu-box_menu-1">
-								<li><a href="#">공지사항</a></li>
-								<li><a href="#">이벤트</a></li>
+								<li><a href="${contextPath}/notice/listNotices.do">공지사항</a></li>
+								<li><a href="${contextPath}/event/listEvents.do">이벤트</a></li>
 								<li><a href="#">Q&A</a></li>
 							</ul></li>
 					</ul>

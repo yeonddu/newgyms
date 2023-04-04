@@ -13,46 +13,46 @@
 <script type="text/javascript">
 
 	// 글 수정하기
-	function fn_modify_article(url, articleNO) {
+	function fn_modify_article(url, article_no) {
 		var form = document.createElement("form");
 		form.setAttribute("method", "post");
 		form.setAttribute("action", url);
-		var articleNOInput = document.createElement("input");
-		articleNOInput.setAttribute("type", "hidden");
-		articleNOInput.setAttribute("name", "articleNO");
-		articleNOInput.setAttribute("value", articleNO);
+		var article_no_Input = document.createElement("input");
+		article_no_Input.setAttribute("type", "hidden");
+		article_no_Input.setAttribute("name", "article_no");
+		article_no_Input.setAttribute("value", article_no);
 		
-		form.appendChild(articleNOInput);
+		form.appendChild(article_no_Input);
 		document.body.appendChild(form);
 		form.submit();
 	}
 	
 	// 글 삭제하기
-	function fn_remove_article(url, articleNO) {
+	function fn_remove_article(url, article_no) {
 		var form = document.createElement("form");
 		form.setAttribute("method", "post");
 		form.setAttribute("action", url);
-		var articleNOInput = document.createElement("input");
-		articleNOInput.setAttribute("type", "hidden");
-		articleNOInput.setAttribute("name", "articleNO");
-		articleNOInput.setAttribute("value", articleNO);
+		var article_no_Input = document.createElement("input");
+		article_no_Input.setAttribute("type", "hidden");
+		article_no_Input.setAttribute("name", "article_no");
+		article_no_Input.setAttribute("value", article_no);
 
-		form.appendChild(articleNOInput);
+		form.appendChild(article_no_Input);
 		document.body.appendChild(form);
 		form.submit();
 	}
 	
 	// 답글 달기
-	function fn_reply_form(url, parentNO) {
+	function fn_reply_form(url, parent_no) {
 		var form = document.createElement("form");
 		form.setAttribute("method", "post");
 		form.setAttribute("action", url);
-		var parentNOInput = document.createElement("input");
-		parentNOInput.setAttribute("type", "hidden");
-		parentNOInput.setAttribute("name", "parentNO");
-		parentNOInput.setAttribute("value", articleNO);
+		var parent_no_Input = document.createElement("input");
+		parent_no_Input.setAttribute("type", "hidden");
+		parent_no_Input.setAttribute("name", "parent_no");
+		parent_no_Input.setAttribute("value", article_no);
 
-		form.appendChild(parentNOInput);
+		form.appendChild(parent_no_Input);
 		document.body.appendChild(form);
 		form.submit();
 	}
@@ -114,21 +114,21 @@
 								<tr>
 									<td width="300px"><input type="hidden"
 										name="originalFileName" value="${article.board_image}" /> <img
-										src="${contextPath}/boardImage.do?articleNO=${article.articleNO}&board_image=${article.board_image}"
+										src="${contextPath}/boardImage.do?article_no=${article.article_no}&board_image=${article.board_image}"
 										id="preview" /><br></td>
 								</tr>
 							</c:if>
 							
 							<!-- 게시글 작성자에게만 보이는 수정/삭제 버튼 -->
-							<c:if test="${memberInfo.member_id == article.member_id}">
+							<c:if test="${memberInfo.member_id == article.member_id || memberInfo.member_id == 'admin'}">
 								<tr>
 									<td width="50%" align=right>
 										<input type="button" id="modify_btn" value="수정하기"
-											onclick="fn_modify_article('${contextPath}/board/modArticleForm.do', ${article.articleNO})">
+											onclick="fn_modify_article('${contextPath}/board/modArticleForm.do', ${article.article_no})">
 									</td>
 									<td width="50%" align=left>
 										<input type="button" id="delete_btn" value="삭제하기"
-										onClick="fn_remove_article('${contextPath}/board/removeArticle.do', ${article.articleNO})">
+										onClick="fn_remove_article('${contextPath}/board/removeArticle.do', ${article.article_no})">
 									</td>
 								<tr>
 							</c:if>

@@ -48,15 +48,15 @@
 											</div>
 										</td>
 										<td colspan="2"
-											style="width: 48%; line-height: 25px; padding-left: 10px; font-size: 15px;">${item.product_name}<br>
+											style="width: 45%; line-height: 25px; padding-left: 10px; font-size: 15px;">${item.product_name}<br>
 											<span id="gray_color" style="font-size: 13px;">[옵션]
 												${item.product_option_name}</span>
 										</td>
-										<td width="15%" align=center><span id="navy_color"
+										<td width="10%" align=center><span id="navy_color"
 											style="font-size: 12px;">${item.center_name}</span></td>
 
-										<td width="12%" align=center>구매가</td>
-										<td width="12%" align=center style="line-height: 25px;">
+										<td width="10%" align=center>구매가</td>
+										<td width="15%" align=center style="line-height: 25px;">
 											<s style="color: red;"><span id="gray_color"><fmt:formatNumber
 														value="${item.product_price+item.product_option_price}"
 														type="number" />원</span></s> <fmt:formatNumber

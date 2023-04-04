@@ -59,6 +59,42 @@
 		<result property="member_id" column="member_id" />
 		<result property="product_id" column="product_id" />
 	</resultMap>
+	
+	<!-- 게시글 불러오기 -->
+	<resultMap id="articlesResult" type="articleVO">
+		<result property="level" column="level" />
+		<result property="article_no" column="article_no" />
+		<result property="parent_no" column="parent_no" />
+		<result property="board_title" column="board_title" />
+		<result property="board_content" column="board_content" />
+		<result property="board_write_date" column="board_write_date" />
+		<result property="board_image" column="board_image" />
+	</resultMap>
+	
+	<resultMap id="reviewResult" type="ReviewVO">
+		<result property="review_no" column="review_no" />
+		<result property="order_id" column="order_id" />
+		<result property="member_id" column="member_id" />
+		<result property="center_name" column="center_name" />
+		<result property="product_id" column="product_id" />
+		<result property="product_name" column="product_name" />
+		<result property="product_main_image" column="product_main_image" />
+		<result property="product_option_name" column="product_option_name" />
+		<result property="product_option_price" column="product_option_price" />
+		<result property="review_main_image" column="review_main_image" />
+		<result property="review_title" column="review_title" />
+		<result property="review_contents" column="review_contents" />
+		<result property="review_image" column="review_image" />
+		<result property="review_score" column="review_score" />
+		<result property="review_write_date" column="review_wirte_date" />
+	</resultMap>
+	
+	<resultMap id="reviewImageResult" type="reviewImageVO">
+	   <result property="image_id" column="image_id" />
+	   <result property="review_no" column="review_no" />
+	   <result property="fileName" column="fileName" />
+	   <result property="reg_id" column="reg_id" />
+	</resultMap>
 
 	<!-- 회원정보 수정 -->
 	<resultMap id="memberResult" type="MemberVO">
@@ -278,6 +314,61 @@
 			ORDER BY point_id desc
       ]]>
 	</select>
+	
+	<!-- 내 게시글 불러오기 -->
+	<select id="selectMyArticleList" resultMap="articlesResult" parameterType="String">
+       <![CDATA[
+         select article_no, board_title, board_write_date
+         from t_board
+         where member_id=#{member_id}
+         order by board_write_date desc
+      ]]>
+	</select>
+	
+	<!-- 리뷰 -->
+	<select id="reviewMaxNum" resultType="String"
+		parameterType="java.util.Map">
+       <![CDATA[
+             SELECT COUNT(*)
+         FROM t_review
+         WHERE member_id=#{member_id}
+         AND review_title LIKE CONCAT('%',#{text_box},'%')
+	   	AND review_write_date BETWEEN DATE(#{firstDate}) and DATE(#{secondDate})
+      ]]>
+	</select>
+
+	<!-- 리뷰 전체 조회 -->
+	<select id="listMyReviews" resultMap="reviewResult"
+		parameterType="java.util.Map">
+       <![CDATA[
+         select *
+            FROM (
+            SELECT 
+            ROW_NUMBER() over(order by order_seq_num) AS rowNum,
+               a.*,
+               b.product_name,
+               b.product_option_name,
+               b.product_option_price
+                from t_review a, t_order b
+                 WHERE a.order_seq_num = b.order_seq_num
+             )a
+          where rowNum BETWEEN (#{maxnum}-4) - (#{chapter}-1)*5 and (#{maxnum}) - (#{chapter}-1)*5
+          AND member_id=#{member_id}
+              AND review_title LIKE CONCAT('%',#{text_box},'%')
+				  AND review_write_date BETWEEN DATE(#{firstDate}) and DATE(#{secondDate}) 
+				  ORDER by order_seq_num DESC
+      ]]>
+	</select>
+	
+	<!-- 리뷰 삭제 -->
+	<delete id="deleteReview" parameterType="java.util.Map">
+      <![CDATA[
+          delete from t_review
+         where member_id=#{member_id}
+         AND review_no=#{review_no}
+        ]]>
+	</delete>
+	
 
 	<!-- 마이페이지 계정 비밀번호 확인 -->
 	<select id="myPageDetail" resultType="memberVO"

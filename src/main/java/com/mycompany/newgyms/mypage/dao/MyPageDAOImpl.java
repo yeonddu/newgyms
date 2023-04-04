@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.mycompany.newgyms.board.vo.ArticleVO;
 import com.mycompany.newgyms.member.vo.MemberVO;
 import com.mycompany.newgyms.mypage.vo.PointVO;
 import com.mycompany.newgyms.order.vo.OrderVO;
+import com.mycompany.newgyms.review.vo.ReviewVO;
 
 @Repository("myPageDAO")
 public class MyPageDAOImpl implements MyPageDAO {
@@ -88,6 +90,31 @@ public class MyPageDAOImpl implements MyPageDAO {
 	    return result;
 	}
 	
+	// 게시글 관리
+	@Override
+	public List selectMyArticleList(String member_id) throws DataAccessException {
+		List<ArticleVO> myArticleList = sqlSession.selectList("mapper.mypage.selectMyArticleList", member_id);
+		return myArticleList;
+	}
+	
+	// 이용후기 관리
+		@Override
+		public String reviewMaxNum(Map condMap) throws DataAccessException {
+			String result = sqlSession.selectOne("mapper.mypage.reviewMaxNum", condMap);
+			return result;
+		}
+
+		@Override
+		public List<ReviewVO> listMyReviews(Map condMap) throws DataAccessException {
+			List<ReviewVO> reviewList = (List) sqlSession.selectList("mapper.mypage.listMyReviews", condMap);
+			return reviewList;
+		}
+
+		@Override
+		public void deleteReview(Map condMap) throws DataAccessException {
+			sqlSession.delete("mapper.mypage.deleteReview", condMap);
+		}
+
 	
 	// 회원정보 수정/탈퇴
 	@Override

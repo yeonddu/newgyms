@@ -22,7 +22,7 @@
 					<!-- 마이페이지 사이드 메뉴 -->
 					<jsp:include page="/WEB-INF/views/mypage/myPageSide.jsp" />
 					<div id="contain_right">
-						<p id="mypage_order_title">결제 내역 조회</p>
+						<p id="mypage_order_title">결제내역 조회</p>
 
 						<!-- 상단 메뉴 -->
 						<!--  <div id="upper_menu">
@@ -122,7 +122,8 @@
 															</td>
 															
 															<!-- 상품명, 옵션 및 옵션가격 -->
-															<td style="text-align: left; line-height: 25px;">${member.product_name }<br>
+															<td style="text-align: left; line-height: 25px;">
+															<a href="/newgyms/product/productDetail.do?product_id=${member.product_id}">${member.product_name}</a><br>
 																<span id="gray_color" style="font-size: 14px;">[옵션]
 																	${member.product_option_name}(+<fmt:formatNumber
 																		value="${member.product_option_price}" type="number" />원)

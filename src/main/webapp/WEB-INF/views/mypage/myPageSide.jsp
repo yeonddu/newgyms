@@ -22,10 +22,10 @@
 				<a href="${contextPath}/mypage/myStackList.do?chapter=1&member_id=${memberInfo.member_id}">적립금 조회</a>
 			</li>
 			<li>
-				<a href="#">게시글 관리</a>
+				<a href="${contextPath}/mypage/myArticleList.do?&member_id=${memberInfo.member_id}">게시글 관리</a>
 			</li>
 			<li>
-				<a href="#">이용후기 관리</a>
+				<a href="${contextPath}/mypage/myReviewList.do?member_id=${memberInfo.member_id}&chapter=1&firstDate=&secondDate=&text_box=">이용후기 관리</a>
 			</li>
 			<li>
 				<a href="#">Q&A 관리</a>

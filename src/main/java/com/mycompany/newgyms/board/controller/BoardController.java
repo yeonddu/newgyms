@@ -12,8 +12,8 @@ public interface BoardController {
 	public ModelAndView listArticles(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity addNewArticle(MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception;
 	public ModelAndView articleForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView viewArticle(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView modArticleForm(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView viewArticle(@RequestParam("article_no") int article_no, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView modArticleForm(@RequestParam("article_no") int article_no, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity updateArticle(MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception;
-	public ResponseEntity removeArticle(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ResponseEntity removeArticle(@RequestParam("article_no") int article_no, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

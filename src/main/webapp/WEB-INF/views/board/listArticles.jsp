@@ -57,11 +57,11 @@
 									<c:set var="i" value="${i+1}" />
 									<tr>
 										<!-- 글 번호 -->
-										<td>${item.articleNO}</td>
+										<td>${item.article_no}</td>
 
 										<!-- 제목 -->
 										<td>
-											<a href="${contextPath}/board/viewArticle.do?articleNO=${item.articleNO}">${item.board_title}</a>
+											<a href="${contextPath}/board/viewArticle.do?article_no=${item.article_no}">${item.board_title}</a>
 										</td>
 
 										<!-- 작성자 -->

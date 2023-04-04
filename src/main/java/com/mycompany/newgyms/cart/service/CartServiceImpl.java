@@ -28,10 +28,10 @@ public class CartServiceImpl  implements CartService{
 			System.out.println("장바구니가 비어있습니다.");
 			return null;
 		}
+		cartMap.put("myCartList", myCartList);
 		
 		//장바구니 상품 정보 가져오기
 		List<ProductVO> myProductList=cartDAO.selectProductList(myCartList);
-		cartMap.put("myCartList", myCartList);
 		cartMap.put("myProductList",myProductList);
 		return cartMap;
 	}

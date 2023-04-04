@@ -55,21 +55,5 @@ public class ReviewControllerImpl implements ReviewController {
 		
 		return reviewMap;
 	}
-	/*
-	 
-	@RequestMapping(value = "/viewReview.do", method = RequestMethod.GET)
-	public @ResponseBody ModelAndView viewReview(@RequestParam("review_no") int review_no, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String viewName = (String) request.getAttribute("viewName");
-		ModelAndView mav = new ModelAndView(viewName);
-
-		ReviewVO reviewVO = reviewService.viewReview(review_no);
-		mav.addObject("reviewVO", reviewVO);
-		
-		List<ReviewImageVO> reviewImageList = reviewService.reviewImageList(review_no);
-		
-		mav.addObject("ImageList", reviewImageList);
-		return mav;
-	}
-*/
 
 }

@@ -22,19 +22,19 @@ public class BoardServiceImpl implements BoardService {
 		return articlesList;
 	}
 	
-	// 단일 이미지 추가하기
+	// 게시판 글 쓰기
 	@Override
 	public int addNewArticle(Map articleMap) throws Exception {
-		int articleNO = boardDAO.selectNewArticleNO();
-		articleMap.put("articleNO", articleNO);
+		int article_no = boardDAO.selectNewArticleNO();
+		articleMap.put("article_no", article_no);
 		boardDAO.insertNewArticle(articleMap);
-		return articleNO;
+		return article_no;
 	}
 	
-	// 단일 파일 보이기
+	// 게시글 상세보기
 	@Override
-	public ArticleVO viewArticle(int articleNO) throws Exception {
-		ArticleVO articleVO = boardDAO.selectArticle(articleNO);
+	public ArticleVO viewArticle(int article_no) throws Exception {
+		ArticleVO articleVO = boardDAO.selectArticle(article_no);
 		return articleVO;
 	}
 	
@@ -44,7 +44,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public void removeArticle(int articleNO) throws Exception {
-		boardDAO.deleteArticle(articleNO);
+	public void removeArticle(int article_no) throws Exception {
+		boardDAO.deleteArticle(article_no);
 	}
 }

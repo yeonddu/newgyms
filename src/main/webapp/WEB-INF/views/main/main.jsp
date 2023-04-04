@@ -8,9 +8,12 @@
   request.setCharacterEncoding("UTF-8");
 %> 
 <link href="${contextPath}/resources/css/main.css?after" rel="stylesheet" type="text/css"/>
+<!-- 이용후기 슬라이드 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
-<!-- 타임세일타이머  -->
 <script>
+<!-- 타임세일타이머  -->
 function remaindTime() {
      var now = new Date();
      var end = new Date(
@@ -86,23 +89,51 @@ function remaindTime() {
    setInterval(remaindTime, 1000);
 </script>
 
-     <!-- 1. 슬라이드 -->
-      <div id="ad_main_banner" style="margin-top:7px;">
-        <ul class="bjqs">       
-           <li><img width="1920" height="700" src="${contextPath}/resources/image/main_slide1.png"></li>
-           <li><img width="1920" height="700" src="${contextPath}/resources/image/main_slide2.png"></li>
-           <li><img width="1920" height="700" src="${contextPath}/resources/image/main_slide3.png"></li> 
-           <li><img width="1920" height="700" src="${contextPath}/resources/image/main_slide4.png"></li> 
-        </ul>
-     </div> 
+<script>
+<!-- 이용후기 슬라이더 -->
+$(function() {
+   var swiper = new Swiper(".mySwiper", {
+      slidesPerView: 5,
+         slidesPerGroup : 5,
+         centerSlides:false,
+         spaceBetween: 10,
+         //그룹수가 맞지 않을 경우 빈칸으로 메우기
+         loopFillGroupWithBlank : true,
+         loop : true, //무한반복
+         
+         pagination: {
+           el: ".swiper-pagination",
+           type: "fraction",
+         },
+         navigation: {
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev"
+            }
+   })
+   
+});   
+</script>
+   
+  
+
+
+ <!-- 1. 메인슬라이드 -->
+  <div id="ad_main_banner" style="margin-top:7px;">
+    <ul class="bjqs">       
+       <li><img width="1920" height="700" src="${contextPath}/resources/image/main_slide1.png"></li>
+       <li><img width="1920" height="700" src="${contextPath}/resources/image/main_slide2.png"></li>
+       <li><img width="1920" height="700" src="${contextPath}/resources/image/main_slide3.png"></li> 
+       <li><img width="1920" height="700" src="${contextPath}/resources/image/main_slide4.png"></li> 
+    </ul>
+ </div> 
  <div class="con-min-width" >
    <div class="con"> 
       <!-- 이런분들에게 추천합니다(일단위치보류) -->
-      <%-- <div style="text-align:center; margin-top:70px;">
+       <div style="text-align:center; margin-top:70px;">
          <div class="section-1">
             <img src="${contextPath}/resources/image/recommand.png" alt="이런분들에게 추천합니다!" style="width:600px; height:548px;">
         </div>
-      </div> --%>
+      </div> 
         
       <!-- 2. 타임세일타이머 -->
       <div class="saleTimer">
@@ -148,7 +179,7 @@ function remaindTime() {
                         <h3><a href="">${item.center_name }</a></h3>
                   </div>
                   <div class="product_price">
-                        <div class="discount_rate"><fmt:formatNumber  value="${(item.product_price - item.product_sales_price)/item.product_price}" type="percent" var="discount_rate" />${discount_rate }</div>
+                        <div class="discount_rate"><fmt:formatNumber  value="${item.product_sales_price/item.product_price}" type="percent" var="discount_rate" />${discount_rate }</div>
                         <div class="sales_price"><fmt:formatNumber  value="${item.product_sales_price}" type="number"/>원</div>
                         <div class="price"><fmt:formatNumber  value="${item.product_price}" type="number"/>원</div>               
                   </div>
@@ -157,11 +188,40 @@ function remaindTime() {
             </c:otherwise>
             </c:choose>
           </div>
-</div>       
+   </div>       
         <!-- 4. 이용후기 -->
-        <div class="tab_content" id="tab2">
-        <h2 class="review_title">이용후기</h2>
-        <table class="review_list">
+        <!-- <div class="tab_content" id="tab2"> -->
+        <h2 class="review_title">뉴짐스 고객후기</h2>
+        <div class="review1"><a href="${contextPath}/review/reviewList.do">더 많은 고객 후기가 궁금하시나요?</a></div>
+        <!-- 슬라이드 -->
+        <div class="con1">
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="${contextPath}/resources/image/review-1.png"></div>
+            <div class="swiper-slide"><img src="${contextPath}/resources/image/review-2.png"></div>
+            <div class="swiper-slide"><img src="${contextPath}/resources/image/review-3.png"></div>
+            <div class="swiper-slide"><img src="${contextPath}/resources/image/review-4.png"></div>
+            <div class="swiper-slide"><img src="${contextPath}/resources/image/review-5.png"></div>
+            <div class="swiper-slide"><img src="${contextPath}/resources/image/review-3.png"></div>
+            <div class="swiper-slide"><img src="${contextPath}/resources/image/review-4.png"></div>
+            <div class="swiper-slide"><img src="${contextPath}/resources/image/review-1.png"></div>
+            <div class="swiper-slide"><img src="${contextPath}/resources/image/review-6.jpg"></div>
+            <div class="swiper-slide"><img src="${contextPath}/resources/image/review-2.png"></div>
+            <div class="swiper-slide"><img src="${contextPath}/resources/image/review-2.png"></div>
+            <div class="swiper-slide"><img src="${contextPath}/resources/image/review-1.png"></div>
+            <div class="swiper-slide"><img src="${contextPath}/resources/image/review-6.jpg"></div>
+            <div class="swiper-slide"><img src="${contextPath}/resources/image/review-4.png"></div>
+            <div class="swiper-slide"><img src="${contextPath}/resources/image/review-3.png"></div>
+          </div>
+          <!-- navigation buttons -->
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+      
+      <!-- </div> -->
+        <%-- <table class="review_list">
           <tbody>
             <c:choose>
             <c:when test="${ empty reviewList  }" >
@@ -191,12 +251,11 @@ function remaindTime() {
             </c:otherwise>
          </c:choose>
            </tbody>
-         </table>
+         </table> --%>
          </div> 
-         </div>
-         </div>
+       </div>
       
-      <div class="line-1" style="width:1920px; height: 2px; background-color:#f4f2f2;"></div>
+      <div class="line-1" style="width:1920px; height: 2px; background-color:#f4f2f2; margin-top:120px;"></div>
 
    
    

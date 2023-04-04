@@ -35,7 +35,7 @@
 		
 	</resultMap>	
 
-	<select id="selectCartList"  parameterType="cartVO"  resultMap="cartResult"   >
+	<select id="selectCartList"  resultMap="cartResult"  parameterType="cartVO"  >
        <![CDATA[
       select c.*, o.product_option_name, o.product_option_price from t_cart c, t_product_option o
       where member_id=#{member_id} and c.option_id=o.option_id
@@ -44,8 +44,8 @@
 
 	<select id="selectProductList" resultMap="productResult" parameterType="java.util.Map">
       <![CDATA[
-          select p.*,c.cart_entered_date from t_product p, t_cart c
-          where p.product_id=c.product_id
+          select p.*,c.cart_entered_date, m.center_name from t_product p, t_cart c, t_member m
+          where p.product_id=c.product_id and p.member_id = m.member_id
            and p.product_id in
       ]]>
 		<foreach item="item" collection="list" open="(" separator="," close=")">

@@ -219,51 +219,17 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 		   }); //end ajax
 	}
 
-	/* 주문/결제 */
-	function order_cart_product() {
-		
-		//선택된 cart_id를 담을 배열 생성
-		var cart_id_list = [];
-		
-		//선택된 checkbox의 값 저장 
-		$("input[name=check_one]:checked").each(function(){
-			cart_id_list.push($(this).val());
-		});
-		
-		console.log(cart_id_list)
-		
-		$.ajax({
-		      type : "post",
-		      async : false, //false인 경우 동기식으로 처리한다.
-		      url : "${contextPath}/order/orderCartProduct.do",
-		      data : {
-		    	  cart_id : cart_id_list
-	    	  },
-		     // dataType : "json",
-		      success : function(data) {
-		            alert("주문창으로 이동합니다 :)");   
-		            location.reload();
-		      },
-		      error : function(data) {
-		         alert("에러가 발생했습니다." + data);
-		      },
-		      complete : function(data) {
-		         //alert("작업을완료 했습니다");
-		         
-		      }
-		   }); //end ajax
-	}
 </script>
 
 </head>
 <body>
-
 	<div class="con-min-width">
 		<div class="con">
 
 			<div id="myCartList">
 				<h1>장바구니</h1>
-
+		<h2 id="total_count">총 ${fn:length(cartList)}건</h2>
+		<form action="${contextPath}/order/orderCartProduct.do" method="post">
 				<table class="cart_list">
 					<div class="select_all">
 						<input type="checkbox" id="check_all" checked /> 전체선택
@@ -285,10 +251,10 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 												<td>
 													<!-- cart_item의 product_id --> 
 													<input id="current_product_id" type="hidden" value="${product.product_id}" />
-													
-												<input type="checkbox" name="check_one" value="${cart.cart_id}" checked >
+													<input type="checkbox" name="check_one" value="${cart.cart_id}" checked >
 												</td>
-												<td><a href="${contextPath}/product/productDetail.do?product_id=${product.product_id}">
+												<td>
+													<a href="${contextPath}/product/productDetail.do?product_id=${product.product_id}">
 														<img alt="상품 이미지" src="${contextPath}/thumbnails.do?product_id=${cart.product_id}&fileName=${product.product_main_image}">
 													</a>
 												</td>
@@ -296,11 +262,16 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 													<div class="cart_title">
 														<a href="${contextPath}/product/productDetail.do?product_id=${product.product_id}">${product.product_name}</a>
 													</div>
-													<div class="cart_option">[옵션] ${cart.product_option_name} (+<fmt:formatNumber value="${cart.product_option_price}" type="number" />원)
+													<div class="cart_option">
+														[옵션] ${cart.product_option_name} (+<fmt:formatNumber value="${cart.product_option_price}" type="number" />원)
 													</div>
 												<td class="modify_option_btn">
 													<a href="javascript:modifyPopup('open', '.layer01');">옵션변경</a>
 												</td>
+												<td text-align="center">
+													<a href="#">${product.center_name }</a>
+												</td>
+											
 												<td class="product_price">
 													<fmt:formatNumber value="${product.product_price}" type="number" var="product_price" />
 													${product_price }원
@@ -316,7 +287,6 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 													<fmt:parseNumber value="${product_total_price } " var ="product_total_price"/>
 													<fmt:parseNumber value="${cart_total_price } " var ="cart_total_price"/>
 													<c:set var="cart_total_price" value="${cart_total_price+product_total_price}" />
-										
 													
 												<td class="x_button">
 													<a href="${contextPath}/cart/removeEachCartProduct.do?cart_id=${cart.cart_id}">X</a>
@@ -329,7 +299,6 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 						</c:choose>
 					</tbody>
 				</table>
-					
 					<div class="cart_total_price"> 총 상품금액 <span id="cart_total_price"><fmt:formatNumber  value="${cart_total_price}" type="number"/></span>원</div>
 					<!-- 장바구니 총 상품금액 hidden처리 --> 
 					<input id="total_price" value="${cart_total_price}" type="hidden" />
@@ -337,12 +306,10 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 				<a href="javascript:delete_select_cart_product();">선택삭제</a>
 
 				<div style="text-align: center">
- 					<a class="order_button" href="javascript:order_cart_product();">주문하기</a>
-					<input class="back_button" name="back" type="submit" value="쇼핑 계속하기">
-<!--
  					<input class="order_button" name="order" type="submit" value="주문하기">
-					<input class="back_button" name="back" type="submit" value="쇼핑 계속하기">
- -->				</div>
+ 					<a  class="back_button"  href="javascript:history.back();" >쇼핑 계속하기</a>
+				</div>
+		</form>			
 
 				<!-- 옵션 변경 팝업창 -->
 				<div id="modify_popup" style="visibility: hidden">
@@ -356,6 +323,7 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 						</select>
 						<a class="modify_button" href="javascript:modify_cart_option();">저장</a>
 					</form>
+
 				</div>
 			</div>
 		</div>

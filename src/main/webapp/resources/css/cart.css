@@ -9,6 +9,10 @@
   margin:20px; text-align:center;
 }
 
+#myCartList #total_count {
+margin: 10px 5px; font-size: 14px;
+}
+
 #myCartList .cart_list {
   border-top:solid 1px rgb(150,150,150); border-bottom:solid 1px rgb(150,150,150);width:1200px; margin:auto;
 }
@@ -21,7 +25,7 @@
   width:200px; padding:10px; 
 }
 #myCartList .cart_list td:nth-child(2) img {
-  width:150px;height:150px; margin:auto;
+  width:150px;height:150px; margin:auto; border: 1px solid #d8d8d8; border-radius: 10px;
 }
 
 #myCartList .cart_list .cart_title {
@@ -32,7 +36,7 @@
 }
 
 #myCartList .cart_list .modify_option_btn {
-  width:400px;
+  width:150px;
 }
 
 #myCartList .cart_list .modify_option_btn a {
@@ -57,7 +61,7 @@
 }
 
 #myCartList .back_button {
-  background-color:white;color:#0F0573; width:150px; padding:10px 20px; margin:20px; font-size:16px; border: 2px solid #0F0573; font-weight:bold;
+  background-color:white;color:#0F0573; width:150px; padding:10px 20px; margin:20px; font-size:16px; border: 1px solid #0F0573; font-weight:bold;
   border-radius:5px;
 }
 

@@ -18,4 +18,8 @@
        <put-attribute name="body" value="/WEB-INF/views/order/orderProductForm.jsp" />
     </definition>
     
+     <definition name="/order/payToOrderGoods" extends="baseLayout">
+       <put-attribute name="title" value="상품 주문 페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/mypage/myOrderDetail.jsp" />
+    </definition>
 </tiles-definitions>

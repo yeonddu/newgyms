@@ -1,5 +1,7 @@
 package com.mycompany.newgyms.order.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,6 +14,6 @@ import com.mycompany.newgyms.order.vo.OrderVO;
 public interface OrderController {
 	public ModelAndView nonMemberOrder(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView orderEachProduct(@ModelAttribute("orderVO") OrderVO orderVO, HttpServletRequest request, HttpServletResponse response)  throws Exception;
-	public ModelAndView orderCartProduct( @RequestParam(value="cart_id[]") String[] cart_id_list,
-            HttpServletRequest request, HttpServletResponse response)  throws Exception;
+	public ModelAndView orderCartProduct(HttpServletRequest request, HttpServletResponse response)  throws Exception;
+	public ModelAndView payToOrderProduct(@RequestParam Map<String, String> orderMap,HttpServletRequest request, HttpServletResponse response)  throws Exception;
 }

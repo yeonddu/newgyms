@@ -16,6 +16,7 @@
 <head>
 <meta charset="EUC-KR">
 <title>상품 목록 조회</title>
+<link href="${contextPath}/resources/css/product.css?after" rel="stylesheet" type="text/css" media="screen">
 <script>
 function add_wishList(product_id) {
     $.ajax({

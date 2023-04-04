@@ -22,7 +22,13 @@ public interface MyPageController {
 	
 	// 적립금 조회
 	public ModelAndView myStackList(HttpServletRequest request, HttpServletResponse response) throws Exception;
-
+	
+	// 게시글 관리
+	public ModelAndView myArticleList(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	// 이용후기 관리
+	public ModelAndView myReviewList(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ResponseEntity myReviewDelete(HttpServletRequest request, HttpServletResponse response)  throws Exception;
 	
 	// 회원정보 수정/탈퇴
 	public ModelAndView myPageInfo(HttpServletRequest request, HttpServletResponse response) throws Exception;

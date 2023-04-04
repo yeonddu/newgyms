@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 @Component("ArticleVO")
 public class ArticleVO {
 	private int level;
-	private int articleNO;
-	private int parentNO;
+	private int article_no;
+	private int parent_no;
 	private String board_title;
 	private String board_content;
 	private String board_image;
@@ -30,20 +30,20 @@ public class ArticleVO {
 		this.level = level;
 	}
 
-	public int getArticleNO() {
-		return articleNO;
+	public int getArticle_no() {
+		return article_no;
 	}
 
-	public void setArticleNO(int articleNO) {
-		this.articleNO = articleNO;
+	public void setArticle_no(int article_no) {
+		this.article_no = article_no;
 	}
 
-	public int getParentNO() {
-		return parentNO;
+	public int getParent_no() {
+		return parent_no;
 	}
 
-	public void setParentNO(int parentNO) {
-		this.parentNO = parentNO;
+	public void setParent_no(int parent_no) {
+		this.parent_no = parent_no;
 	}
 
 	public String getBoard_title() {

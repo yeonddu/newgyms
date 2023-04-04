@@ -3,9 +3,11 @@ package com.mycompany.newgyms.mypage.service;
 import java.util.List;
 import java.util.Map;
 
+import com.mycompany.newgyms.board.vo.ArticleVO;
 import com.mycompany.newgyms.member.vo.MemberVO;
 import com.mycompany.newgyms.mypage.vo.PointVO;
 import com.mycompany.newgyms.order.vo.OrderVO;
+import com.mycompany.newgyms.review.vo.ReviewVO;
 
 public interface MyPageService {
 	// 결제내역 조회
@@ -20,6 +22,14 @@ public interface MyPageService {
 	public String nowPoint(String member_id) throws Exception;
 	public List<PointVO> myStackList(Map<String, Object> condMap) throws Exception;
 	public String maxStack(Map condMap) throws Exception;
+	
+	// 게시글 관리
+	public List<ArticleVO> myArticleList(String member_id) throws Exception;
+	
+	// 이용후기 관리
+	public String reviewMaxNum(Map condMap) throws Exception;
+	public List<ReviewVO> listMyReviews(Map condMap) throws Exception;
+	public void deleteReview(Map condMap) throws Exception;
 	
 	// 회원정보 수정/탈퇴
 	public MemberVO myPageDetail(Map mypageMap) throws Exception;

@@ -3,10 +3,8 @@ package com.mycompany.newgyms.common.file;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -66,10 +64,10 @@ public class FileDownloadController {
 	//자유게시판 이미지
 	@RequestMapping("/boardImage")
 	protected void reviewImage(@RequestParam("board_image") String board_image,
-		                 	@RequestParam("articleNO") int articleNO,
+		                 	@RequestParam("article_no") int article_no,
 			                 HttpServletResponse response) throws Exception {
 		OutputStream out = response.getOutputStream();
-		String filePath=CURR_IMAGE_REPO_PATH+"\\"+"board"+"\\"+"article_image"+"\\"+articleNO+"\\"+board_image;
+		String filePath=CURR_IMAGE_REPO_PATH+"\\"+"board"+"\\"+"article_image"+"\\"+article_no+"\\"+board_image;
 		File image=new File(filePath);
 
 		response.setHeader("Cache-Control","no-cache");
@@ -85,6 +83,52 @@ public class FileDownloadController {
 		in.close();
 		out.close();
 	}
+	
+	//공지사항 이미지
+	@RequestMapping("/noticeImage")
+	protected void noticeImage(@RequestParam("notice_image") String notice_image,
+		                 	@RequestParam("notice_no") int notice_no,
+			                 HttpServletResponse response) throws Exception {
+		OutputStream out = response.getOutputStream();
+		String filePath=CURR_IMAGE_REPO_PATH+"\\"+"notice"+"\\"+"notice_image"+"\\"+notice_no+"\\"+notice_image;
+		File image=new File(filePath);
+		
+			response.setHeader("Cache-Control","no-cache");
+		response.addHeader("Content-disposition", "attachment; fileName="+notice_image);
+		FileInputStream in=new FileInputStream(image); 
+		byte[] buffer=new byte[1024*8];
+		while(true){
+			int count=in.read(buffer); //버퍼에 읽어들인 문자개수
+			if(count==-1)  //버퍼의 마지막에 도달했는지 체크
+				break;
+			out.write(buffer,0,count);
+		}
+		in.close();
+		out.close();
+	}
+		
+	//공지사항 이미지
+	@RequestMapping("/eventImage")
+	protected void eventImage(@RequestParam("event_image") String event_image,
+		                 	@RequestParam("event_no") int event_no,
+			                 HttpServletResponse response) throws Exception {
+		OutputStream out = response.getOutputStream();
+		String filePath=CURR_IMAGE_REPO_PATH+"\\"+"event"+"\\"+"event_image"+"\\"+event_no+"\\"+event_image;
+		File image=new File(filePath);
+		
+		response.setHeader("Cache-Control","no-cache");
+		response.addHeader("Content-disposition", "attachment; fileName="+event_image);
+		FileInputStream in=new FileInputStream(image); 
+		byte[] buffer=new byte[1024*8];
+		while(true){
+			int count=in.read(buffer); //버퍼에 읽어들인 문자개수
+			if(count==-1)  //버퍼의 마지막에 도달했는지 체크
+				break;
+			out.write(buffer,0,count);
+		}
+		in.close();
+		out.close();
+	}	
 	
 	@RequestMapping("/thumbnails.do")
 	protected void thumbnails(@RequestParam("fileName") String fileName,

@@ -169,10 +169,22 @@
    display: block;
 }
 
+
 /* 이용후기 */
 .review_title {
+   font-size:28px;
+   margin-bottom:10px;
    margin-top: 50px;
    text-align: center;
+}
+.review1 {
+   margin-bottom:30px;
+   font-size:16px;
+   text-align:center;
+   color:#999999;
+}
+.review1:hover {
+   color:#F9C200;
 }
 
 .section-3>.section-3_title {
@@ -189,4 +201,65 @@
 
 .review_list {
    margin-bottom: 30px;
+}
+
+
+/* 이용후기 슬라이드 */
+a {
+  text-decoration:none;
+  color:inherit;
+}
+body {
+  font-size: 14px;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+.swiper {
+  width: 100%;
+  height: 220px;
+}
+
+
+body .swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #dfdfdf;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+body .con1 .swiper-pagination {
+  position: relative;
+  top: 20px;
+}
+
+body .con1 .swiper-button-prev,
+body .con1 .swiper-button-next {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  border: 1px solid #ddd;
+  opacity:0.5;
+}
+
+body .con1 .swiper-button-prev:hover,
+body .con1 .swiper-button-next:hover {
+  background-color:#ccc;
+  transition: 0.1s;
+}
+
+body .con1 .swiper-button-prev:after,
+body .con1 .swiper-button-next:after {
+  font-size: 20px;
+  color: black;
 }
