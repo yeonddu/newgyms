@@ -73,4 +73,12 @@ public class MemberServiceImpl implements MemberService {
 	public void newPw(Map searchpwMap) throws Exception{
 		memberDAO.newPw(searchpwMap);
 	}
+	
+
+	/* 상품 상세페이지 사업자 정보 가져오기 */
+	public MemberVO ownerDetail(String member_id) throws Exception {
+		MemberVO memberVO = memberDAO.selectOwnerDetail(member_id);
+		return memberVO;
+	}
+
 }

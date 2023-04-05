@@ -13,9 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mycompany.newgyms.member.service.MemberService;
 import com.mycompany.newgyms.member.vo.MemberVO;
 import com.mycompany.newgyms.product.service.ProductService;
 import com.mycompany.newgyms.product.vo.ProductOptVO;
@@ -23,7 +23,6 @@ import com.mycompany.newgyms.product.vo.ProductVO;
 import com.mycompany.newgyms.qna.service.QnaService;
 import com.mycompany.newgyms.qna.vo.QnaVO;
 import com.mycompany.newgyms.review.service.ReviewService;
-import com.mycompany.newgyms.review.vo.ReviewVO;
 import com.mycompany.newgyms.wish.service.WishService;
 import com.mycompany.newgyms.wish.vo.WishVO;
 
@@ -38,6 +37,9 @@ public class ProductControllerImpl implements ProductController {
 
 	@Autowired
 	private QnaService qnaService;
+	
+	@Autowired
+	private MemberService memberService;
 
 	@Autowired
 	private WishService wishService;
@@ -131,20 +133,19 @@ public class ProductControllerImpl implements ProductController {
 
 	/* 상품 상세페이지 */
 	@RequestMapping(value = "/productDetail.do", method = RequestMethod.GET)
-	public ModelAndView productDetail(@RequestParam("product_id") int product_id, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public ModelAndView productDetail(@RequestParam("product_id") int product_id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		HttpSession session = request.getSession();
-		
-		/* 상세정보 */
-		Map productMap = productService.productDetail(product_id);
 		ModelAndView mav = new ModelAndView(viewName);
-		mav.addObject("productMap", productMap);
-
+		
 		/* 옵션 */
-		List<ProductOptVO> productOptList = productService.productOptionList(product_id);
+		List<ProductOptVO> productOptList = productService.selectProductOptionList(product_id);
 		mav.addObject("productOptList", productOptList);
 
+		/* 프로그램 상세정보 */
+		ProductVO productVO = productService.productDetail(product_id);
+		mav.addObject("productVO", productVO);
+		
 		/* 이미지 */
 		Map imageMap = productService.productImage(product_id);
 		mav.addObject("imageMap", imageMap);
@@ -152,8 +153,9 @@ public class ProductControllerImpl implements ProductController {
 		/* 리뷰 */
 		Map<String ,List> reviewMap = reviewService.productReviewList(product_id);
 		mav.addObject("reviewMap", reviewMap);
-	
 
+		/* Q&A */
+		
 		/* 질문 목록 */
 		List<QnaVO> questionList = qnaService.productQuestionList(product_id);
 		mav.addObject("questionList", questionList);
@@ -162,6 +164,12 @@ public class ProductControllerImpl implements ProductController {
 		List<QnaVO> answerList = qnaService.productAnswerList(product_id);
 		mav.addObject("answerList", answerList);
 
+
+		/* 사업자 정보 */
+		String member_id = productVO.getMember_id(); /* 사업자 아이디 */
+		MemberVO memberVO = memberService.ownerDetail(member_id);
+		mav.addObject("memberVO", memberVO);
+		
 		/* 현재 로그인된 ID */
 		MemberVO memberVo = (MemberVO) session.getAttribute("memberInfo");
 		if (memberVo != null && memberVo.getMember_id() != null) {
@@ -171,22 +179,14 @@ public class ProductControllerImpl implements ProductController {
 			
 			wishVO.setMember_id(loginMember_id);
 			wishVO.setProduct_id(product_id);
+			
+			/* 찜 목록 추가 여부 확인 */
 			boolean isAreadyExisted=wishService.findWishProduct(wishVO);
 			mav.addObject("isAreadyExisted", isAreadyExisted);
-			
-
 		}
 		
-		/* 사업자 정보 */
-		ProductVO productVO = (ProductVO) productMap.get("productVO");
-		String member_id = productVO.getMember_id(); /* 사업자 아이디 */
-		MemberVO memberVO = productService.ownerDetail(member_id);
-		mav.addObject("memberVO", memberVO);
-
-		/* addProductInQuick(product_id,productVO,session); */ //추가작업예정
-		
 		return mav;
+		
 	}
 	
-
 }

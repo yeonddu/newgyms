@@ -128,12 +128,12 @@ $(function() {
  </div> 
  <div class="con-min-width" >
    <div class="con"> 
-      <!-- 이런분들에게 추천합니다(일단위치보류) -->
-       <div style="text-align:center; margin-top:70px;">
+      <!-- 이런분들에게 추천합니다 -->
+       <%-- <div style="text-align:center; margin-top:70px;">
          <div class="section-1">
             <img src="${contextPath}/resources/image/recommand.png" alt="이런분들에게 추천합니다!" style="width:600px; height:548px;">
         </div>
-      </div> 
+      </div>  --%>
         
       <!-- 2. 타임세일타이머 -->
       <div class="saleTimer">
@@ -141,7 +141,7 @@ $(function() {
          <p class="timer-title">3/21 오늘의 할인가!</p>
          <div class="timer-text">마감임박!</div>
          <!-- <p class="runTimeCon font25">PM 09:00 ~ PM 09:00</p> 
-              <p class="font15 time-title">금일 마감까지 남은 시간</p> -->
+         <p class="font15 time-title">금일 마감까지 남은 시간</p> -->
          <div class="time">
             <span class="hours"></span>
             <span class="col">:</span> 
@@ -150,11 +150,12 @@ $(function() {
             <span class="seconds"></span>
          </div>
          <hr style="margin-bottom:1px;">
-      </div>
+      </div> 
 
      <!-- 3. 인기이용권 -->
   <div class="productList">     
-      <h2>인기 이용권</h2>
+      <h2 class="pop_title">이런 이용권 어때요?</h2>
+      <div class="pop"><a href="${contextPath}/product/productList.do?category=전체보기&address=대전">더 다양한 이용권을 만나보세요!</a></div>
       <c:set  var="product_count" value="0" />   
       <div class="container">
                <c:choose>
@@ -162,7 +163,7 @@ $(function() {
                      <div style="font-size:16px;">등록된 상품이 없습니다.</div>
                   </c:when>
                <c:otherwise>
-               <c:forEach var="item" items="${productList }"> 
+               <c:forEach var="item" items="${productList }" begin="0" end="7"> 
                   <c:set  var="product_total_count" value="${product_count+1 }" />
                     <div class="item">
                       <div class="product_image">
@@ -219,43 +220,10 @@ $(function() {
         </div>
         <div class="swiper-pagination"></div>
       </div>
-      
-      <!-- </div> -->
-        <%-- <table class="review_list">
-          <tbody>
-            <c:choose>
-            <c:when test="${ empty reviewList  }" >
-               <tr>
-               <td>등록된 이용후기가 없습니다.</td>
-                </tr>
-            </c:when>
-               <c:otherwise>
-                 <c:forEach var="review" items="${reviewList }"> 
-                   <tr class="review_item">
-                     <td>
-                       <img alt="이용후기 이미지" src="${contextPath}/reviewImage.do?review_no=${review.review_no}&fileName=${review.review_image}">
-                     </td>
-                     <td>
-                       <div class="review_title">${review.review_title}</div>
-                       <div class="review_option">[옵션] ${review.product_option}</div>    
-                       <div class="review_content">${review.review_contents}</div>
-                     </td>
-                     <td class="review_writer">                          
-                       <div>${review.member_id}</div>
-                     </td>
-                     <td class="review_writeDate">
-                       <div>${review.review_write_date}</div>
-                     </td>
-                   </tr>
-             </c:forEach>
-            </c:otherwise>
-         </c:choose>
-           </tbody>
-         </table> --%>
          </div> 
        </div>
       
-      <div class="line-1" style="width:1920px; height: 2px; background-color:#f4f2f2; margin-top:120px;"></div>
+      <div class="line-1" style="width:1920px; height: 2px; background-color:#f4f2f2; margin-top:150px;"></div>
 
    
    

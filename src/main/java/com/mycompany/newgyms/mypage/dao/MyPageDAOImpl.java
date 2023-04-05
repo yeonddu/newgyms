@@ -85,6 +85,16 @@ public class MyPageDAOImpl implements MyPageDAO {
 	}
 	
 	@Override
+	public void addPoint(Map pointMap) throws DataAccessException {
+		sqlSession.insert("mapper.mypage.pointLog", pointMap);
+	}
+	
+	@Override
+	public void usePoint(Map pointMap) throws DataAccessException {
+		sqlSession.insert("mapper.mypage.pointLog", pointMap);
+	}
+	
+	@Override
 	public String maxStackSelect(Map condMap) throws DataAccessException {
 	    String result = sqlSession.selectOne("mapper.mypage.maxStackSelect", condMap);
 	    return result;

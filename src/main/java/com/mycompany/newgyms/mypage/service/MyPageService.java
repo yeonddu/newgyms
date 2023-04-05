@@ -18,10 +18,12 @@ public interface MyPageService {
 	public void myOrderRefund(Map refundMap) throws Exception;
 	public String maxNumSelect(Map condMap) throws Exception;
 	
-	// 적립금 조회
+	// 적립금 관리
 	public String nowPoint(String member_id) throws Exception;
 	public List<PointVO> myStackList(Map<String, Object> condMap) throws Exception;
 	public String maxStack(Map condMap) throws Exception;
+	public void addPoint(Map pointMap) throws Exception;
+	public void usePoint(Map pointMap) throws Exception;
 	
 	// 게시글 관리
 	public List<ArticleVO> myArticleList(String member_id) throws Exception;

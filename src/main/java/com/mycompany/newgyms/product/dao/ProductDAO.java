@@ -20,8 +20,6 @@ public interface ProductDAO {
 	
 	public Map<String,Object> selectProductImage(int product_id) throws DataAccessException;
 	
-	public MemberVO selectOwnerDetail(String member_id) throws DataAccessException;
-	
 	public List<ProductVO> selectSortedProduct(Map sortMap) throws DataAccessException;
 	
 	public List<ProductVO> selectProductBySearchWord(String searchWord) throws DataAccessException;

@@ -73,6 +73,16 @@ public class MyPageServiceImpl implements MyPageService {
         return myPageDAO.maxStackSelect(condMap);
      }
 	
+	@Override
+	public void addPoint(Map pointMap) throws Exception {
+		myPageDAO.addPoint(pointMap);
+	}
+	
+	@Override
+	public void usePoint(Map pointMap) throws Exception {
+		myPageDAO.usePoint(pointMap);
+	}
+	
 	// 게시글 관리
 	@Override
 	public List<ArticleVO> myArticleList(String member_id) throws Exception {

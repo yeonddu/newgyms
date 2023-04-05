@@ -4,7 +4,7 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
     <definition name="/order/nonMemberOrder" extends="baseLayout">
-       <put-attribute name="title" value="비회원 결제내역 확인" />
+       <put-attribute name="title" value="비회원 주문결제 조회" />
        <put-attribute name="body" value="/WEB-INF/views/order/nonMemberOrder.jsp" />
     </definition>
     
@@ -22,4 +22,15 @@
        <put-attribute name="title" value="상품 주문 페이지" />
        <put-attribute name="body" value="/WEB-INF/views/mypage/myOrderDetail.jsp" />
     </definition>
+    
+    <definition name="/order/nonMemberOrderDetail" extends="baseLayout">
+       <put-attribute name="title" value="비회원 결제내역 상세조회" />
+       <put-attribute name="body" value="/WEB-INF/views/order/nonMemberOrderDetail.jsp" />
+    </definition>
+    
+    <definition name="/order/nonMemberOrderCancel" extends="baseLayout">
+       <put-attribute name="title" value="비회원 결제내역 취소" />
+       <put-attribute name="body" value="/WEB-INF/views/order/nonMemberOrderCancel.jsp" />
+    </definition>
+    
 </tiles-definitions>

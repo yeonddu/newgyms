@@ -77,5 +77,12 @@ public class MemberDAOImpl  implements MemberDAO{
 	public void newPw(Map searchpwMap) throws DataAccessException{
 		sqlSession.update("mapper.member.newPw",searchpwMap);
 	}
-	
+
+	/* 상품 상세페이지 사업자 정보 가져오기 */
+	@Override
+	public MemberVO selectOwnerDetail(String member_id) throws DataAccessException {
+		MemberVO memberVO = (MemberVO) sqlSession.selectOne("mapper.member.selectOwnerDetail", member_id);
+		return memberVO;
+	}
+
 }

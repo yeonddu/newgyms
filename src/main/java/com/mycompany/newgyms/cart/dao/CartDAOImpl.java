@@ -17,14 +17,14 @@ public class CartDAOImpl  implements  CartDAO{
 	private SqlSession sqlSession;
 	
 	/*장바구니 목록*/
-	public List<CartVO> selectCartList(CartVO cartVO) throws DataAccessException {
-		List<CartVO> cartList =(List)sqlSession.selectList("mapper.cart.selectCartList",cartVO);
-		return cartList;
+	public List<CartVO> selectCartList(String member_id) throws DataAccessException {
+		List<CartVO> myCartList =(List)sqlSession.selectList("mapper.cart.selectCartList",member_id);
+		return myCartList;
 	}
 	
-	//장바구니 상품 정보 가져오기
-	public List<ProductVO> selectProductList(List<CartVO> cartList) throws DataAccessException {
-		List<ProductVO> myProductList = sqlSession.selectList("mapper.cart.selectProductList",cartList);
+	//장바구니 상품 상세정보 가져오기
+	public List<ProductVO> selectProductList(List<CartVO> myCartList) throws DataAccessException {
+		List<ProductVO> myProductList = sqlSession.selectList("mapper.cart.selectProductList",myCartList);
 		return myProductList;
 	}
 	
@@ -54,8 +54,8 @@ public class CartDAOImpl  implements  CartDAO{
 	public void deleteEachCartProduct(int cart_id) throws DataAccessException{
 		sqlSession.delete("mapper.cart.deleteEachCartProduct",cart_id);
 	}
-	public void deleteCartProduct(Map cartMap) throws DataAccessException {
-		sqlSession.delete("mapper.cart.deleteCartProduct",cartMap);
+	public void deleteSelectCartProduct(Map cartMap) throws DataAccessException {
+		sqlSession.delete("mapper.cart.deleteSelectCartProduct",cartMap);
 	}
 
 }

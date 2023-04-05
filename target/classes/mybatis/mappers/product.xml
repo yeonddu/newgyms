@@ -42,7 +42,7 @@
 	</resultMap>
 
 
-	<!-- 상품 목록 --> 	
+	<!-- 전체 카테고리, 지역별 조회 --> 	
 	<select id="selectAllProductList" resultMap="productResult" parameterType="String">
      <![CDATA[
 			select t_product.*, t_member.center_name from t_product, t_member
@@ -52,6 +52,7 @@
 		]]>
 	</select>	
 
+	<!-- 카테고리별, 지역별 조회 --> 	
 	<select id="selectProductList" resultMap="productResult"   parameterType="java.util.HashMap"  >
      <![CDATA[
 			select t_product.*, t_member.center_name from t_product, t_member
@@ -164,16 +165,9 @@
 	 ]]>
 	</select>	
 	
+	<!-- 상품 상세페이지 -->
 	
-	<!-- 상품 상세페이지 --> 	
-	<select id="selectProductDetail" resultMap="productResult"   parameterType="String"  >
-	    <![CDATA[
-		    select * from t_product 
-			where product_id=#{product_id}
-			order by product_id
-    	]]>
-	</select>
-	
+	<!-- 옵션 --> 		
 	<select id="selectProductOptionList" resultMap="productOptResult"   parameterType="String"  >
 	    <![CDATA[
 	    	select * from  t_product_option 
@@ -182,14 +176,16 @@
     	]]>
 	</select>
 	
-	<select id="selectProductMainImage" resultMap="imageResult"   parameterType="String"  >
+	<!-- 프로그램 상세정보 --> 	
+	<select id="selectProductDetail" resultMap="productResult"   parameterType="String"  >
 	    <![CDATA[
-	    	select * from  t_product_detail_image 
-	    	where fileType='main_image'
-			and product_id=#{product_id}
+		    select * from t_product 
+			where product_id=#{product_id}
+			order by product_id
     	]]>
 	</select>
-	
+
+	<!-- 이미지 -->
 	<select id="selectProductDetailImage" resultMap="imageResult"   parameterType="String"  >
 	    <![CDATA[
 	    	select * from  t_product_detail_image 

@@ -24,6 +24,8 @@ public interface MyPageDAO {
 	public List<PointVO> selectMyStackList(Map condMap) throws DataAccessException;
 	public String nowPointSelect(String member_id) throws DataAccessException;
 	public String maxStackSelect(Map condMap) throws DataAccessException;
+	public void addPoint(Map pointMap) throws DataAccessException;
+	public void usePoint(Map pointMap) throws DataAccessException;
 	
 	// 게시글 관리
 	public List selectMyArticleList(String member_id) throws DataAccessException;

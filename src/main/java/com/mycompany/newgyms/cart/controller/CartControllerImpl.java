@@ -54,28 +54,25 @@ public class CartControllerImpl extends BaseController implements CartController
 		String viewName=(String)request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		
+		//로그인 정보 가져오기
 		HttpSession session=request.getSession();
 		Boolean isLogOn=(Boolean)session.getAttribute("isLogOn");
 		MemberVO memberVO=(MemberVO)session.getAttribute("memberInfo");
-		session.setAttribute("memberInfo", memberVO);
+		String member_id = "";
 		
-		//로그인한 경우
+		//회원
 		if (isLogOn != null && isLogOn == true && memberVO!= null && memberVO.getMember_id() != null) {
 			
-			String member_id=memberVO.getMember_id(); //로그인한 member_id
-			cartVO.setMember_id(member_id);
-			/* mav.addObject("member_id", member_id); */
+			member_id=memberVO.getMember_id(); //로그인한 member_id
 			
-		//로그인 하지 않은 경우
+		//비회원
 		} else if (isLogOn == null || isLogOn == false || memberVO == null) {
 			
-			String member_id = session.getId(); //session Id를 member_id에 저장
-			cartVO.setMember_id(member_id);
+			member_id = session.getId(); //session Id를 member_id에 저장
 
 		}
 		
-		Map<String ,List> cartMap=cartService.myCartList(cartVO);
-		session.setAttribute("cartMap", cartMap);//장바구니 목록 화면에서 상품 주문 시 사용하기 위해서 장바구니 목록을 세션에 저장한다.
+		Map<String ,List> cartMap = cartService.myCartList(member_id);
 		mav.addObject("cartMap", cartMap);
 		return mav;
 	}
@@ -88,27 +85,26 @@ public class CartControllerImpl extends BaseController implements CartController
 		HttpSession session=request.getSession();
 		Boolean isLogOn=(Boolean)session.getAttribute("isLogOn");
 		memberVO=(MemberVO)session.getAttribute("memberInfo");
+		String member_id = "";
 		
-		//로그인한 경우
+		//회원
 		if (isLogOn == true && memberVO!= null && memberVO.getMember_id() != null) {
 			
-			String member_id=memberVO.getMember_id(); //로그인한 member_id
-			cartVO.setMember_id(member_id);
+			member_id=memberVO.getMember_id(); //로그인한 member_id
 			
-		//로그인 하지 않은 경우
+		//비회원
 		} else if (isLogOn == null || isLogOn == false || memberVO == null) {
 			
-			String member_id = session.getId(); //session Id를 member_id에 저장
-			cartVO.setMember_id(member_id);
+			member_id = session.getId(); //session Id를 member_id에 저장
 			
 		}
 		
+		cartVO.setMember_id(member_id);
 		cartVO.setProduct_id(product_id);
 		cartVO.setOption_id(option_id);
 		
 		//장바구니에 이미 등록된 제품인지 확인
 		boolean isAreadyExisted=cartService.findCartProduct(cartVO);
-		System.out.println("isAreadyExisted:"+isAreadyExisted);
 
 		if(isAreadyExisted==true){
 			return "already_existed";
@@ -121,7 +117,7 @@ public class CartControllerImpl extends BaseController implements CartController
 	/*장바구니 옵션 변경*/
 	@RequestMapping(value="/selectProductOption.do" ,method = RequestMethod.GET)
 	public @ResponseBody List<ProductOptVO> selectProductOption(@RequestParam("product_id") int product_id, HttpServletRequest request, HttpServletResponse response)  throws Exception{
-		List<ProductOptVO> productOptList = productService.productOptionList(product_id);
+		List<ProductOptVO> productOptList = productService.selectProductOptionList(product_id);
 		return productOptList;
 	}
 	
@@ -129,30 +125,28 @@ public class CartControllerImpl extends BaseController implements CartController
 	@RequestMapping(value="/modifyCartOption.do" ,method = RequestMethod.POST)
 	public @ResponseBody String  modifyCartOption(@RequestParam("product_id") int product_id, @RequestParam("option_id") int option_id, HttpServletRequest request, HttpServletResponse response)  throws Exception{
 		
-		
 		//로그인 정보 가져오기
 		HttpSession session=request.getSession();
 		Boolean isLogOn=(Boolean)session.getAttribute("isLogOn");
 		memberVO=(MemberVO)session.getAttribute("memberInfo");
+		String member_id = "";
 		
-		//로그인한 경우
+		//회원
 		if (isLogOn == true && memberVO!= null && memberVO.getMember_id() != null) {
-			String member_id=memberVO.getMember_id(); //로그인한 member_id
-			cartVO.setMember_id(member_id);
+			member_id=memberVO.getMember_id(); //로그인한 member_id
 			
-		//로그인 하지 않은 경우
+		//비회원
 		} else if (isLogOn == null || isLogOn == false || memberVO == null) {
 			
-			String member_id = session.getId(); //session Id를 member_id에 저장
-			cartVO.setMember_id(member_id);
+			member_id = session.getId(); //session Id를 member_id에 저장
 			
 		}
 
+		cartVO.setMember_id(member_id);
 		cartVO.setProduct_id(product_id);
 		cartVO.setOption_id(option_id);
 		
 		boolean result=cartService.modifyCartOption(cartVO);
-
 		
 		if(result==true){
 		   return "modify_success";
@@ -189,18 +183,20 @@ public class CartControllerImpl extends BaseController implements CartController
 	}
 	
 	/* 장바구니 선택 삭제 */
-	@RequestMapping(value="/removeCartProduct.do" ,method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity removeCartProduct(@RequestParam(value="cart_id[]") String[] cart_id_list, HttpServletRequest request, HttpServletResponse response)  throws Exception{
+	@RequestMapping(value="/removeSelectCartProduct.do" ,method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity removeSelectCartProduct(@RequestParam(value="cart_id[]") String[] cart_id_list, HttpServletRequest request, HttpServletResponse response)  throws Exception{
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
 		String message = null;
 		ResponseEntity resEntity = null;
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		
 		Map<String, Object> cartMap = new HashMap<String, Object>();
 		cartMap.put("cart_id_list", cart_id_list);
+		
 		try {
-			cartService.removeCartProduct(cartMap);
+			cartService.removeSelectCartProduct(cartMap);
 			message = "<script>";
 			message += " alert('삭제가 완료되었습니다. :)');";
 			message += " location.href='" + request.getContextPath() + "/cart/myCartList.do';";

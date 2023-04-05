@@ -23,7 +23,7 @@
 						<p id="mypage_order_title">주문/결제 상세 조회</p>
 						<table style="margin-bottom: 3px; padding: 3px;">
 							<tr>
-								<td>&nbsp;주문번호&nbsp; <span id="gray_color">${myOrderDetail[0].order_seq_num}</span>
+								<td>&nbsp;주문번호&nbsp; <span id="gray_color">${myOrderDetail[0].order_id}</span>
 								</td>
 								<td style="padding-left: 704px;">결제상태 &nbsp; <span
 									id="gray_color">${myOrderDetail[0].order_state}</span>
@@ -83,7 +83,7 @@
 						</table>
 
 						<div id="align_center" style="margin-bottom:20px;">
-							<input type="submit" class="submit_btn" value="주문취소">
+							<input type="submit" class="submit_btn" value="주문취소" onclick="return confirm('주문 취소를 진행하시겠습니까?')" >
 						</div>
 
 						<table id="order_detail">

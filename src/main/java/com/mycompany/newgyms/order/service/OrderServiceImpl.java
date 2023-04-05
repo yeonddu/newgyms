@@ -32,6 +32,26 @@ public class OrderServiceImpl implements OrderService {
 	public int addNewOrder(List<OrderVO> myOrderList) throws Exception{
 		int order_id = orderDAO.insertNewOrder(myOrderList);
 		return order_id;
-		/* orderDAO.removeGoodsFromCart(myOrderList); */
+	}
+	
+	@Override
+	public int addNewNonMemOrder(List<OrderVO> myOrderList) throws Exception{
+		int order_id = orderDAO.insertNewNonMemOrder(myOrderList);
+		return order_id;
+	}
+	
+	@Override
+	public List<OrderVO> nonMemberOrderDetail(int order_id) throws Exception {
+		return orderDAO.selectNonMemberOrderDetail(order_id);
+	}
+	
+	@Override
+	public String orderInfo(Map orderMap) throws Exception {
+		return orderDAO.selectOrderInfo(orderMap);
+	}
+
+	@Override
+	public List<OrderVO> nonMemberOrderCancel(Map orderMap) throws Exception {
+		return orderDAO.selectNonMemberOrderCancel(orderMap);
 	}
 }

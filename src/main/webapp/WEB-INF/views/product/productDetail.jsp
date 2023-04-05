@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
-<c:set var="product"  value="${productMap.productVO}"  />
+<c:set var="product"  value="${productVO}"  />
 <c:set var="optList"  value="${productOptList }"  />
 <c:set var="mainImage"  value="${imageMap.mainImageList }"  />
 <c:set var="detailImage"  value="${imageMap.detailImageList }"  />
@@ -14,7 +14,6 @@
 
 <c:set var="reviewList" value="${reviewMap.reviewList}" />
 <c:set var="reviewImageList" value="${reviewMap.reviewImageList}" />
-
 
 <c:set var="questionList"  value="${questionList }"  />
 <c:set var="answerList"  value="${answerList }"  />
@@ -34,29 +33,27 @@
 <link href="${contextPath}/resources/css/product.css?after" rel="stylesheet" type="text/css" media="screen">
 <script type="text/javascript">
 
-	/* 총 상품금액 출력*/ 
+	/* 옵션 선택 시 총 상품금액 출력*/ 
 	$(document).ready(function(){
 		$('#order_product_opt').on("change", function(){
 		    
-			//할인판매가격
+			//할인가
 		    var product_sales_price = ${product.product_sales_price};
 		    var sales_price = Number(product_sales_price);
 		    
-		    //선택된 옵션에서 옵션가격 가져오기
+		    //선택된 옵션가격
 		    var product_option = $("#order_product_opt option:checked").text(); //옵션명 (+가격원)
 			var product_option_spl = product_option.split(' (+'); 
 			var product_option_spl = product_option_spl[1].split('원)');
-		    
-			/*옵션가격*/
 			var str_product_option_price = product_option_spl[0]; 
 		    var option_price =  Number(str_product_option_price.replace(/,/g, '')); //숫자로 변환
+		    
 		    //총 상품금액
 			var total_price = sales_price + option_price;
 			
 			const option = {
 				 maximumFractionDigits: 0
 			}
-			
 		    document.getElementById("total_price").innerHTML = total_price.toLocaleString('ko-KR',  option) ;
 		});
 	});
@@ -99,7 +96,7 @@
 	
 	/* 구매하기 */
 	function order_each_product(product_id,product_name, product_main_image, product_price, product_sales_price, center_name) {
-		/* option_id 가져오기 */
+		// option_id 가져오기
 		var option_id = $("#order_product_opt option:checked").val(); 
 		
 		if (option_id == '') {
@@ -107,20 +104,16 @@
 			return;
 		} 
 		
-	    //선택된 옵션에서 옵션가격 가져오기
+		
+	    //선택된 옵션
 	    var product_option = $("#order_product_opt option:checked").text(); //옵션명 (+가격원)
 		var product_option_spl = product_option.split(' (+'); 
-		/*옵션명*/
-	    var product_option_name = product_option_spl[0];
-		
+
+	    var product_option_name = product_option_spl[0]; 		/*옵션명*/
 		var product_option_spl = product_option_spl[1].split('원)');
 	    
-	    
-		/*옵션가격*/
-		var str_product_option_price = product_option_spl[0]; 
+		var str_product_option_price = product_option_spl[0];  	/*옵션가격*/
 	    var product_option_price =  Number(str_product_option_price.replace(/,/g, '')); //숫자로 변환
-
-		
 
 		var formObj=document.createElement("form");
 		var i_product_id = document.createElement("input"); 
@@ -204,8 +197,6 @@
 	    }); //end ajax   
 	 }	 
 	
-	
-	
 	/* 문의글 작성 팝업 */
 	function qnaPopup(isLogOn, loginForm, type) {
 		var product_id = ${product.product_id};
@@ -221,7 +212,6 @@
 			}
 		}
 	}
-	
 
 </script>
 </head>
@@ -310,7 +300,8 @@
 		        <div class="tab_title">
 				        위치 정보
 		        <p>${product.product_location_details}</p>
-<!-- 지도 API -->        
+		        
+				<!-- 카카오 지도 API -->        
 			        <div id="map" style="width:1000px;height:600px;"></div>
 			
 					<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=de674c4e967f5ef6143551099c5edf72&libraries=services"></script>
@@ -323,7 +314,7 @@
 						
 						// 지도를 생성합니다    
 						var map = new kakao.maps.Map(mapContainer, mapOption); 
-						//도로명 주소 가져오기
+						// 회원 도로명 주소 가져오기
 						var road_address = '${member.road_address}';
 						// 주소-좌표 변환 객체를 생성합니다
 						var geocoder = new kakao.maps.services.Geocoder();
@@ -461,104 +452,107 @@
 					 		</tr>
 					   </c:when>
 					   <c:otherwise>
-					        	<h2 class="total_count">총 ${fn:length(questionList)}건</h2>
-					
-					            <tr>
-					              <th>번호</th>
-					              <th>답변상태</th>
-					              <th>제목</th>
-					              <th>작성자</th>
-					              <th>작성일</th>              
-					            </tr>
-					
-					  		 <c:set  var="qna_count" value="0" />   
-					            <c:forEach var="question" items="${questionList }" > 
-								<c:set  var="qna_count" value="${qna_count+1 }" /> 
-						          <tr class="qna_item">
-						            <td>
-						            ${qna_count }
-						            </td>	   
-						            <td>
-						              ${question.qna_answer_state }
-						            </td>
-										<c:choose>
-											<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
-												<c:choose>
-													<c:when test="${question.member_id!=loginMember_id  or loginMember_id == null}"> <!-- 작성자와 로그인한 사람이 다르거나 로그인하지 않은 경우 -->
-										            	<td class="toggle_show" style="cursor:pointer;">                        
-										            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">비밀글입니다.
-										         	   </td>
-													</c:when>
-												
-												<c:otherwise> <!-- 작성자와 로그인한 사람이 같은 경우 -->
-										            <td class="toggle_show" style="cursor:pointer;">
-										            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">${question.qna_title}                           
-										            </td>
-												</c:otherwise>
-												
-												</c:choose>
-											 </c:when>
-											<c:otherwise> <!-- 공개글인 경우 -->
+				        	<h2 class="total_count">총 ${fn:length(questionList)}건</h2>
+				
+				            <tr>
+				              <th>번호</th>
+				              <th>답변상태</th>
+				              <th>제목</th>
+				              <th>작성자</th>
+				              <th>작성일</th>              
+				            </tr>
+				
+				  		 <c:set  var="qna_count" value="0" />   
+				            <c:forEach var="question" items="${questionList }" > 
+							<c:set  var="qna_count" value="${qna_count+1 }" /> 
+					          <tr class="qna_item">
+					            <td>
+					            ${qna_count }
+					            </td>	   
+					            <td>
+					              ${question.qna_answer_state }
+					            </td>
+									<c:choose>
+										<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
+											<c:choose>
+												<c:when test="${question.member_id!=loginMember_id  or loginMember_id == null}"> <!-- 작성자와 로그인한 아이디가 다르거나 로그인하지 않은 경우 -->
+									            	<td class="toggle_show" style="cursor:pointer;">                        
+									            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">
+									            	비밀글입니다.
+									         	   </td>
+												</c:when>
+											
+											<c:otherwise> <!-- 작성자와 로그인한 사람이 같은 경우 -->
 									            <td class="toggle_show" style="cursor:pointer;">
+									            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">
 									            	${question.qna_title}                           
 									            </td>
 											</c:otherwise>
-									   </c:choose>
-						            <td class="qna_writer">
-						              ${question.member_id}
-						            </td>
-						            <td class="qna_writeDate">
-						              ${question.qna_write_date}
-						            </td>
-						          </tr>
-					         
-						          <tr class="toggle_hidden">
-									    <!-- QnA 질문 내용, 답변 내용 -->     
-									   	<c:choose>
-											<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
-												<c:choose>
-												<c:when test="${question.member_id!=loginMember_id  or loginMember_id == null}"> <!-- 작성자와 로그인한 사람이 다르거나 로그인하지 않은 경우 -->
-									            	<td colspan="5" class="qna_contents" style="padding-left:450px;">                        
-									            	비밀글은 작성자만 조회할 수 있습니다.
-									         	   </td>
-												</c:when>
-												<c:otherwise> <!-- 작성자와 로그인한 사람이 같은 경우 -->
-									            <td class="qna_contents" colspan="5">
-									            	<p><span class="Q_mark">Q</span> ${question.qna_contents} </p>  <!-- 질문 내용 -->
-									            <c:forEach var="answer" items="${answerList }" >             	
-									            	<c:choose>
-										            	<c:when test="${question.qna_no == answer.qna_parent_no }"> 
-											            	<p><span class="A_mark">A</span> ${answer.qna_title} <p> <!-- 답글 제목 -->
-											            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
-									            		</c:when>
-									            	</c:choose>
-									            	</c:forEach>                   
-									            </td>
-												</c:otherwise>
-												</c:choose>
-									        </c:when>
-									        
-									        <c:otherwise> <!-- 공개글인 경우 -->
-									            <td colspan="5" class="qna_contents"  >
-									            	<p><span class="Q_mark">Q</span> ${question.qna_contents}</p>  <!-- 질문 내용 -->
-									            <c:forEach var="answer" items="${answerList }" > 
-									            	<c:choose>
-										            	<c:when test="${question.qna_no == answer.qna_parent_no }"> 
-											            	<p><span class="A_mark">A</span> ${answer.qna_title} </p> <!-- 답글 제목 -->
-											            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
-									            		</c:when>
-									            	</c:choose>
-									            	</c:forEach>                     
-									            </td>
-									        </c:otherwise>
-										  </c:choose>
-						    	      </tr>
-					              </c:forEach>
+											
+											</c:choose>
+										 </c:when>
+										<c:otherwise> <!-- 공개글인 경우 -->
+								            <td class="toggle_show" style="cursor:pointer;">
+								            	${question.qna_title}                           
+								            </td>
+										</c:otherwise>
+								   </c:choose>
+					            <td class="qna_writer">
+					              ${question.member_id}
+					            </td>
+					            <td class="qna_writeDate">
+					              ${question.qna_write_date}
+					            </td>
+					          </tr>
+				         
+					          <tr class="toggle_hidden">
+								    <!-- QnA 질문 내용, 답변 제목, 내용 -->     
+								   	<c:choose>
+										<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
+											<c:choose>
+											<c:when test="${question.member_id!=loginMember_id  or loginMember_id == null}"> <!-- 작성자와 로그인한 사람이 다르거나 로그인하지 않은 경우 -->
+								            	<td colspan="5" class="qna_contents" style="padding-left:450px;">                        
+								            	비밀글은 작성자만 조회할 수 있습니다.
+								         	   </td>
+											</c:when>
+											<c:otherwise> <!-- 작성자와 로그인한 사람이 같은 경우 -->
+								            <td class="qna_contents" colspan="5">
+								            	<p><span class="Q_mark">Q</span> ${question.qna_contents} </p>  <!-- 질문 내용 -->
+								            <c:forEach var="answer" items="${answerList }" >             	
+								            	<c:choose>
+									            	<c:when test="${question.qna_no == answer.qna_parent_no }"> 
+										            	<p><span class="A_mark">A</span> ${answer.qna_title} <p> <!-- 답글 제목 -->
+										            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
+								            		</c:when>
+								            	</c:choose>
+								            	</c:forEach>                   
+								            </td>
+											</c:otherwise>
+											</c:choose>
+								        </c:when>
+								        
+								        <c:otherwise> <!-- 공개글인 경우 -->
+								            <td colspan="5" class="qna_contents"  >
+								            	<p><span class="Q_mark">Q</span> ${question.qna_contents}</p>  <!-- 질문 내용 -->
+								            <c:forEach var="answer" items="${answerList }" > 
+								            	<c:choose>
+									            	<c:when test="${question.qna_no == answer.qna_parent_no }"> 
+										            	<p><span class="A_mark">A</span> ${answer.qna_title} </p> <!-- 답글 제목 -->
+										            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
+								            		</c:when>
+								            	</c:choose>
+								            	</c:forEach>                     
+								            </td>
+								        </c:otherwise>
+									  </c:choose>
+					    	      </tr>
+				              </c:forEach>
 					     </c:otherwise>
 					</c:choose>
 		        </tbody>
 		      </table>
 			</div>
+			
 			<div class="tab_content" id="tab4">
 				<div class="tab_title">환불 안내</div>        
 				<h5>취소 및 환불 규정</h5>
@@ -581,33 +575,33 @@
 	
 	
 	<!-- Q&A 문의하기 팝업 -->
-			<div id="qna_write_popup"  style="visibility: hidden" ><!-- -->
-			<p style="float:left">상품 문의하기</p>
-			<a style="float:right" class="x_button"  href="javascript:" onClick="javascript:qnaPopup('${isLogOn}','${contextPath}/member/loginForm.do','close', '.layer01');">X</a>		
-			<form action="${contextPath }/qna/addQuestion.do" method="post">
-				<div class="product_info">
-					<input type="hidden" name="product_id" value="${product.product_id }">
-					<div id="product_main_image">
-					   <img alt="" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${product.product_main_image}">			  
+			<div id="qna_write_popup"  style="visibility: hidden" >
+				<p style="float:left">상품 문의하기</p>
+				<a style="float:right" class="x_button"  href="javascript:" onClick="javascript:qnaPopup('${isLogOn}','${contextPath}/member/loginForm.do','close', '.layer01');">X</a>		
+				<form action="${contextPath }/qna/addQuestion.do" method="post">
+					<div class="product_info">
+						<input type="hidden" name="product_id" value="${product.product_id }">
+						<div id="product_main_image">
+						   <img alt="" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${product.product_main_image}">			  
+						</div>
+							<p>${product.product_name }</p>
+							<p>${member.center_name }</p>
 					</div>
-						<p>${product.product_name }</p>
-						<p>${member.center_name }</p>
-				</div>
-			
-				<div class="qna_text">
-					<p class="qna_title">제목 <input name="qna_title" type="text" required
-                        title="제목을 입력해주세요."></p>
-					<p class="qna_contents">내용 <textarea name="qna_contents" cols="50" rows="10" required
-                        title="내용을 입력해주세요."></textarea></p>
-				</div>
-			
-				<input type="checkbox" name="secret"><span style="font-size:14px; margin-left:5px">비밀글</span>
-			
-				<div>
-					<input type="submit" value="등록하기">
-					<a >등록하기</a>
-				</div>
-			</form>
+				
+					<div class="qna_text">
+						<p class="qna_title">제목 <input name="qna_title" type="text" required
+	                        title="제목을 입력해주세요."></p>
+						<p class="qna_contents">내용 <textarea name="qna_contents" cols="50" rows="10" required
+	                        title="내용을 입력해주세요."></textarea></p>
+					</div>
+				
+					<input type="checkbox" name="secret"><span style="font-size:14px; margin-left:5px">비밀글</span>
+				
+					<div>
+						<input type="submit" value="등록하기">
+						<a >등록하기</a>
+					</div>
+				</form>
 			</div>
 			
 		</div>

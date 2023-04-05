@@ -373,7 +373,9 @@ margin: 10px 5px 0px; color: rgb(50, 50, 50); font-size: 12px; float:left; width
 #productDetail .product_detail .tab_container .review_list td:nth-child(5) {
  width:200px;
 }
-
+#productDetail .product_detail .tab_container .review_list .review_title {
+ font-size:16px;
+}
 #productDetail .product_detail .tab_container .review_list tr.toggle_hidden td:nth-child(2) {
  width:250px;
 }

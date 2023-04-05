@@ -13,20 +13,20 @@
 <div class="con-min-width">
 <div class="con">
    <p id="join_title" align="center">비회원 결제내역 조회</p>
-   <form action="${contextPath}/member/login.do" method="post" onsubmit="valid();">
+   <form action="${contextPath}/order/nonMemberOrderInfo.do" method="post">
       <div align = center>
    <table id="login_table">   
       <!-- 주문번호 -->
       <tr>
          <td>
-            <input id="member_id" name="member_id" class="login_inputbox" type="text" size="26" maxlength="20" placeholder="주문번호" required />
+            <input id="order_id" name="order_id" class="login_inputbox" type="text" size="26" maxlength="20" placeholder="주문번호" required />
          </td>
       </tr>
 
       <!-- 비회원 주문 비밀번호 -->
       <tr>
          <td>
-            <input id="member_pw" name="member_pw" class="login_inputbox" type="password" size="26" maxlength="20" placeholder="비회원 주문 비밀번호" required />
+            <input id="nonmember_pw" name="nonmember_pw" class="login_inputbox" type="password" size="26" maxlength="20" placeholder="비회원 주문 비밀번호" required />
          </td>
       </tr>
    </table>

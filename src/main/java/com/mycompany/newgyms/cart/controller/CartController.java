@@ -21,5 +21,5 @@ public interface CartController {
 	
 	public @ResponseBody String  modifyCartOption(@RequestParam("product_id") int product_id, @RequestParam("option_id") int option_id, HttpServletRequest request, HttpServletResponse response)  throws Exception;
 	public ResponseEntity removeEachCartProduct(@RequestParam("cart_id") int cart_id, HttpServletRequest request, HttpServletResponse response)  throws Exception;
-	public ResponseEntity removeCartProduct(@RequestParam(value="cart_id_list[]") String[] cart_id_list, HttpServletRequest request, HttpServletResponse response)  throws Exception;
+	public ResponseEntity removeSelectCartProduct(@RequestParam(value="cart_id_list[]") String[] cart_id_list, HttpServletRequest request, HttpServletResponse response)  throws Exception;
 }

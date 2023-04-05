@@ -33,13 +33,11 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 			if ($("#check_all").is(":checked")) {
 				$("input[name=check_one]").prop("checked", true);
 				fn_cart_total_price('all');
-				
 			}
 			else {
 				$("input[name=check_one]").prop("checked", false);
 				fn_cart_total_price('none');
 			}
-				
 		});
 		
 			$("input[name=check_one]").click(function() {
@@ -54,7 +52,6 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 				$("#check_all").prop("checked", true);
 				fn_cart_total_price('all');
 			}
-			
 		}); 
 		
 	});
@@ -101,11 +98,7 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 		$('.modify_option_btn').on('click', function() { 
 			var thisRow = $(this).closest('tr'); //누른 곳의 tr값을 찾는다. 
 			var currentProduct_id = thisRow.find('#current_product_id').val();
-			
-			console.log("현재 product_id " + currentProduct_id);
-
-			//선택된 product_id 값을 옵션 input에 넣기
-			$('#currentProduct_id').val(currentProduct_id);
+			$('#currentProduct_id').val(currentProduct_id);	//선택된 product_id 값을 옵션 input에 넣기
 
 			$.ajax({
 				type : "GET",
@@ -128,6 +121,7 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 						var product_option_name = data[i].product_option_name;
 						var _product_option_price = data[i].product_option_price;
 						
+						//숫자형으로 변환
 						const option = {
 								 maximumFractionDigits: 0
 						} 
@@ -146,10 +140,11 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 			});
 		});
 	});
-		
 
 	/*변경한 옵션 저장하기*/
 	function modify_cart_option(){
+		
+		//선택된 product_id
 		var product_id = $('#currentProduct_id').val();
 		
 		//선택된 option_id
@@ -184,7 +179,6 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 	      },
 	      complete : function(data, textStatus) {
 	         //alert("작업을완료 했습니다");
-	         
 	      }
 	   }); //end ajax   
 	}
@@ -202,7 +196,7 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 		$.ajax({
 		      type : "post",
 		      async : false, //false인 경우 동기식으로 처리한다.
-		      url : "${contextPath}/cart/removeCartProduct.do",
+		      url : "${contextPath}/cart/removeSelectCartProduct.do",
 		      data : {cart_id : cart_id_list},
 		     // dataType : "json",
 		      success : function(data) {
@@ -238,8 +232,7 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 						<c:choose>
 							<c:when test="${ empty cartList  }">
 								<tr>
-									<td colspan="6" style="text-align: center; padding: 20px;">장바구니가
-										비어있습니다.</td>
+									<td colspan="6" style="text-align: center; padding: 20px;">장바구니가 비어있습니다.</td>
 								</tr>
 							</c:when>
 							<c:otherwise>
@@ -311,18 +304,18 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 				</div>
 		</form>			
 
-				<!-- 옵션 변경 팝업창 -->
-				<div id="modify_popup" style="visibility: hidden">
-					<form>
-						<a class="x_button" href="javascript:"
-							onClick="javascript:modifyPopup('close', '.layer01');">X</a>
-						<h6>옵션변경</h6>
-						<input type="hidden" id="currentProduct_id">
-						<select id="cart_product_opt" name="cart_product_opt">
-						
-						</select>
-						<a class="modify_button" href="javascript:modify_cart_option();">저장</a>
-					</form>
+		<!-- 옵션 변경 팝업창 -->
+		<div id="modify_popup" style="visibility: hidden">
+			<form>
+				<a class="x_button" href="javascript:"
+					onClick="javascript:modifyPopup('close', '.layer01');">X</a>
+				<h6>옵션변경</h6>
+				<input type="hidden" id="currentProduct_id">
+				<select id="cart_product_opt" name="cart_product_opt">
+				
+				</select>
+				<a class="modify_button" href="javascript:modify_cart_option();">저장</a>
+			</form>
 
 				</div>
 			</div>

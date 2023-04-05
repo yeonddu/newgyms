@@ -23,23 +23,43 @@ public class ProductServiceImpl implements ProductService {
 	private static final String String = null;
 	@Autowired
 	private ProductDAO productDAO;
-
+	
+	/* 카테고리별, 지역별 조회 */
 	public List<ProductVO> productList(Map listMap) throws Exception {
 		List productList = productDAO.selectProductList(listMap);
 		return productList;
 	}
 
-	public Map productDetail(int product_id) throws Exception {
-		ProductVO productVO = productDAO.selectProductDetail(product_id);
-		Map productMap = new HashMap();
-		productMap.put("productVO", productVO);
-		return productMap;
+	/* 정렬하여 조회 - 신상품/인기순/낮은가격/높은가격 */
+	public List<ProductVO> productSorting(Map sortMap) throws Exception {
+		List productList = productDAO.selectSortedProduct(sortMap);
+		return productList;
 	}
-
+	
+	/* 상품검색 */
+	public List<ProductVO> searchProduct(String searchWord) throws Exception {
+		List productList = productDAO.selectProductBySearchWord(searchWord);
+		return productList;
+	}
+	
+	/* 상품 상세검색 */
+	public List<ProductVO> searchProductByCondition(Map searchMap) throws Exception {
+		List productList = productDAO.searchProductByCondition(searchMap);
+		return productList;
+	}
+	
+	/* 상품 상세페이지 */	
+	
 	/* 옵션 */
-	public List<ProductOptVO> productOptionList(int product_id) throws Exception {
+	public List<ProductOptVO> selectProductOptionList(int product_id) throws Exception {
 		List<ProductOptVO> productOptList = productDAO.selectProductOptionList(product_id);
 		return productOptList;
+	}
+	
+	/* 프로그램 상세정보 */
+	public ProductVO productDetail(int product_id) throws Exception {
+		ProductVO productVO = productDAO.selectProductDetail(product_id);
+		return productVO;
 	}
 
 	/* 이미지 */
@@ -48,25 +68,5 @@ public class ProductServiceImpl implements ProductService {
 		return imageMap;
 	}
 
-	/* 사업자 정보 가져오기 */
-	public MemberVO ownerDetail(String member_id) throws Exception {
-		MemberVO memberVO = productDAO.selectOwnerDetail(member_id);
-		return memberVO;
-	}
-
-	public List<ProductVO> productSorting(Map sortMap) throws Exception {
-		List productList = productDAO.selectSortedProduct(sortMap);
-		return productList;
-	}
-
-	public List<ProductVO> searchProduct(String searchWord) throws Exception {
-		List productList = productDAO.selectProductBySearchWord(searchWord);
-		return productList;
-	}
-
-	public List<ProductVO> searchProductByCondition(Map searchMap) throws Exception {
-		List productList = productDAO.searchProductByCondition(searchMap);
-		return productList;
-	}
 
 }

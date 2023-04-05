@@ -18,11 +18,9 @@
 		<result property="nonmember_pw" column="nonmember_pw" />
 		<result property="center_name" column="center_name" />
 		<result property="product_name" column="product_name" />
-		<result property="product_main_image"
-			column="product_main_image" />
+		<result property="product_main_image" column="product_main_image" />
 		<result property="product_price" column="product_price" />
-		<result property="product_sales_price"
-			column="product_sales_price" />
+		<result property="product_sales_price" column="product_sales_price" />
 		<result property="goods_filename" column="goods_filename" />
 		<result property="receiver_name" column="receiver_name" />
 		<result property="receiver_hp1" column="receiver_hp1" />
@@ -59,7 +57,7 @@
 		<result property="member_id" column="member_id" />
 		<result property="product_id" column="product_id" />
 	</resultMap>
-	
+
 	<!-- 게시글 불러오기 -->
 	<resultMap id="articlesResult" type="articleVO">
 		<result property="level" column="level" />
@@ -308,12 +306,24 @@
 	<!-- 현재 적립금 -->
 	<select id="nowPointSelect" resultType="String" parameterType="String">
        <![CDATA[
-            SELECT (SELECT SUM(case when point_state='적립' then point_price ELSE 0 END))- (SELECT SUM(case when point_state='이용' then point_price ELSE 0 END)) AS now
+            SELECT (SELECT SUM(case when point_state='적립' then point_price ELSE 0 END))- (SELECT SUM(case when point_state='사용' then point_price ELSE 0 END)) AS now
 			FROM t_point
 			WHERE member_id=#{member_id}
 			ORDER BY point_id desc
       ]]>
 	</select>
+	
+	<!-- 적립금 사용/적립 기록 -->
+	<insert id="pointLog" parameterType="java.util.Map">
+		insert into t_point(point_state,
+							point_name,
+							point_price,
+							member_id)
+					values(#{point_state},
+						   #{point_name},
+						   #{point_price},
+						   #{member_id})
+	</insert>
 	
 	<!-- 내 게시글 불러오기 -->
 	<select id="selectMyArticleList" resultMap="articlesResult" parameterType="String">

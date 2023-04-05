@@ -163,7 +163,7 @@
 							<input type="hidden" name="order_id" value="${myOrderDetail[0].order_id}">
 							
 							<div id="align_center">
-								<input type="submit" class="submit_btn" value="환불신청">
+								<input type="submit" class="submit_btn" value="환불신청" onclick="alert('환불 신청이 완료되었습니다.')" >
 
 								<div style="margin-top:10px; display:inline-block;">
 									<a href="${contextPath}/mypage/myOrderDetail.do?order_id=${myOrderDetail[0].order_id}" style="line-height:32px;">

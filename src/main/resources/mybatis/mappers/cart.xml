@@ -35,7 +35,7 @@
 		
 	</resultMap>	
 
-	<select id="selectCartList"  resultMap="cartResult"  parameterType="cartVO"  >
+	<select id="selectCartList"  resultMap="cartResult"  parameterType="String"  >
        <![CDATA[
       select c.*, o.product_option_name, o.product_option_price from t_cart c, t_product_option o
       where member_id=#{member_id} and c.option_id=o.option_id
@@ -48,8 +48,8 @@
           where p.product_id=c.product_id and p.member_id = m.member_id
            and p.product_id in
       ]]>
-		<foreach item="item" collection="list" open="(" separator="," close=")">
-			#{item.product_id}
+		<foreach item="myCartList" collection="list" open="(" separator="," close=")">
+			#{myCartList.product_id}
 		</foreach>
 		group by p.product_id
 		order by c.cart_entered_date 
@@ -73,7 +73,10 @@
 	
 	<insert id="insertProductInCart" parameterType="cartVO">
 	    <![CDATA[
-		    	insert into t_cart(cart_id, product_id, member_id, option_id)
+		    	insert into t_cart(cart_id, 
+		    						product_id, 
+	    							member_id, 
+	    							option_id)
 		        				 values(#{cart_id},
     							        #{product_id},
     							        #{member_id},
@@ -98,13 +101,13 @@
     	]]>
 	</delete>
 	
-	<delete id="deleteCartProduct" parameterType="java.util.Map">
+	<delete id="deleteSelectCartProduct" parameterType="java.util.Map">
 	    <![CDATA[
 			delete from t_cart
 	   	   where cart_id in 
 		]]>
-		<foreach item="item" collection="cart_id_list" open="(" separator="," close=")">
-			#{item}
+		<foreach item="cart_id" collection="cart_id_list" open="(" separator="," close=")">
+			#{cart_id}
 		</foreach>
 	</delete> 
 

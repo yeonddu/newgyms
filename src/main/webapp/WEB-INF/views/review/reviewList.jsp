@@ -165,6 +165,7 @@ $(document).ready(function() {
 			<p id="board_title">이용후기</p>
 			   <c:set  var="review_count" value="0" />   
 				<p>총 ${fn:length(reviewList)}건</p>
+				<div style="border-bottom: 1px solid #D8D8D8; margin-top:6px;"></div>
 				<div class="container">
 				<c:choose>
 				   <c:when test="${ empty reviewList  }" >

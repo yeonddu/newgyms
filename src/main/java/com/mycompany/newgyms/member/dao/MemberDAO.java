@@ -19,4 +19,6 @@ public interface MemberDAO {
 	public MemberVO searchPw(Map searchidMap) throws DataAccessException;
 	public MemberVO searchId1(Map searchidMap) throws DataAccessException;
 	public void newPw(Map searchpwMap) throws DataAccessException;
+	
+	public MemberVO selectOwnerDetail(String member_id) throws DataAccessException;
 }

@@ -17,4 +17,6 @@ public interface MemberService {
 	public MemberVO searchId1(Map  searchidMap) throws Exception;
 	public MemberVO searchPw(Map  searchidMap) throws Exception;
 	public void newPw(Map searchpwMap) throws Exception;
+	
+	public MemberVO ownerDetail(String member_id) throws Exception;
 }
