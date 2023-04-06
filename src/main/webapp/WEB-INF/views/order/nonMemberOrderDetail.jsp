@@ -3,6 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
+<!-- 총 상품 금액 -->
+<c:set var="total_product_price" value="0" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,8 +78,8 @@
                            <!-- 구매 가격 (상품가격 + 옵션가격) -->
                            <td width="10%" align=center>구매가</td>   
                            <td width="15%" align=center style="line-height:25px;">
-                              <s style="color:red;"><span id="gray_color"><fmt:formatNumber value="${item.product_price+item.product_option_price}" type="number" />원</span></s><br>
                               <fmt:formatNumber value="${item.product_sales_price+item.product_option_price}" type="number" />원
+                              <c:set var="total_product_price" value="${total_product_price + item.product_sales_price+item.product_option_price}" />
                            </td>
                      </c:forEach>
                   </table>
@@ -120,7 +124,8 @@
                         </td>
                         
                         <td width="20%">
-                           <span id="gray_color">&nbsp; <fmt:formatNumber value="${myOrderDetail[0].total_price}" type="number" />원</span> <br>
+								<span id="gray_color">&nbsp; <fmt:formatNumber value="${total_product_price}" type="number" />원</span> <br>
+<%--                            <span id="gray_color">&nbsp; <fmt:formatNumber value="${myOrderDetail[0].total_price}" type="number" />원</span> <br> --%>
                            <span id="gray_color">&nbsp; ${myOrderDetail[0].pay_method}</span>
                         </td>
                         

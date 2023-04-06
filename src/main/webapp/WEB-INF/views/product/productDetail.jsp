@@ -104,6 +104,7 @@
 			return;
 		} 
 		
+		var product_point = ${product.product_point};
 		
 	    //선택된 옵션
 	    var product_option = $("#order_product_opt option:checked").text(); //옵션명 (+가격원)
@@ -123,6 +124,7 @@
 	    var i_product_sales_price=document.createElement("input");
 	    var i_product_option_name=document.createElement("input");
 	    var i_product_option_price=document.createElement("input");
+	    var i_product_point=document.createElement("input");
 	    var i_center_name=document.createElement("input");
 		
 	    i_product_id.name="product_id";
@@ -132,6 +134,7 @@
 	    i_product_sales_price.name="product_sales_price";
 	    i_product_option_name.name="product_option_name";
 	    i_product_option_price.name="product_option_price";
+	    i_product_point.name="product_point";
 	    i_center_name.name="center_name";
 	    
 	    i_product_id.value=product_id;
@@ -141,6 +144,7 @@
 	    i_product_sales_price.value=product_sales_price;
 	    i_product_option_name.value=product_option_name;
 	    i_product_option_price.value=product_option_price;
+	    i_product_point.value=product_point;
 	    i_center_name.value=center_name;
 	    
 	    formObj.appendChild(i_product_id);
@@ -150,6 +154,7 @@
 	    formObj.appendChild(i_product_sales_price);
 	    formObj.appendChild(i_product_option_name);
 	    formObj.appendChild(i_product_option_price);
+	    formObj.appendChild(i_product_point);
 	    formObj.appendChild(i_center_name);
 
 	    document.body.appendChild(formObj); 
@@ -595,11 +600,12 @@
 	                        title="내용을 입력해주세요."></textarea></p>
 					</div>
 				
-					<input type="checkbox" name="secret"><span style="font-size:14px; margin-left:5px">비밀글</span>
+					<div style="float:right; padding-right:80px;">
+						<input type="checkbox" name="secret"><span style="font-size:14px; margin-left:5px">비밀글</span>
+					</div>
 				
 					<div>
-						<input type="submit" value="등록하기">
-						<a >등록하기</a>
+						<input class="qna_write" type="submit" value="등록하기">
 					</div>
 				</form>
 			</div>

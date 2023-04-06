@@ -26,10 +26,11 @@ public class CartServiceImpl  implements CartService{
 		
 		//장바구니 목록 가져오기
 		List<CartVO> myCartList=cartDAO.selectCartList(member_id);
+		cartMap.put("myCartList", myCartList);
+		
 		if(myCartList.size()==0){ 
 			return null;
 		}
-		cartMap.put("myCartList", myCartList);
 		
 		//장바구니 상품 정보 가져오기
 		List<ProductVO> myProductList=cartDAO.selectProductList(myCartList);

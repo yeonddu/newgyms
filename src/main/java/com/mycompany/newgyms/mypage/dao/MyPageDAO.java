@@ -1,5 +1,6 @@
 package com.mycompany.newgyms.mypage.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +36,9 @@ public interface MyPageDAO {
 	public List<ReviewVO> listMyReviews(Map condMap) throws DataAccessException;
 	public void deleteReview(Map condMap) throws DataAccessException;
 
+	//QnA °ü¸®
+	public ArrayList selectMyQuestionList(String member_id) throws DataAccessException;
+	public ArrayList selectMyAnswerList(String member_id) throws DataAccessException;
 	
 	// È¸¿øÁ¤º¸ ¼öÁ¤/Å»Åð
 	public MemberVO myPageDetail(Map mypageMap) throws DataAccessException;

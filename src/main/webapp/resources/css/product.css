@@ -22,8 +22,6 @@ a {
 }
 
 
-
-
 /* searchProduct */
 
 #searchProduct {
@@ -178,8 +176,6 @@ transform: translate(0, 0); transition: linear 0.3s;
 
 /*productDetails*/
 
-
-
 #productDetail {
 		width:1200px; padding:10px;
 }
@@ -265,10 +261,6 @@ border-radius: 5px;
 }
 #productDetail .product_description .buyCartWish ul li a.wish {
 	width: 40px;
-}
-
-#productDetail .product_description .buyCartWish ul li a:hover {
-	
 }
 
 
@@ -483,3 +475,8 @@ margin: 10px 5px 0px; color: rgb(50, 50, 50); font-size: 12px; float:left; width
 #qna_write_popup .qna_text .qna_title input, textarea {
  width:450px;
 }
+
+#qna_write_popup .qna_write {
+	background-color: #0F0573;  color:white; padding:10px 20px;  margin:0 220px; display: inline-block; 
+	border:none; border-radius:5px; 
+} 

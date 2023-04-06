@@ -7,6 +7,7 @@ import com.mycompany.newgyms.board.vo.ArticleVO;
 import com.mycompany.newgyms.member.vo.MemberVO;
 import com.mycompany.newgyms.mypage.vo.PointVO;
 import com.mycompany.newgyms.order.vo.OrderVO;
+import com.mycompany.newgyms.qna.vo.QnaVO;
 import com.mycompany.newgyms.review.vo.ReviewVO;
 
 public interface MyPageService {
@@ -32,6 +33,10 @@ public interface MyPageService {
 	public String reviewMaxNum(Map condMap) throws Exception;
 	public List<ReviewVO> listMyReviews(Map condMap) throws Exception;
 	public void deleteReview(Map condMap) throws Exception;
+	
+	//QnA °ü¸®
+	public List<QnaVO> myQuestionList(String member_id) throws Exception;
+	public List<QnaVO> myAnswerList(String member_id) throws Exception;
 	
 	// È¸¿øÁ¤º¸ ¼öÁ¤/Å»Åð
 	public MemberVO myPageDetail(Map mypageMap) throws Exception;

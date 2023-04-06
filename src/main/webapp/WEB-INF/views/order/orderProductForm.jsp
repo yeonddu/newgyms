@@ -118,6 +118,7 @@ $(document).ready(function(){
       var total_discount_price = Number(str_total_discount_price.replace(/,/g, ''));  //숫자로 변환 
        
       var final_total_order_price = total_product_price - total_discount_price;
+       document.myOrder.total_price.value = final_total_order_price;
 
       const option = {
              maximumFractionDigits: 0
@@ -180,7 +181,7 @@ $(document).ready(function(){
                      </c:if>
                      
                      <td>
-                        <div style="text-decoration: line-through; color:#969696;"><fmt:formatNumber value="${item.product_price}" type="number" var="product_price" />${product_price }원</div><!-- 정가 -->
+                        <div style="text-decoration: line-through; color:#969696;"><fmt:formatNumber value="${item.product_price}" type="number" var="product_price" /></div><!-- 정가 -->
                         <div><fmt:formatNumber value="${item.product_sales_price + item.product_option_price}" type="number" var="product_total_price" />${product_total_price }원</div><!-- 할인가 + 옵션가격 -->
                         <c:set var="total_product_price" value="${total_product_price + item.product_sales_price + item.product_option_price}" />
                      </td>
@@ -275,7 +276,6 @@ $(document).ready(function(){
               <c:if test="${isLogOn==true and not empty memberInfo }">  
                   <td>
                      <fmt:formatNumber value="${total_product_point }" type="number" />원
-                     <input type="hidden" name="new_point" value="${total_product_point}">
                   </td> <!-- 해당상품 적립금 -->
               </c:if>
             </tr>
@@ -328,8 +328,7 @@ $(document).ready(function(){
             <div></div>
             
              <!-- 보낼정보 -->
-            <input type="hidden" name="member_id"
-               value="${memberInfo.member_id}">
+            <input type="hidden" name="member_id" value="${memberInfo.member_id}">
 
             <c:forEach var="item" items="${myOrderList}">
                <input type="hidden" name="product_id" value="${item.product_id}">
@@ -347,6 +346,9 @@ $(document).ready(function(){
                <input type="hidden" name="product_sales_price"
                   value="${item.product_sales_price}">
             </c:forEach>
+               <input type="hidden" name="total_price" value="${total_product_price}"> 
+               <input type="hidden" name="new_point" value="${total_product_point}">
+               
 
             <!-- 버튼 -->
          <div class="submit">

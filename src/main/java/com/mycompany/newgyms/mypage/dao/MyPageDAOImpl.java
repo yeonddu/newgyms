@@ -1,5 +1,6 @@
 package com.mycompany.newgyms.mypage.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import com.mycompany.newgyms.board.vo.ArticleVO;
 import com.mycompany.newgyms.member.vo.MemberVO;
 import com.mycompany.newgyms.mypage.vo.PointVO;
 import com.mycompany.newgyms.order.vo.OrderVO;
+import com.mycompany.newgyms.qna.vo.QnaVO;
 import com.mycompany.newgyms.review.vo.ReviewVO;
 
 @Repository("myPageDAO")
@@ -108,24 +110,38 @@ public class MyPageDAOImpl implements MyPageDAO {
 	}
 	
 	// 이용후기 관리
-		@Override
-		public String reviewMaxNum(Map condMap) throws DataAccessException {
-			String result = sqlSession.selectOne("mapper.mypage.reviewMaxNum", condMap);
-			return result;
-		}
+	@Override
+	public String reviewMaxNum(Map condMap) throws DataAccessException {
+		String result = sqlSession.selectOne("mapper.mypage.reviewMaxNum", condMap);
+		return result;
+	}
 
-		@Override
-		public List<ReviewVO> listMyReviews(Map condMap) throws DataAccessException {
-			List<ReviewVO> reviewList = (List) sqlSession.selectList("mapper.mypage.listMyReviews", condMap);
-			return reviewList;
-		}
+	@Override
+	public List<ReviewVO> listMyReviews(Map condMap) throws DataAccessException {
+		List<ReviewVO> reviewList = (List) sqlSession.selectList("mapper.mypage.listMyReviews", condMap);
+		return reviewList;
+	}
 
-		@Override
-		public void deleteReview(Map condMap) throws DataAccessException {
-			sqlSession.delete("mapper.mypage.deleteReview", condMap);
-		}
+	@Override
+	public void deleteReview(Map condMap) throws DataAccessException {
+		sqlSession.delete("mapper.mypage.deleteReview", condMap);
+	}
 
+	//QnA 관리
+	@Override
+	public ArrayList selectMyQuestionList(String member_id) throws DataAccessException{
+		ArrayList questionList = new ArrayList();
+		questionList=(ArrayList)sqlSession.selectList("mapper.mypage.selectMyQuestionList",member_id);
+		return questionList;
+	}
 	
+	@Override
+	public ArrayList selectMyAnswerList(String member_id) throws DataAccessException{
+		ArrayList answerList = new ArrayList();
+		answerList=(ArrayList)sqlSession.selectList("mapper.mypage.selectMyAnswerList",member_id);
+		return answerList;
+	}
+
 	// 회원정보 수정/탈퇴
 	@Override
 	public MemberVO myPageDetail(Map mypageMap) throws DataAccessException {

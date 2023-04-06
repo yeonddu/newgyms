@@ -30,6 +30,9 @@ public interface MyPageController {
 	public ModelAndView myReviewList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity myReviewDelete(HttpServletRequest request, HttpServletResponse response)  throws Exception;
 	
+	// QnA °ü¸®
+	public ModelAndView myQnaList(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 	// È¸¿øÁ¤º¸ ¼öÁ¤/Å»Åð
 	public ModelAndView myPageInfo(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView myDetailInfo(@RequestParam Map<String, String> mypageMap, HttpServletRequest request, HttpServletResponse response) throws Exception;

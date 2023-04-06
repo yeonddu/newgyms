@@ -18,6 +18,9 @@ public class OrderVO {
 	private String orderer_hp3;
 	private String nonmember_pw;
 	private int total_price;
+	private int new_point;
+	private int point_price;
+	
 
 	private String center_name;
 	private String product_name;
@@ -119,6 +122,22 @@ public class OrderVO {
 
 	public void setNonmember_pw(String nonmember_pw) {
 		this.nonmember_pw = nonmember_pw;
+	}
+	
+	public int getNew_point() {
+		return new_point;
+	}
+
+	public void setNew_point(int new_point) {
+		this.new_point = new_point;
+	}
+
+	public int getPoint_price() {
+		return point_price;
+	}
+
+	public void setPoint_price(int point_price) {
+		this.point_price = point_price;
 	}
 
 	public String getCenter_name() {

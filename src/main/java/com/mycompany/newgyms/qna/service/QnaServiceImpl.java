@@ -17,6 +17,7 @@ public class QnaServiceImpl implements QnaService{
 	@Autowired
 	private QnaDAO qnaDAO;
 	
+	@Override
 	public List<QnaVO> productQuestionList(int product_id) throws Exception{
 		List questionList= qnaDAO.selectproductQuestionList(product_id);
 		return questionList;

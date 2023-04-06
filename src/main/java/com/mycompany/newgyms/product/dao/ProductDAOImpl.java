@@ -102,14 +102,14 @@ public class ProductDAOImpl implements ProductDAO {
 		return productOptList;
 	}
 	
-	/* 프로그램 상세정보 */
+	/* 상품 상세정보, 프로그램 안내 */
 	@Override
 	public ProductVO selectProductDetail(int product_id) throws DataAccessException {
 		ProductVO productVO = (ProductVO) sqlSession.selectOne("mapper.product.selectProductDetail", product_id);
 		return productVO;
 	}
 
-	/* 이미지 */
+	/* 프로그램 안내 이미지 */
 	@Override
 	public Map<String, Object> selectProductImage(int product_id) throws DataAccessException {
 		/* 프로그램 상세정보 */

@@ -116,7 +116,6 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 					$('#cart_product_opt').append("<option value=''>[필수] 옵션 선택</option>");
 					
 					for (var i=0;i<data_length;i++) {
-						console.log(data[i]);
 						var option_id = data[i].option_id;
 						var product_option_name = data[i].product_option_name;
 						var _product_option_price = data[i].product_option_price;

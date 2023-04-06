@@ -27,8 +27,13 @@
     </definition>
     
     <definition name="/mypage/myReviewList" extends="baseLayout">
-		<put-attribute name="title" value="이용후기 페이지" />
+		<put-attribute name="title" value="이용후기 관리 페이지" />
 		<put-attribute name="body"	value="/WEB-INF/views/mypage/myReviewList.jsp" />
+	</definition>
+    
+    <definition name="/mypage/myQnaList" extends="baseLayout">
+		<put-attribute name="title" value="QnA 관리 페이지" />
+		<put-attribute name="body"	value="/WEB-INF/views/mypage/myQnaList.jsp" />
 	</definition>
     
     <definition name="/mypage/myPageModify" extends="baseLayout">

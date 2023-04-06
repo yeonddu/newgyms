@@ -26,14 +26,13 @@ public class ReviewServiceImpl implements ReviewService{
 		Map<String,List> reviewMap=new HashMap<String,List>();
 		
 		List<ReviewVO> reviewList= reviewDAO.selectproductReviewList(product_id);
+		reviewMap.put("reviewList", reviewList);
 		
 		if(reviewList.size()!=0){ 
 			List<ReviewImageVO> reviewImageList=reviewDAO.selectProductReviewImageList(reviewList);
 			reviewMap.put("reviewImageList",reviewImageList);
 		}
 
-
-		reviewMap.put("reviewList", reviewList);
 		return reviewMap;
 
 	}

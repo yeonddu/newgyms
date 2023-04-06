@@ -18,9 +18,11 @@
 		<result property="nonmember_pw" column="nonmember_pw" />
 		<result property="center_name" column="center_name" />
 		<result property="product_name" column="product_name" />
-		<result property="product_main_image" column="product_main_image" />
+		<result property="product_main_image"
+			column="product_main_image" />
 		<result property="product_price" column="product_price" />
-		<result property="product_sales_price" column="product_sales_price" />
+		<result property="product_sales_price"
+			column="product_sales_price" />
 		<result property="goods_filename" column="goods_filename" />
 		<result property="receiver_name" column="receiver_name" />
 		<result property="receiver_hp1" column="receiver_hp1" />
@@ -94,6 +96,19 @@
 	   <result property="reg_id" column="reg_id" />
 	</resultMap>
 
+	<!-- QnA -->
+	<resultMap id="qnaResult"  type="QnaVO" >
+		<result column="qna_no" property="qna_no"/>
+		<result column="qna_parent_no" property="qna_parent_no"/>
+		<result column="product_id" property="product_id"/>
+		<result column="member_id" property="member_id"/>
+		<result column="qna_answer_state" property="qna_answer_state"/>
+		<result column="qna_secret" property="qna_secret"/>
+		<result column="qna_title" property="qna_title"/>
+		<result column="qna_contents" property="qna_contents"/>
+		<result column="qna_wirte_date" property="qna_write_date"/>
+	</resultMap>
+	
 	<!-- 회원정보 수정 -->
 	<resultMap id="memberResult" type="MemberVO">
 		<result property="member_id" column="member_id" />
@@ -137,7 +152,7 @@
             FROM (
             SELECT 
             ROW_NUMBER() over(order by order_seq_num) AS rowNum,
-            SUM(a.product_option_price+a.product_sales_price) AS total_price,
+            	a.total_price,
                 a.order_seq_num,
                 a.member_id,
                a.pay_order_time,
@@ -218,7 +233,7 @@
 	<select id="selectMyOrderDetail" resultMap="orderProductResult"
 		parameterType="String">
        <![CDATA[
-         select a.*, b.product_id, b.product_main_image, SUM(a.product_sales_price+a.product_option_price) over (PARTITION BY order_id) AS total_price
+         select a.*, b.product_id, b.product_main_image
          from t_order a, t_product b
             where a.order_id=#{order_id} and a.product_id = b.product_id
             order by order_seq_num desc
@@ -229,7 +244,7 @@
 	<select id="selectMyOrderCancel" resultMap="orderProductResult"
 		parameterType="java.util.Map">
        <![CDATA[
-         select a.*, b.product_id, b.product_main_image, SUM(a.product_sales_price+a.product_option_price) over (PARTITION BY order_id) AS refund_price
+         select a.*, b.product_id, b.product_main_image, a.total_price AS refund_price
          from t_order a, t_product b
          where a.product_id = b.product_id 
             and order_seq_num in
@@ -379,6 +394,22 @@
         ]]>
 	</delete>
 	
+	<!-- QnA 조회 -->
+	<select id="selectMyQuestionList" parameterType="String" resultMap="qnaResult">
+		<![CDATA[
+ 			select * from t_qna
+			where member_id=#{member_id} and qna_parent_no=0
+			order by qna_write_date desc
+		]]>
+	</select>
+	
+	<select id="selectMyAnswerList" parameterType="String" resultMap="qnaResult">
+		<![CDATA[
+ 			select * from t_qna
+			where member_id=#{member_id} and qna_parent_no!=0
+			order by qna_write_date desc
+		]]>
+	</select>
 
 	<!-- 마이페이지 계정 비밀번호 확인 -->
 	<select id="myPageDetail" resultType="memberVO"

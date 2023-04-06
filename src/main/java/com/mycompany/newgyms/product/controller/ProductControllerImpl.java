@@ -142,11 +142,11 @@ public class ProductControllerImpl implements ProductController {
 		List<ProductOptVO> productOptList = productService.selectProductOptionList(product_id);
 		mav.addObject("productOptList", productOptList);
 
-		/* 프로그램 상세정보 */
+		/* 상품 상세정보, 프로그램 안내 */
 		ProductVO productVO = productService.productDetail(product_id);
 		mav.addObject("productVO", productVO);
 		
-		/* 이미지 */
+		/* 프로그램 안내 이미지 */
 		Map imageMap = productService.productImage(product_id);
 		mav.addObject("imageMap", imageMap);
 
@@ -169,6 +169,7 @@ public class ProductControllerImpl implements ProductController {
 		String member_id = productVO.getMember_id(); /* 사업자 아이디 */
 		MemberVO memberVO = memberService.ownerDetail(member_id);
 		mav.addObject("memberVO", memberVO);
+		
 		
 		/* 현재 로그인된 ID */
 		MemberVO memberVo = (MemberVO) session.getAttribute("memberInfo");

@@ -30,6 +30,7 @@ import com.mycompany.newgyms.mypage.service.MyPageService;
 import com.mycompany.newgyms.mypage.vo.PointVO;
 import com.mycompany.newgyms.mypage.vo.RefundVO;
 import com.mycompany.newgyms.order.vo.OrderVO;
+import com.mycompany.newgyms.qna.vo.QnaVO;
 import com.mycompany.newgyms.review.vo.ReviewVO;
 
 @Controller("myPageController")
@@ -46,7 +47,7 @@ public class MyPageControllerImpl implements MyPageController {
 	@Autowired
 	private ArticleVO articleVO;
 
-	// 결제내역 조회
+	// 寃곗젣�궡�뿭 議고쉶
 	@Override
 	@RequestMapping(value = "/myOrderList.do", method = RequestMethod.GET)
 	public ModelAndView myOrderList(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -98,7 +99,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// 결제내역 상세 조회
+	// 寃곗젣�궡�뿭 �긽�꽭 議고쉶
 	@Override
 	@RequestMapping(value = "/myOrderDetail.do", method = RequestMethod.GET)
 	public ModelAndView myOrderDetail(@RequestParam("order_id") int order_id, HttpServletRequest request,
@@ -118,7 +119,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// 결제내역 취소
+	// 寃곗젣�궡�뿭 痍⑥냼
 	@Override
 	@RequestMapping(value = "/myOrderCancel.do", method = RequestMethod.POST)
 	public ModelAndView myOrderCancel(@RequestParam("total_price") int total_price, HttpServletRequest request,
@@ -127,7 +128,7 @@ public class MyPageControllerImpl implements MyPageController {
 		HttpSession session = request.getSession();
 		MemberVO member = (MemberVO) session.getAttribute("memberInfo");
 
-		// 취소할 목록의 개별 결제 번호를 리스트에 담음
+		// 痍⑥냼�븷 紐⑸줉�쓽 媛쒕퀎 寃곗젣 踰덊샇瑜� 由ъ뒪�듃�뿉 �떞�쓬
 		String[] list = request.getParameterValues("cancel");
 
 		Map<String, Object> orderMap = new HashMap<String, Object>();
@@ -145,7 +146,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// 결제취소
+	// 寃곗젣痍⑥냼
 	@Override
 	@RequestMapping(value = "/myOrderRefund.do", method = RequestMethod.POST)
 	public ModelAndView myOrderRefund(@RequestParam Map<String, Object> refundMap, HttpServletRequest request,
@@ -154,13 +155,13 @@ public class MyPageControllerImpl implements MyPageController {
 		request.setCharacterEncoding("utf-8");
 		ModelAndView mav = new ModelAndView();
 
-		// 취소할 목록의 개별 결제 번호를 리스트에 담음
+		// 痍⑥냼�븷 紐⑸줉�쓽 媛쒕퀎 寃곗젣 踰덊샇瑜� 由ъ뒪�듃�뿉 �떞�쓬
 		String[] list = request.getParameterValues("cancel");
 		String order_id = request.getParameter("order_id");
 
-		// 환불신청을 하는 개수만큼 반복
+		// �솚遺덉떊泥��쓣 �븯�뒗 媛쒖닔留뚰겮 諛섎났
 		for (int i = 0; i < list.length; i++) {
-			refundMap.put("order_state", "결제취소");
+			refundMap.put("order_state", "寃곗젣痍⑥냼");
 			refundMap.put("order_seq_num", list[i]);
 			myPageService.myOrderRefund(refundMap);
 		}
@@ -170,7 +171,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// 마이페이지 비밀번호 확인
+	// 留덉씠�럹�씠吏� 鍮꾨�踰덊샇 �솗�씤
 	@Override
 	@RequestMapping(value = "/myPageModify.do", method = RequestMethod.GET)
 	public ModelAndView myPageInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -180,7 +181,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// 마이페이지 나의 정보 상세보기
+	// 留덉씠�럹�씠吏� �굹�쓽 �젙蹂� �긽�꽭蹂닿린
 	@Override
 	@RequestMapping(value = "/myDetailInfo.do", method = RequestMethod.POST)
 	public ModelAndView myDetailInfo(@RequestParam Map<String, String> mypageMap, HttpServletRequest request,
@@ -198,7 +199,7 @@ public class MyPageControllerImpl implements MyPageController {
 
 		} else {
 			PrintWriter out = response.getWriter();
-			out.println("<script>alert('비밀번호가 올바르지 않습니다.');</script>");
+			out.println("<script>alert('鍮꾨�踰덊샇媛� �삱諛붾Ⅴ吏� �븡�뒿�땲�떎.');</script>");
 			out.flush();
 			mav.setViewName("/mypage/myPageModify");
 		}
@@ -206,7 +207,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// 마이페이지 수정
+	// 留덉씠�럹�씠吏� �닔�젙
 	@Override
 	@RequestMapping(value = "modifyMyInfo.do", method = RequestMethod.POST)
 	public ModelAndView modifyMyInfo(@RequestParam Map<String, String> modifyMap, HttpServletRequest request,
@@ -221,7 +222,7 @@ public class MyPageControllerImpl implements MyPageController {
 		HttpSession session = request.getSession();
 		PrintWriter out = response.getWriter();
 		session.setAttribute("memberInfo", memberVO);
-		out.println("<script>alert('회원정보 수정이 완료되었습니다. :)');</script>");
+		out.println("<script>alert('�쉶�썝�젙蹂� �닔�젙�씠 �셿猷뚮릺�뿀�뒿�땲�떎. :)');</script>");
 		out.flush();
 
 		mav.setViewName("/mypage/myPageModify");
@@ -229,22 +230,22 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// 회원탈퇴 페이지로 이동
+	// �쉶�썝�깉�눜 �럹�씠吏�濡� �씠�룞
 	@Override
 	@RequestMapping(value = "/deleteMemberForm.do", method = RequestMethod.POST)
 	public ModelAndView deleteMemberForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("회원탈퇴 페이지로 이동합니다.");
+		System.out.println("�쉶�썝�깉�눜 �럹�씠吏�濡� �씠�룞�빀�땲�떎.");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/mypage/deleteMemberForm");
 		return mav;
 	}
 
-	// 회원탈퇴 하기
+	// �쉶�썝�깉�눜 �븯湲�
 	@Override
 	@RequestMapping(value = "/deleteMember.do", method = RequestMethod.POST)
 	public ModelAndView deleteMember(@RequestParam Map<String, String> deleteMap, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		System.out.println("회원탈퇴를 진행합니다.");
+		System.out.println("�쉶�썝�깉�눜瑜� 吏꾪뻾�빀�땲�떎.");
 		ModelAndView mav = new ModelAndView();
 		myPageService.deleteMember(deleteMap);
 
@@ -252,7 +253,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// 적립금 조회
+	// �쟻由쎄툑 議고쉶
 	@Override
 	@RequestMapping(value = "/myStackList.do", method = RequestMethod.GET)
 	public ModelAndView myStackList(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -276,7 +277,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// 게시글 관리
+	// 寃뚯떆湲� 愿�由�
 	@Override
 	@RequestMapping(value = "/myArticleList.do", method = RequestMethod.GET)
 	public ModelAndView myArticleList(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -290,7 +291,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// 이용후기 관리
+	// �씠�슜�썑湲� 愿�由�
 	@Override
 	@RequestMapping(value = "/myReviewList.do", method = RequestMethod.GET)
 	public ModelAndView myReviewList(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -331,7 +332,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// 이용후기 삭제
+	// �씠�슜�썑湲� �궘�젣
 	@Override
 	@RequestMapping(value = "/myReviewDelete.do", method = RequestMethod.GET)
 	@ResponseBody
@@ -350,7 +351,7 @@ public class MyPageControllerImpl implements MyPageController {
 			myPageService.deleteReview(condMap);
 
 			message = "<script>";
-			message += "alert('이용후기가 삭제되었습니다.');";
+			message += "alert('�씠�슜�썑湲곌� �궘�젣�릺�뿀�뒿�땲�떎.');";
 			message += "location.href='" + request.getContextPath()
 					+ "/mypage/myReviewList.do?chapter=1&firstDate=&secondDate=&text_box=&member_id=" + member_id
 					+ "';";
@@ -358,7 +359,7 @@ public class MyPageControllerImpl implements MyPageController {
 			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
 		} catch (Exception e) {
 			message = "<script>";
-			message += "alert('작업중 오류가 발생했습니다. 다시 시도해주세요.');";
+			message += "alert('�옉�뾽以� �삤瑜섍� 諛쒖깮�뻽�뒿�땲�떎. �떎�떆 �떆�룄�빐二쇱꽭�슂.');";
 			message += "location.href = '" + request.getContextPath()
 					+ "/mypage/myReviewList.do?chapter=1&firstDate=&secondDate=&text_box=&member_id=" + member_id
 					+ "';";
@@ -369,5 +370,27 @@ public class MyPageControllerImpl implements MyPageController {
 		return resEnt;
 
 	}
+	
+	
+	/* 고객센터 - Q&A */
+	 
+	@RequestMapping(value = "/myQnaList.do", method = RequestMethod.GET)
+	public ModelAndView myQnaList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView(viewName);
+		
+		String member_id = request.getParameter("member_id");
+		
+		/* 질문 목록 */
+		List<QnaVO> questionList = myPageService.myQuestionList(member_id);
+		mav.addObject("questionList", questionList);
+		
+		/* 답변 목록 */
+		List<QnaVO> answerList = myPageService.myAnswerList(member_id);
+		mav.addObject("answerList", answerList);
+		
+		return mav;
+	}
+
 
 }

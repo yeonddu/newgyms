@@ -28,7 +28,7 @@
 				<a href="${contextPath}/mypage/myReviewList.do?member_id=${memberInfo.member_id}&chapter=1&firstDate=&secondDate=&text_box=">이용후기 관리</a>
 			</li>
 			<li>
-				<a href="#">Q&A 관리</a>
+				<a href="${contextPath}/mypage/myQnaList.do?member_id=${memberInfo.member_id}">Q&A 관리</a>
 			</li>
 			<li>
 				<a href="${contextPath}/mypage/myPageModify.do?member_id=${memberInfo.member_id}">회원정보 수정</a>

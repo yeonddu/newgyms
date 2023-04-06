@@ -76,7 +76,6 @@
 									<!-- 구매 가격 (상품가격 + 옵션가격) -->
 									<td width="10%" align=center>구매가</td>	
 									<td width="15%" align=center style="line-height:25px;">
-										<s style="color:red;"><span id="gray_color"><fmt:formatNumber value="${item.product_price+item.product_option_price}" type="number" />원</span></s>
 										<fmt:formatNumber value="${item.product_sales_price+item.product_option_price}" type="number" />원
 									</td>
 							</c:forEach>
@@ -131,10 +130,22 @@
 									할부기간
 								</td>
 								
-								<td colspan="3">
+								<td width="20%">
 									<span id="gray_color">&nbsp; ${myOrderDetail[0].card_com_name}</span> <br>
 									<span id="gray_color">&nbsp; ${myOrderDetail[0].card_pay_month}</span>
 								</td>
+								
+								<!-- 포인트 사용 내역 -->
+                        
+                        		<td width="15%" align=right>
+										사용한 적립금<br>
+										받은 적립금
+                        		</td>
+		                        
+                        		<td width="20%">
+                           				<span id="gray_color">&nbsp; <fmt:formatNumber value="${myOrderDetail[0].point_price}" type="number" />원</span><br>
+										<span id="gray_color">&nbsp; <fmt:formatNumber value="${myOrderDetail[0].new_point}" type="number" />원</span>
+                        		</td>
 							</tr>
 						</table>
 						

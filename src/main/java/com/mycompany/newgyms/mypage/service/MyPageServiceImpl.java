@@ -13,6 +13,7 @@ import com.mycompany.newgyms.member.vo.MemberVO;
 import com.mycompany.newgyms.mypage.dao.MyPageDAO;
 import com.mycompany.newgyms.mypage.vo.PointVO;
 import com.mycompany.newgyms.order.vo.OrderVO;
+import com.mycompany.newgyms.qna.vo.QnaVO;
 import com.mycompany.newgyms.review.vo.ReviewVO;
 
 @Service("myPageService")
@@ -91,19 +92,32 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 	
 	// 이용후기 관리
-		@Override
-		public String reviewMaxNum(Map condMap) throws Exception {
-			return myPageDAO.reviewMaxNum(condMap);
-		}
-		@Override
-		public List<ReviewVO> listMyReviews(Map condMap) throws Exception {
-			return myPageDAO.listMyReviews(condMap);
-		}
-		@Override
-		public void deleteReview(Map condMap) throws Exception {
-			myPageDAO.deleteReview(condMap);
-		}
+	@Override
+	public String reviewMaxNum(Map condMap) throws Exception {
+		return myPageDAO.reviewMaxNum(condMap);
+	}
+	@Override
+	public List<ReviewVO> listMyReviews(Map condMap) throws Exception {
+		return myPageDAO.listMyReviews(condMap);
+	}
+	@Override
+	public void deleteReview(Map condMap) throws Exception {
+		myPageDAO.deleteReview(condMap);
+	}
 
+	//Qna 관리
+	@Override
+	public List<QnaVO> myQuestionList(String member_id) throws Exception{
+		List questionList= myPageDAO.selectMyQuestionList(member_id);
+		return questionList;
+	}
+	
+	@Override
+	public List<QnaVO> myAnswerList(String member_id) throws Exception{
+		List answerList= myPageDAO.selectMyAnswerList(member_id);
+		return answerList;
+	}	
+		
 	
 	// 회원정보 수정/탈퇴
 	@Override

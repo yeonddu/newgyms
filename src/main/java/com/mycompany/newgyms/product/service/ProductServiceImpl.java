@@ -56,13 +56,13 @@ public class ProductServiceImpl implements ProductService {
 		return productOptList;
 	}
 	
-	/* 프로그램 상세정보 */
+	/* 상품 상세정보, 프로그램 안내 */
 	public ProductVO productDetail(int product_id) throws Exception {
 		ProductVO productVO = productDAO.selectProductDetail(product_id);
 		return productVO;
 	}
 
-	/* 이미지 */
+	/* 프로그램 안내 이미지 */
 	public Map productImage(int product_id) throws Exception {
 		Map imageMap = productDAO.selectProductImage(product_id);
 		return imageMap;

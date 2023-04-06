@@ -16,6 +16,7 @@
       <result property="product_price" column="product_price" />
       <result property="product_sales_price" column="product_sales_price" />
       <result property="product_point" column="product_point" />
+      <result property="total_price" column="total_price" />
       
       <result property="orderer_name" column="orderer_name" />
       <result property="orderer_hp1" column="orderer_hp1" />
@@ -72,6 +73,20 @@
 	   <result property="fileType" column="fileType" />
 	</resultMap>
    
+   <!-- 환불/취소 신청 -->
+	<resultMap id="refundResult" type="refundVO">
+		<result property="refund_id" column="refund_id" />
+		<result property="order_seq_num" column="order_seq_num" />
+		<result property="refund_price" column="refund_price" />
+		<result property="order_state" column="order_state" />
+		<result property="account_holder" column="account_holder" />
+		<result property="account_bank" column="account_bank" />
+		<result property="account_number" column="account_number" />
+		<result property="cancel_reason" column="cancel_reason" />
+	</resultMap>
+	
+	
+	
 	<!-- 보유한 적립금 -->
 	<select id="orderPoint" parameterType="String" resultType="String">
 	<![CDATA[
@@ -108,6 +123,9 @@
 							product_option_price,
 							product_price,
 							product_sales_price,
+							total_price,
+							point_price,
+							new_point,
 							orderer_name,
 							orderer_hp1,
 							orderer_hp2,
@@ -131,6 +149,9 @@
 								    #{product_option_price},
 								    #{product_price},
 								    #{product_sales_price},
+								    #{total_price},
+								    #{point_price},
+								    #{new_point},
 								    #{orderer_name},
 								    #{orderer_hp1},
 								    #{orderer_hp2},
@@ -161,6 +182,7 @@
 							product_option_price,
 							product_price,
 							product_sales_price,
+							total_price,
 							orderer_name,
 							orderer_hp1,
 							orderer_hp2,
@@ -185,6 +207,7 @@
 								    #{product_option_price},
 								    #{product_price},
 								    #{product_sales_price},
+								    #{total_price},
 								    #{orderer_name},
 								    #{orderer_hp1},
 								    #{orderer_hp2},
@@ -246,4 +269,43 @@
 		</foreach>
 		order by order_seq_num desc
 	</select>
+	
+	<!-- 환불 정보 입력 -->
+	<insert id="refundNonMemberOrder" parameterType="java.util.Map">
+   <![CDATA[
+      insert into t_refund(refund_id,
+      				 order_seq_num,
+                     refund_price,
+                     order_state,
+                     account_holder,
+                     account_bank,
+                     account_number,
+                     cancel_reason)
+                values(#{refund_id},
+                	  #{order_seq_num},
+                      #{refund_price},
+                      #{order_state},
+                      #{account_holder},
+                      #{account_bank},
+                      #{account_number},
+                      #{cancel_reason})
+   ]]>
+	</insert>
+
+	<!-- 환불 시 결제 상태 업데이트 -->
+	<update id="updateOrderState" parameterType="java.util.Map">
+    <![CDATA[
+            update t_order
+            set order_state=#{order_state} 
+            where order_seq_num=#{order_seq_num}
+         ]]>
+	</update>
+	
+	<!-- 환불번호 부여 -->
+	<select id="selectNewRefundId" resultType="int">
+		<![CDATA[
+			select ifnull(max(refund_id), 0) + 1 from t_refund
+		]]>
+	</select>
+	
 </mapper>

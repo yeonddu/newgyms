@@ -126,6 +126,14 @@ input::placeholder {
   width:1200px;
   margin-bottom:20px;
 }
+
+.cardComName, .cardPayMonth {
+   padding : 15px;
+     border : none;
+     border-bottom : 1px solid #D8D8D8;
+     font-size: 14px;
+}
+ 
 .submit {
   display:flex;
   justify-content:center;
