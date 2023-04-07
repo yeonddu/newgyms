@@ -155,7 +155,6 @@ public class ProductControllerImpl implements ProductController {
 		mav.addObject("reviewMap", reviewMap);
 
 		/* Q&A */
-		
 		/* 질문 목록 */
 		List<QnaVO> questionList = qnaService.productQuestionList(product_id);
 		mav.addObject("questionList", questionList);

@@ -7,10 +7,10 @@
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <c:set var="product"  value="${productVO}"  />
 <c:set var="optList"  value="${productOptList }"  />
-<c:set var="mainImage"  value="${imageMap.mainImageList }"  />
-<c:set var="detailImage"  value="${imageMap.detailImageList }"  />
-<c:set var="priceImage"  value="${imageMap.priceImageList }"  />
-<c:set var="facilityImage"  value="${imageMap.facilityImageList }"  />
+
+<c:set var="detailImageList"  value="${imageMap.detailImageList }"  />
+<c:set var="priceImageList"  value="${imageMap.priceImageList }"  />
+<c:set var="facilityImageList"  value="${imageMap.facilityImageList }"  />
 
 <c:set var="reviewList" value="${reviewMap.reviewList}" />
 <c:set var="reviewImageList" value="${reviewMap.reviewImageList}" />
@@ -281,7 +281,7 @@
 		        <div class="tab_title">
 				      프로그램 상세정보
 		          <p>${product.product_program_details}</p>
-				<c:forEach var="image" items="${detailImage }">
+				<c:forEach var="image" items="${detailImageList }">
 		          <img alt="프로그램 상세정보 이미지" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${image.fileName}">
 				</c:forEach>
 		        </div>
@@ -289,7 +289,7 @@
 				<div class="tab_title">
 		     		   가격 정보     
 		          <p>${product.product_price_details}</p>
-		          <c:forEach var="image" items="${priceImage }">
+		          <c:forEach var="image" items="${priceImageList }">
 		          <img alt="가격 정보 이미지" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${image.fileName}">
 		          </c:forEach>
 		   	     </div>
@@ -297,7 +297,7 @@
 		        <div class="tab_title">
 		    		  시설 정보
                   <p>${product.product_facility_details}</p>
-		          <c:forEach var="image" items="${facilityImage }">
+		          <c:forEach var="image" items="${facilityImageList }">
 		          <img alt="시설 정보 이미지" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${image.fileName}">
 		          </c:forEach>
 		        </div>
@@ -577,7 +577,6 @@
 			</div>
 		</div>
 	</div>
-	
 	
 	<!-- Q&A 문의하기 팝업 -->
 			<div id="qna_write_popup"  style="visibility: hidden" >
