@@ -211,7 +211,7 @@ pageContext.setAttribute("br", "<br/>"); //br 태그
 		      }
 		   }); //end ajax
 	}
-
+	
 </script>
 
 </head>

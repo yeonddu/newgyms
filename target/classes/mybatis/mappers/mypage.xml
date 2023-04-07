@@ -107,6 +107,12 @@
 		<result column="qna_title" property="qna_title"/>
 		<result column="qna_contents" property="qna_contents"/>
 		<result column="qna_wirte_date" property="qna_write_date"/>
+		
+		<!-- 마이페이지에서 Qna 상품 정보 -->
+		<result column="product_main_image" property="product_main_image"/>
+		<result column="product_name" property="product_name"/>
+		<result column="center_name" property="center_name"/>
+		
 	</resultMap>
 	
 	<!-- 회원정보 수정 -->
@@ -397,19 +403,38 @@
 	<!-- QnA 조회 -->
 	<select id="selectMyQuestionList" parameterType="String" resultMap="qnaResult">
 		<![CDATA[
- 			select * from t_qna
-			where member_id=#{member_id} and qna_parent_no=0
-			order by qna_write_date desc
+ 			select q.*, p.product_name, p.product_main_image, m.center_name from t_qna q, t_product p, t_member m
+			where q.member_id=#{member_id} and q.qna_parent_no=0
+			and (q.product_id = p.product_id or q.product_id = 0 )and p.member_id=m.member_id
+			group by qna_no
+			order by q.qna_write_date desc
 		]]>
 	</select>
 	
 	<select id="selectMyAnswerList" parameterType="String" resultMap="qnaResult">
 		<![CDATA[
  			select * from t_qna
-			where member_id=#{member_id} and qna_parent_no!=0
+			where qna_parent_no != 0
 			order by qna_write_date desc
-		]]>
+      ]]>
 	</select>
+	
+	<update id="updateQna" parameterType="qnaVO">
+	    <![CDATA[
+		    update t_qna
+			       set qna_title=#{qna_title},
+				       qna_contents=#{qna_contents},
+				       qna_secret=#{qna_secret}
+		 	       where qna_no=#{qna_no}
+    	]]>
+	</update>
+	
+	<delete id="deleteQna" parameterType="int">
+	    <![CDATA[
+	      delete from t_qna
+	      where qna_no=#{qna_no}
+    	]]>
+	</delete>
 
 	<!-- 마이페이지 계정 비밀번호 확인 -->
 	<select id="myPageDetail" resultType="memberVO"

@@ -16,6 +16,12 @@ public class QnaVO {
 	private String qna_contents;
 	private Date qna_write_date;
 	
+	//마이페이지에서 Qna 상품 정보
+	private String product_main_image;
+	private String product_name;
+	private String center_name;
+	
+	
 	public int getQna_no() {
 		return qna_no;
 	}
@@ -70,6 +76,24 @@ public class QnaVO {
 	}
 	public void setQna_write_date(Date qna_write_date) {
 		this.qna_write_date = qna_write_date;
+	}
+	public String getProduct_main_image() {
+		return product_main_image;
+	}
+	public void setProduct_main_image(String product_main_image) {
+		this.product_main_image = product_main_image;
+	}
+	public String getProduct_name() {
+		return product_name;
+	}
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
+	}
+	public String getCenter_name() {
+		return center_name;
+	}
+	public void setCenter_name(String center_name) {
+		this.center_name = center_name;
 	}
 	
 }

@@ -86,6 +86,14 @@ public class OrderControllerImpl implements OrderController {
 		
 		String[] cart_id_list = request.getParameterValues("check_one");
 		
+		if(cart_id_list == null) {
+			
+		ModelAndView modelAndView = new ModelAndView(viewName);
+	    modelAndView.addObject("message", "주문할 상품을 선택해주세요 :)");
+	    return modelAndView;
+	    
+		} else {
+			
 		Map<String, Object> orderMap = new HashMap<String, Object>();
 		orderMap.put("cart_id_list", cart_id_list);
 
@@ -110,110 +118,117 @@ public class OrderControllerImpl implements OrderController {
 		
 		return mav;
 
-	}	
-	
-	@RequestMapping(value="/payToOrderProduct.do", method = RequestMethod.POST)
-	public ModelAndView payToOrderProduct(@RequestParam Map<String, String> orderMap,
-			                       HttpServletRequest request, HttpServletResponse response)  throws Exception{
-		ModelAndView mav = new ModelAndView();
-		HttpSession session=request.getSession();
-		String message = null;
-		
-		orderMap.put("order_state", "결제완료");
-				
-		// 상품정보 받아와서 리스트에 넣음
-		List<OrderVO> myOrderList = (List<OrderVO>)session.getAttribute("myOrderList");
-		
-		System.out.println(myOrderList);
-		
-		Boolean isLogOn = (Boolean)session.getAttribute("isLogOn");
-		if (isLogOn == true && orderMap.get("member_id") != null) { // 회원일 경우
-			
-		int total_price = Integer.parseInt(orderMap.get("total_price"));
-		System.out.println(total_price);
-		
-			// 적립금을 사용했을 경우
-			if (orderMap.get("point_price") != null || Integer.parseInt(orderMap.get("point_price"))>0) {
-				int point_price = Integer.parseInt(orderMap.get("point_price"));
-				String member_id = orderMap.get("member_id");
-
-				Map<String, Object> pointMap = new HashMap<String, Object>();
-				pointMap.put("point_state", "사용");
-				pointMap.put("point_name", "적립금 사용");
-				pointMap.put("point_price", point_price);
-				pointMap.put("member_id", member_id);
-				
-				myPageService.usePoint(pointMap);
-			}
-			
-			// 적립금 쌓기
-			int new_point = Integer.parseInt(orderMap.get("new_point"));
-			String point_name = orderMap.get("product_name") + " 구매 적립";
-			String member_id = orderMap.get("member_id");
-			
-			Map<String, Object> pointMap = new HashMap<String, Object>();
-			pointMap.put("point_state", "적립");
-			pointMap.put("point_name", point_name);
-			pointMap.put("point_price", new_point);
-			pointMap.put("member_id", member_id);
-			
-			myPageService.addPoint(pointMap);
-			
-			// 중복되는 정보들 입력
-			for (int i=0; i<myOrderList.size(); i++) {
-				OrderVO orderVO = (OrderVO)myOrderList.get(i);
-				orderVO.setMember_id(orderMap.get("member_id"));
-				orderVO.setOrderer_name(orderMap.get("orderer_name"));
-				orderVO.setOrderer_hp1(orderMap.get("orderer_hp1"));
-				orderVO.setOrderer_hp2(orderMap.get("orderer_hp2"));
-				orderVO.setOrderer_hp3(orderMap.get("orderer_hp3"));
-				orderVO.setReceiver_name(orderMap.get("receiver_name"));
-				orderVO.setReceiver_hp1(orderMap.get("receiver_hp1"));
-				orderVO.setReceiver_hp2(orderMap.get("receiver_hp2"));
-				orderVO.setReceiver_hp3(orderMap.get("receiver_hp3"));
-				orderVO.setPay_method(orderMap.get("pay_method"));
-				orderVO.setCard_com_name(orderMap.get("card_com_name"));
-				orderVO.setCard_pay_month(orderMap.get("card_pay_month"));
-				orderVO.setOrder_state(orderMap.get("order_state"));
-				orderVO.setNew_point(Integer.parseInt(orderMap.get("new_point")));
-				orderVO.setPoint_price(Integer.parseInt(orderMap.get("point_price")));
-				orderVO.setTotal_price(Integer.parseInt(orderMap.get("total_price")));
-				myOrderList.set(i, orderVO);
-			}
-			int order_id = orderService.addNewOrder(myOrderList);
-			session.setAttribute("order_id", order_id);
-						
-			mav.setViewName("redirect:/mypage/myOrderDetail.do?order_id="+order_id);
-			
-		} else { // 비회원일 경우
-			String member_id = session.getId(); //session Id를 member_id에 저장
-			// 중복되는 정보들 입력
-			for (int i = 0; i < myOrderList.size(); i++) {
-				OrderVO orderVO = (OrderVO) myOrderList.get(i);
-				orderVO.setNonmember_pw(orderMap.get("nonmember_pw"));
-				orderVO.setMember_id(member_id);
-				orderVO.setOrderer_name(orderMap.get("orderer_name"));
-				orderVO.setOrderer_hp1(orderMap.get("orderer_hp1"));
-				orderVO.setOrderer_hp2(orderMap.get("orderer_hp2"));
-				orderVO.setOrderer_hp3(orderMap.get("orderer_hp3"));
-				orderVO.setReceiver_name(orderMap.get("receiver_name"));
-				orderVO.setReceiver_hp1(orderMap.get("receiver_hp1"));
-				orderVO.setReceiver_hp2(orderMap.get("receiver_hp2"));
-				orderVO.setReceiver_hp3(orderMap.get("receiver_hp3"));
-				orderVO.setPay_method(orderMap.get("pay_method"));
-				orderVO.setCard_com_name(orderMap.get("card_com_name"));
-				orderVO.setCard_pay_month(orderMap.get("card_pay_month"));
-				orderVO.setOrder_state(orderMap.get("order_state"));
-				myOrderList.set(i, orderVO);
-			}
-			int order_id = orderService.addNewNonMemOrder(myOrderList);
-			session.setAttribute("order_id", order_id);
-						
-			mav.setViewName("redirect:/order/nonMemberOrderDetail.do?order_id="+order_id);
-		}
-		
-		return mav;
+		}	
 	}
+
+	// 주문/결제
+   @RequestMapping(value="/payToOrderProduct.do", method = RequestMethod.POST)
+   public ModelAndView payToOrderProduct(@RequestParam Map<String, String> orderMap,
+                                HttpServletRequest request, HttpServletResponse response)  throws Exception{
+      ModelAndView mav = new ModelAndView();
+      HttpSession session=request.getSession();
+      String message = null;
+      
+      orderMap.put("order_state", "결제완료");
+            
+      // 상품정보 받아와서 리스트에 넣음
+      List<OrderVO> myOrderList = (List<OrderVO>)session.getAttribute("myOrderList");
+      
+      System.out.println(myOrderList);
+      
+      
+      Boolean isLogOn = (Boolean)session.getAttribute("isLogOn");
+      if (isLogOn == true && orderMap.get("member_id") != null) { // 회원일 경우
+         int total_price = Integer.parseInt(orderMap.get("total_price"));
+         System.out.println(total_price);
+      
+         // 적립금을 사용했을 경우
+         if (orderMap.get("point_price") != null || Integer.parseInt(orderMap.get("point_price"))>0) {
+            int point_price = Integer.parseInt(orderMap.get("point_price"));
+            String member_id = orderMap.get("member_id");
+
+            Map<String, Object> pointMap = new HashMap<String, Object>();
+            pointMap.put("point_state", "사용");
+            pointMap.put("point_name", "적립금 사용");
+            pointMap.put("point_price", point_price);
+            pointMap.put("member_id", member_id);
+            
+            myPageService.usePoint(pointMap);
+         }
+         
+         // 적립금 쌓기
+         int new_point = Integer.parseInt(orderMap.get("new_point"));
+         String point_name = orderMap.get("product_name") + " 구매 적립";
+         String member_id = orderMap.get("member_id");
+         
+         Map<String, Object> pointMap = new HashMap<String, Object>();
+         pointMap.put("point_state", "적립");
+         pointMap.put("point_name", point_name);
+         pointMap.put("point_price", new_point);
+         pointMap.put("member_id", member_id);
+         
+         myPageService.addPoint(pointMap);
+         
+         // 중복되는 정보들 입력
+         for (int i=0; i<myOrderList.size(); i++) {
+            OrderVO orderVO = (OrderVO)myOrderList.get(i);
+            orderVO.setMember_id(orderMap.get("member_id"));
+            orderVO.setOrderer_name(orderMap.get("orderer_name"));
+            orderVO.setOrderer_hp1(orderMap.get("orderer_hp1"));
+            orderVO.setOrderer_hp2(orderMap.get("orderer_hp2"));
+            orderVO.setOrderer_hp3(orderMap.get("orderer_hp3"));
+            orderVO.setReceiver_name(orderMap.get("receiver_name"));
+            orderVO.setReceiver_hp1(orderMap.get("receiver_hp1"));
+            orderVO.setReceiver_hp2(orderMap.get("receiver_hp2"));
+            orderVO.setReceiver_hp3(orderMap.get("receiver_hp3"));
+            orderVO.setPay_method(orderMap.get("pay_method"));
+            orderVO.setCard_com_name(orderMap.get("card_com_name"));
+            orderVO.setCard_pay_month(orderMap.get("card_pay_month"));
+            orderVO.setOrder_state(orderMap.get("order_state"));
+            orderVO.setNew_point(Integer.parseInt(orderMap.get("new_point")));
+            orderVO.setPoint_price(Integer.parseInt(orderMap.get("point_price")));
+            orderVO.setTotal_price(Integer.parseInt(orderMap.get("total_price")));
+            myOrderList.set(i, orderVO);
+         }
+         int order_id = orderService.addNewOrder(myOrderList);
+         session.setAttribute("order_id", order_id);
+                  
+         mav.setViewName("redirect:/mypage/myOrderDetail.do?order_id="+order_id);
+         
+      } else { // 비회원일 경우
+         String member_id = session.getId(); //session Id를 member_id에 저장
+         // 중복되는 정보들 입력
+         for (int i = 0; i < myOrderList.size(); i++) {
+            OrderVO orderVO = (OrderVO) myOrderList.get(i);
+            int product_sales_price = orderVO.getProduct_sales_price();
+            int product_option_price = Integer.parseInt(orderVO.getProduct_option_price());
+            int total_price = product_sales_price + product_option_price;
+            
+            orderVO.setNonmember_pw(orderMap.get("nonmember_pw"));
+            orderVO.setMember_id(member_id);
+            orderVO.setOrderer_name(orderMap.get("orderer_name"));
+            orderVO.setOrderer_hp1(orderMap.get("orderer_hp1"));
+            orderVO.setOrderer_hp2(orderMap.get("orderer_hp2"));
+            orderVO.setOrderer_hp3(orderMap.get("orderer_hp3"));
+            orderVO.setReceiver_name(orderMap.get("receiver_name"));
+            orderVO.setReceiver_hp1(orderMap.get("receiver_hp1"));
+            orderVO.setReceiver_hp2(orderMap.get("receiver_hp2"));
+            orderVO.setReceiver_hp3(orderMap.get("receiver_hp3"));
+            orderVO.setPay_method(orderMap.get("pay_method"));
+            orderVO.setCard_com_name(orderMap.get("card_com_name"));
+            orderVO.setCard_pay_month(orderMap.get("card_pay_month"));
+            orderVO.setOrder_state(orderMap.get("order_state"));
+            orderVO.setTotal_price(total_price);
+            myOrderList.set(i, orderVO);
+         }
+         int order_id = orderService.addNewNonMemOrder(myOrderList);
+         session.setAttribute("order_id", order_id);
+                  
+         mav.setViewName("redirect:/order/nonMemberOrderDetail.do?order_id="+order_id);
+      }
+      
+      return mav;
+   }
 	
 	// 비회원 주문/결제 조회
 	@RequestMapping(value = "/nonMemberOrderInfo.do", method = RequestMethod.POST)

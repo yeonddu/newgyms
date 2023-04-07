@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import com.mycompany.newgyms.member.vo.MemberVO;
 import com.mycompany.newgyms.mypage.vo.PointVO;
 import com.mycompany.newgyms.order.vo.OrderVO;
+import com.mycompany.newgyms.qna.vo.QnaVO;
 import com.mycompany.newgyms.review.vo.ReviewVO;
 
 public interface MyPageDAO {
@@ -39,6 +40,8 @@ public interface MyPageDAO {
 	//QnA °ü¸®
 	public ArrayList selectMyQuestionList(String member_id) throws DataAccessException;
 	public ArrayList selectMyAnswerList(String member_id) throws DataAccessException;
+	public void updateQna(QnaVO qnaVO) throws DataAccessException;
+	public void deleteQna(int qna_no) throws DataAccessException;
 	
 	// È¸¿øÁ¤º¸ ¼öÁ¤/Å»Åð
 	public MemberVO myPageDetail(Map mypageMap) throws DataAccessException;

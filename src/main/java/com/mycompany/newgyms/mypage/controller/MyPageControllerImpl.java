@@ -46,6 +46,8 @@ public class MyPageControllerImpl implements MyPageController {
 	private RefundVO refundVO;
 	@Autowired
 	private ArticleVO articleVO;
+	@Autowired
+	private QnaVO qnaVO;
 
 	// 寃곗젣�궡�뿭 議고쉶
 	@Override
@@ -379,7 +381,11 @@ public class MyPageControllerImpl implements MyPageController {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 		
-		String member_id = request.getParameter("member_id");
+		//로그인 정보 가져오기
+		HttpSession session=request.getSession();
+		Boolean isLogOn=(Boolean)session.getAttribute("isLogOn");
+		MemberVO memberVO=(MemberVO)session.getAttribute("memberInfo");
+		String member_id = memberVO.getMember_id(); //로그인한 member_id
 		
 		/* 질문 목록 */
 		List<QnaVO> questionList = myPageService.myQuestionList(member_id);
@@ -391,6 +397,72 @@ public class MyPageControllerImpl implements MyPageController {
 		
 		return mav;
 	}
+	
+	
+	@Override
+	@RequestMapping(value = "modifyQuestion.do", method = RequestMethod.POST)
+	public ModelAndView modifyQuestion(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		ModelAndView mav = new ModelAndView();
+		
+		//로그인 정보 가져오기
+		HttpSession session=request.getSession();
+		Boolean isLogOn=(Boolean)session.getAttribute("isLogOn");
+		MemberVO memberVO=(MemberVO)session.getAttribute("memberInfo");
+		
+		String member_id = memberVO.getMember_id(); //로그인한 member_id
+		qnaVO.setMember_id(member_id);
+		
+		int qna_no = Integer.parseInt(request.getParameter("qna_no"));
+		String qna_title = request.getParameter("qna_title");
+		String qna_contents = request.getParameter("qna_contents");
+		String qna_secret = request.getParameter("secret");
+		
+		System.out.println(qna_secret);
+		
+		qnaVO.setQna_no(qna_no);
+		qnaVO.setQna_title(qna_title);
+		qnaVO.setQna_contents(qna_contents);
+		qnaVO.setQna_secret(qna_secret);
+		
+		myPageService.modifyQna(qnaVO);
+		
+		PrintWriter out = response.getWriter();
+		session.setAttribute("memberInfo", memberVO);
+		out.println("<script>alert('�쉶�썝�젙蹂� �닔�젙�씠 �셿猷뚮릺�뿀�뒿�땲�떎. :)');</script>");
+		out.flush();
 
+		mav.setViewName("/mypage/myQnaList");
+
+		return mav;
+	}
+	
+	@Override
+	@RequestMapping(value="/removeQna.do" ,method = RequestMethod.GET)
+	public ResponseEntity removeQna(@RequestParam("qna_no") int qna_no, HttpServletRequest request, HttpServletResponse response)  throws Exception{
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		String message = null;
+		ResponseEntity resEntity = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		
+		try {
+			myPageService.removeQna(qna_no);
+			message = "<script>";
+			message += " alert('삭제가 완료되었습니다. :)');";
+			message += " location.href='" + request.getContextPath() + "/mypage/myQnaList.do';";
+			message += " </script>";
+		} catch (Exception e) {
+			message = "<script>";
+			message += " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요 :( ');";
+			message += " location.href='" + request.getContextPath() + "/mypage/myQnaList.do';";
+			message += " </script>";
+		}
+		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
+		return resEntity;
+	}
+	
 
 }

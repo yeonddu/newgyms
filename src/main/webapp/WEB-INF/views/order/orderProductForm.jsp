@@ -136,6 +136,16 @@ $(document).ready(function(){
 	      }
 	      return false;
 	   }
+   
+   //상품을 선택하지 않고 주문하기를 누른 경우
+   $(function(){
+         var responseMessage = "<c:out value="${message}" />";
+         if(responseMessage != ""){
+             alert(responseMessage);
+             location.href="${contextPath}/cart/myCartList.do";
+         }
+     }) 
+
 </script>
 </head>
 <body>

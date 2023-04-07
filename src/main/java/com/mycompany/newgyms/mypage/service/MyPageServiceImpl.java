@@ -117,8 +117,15 @@ public class MyPageServiceImpl implements MyPageService {
 		List answerList= myPageDAO.selectMyAnswerList(member_id);
 		return answerList;
 	}	
-		
 	
+	public void modifyQna(QnaVO qnaVO) throws Exception{
+		myPageDAO.updateQna(qnaVO);
+	}
+		
+	public void removeQna(int qna_no) throws Exception{
+		myPageDAO.deleteQna(qna_no);
+	}
+
 	// È¸¿øÁ¤º¸ ¼öÁ¤/Å»Åð
 	@Override
 	public MemberVO myPageDetail(Map mypageMap) throws Exception{

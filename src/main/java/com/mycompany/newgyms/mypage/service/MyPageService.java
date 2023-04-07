@@ -37,6 +37,8 @@ public interface MyPageService {
 	//QnA 관리
 	public List<QnaVO> myQuestionList(String member_id) throws Exception;
 	public List<QnaVO> myAnswerList(String member_id) throws Exception;
+	public void modifyQna(QnaVO qnaVO) throws Exception;
+	public void removeQna(int qna_no) throws Exception;
 	
 	// 회원정보 수정/탈퇴
 	public MemberVO myPageDetail(Map mypageMap) throws Exception;

@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.mycompany.newgyms.board.vo.ArticleVO;
+import com.mycompany.newgyms.cart.vo.CartVO;
 import com.mycompany.newgyms.member.vo.MemberVO;
 import com.mycompany.newgyms.mypage.vo.PointVO;
 import com.mycompany.newgyms.order.vo.OrderVO;
@@ -141,7 +142,16 @@ public class MyPageDAOImpl implements MyPageDAO {
 		answerList=(ArrayList)sqlSession.selectList("mapper.mypage.selectMyAnswerList",member_id);
 		return answerList;
 	}
-
+	
+	public void updateQna(QnaVO qnaVO) throws DataAccessException{
+		sqlSession.insert("mapper.mypage.updateQna",qnaVO);
+	}
+	
+	@Override
+	public void deleteQna(int qna_no) throws DataAccessException{
+		sqlSession.delete("mapper.mypage.deleteQna",qna_no);
+	}
+	
 	// È¸¿øÁ¤º¸ ¼öÁ¤/Å»Åð
 	@Override
 	public MemberVO myPageDetail(Map mypageMap) throws DataAccessException {

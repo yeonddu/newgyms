@@ -15,6 +15,7 @@
 		<result column="qna_title" property="qna_title"/>
 		<result column="qna_contents" property="qna_contents"/>
 		<result column="qna_wirte_date" property="qna_write_date"/>
+		
 	</resultMap>
 	
 

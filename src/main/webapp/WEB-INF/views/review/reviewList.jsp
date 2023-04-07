@@ -240,7 +240,6 @@ $(document).ready(function() {
 				<div class="review_text">
 					<div class="product_info"> 
 						<div id="product_main_image"></div>
-
 						<div>
 							<a class="product_name" href="${contextPath}/product/productDetail.do?product_id=${review.product_id}"><span id="product_name">${review.product_name }</span></a> 
 						</div>
