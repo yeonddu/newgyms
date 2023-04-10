@@ -54,30 +54,61 @@
 									placeholder="제목을 입력하세요." required /></td>
 							</tr>
 
-							<!-- 작성자 아이디 -->
-							<tr>
-								<td><span id="event_textbox">아이디</span></td>
-								<td align=left><input type="text" size="10"
-									class="event_inputbox" maxlength="20"
-									value="${memberInfo.member_id}" name="member_id" readonly /></td>
+							<c:choose>
+								<c:when test="${memberInfo.member_id != 'admin' }">
+									<tr>
+										<td><span id="event_textbox">아이디</span></td>
+										<td align=left><input type="text" size="10"
+											class="event_inputbox" maxlength="20"
+											value="${memberInfo.member_id}" name="member_id" readonly /></td>
+										<td width="10%" align=right><span id="event_textbox">상품명
+												&nbsp;</span></td>
+										<td align=left><c:choose>
+												<c:when test="${not empty productList}">
+													<select name="product_name" class="event_inputbox">
+														<c:forEach var="item" items="${productList}" varStatus="j">
+															<option value="${item.product_name}">${item.product_name}</option>
+														</c:forEach>
+													</select>
+												</c:when>
+												<c:otherwise>
+													<span style="font-size: 12px; color: #0F0573;">사업자님~
+														상품을 먼저 등록해주세요^^</span>
+												</c:otherwise>
+											</c:choose></td>
+									</tr>
 
-							<!-- 이벤트 기간 -->
-								<td width="5%" rowspan="2"><span id="event_textbox">기간</span>
-								</td>
-								<td align=left rowspan="2"><input type="date"
-									name="event_start_date" class="event_inputbox" required> ~ <input
-									type="date" name="event_end_date" class="event_inputbox" required>
-								</td>
-							</tr>
+									<tr>
+										<td><span id="event_textbox">사업장명</span></td>
+										<td align=left><input type="text" size="10"
+											class="event_inputbox" maxlength="20"
+											value="${memberInfo.center_name}" name="center_name" readonly
+											required /></td>
+										<td align=right><span id="event_textbox">기간 &nbsp;</span></td>
+										<td align=left><input type="date" name="event_start_date"
+											class="event_inputbox" required> ~ <input type="date"
+											name="event_end_date" class="event_inputbox" required>
+										</td>
 
-							<!-- 사업장명 -->
-							<tr>
-								<td><span id="event_textbox">사업장명</span></td>
-								<td align=left><input type="text" size="10"
-									class="event_inputbox" maxlength="20"
-									value="${memberInfo.center_name}" name="center_name" readonly required />
-								</td>
-							</tr>
+									</tr>
+								</c:when>
+
+								<c:otherwise>
+									<tr>
+										<td><span id="event_textbox">아이디</span></td>
+										<td align=left><input type="text" size="10"
+											class="event_inputbox" maxlength="20"
+											value="${memberInfo.member_id}" name="member_id" readonly /></td>
+
+										<td width="5%"><span id="event_textbox">기간</span>
+										</td>
+										<td align=left><input type="date"
+											name="event_start_date" class="event_inputbox" required>
+											~ <input type="date" name="event_end_date"
+											class="event_inputbox" required></td>
+									</tr>
+								</c:otherwise>
+							</c:choose>
 
 							<!-- 내용 -->
 							<tr>
@@ -85,20 +116,8 @@
 								<td colspan="3" align=left><textarea name="event_content"
 										rows="20" cols="90" maxlength="4000"
 										placeholder="내용을 입력하세요. (최대 4000자)"
-										style="margin-top: 10px; margin-bottom: 20px; padding: 15px; border: 1px solid #D8D8D8" required></textarea></td>
-							</tr>
-
-							<!-- 상품번호 & 상품명 -->
-							<tr>
-								<td><span id="event_textbox">상품명</span></td>
-								<td align=left>
-									<input type="text" size="10"
-									class="event_inputbox" maxlength="20"
-									name="product_id" />
-									<input type="text" size="10"
-									class="event_inputbox" maxlength="20"
-									name="product_name" required />
-								</td>
+										style="margin-top: 10px; margin-bottom: 20px; padding: 15px; border: 1px solid #D8D8D8"
+										required></textarea></td>
 							</tr>
 
 							<!-- 이미지 첨부 -->

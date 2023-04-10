@@ -33,7 +33,7 @@ public interface MyPageController {
 	// QnA °ü¸®
 	public ModelAndView myQnaList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity removeQna(@RequestParam("qna_no") int qna_no, HttpServletRequest request, HttpServletResponse response)  throws Exception;
-	public ModelAndView modifyQuestion(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ResponseEntity modifyQuestion(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	// È¸¿øÁ¤º¸ ¼öÁ¤/Å»Åð
 	public ModelAndView myPageInfo(HttpServletRequest request, HttpServletResponse response) throws Exception;

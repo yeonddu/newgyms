@@ -102,13 +102,13 @@ function readURL(input) {
 					<c:choose>
 						<c:when test="${memberInfo.join_type == '102'}">
 							<div align=right style="margin-top: 10px;">
-								<a href="${contextPath}/event/eventForm.do"
+								<a href="${contextPath}/event/eventForm.do?member_id=${memberInfo.member_id}"
 									style="line-height: 32px;"> <span id="btn_1">글 쓰기</span></a>
 							</div>
 						</c:when>
 						<c:when test="${memberInfo.member_id == 'admin'}">
 							<div align=right style="margin-top: 10px;">
-								<a href="${contextPath}/event/eventForm.do"
+								<a href="${contextPath}/event/eventForm.do?member_id=${memberInfo.member_id}"
 									style="line-height: 32px;"> <span id="btn_1">글 쓰기</span></a>
 							</div>
 						</c:when>

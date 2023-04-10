@@ -15,7 +15,7 @@
          <div class="login flex">
             <ul class="login_menu_1 flex">
             <c:choose>
-               <c:when test="${isLogOn==true and memberInfo.join_type =='102'}">
+               <c:when test="${isLogOn==true and memberInfo.join_type =='102' and memberInfo.member_id != 'admin'}">
                   <div class="owner_btn">사업자</div>
                   <h5 style="color:#201D1D; margin-right:10px;">환영합니다. <span style="color:#F9C200;">${memberInfo.member_name}</span>님!</h5>
                    <li><a href="${contextPath}/member/logout.do" style="color: rgb(51, 51, 51);">로그아웃</a></li>
@@ -58,15 +58,15 @@
 					<div>
 						<ul class="icons">
 							<c:choose>
-								<c:when test="${isLogOn==true and not empty memberInfo}">
+								<c:when test="${isLogOn==true and memberInfo.join_type =='101'}">
 									<li><a href="${contextPath}/mypage/myOrderList.do?member_id=${memberInfo.member_id}&chapter=1&order_state=&firstDate=&secondDate=&text_box="><img style="width: 33px; height: 33px;" src="${contextPath}/resources/image/person.png" alt="회원"></a></li>
 								</c:when>
-								<c:when test="${isLogOn==true and memberInfo.join_type =='102'}">
-									<li><a href="#"><img style="width: 33px; height: 33px;" src="${contextPath}/resources/image/person.png" alt="사업자"></a></li>
+								<c:when test="${isLogOn==true and memberInfo.join_type =='102' and memberInfo.member_id != 'admin'}">
+									<li><a href="${contextPath}/owner/order/ownerOrderList.do?center_name=${memberInfo.center_name}"><img style="width: 33px; height: 33px;" src="${contextPath}/resources/image/person.png" alt="사업자"></a></li>
 								</c:when>
 								<c:when
 									test="${isLogOn==true and memberInfo.member_id =='admin'}">
-									<li><a href="${contextPath}/admin/goods/adminGoodsMain.do"><img style="width: 33px; height: 33px;" src="${contextPath}/resources/image/person.png" alt="관리자"></a></li>
+									<li><a href="${contextPath}/admin/board/adminArticleList.do"><img style="width: 33px; height: 33px;" src="${contextPath}/resources/image/person.png" alt="관리자"></a></li>
 								</c:when>
 								<c:otherwise>
 									<li><a href="${contextPath}/order/nonMemberOrder.do"><img style="width: 33px; height: 33px;" src="${contextPath}/resources/image/person.png" alt="비회원"></a></li>

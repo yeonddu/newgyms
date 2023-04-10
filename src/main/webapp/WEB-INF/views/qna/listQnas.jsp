@@ -160,14 +160,13 @@
 					</div>
 				
 					<div class="qna_text">
-						<p class="qna_title">제목 <input name="qna_title" type="text" required
-	                        title="제목을 입력해주세요."></p>
-						<p class="qna_contents">내용 <textarea name="qna_contents" cols="50" rows="10" required
-	                        title="내용을 입력해주세요."></textarea></p>
+						<div class="qna_title">제목 <input name="qna_title" type="text" required title="제목을 입력해주세요."></div>
+						<div class="qna_contents">내용 <textarea name="qna_contents" cols="50" rows="10" required  title="내용을 입력해주세요."></textarea></div>
 					</div>
 				
-					<input type="checkbox" name="secret"><span style="font-size:14px; margin-left:5px">비밀글</span>
-				
+					<div style="float:right; padding:5px 20px;">
+						<input type="checkbox" name="secret"><span style="font-size:14px; margin-left:5px">비밀글</span>
+					</div>
 					<div>
 						<input class="qna_write" type="submit" value="등록하기">
 					</div>

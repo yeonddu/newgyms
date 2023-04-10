@@ -17,7 +17,6 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script>
 
-
 /* 문의글 작성 팝업 */
 function qnaPopup(type) {
 	if (type == 'open') {
@@ -31,6 +30,8 @@ function qnaPopup(type) {
 /* 팝업창에 문의내용 출력 */
 $(document).ready(function() {
 	$('.modify_qna_btn').on('click', function() { 
+		$("#modify_qna_secret").prop("checked", false);
+		
 		var thisRow = $(this).closest('tr'); //누른 곳의 tr값을 찾는다. 
 		
 		var currentQnaNo = thisRow.find('#current_qna_no').val();
@@ -42,8 +43,8 @@ $(document).ready(function() {
 		var currentQnaContents = thisRow.find('#current_qna_contents').val();
 		$('#modify_qna_contents').val(currentQnaContents);	//현재 qna_contents 값을 옵션 textarea에 넣기
 		
-		var currentQnaContents = thisRow.find('#current_qna_secret').val();
-		if (currentQnaContents == 1) {
+		var currentQnaSecret = thisRow.find('#current_qna_secret').val(); //비밀글인 경우 비밀글 checkbox 체크하기
+		if (currentQnaSecret == 1) {
 			$("#modify_qna_secret").prop("checked", true);
 		}
 		
@@ -87,8 +88,8 @@ $(document).ready(function() {
 					<c:set  var="qna_count" value="${qna_count+1 }" /> 
 			          <tr class="qna_item">
 			            <td>
-						<input id="current_qna_no" type="hidden" value="${question.qna_no}" />
-			            ${qna_count }
+							<input id="current_qna_no" type="hidden" value="${question.qna_no}" />
+				            ${qna_count }
 			            </td>
 			            <td class="product_info">
 				            <c:if test="${question.product_id != 0 }"> 
@@ -123,18 +124,19 @@ $(document).ready(function() {
 			            <td class="qna_writeDate">
 			              ${question.qna_write_date}
 			            </td>
-	            
-            	      <td>
-			    	      <div class="modify_qna_btn">
-								<!-- 수정창에서 이용하기 위해 저장 -->            
+	            		<td>
+			            	<div class="btn">
+								<!-- 수정창에서 이용하기 위해  -->            
 				            	<input id="current_qna_title" type="hidden" value="${question.qna_title}"> 
 				            	<input id="current_qna_contents" type="hidden" value="${question.qna_contents}"> 
 				            	<input id="current_qna_secret" type="hidden" value="${question.qna_secret}"> 
-				    	      <a href="javascript:qnaPopup('open', '.layer01');">수정</a>
-			    	      </div>
-			    	      <a href="${contextPath}/mypage/removeQna.do?qna_no=${question.qna_no}">삭제</a>
-		    	      </td>
-	            
+			            	
+			            		<c:if test="${question.qna_answer_state == '답변대기' }">
+					    	      <a class="modify_qna_btn btn1" href="javascript:qnaPopup('open', '.layer01');">수정하기</a>
+			            		</c:if>
+				    	      <a class="btn2" href="${contextPath}/mypage/removeQna.do?qna_no=${question.qna_no}">삭제하기</a>
+			            	</div>
+	            		</td>
 			          </tr>
 		         
 			          <tr class="toggle_hidden">
@@ -143,12 +145,14 @@ $(document).ready(function() {
 						    <!-- QnA 질문 내용, 답변 제목, 내용 -->     
 				            <td colspan="5" class="qna_contents"  >
 				            	<p><span class="Q_mark">Q</span> ${question.qna_contents}</p>  <!-- 질문 내용 -->
+				            	
 				            <c:forEach var="answer" items="${answerList }" > 
 					            	<c:if test="${question.qna_no == answer.qna_parent_no }"> 
 						            	<p><span class="A_mark">A</span> ${answer.qna_title} </p> <!-- 답글 제목 -->
 						            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
 					            	</c:if>
 				            </c:forEach>                     
+				            	
 				            </td>
 			    	      </tr>
 		              </c:forEach>
@@ -162,14 +166,16 @@ $(document).ready(function() {
 				<p style="float:left">Q&A 수정하기</p>
 				<a style="float:right" class="x_button"  href="javascript:" onClick="javascript:qnaPopup('close', '.layer01');">X</a>		
 				<form action="${contextPath }/mypage/modifyQuestion.do" method="post">
-					<input type="hidden" id="currentQna_no" name="qna_no">				
+					<div>
+						<input type="hidden" id="currentQna_no" name="qna_no">				
+					</div>
 					<div class="qna_text">
-						<p class="qna_title">제목 <input id="modify_qna_title" name="qna_title" type="text" required title="제목을 입력해주세요."></p>
-						<p class="qna_contents">내용 <textarea id="modify_qna_contents" name="qna_contents" cols="50" rows="10" required title="내용을 입력해주세요."></textarea></p>
+						<div class="qna_title">제목 <input id="modify_qna_title" name="qna_title" type="text" required title="제목을 입력해주세요."></div>
+						<div class="qna_contents">내용 <textarea id="modify_qna_contents" name="qna_contents" cols="50" rows="10" required title="내용을 입력해주세요."></textarea></div>
 					</div>
 				
-					<div style="float:right; padding-right:80px;">
-						<input type="checkbox" id="modify_qna_secret" name="secret"><span style="font-size:14px; margin-left:5px">비밀글</span>
+					<div style="float:right; padding:5px 20px;">
+						<input type="checkbox" id="modify_qna_secret" name="secret" value="1"><span style="font-size:14px; margin-left:5px">비밀글</span>
 					</div>
 				
 					<div>

@@ -342,7 +342,7 @@ body {
 }
 
 #review_popup .review_title, .review_contents  {
-	text-align:left; padding:5px 0; margin:0;
+	text-align:left; padding:5px 0; margin:0; font-size:14px;
 }
 
 #review_popup .x_button {

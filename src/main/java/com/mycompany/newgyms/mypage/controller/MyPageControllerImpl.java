@@ -401,10 +401,13 @@ public class MyPageControllerImpl implements MyPageController {
 	
 	@Override
 	@RequestMapping(value = "modifyQuestion.do", method = RequestMethod.POST)
-	public ModelAndView modifyQuestion(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ResponseEntity modifyQuestion(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
-		ModelAndView mav = new ModelAndView();
+		String message = null;
+		ResponseEntity resEntity = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
 		
 		//로그인 정보 가져오기
 		HttpSession session=request.getSession();
@@ -418,7 +421,9 @@ public class MyPageControllerImpl implements MyPageController {
 		String qna_title = request.getParameter("qna_title");
 		String qna_contents = request.getParameter("qna_contents");
 		String qna_secret = request.getParameter("secret");
-		
+		if (qna_secret == null) {
+			qna_secret = "0";
+		}
 		System.out.println(qna_secret);
 		
 		qnaVO.setQna_no(qna_no);
@@ -426,16 +431,20 @@ public class MyPageControllerImpl implements MyPageController {
 		qnaVO.setQna_contents(qna_contents);
 		qnaVO.setQna_secret(qna_secret);
 		
-		myPageService.modifyQna(qnaVO);
-		
-		PrintWriter out = response.getWriter();
-		session.setAttribute("memberInfo", memberVO);
-		out.println("<script>alert('�쉶�썝�젙蹂� �닔�젙�씠 �셿猷뚮릺�뿀�뒿�땲�떎. :)');</script>");
-		out.flush();
-
-		mav.setViewName("/mypage/myQnaList");
-
-		return mav;
+		try {
+			myPageService.modifyQna(qnaVO);
+			message = "<script>";
+			message += " alert('문의글이 수정되었습니다. :)');";
+			message += " location.href='" + request.getContextPath() + "/mypage/myQnaList.do';";
+			message += " </script>";
+		} catch (Exception e) {
+			message = "<script>";
+			message += " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요 :( ');";
+			message += " location.href='" + request.getContextPath() + "/mypage/myQnaList.do';";
+			message += " </script>";
+		}
+		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
+		return resEntity;
 	}
 	
 	@Override

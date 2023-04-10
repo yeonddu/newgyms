@@ -17,6 +17,7 @@ public class EventVO {
 	private Date event_write_date;
 	private Date event_start_date;
 	private Date event_end_date;
+	private String event_ing;
 	
 	public EventVO() {
 		
@@ -108,6 +109,14 @@ public class EventVO {
 
 	public void setEvent_end_date(Date event_end_date) {
 		this.event_end_date = event_end_date;
+	}
+
+	public String getEvent_ing() {
+		return event_ing;
+	}
+
+	public void setEvent_ing(String event_ing) {
+		this.event_ing = event_ing;
 	}
 		
 }

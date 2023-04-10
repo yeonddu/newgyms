@@ -473,7 +473,7 @@ margin: 10px 5px 0px; color: rgb(50, 50, 50); font-size: 12px; float:left; width
 }
 
 #qna_write_popup .qna_text .qna_title input, textarea {
- width:450px;
+ width:500px;  float:right; 
 }
 
 #qna_write_popup .qna_write {

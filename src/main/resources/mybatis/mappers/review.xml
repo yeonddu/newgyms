@@ -27,7 +27,6 @@
 	   <result property="image_id" column="image_id" />
 	   <result property="review_no" column="review_no" />
 	   <result property="fileName" column="fileName" />
-	   <result property="reg_id" column="reg_id" />
 	</resultMap>
 	
 	<select id="selectProductReviewList" resultMap="reviewResult"   parameterType="String"  >
