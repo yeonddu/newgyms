@@ -47,7 +47,7 @@
 </script>
 </head>
 <body>
-	<form action="${contextPath}/mypage/ownerProductList.do" method="get">
+	<form action="${contextPath}/owner/ownerProductList.do" method="get">
 		<input type="hidden" name="member_id" value="${member_id}"> <input
 			type="hidden" name="chapter" value="1">
 		<div class="con-min-width">
@@ -152,8 +152,7 @@
 						</c:choose>
 						
 						<div align=right style="margin-top: 10px;">
-								<a href="${contextPath}/owner/product/productForm.do?member_id=${memberInfo.member_id}"
-									style="line-height: 32px;"> <span id="btn_1">상품등록</span></a>
+								<a href="${contextPath}/owner/product/addProductForm.do" style="line-height: 32px;"> <span id="btn_1">상품등록</span></a>
 						</div>
 					</div>
 				</div>

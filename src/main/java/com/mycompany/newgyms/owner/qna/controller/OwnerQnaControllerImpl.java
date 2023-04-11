@@ -31,6 +31,7 @@ public class OwnerQnaControllerImpl implements OwnerQnaController{
 	@Autowired
 	private QnaVO qnaVO;
 
+	@Override
 	@RequestMapping(value = "/ownerQnaList.do", method = RequestMethod.GET)
 	public ModelAndView ownerQnaList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
@@ -53,6 +54,7 @@ public class OwnerQnaControllerImpl implements OwnerQnaController{
 		return mav;
 	}
 	
+	@Override
 	@RequestMapping(value = "/addAnswer.do", method = RequestMethod.POST)
 	public ResponseEntity addAnswer(@ModelAttribute("qnaVO") QnaVO qnaVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		response.setContentType("text/html; charset=UTF-8");
@@ -89,10 +91,13 @@ public class OwnerQnaControllerImpl implements OwnerQnaController{
 	
 	@Override
 	@RequestMapping(value = "modifyAnswer.do", method = RequestMethod.POST)
-	public ModelAndView modifyAnswer(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ResponseEntity modifyAnswer(@ModelAttribute("qnaVO") QnaVO qnaVO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("utf-8");
-		ModelAndView mav = new ModelAndView();
+		String message = null;
+		ResponseEntity resEntity = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
 		
 		//로그인 정보 가져오기
 		HttpSession session=request.getSession();
@@ -101,30 +106,54 @@ public class OwnerQnaControllerImpl implements OwnerQnaController{
 		
 		String member_id = memberVO.getMember_id(); //로그인한 member_id
 		qnaVO.setMember_id(member_id);
-		
-		int qna_no = Integer.parseInt(request.getParameter("qna_no"));
-		String qna_title = request.getParameter("qna_title");
-		String qna_contents = request.getParameter("qna_contents");
-		
-		qnaVO.setQna_no(qna_no);
-		qnaVO.setQna_title(qna_title);
-		qnaVO.setQna_contents(qna_contents);
-		
-		ownerQnaService.modifyAnswer(qnaVO);
-		
-		/*
-		PrintWriter out = response.getWriter();
-		session.setAttribute("memberInfo", memberVO);
-		out.println("<script>alert('문의글이 수정되었습니다. :)');</script>");
-		out.flush();
-		 * */
 
-		mav.setViewName("redirect:/owner/qna/ownerQnaList.do");
+		try {
+			ownerQnaService.modifyAnswer(qnaVO);
+			message = "<script>";
+			message += " alert('답글이 수정되었습니다 :)');";
+			message += " location.href='" + request.getContextPath()  + "/owner/qna/ownerQnaList.do';";
+			message += " </script>";
+		} catch (Exception e) {
+			message = "<script>";
+			message += " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요');";
+			message += " location.href='" + request.getContextPath()  + "/owner/qna/ownerQnaList.do';";
+			message += " </script>";
+			e.printStackTrace();
+		}
+		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
 		
-		return mav;
+		return resEntity;
 	}
 	
-	
+	@Override
+	@RequestMapping(value = "/removeQna.do", method = RequestMethod.GET)
+	public ResponseEntity removeQna(@RequestParam("qna_no") int qna_no, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		response.setContentType("text/html; charset=UTF-8");
+		request.setCharacterEncoding("utf-8");
+		String message = null;
+		ResponseEntity resEntity = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		
+		HttpSession session=request.getSession();
+
+		try {
+			ownerQnaService.removeQna(qna_no);
+			message = "<script>";
+			message += " alert('문의글이 삭제되었습니다 :)');";
+			
+			message += " location.href='" + request.getContextPath()  + "/owner/qna/ownerQnaList.do';";
+			message += " </script>";
+		} catch (Exception e) {
+			message = "<script>";
+			message += " alert('작업 중 오류가 발생했습니다. 다시 시도해 주세요');";
+			message += " location.href='" + request.getContextPath()  + "/owner/qna/ownerQnaList.do';";
+			message += " </script>";
+			e.printStackTrace();
+		}
+		resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.OK);
+		return resEntity;
+	}
 	
 	@RequestMapping(value = "/removeAnswer.do", method = RequestMethod.GET)
 	public ResponseEntity removeAnswer(@RequestParam("qna_no") int qna_no, @RequestParam("qna_parent_no") int qna_parent_no, HttpServletRequest request, HttpServletResponse response) throws Exception {

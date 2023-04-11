@@ -8,4 +8,10 @@
        <put-attribute name="body" value="/WEB-INF/views/owner/product/ownerProductList.jsp" />
     </definition>
     
+    <definition name="/owner/product/addProductForm" extends="baseLayout">
+       <put-attribute name="title" value="새 상품 추가 페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/owner/product/addProductForm.jsp" />
+    </definition>
+    
+    
 </tiles-definitions>

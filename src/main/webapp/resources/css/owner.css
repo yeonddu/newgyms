@@ -89,13 +89,64 @@ a {
 	cursor : pointer;
 }
 
+/* 상품 관리 */
+#addProductForm .add_product_title {
+    font-size: 20px;
+    color: #0F0573;
+	
+}
 
+#product_info_table, #product_detail_table, #product_refund_table {
+	width: 100%;
+    padding: 10px;
+    line-height: 40px;
+    border-top: 1px solid rgb(244, 244, 244);
+}
+ 
+#product_info_table td:first-child {
+    padding: 15px;
+    width:200px;
+}
+
+#product_detail_table td:first-child,#product_refund_table td:first-child  {
+    padding: 15px;
+    width:300px;
+}
+ 
+#addProductForm input {
+    padding: 15px;
+    border: none;
+    border-bottom: 1px solid #D8D8D8;	
+}
+ 
+#addProductForm textarea {
+    padding: 15px;
+    width:800px;
+    border: 1px solid #D8D8D8; 
+}
+
+#addProductForm .img_preview {
+
+}
+#addProductForm .img_preview img {
+	width:150px; height:150px; object-fit: cover;
+    display:inline-block; 
+    margin:5px;
+}
+
+#addProductForm  .add_option_btn {
+    color:rgb(100,100,100);
+    font-size:14px;
+    background:rgb(240,240,240);
+	border:1px solid rgb(100,100,100);
+	border-radius:5px;	
+	padding:5px;
+}
 
 /* QnA */
 
 
-
-#mypage_Qna_title {
+#owner_Qna_title, #owner_product_title {
 	margin-top: 30px;
 	margin-bottom: 20px;
 	padding: 5px;
@@ -113,29 +164,6 @@ a {
  border-top: 1px solid rgb(244, 244, 244);
  
 }
-
-.qna_list td.product_info {
- width:300px; 
-}
-
-.product_info #product_main_image {
-   float:left;  margin-right:5px; 
-}
-
-
-.product_info #product_main_image img {
-	width:50px; height:50px; 
-}
-
-.product_info .product_name {
-	margin-top:5px; font-weight:bold;font-size:14px; display:block; text-align:left;
-}
-
-.product_info .center_name {
-	  font-size:12px; display:block; text-align:left;
-}
-
-
  
 .qna_list th {
  padding:15px; 
@@ -149,14 +177,18 @@ a {
  width:80px;        
 }
 
-
 .qna_item td:nth-child(2) {
- width:250px;        
+ width:150px;        
 }
 
 .qna_item td:nth-child(4) {
  width:140px;        
 }
+ 
+.qna_item td:nth-child(5) {
+ width:140px;        
+}
+ 
 .qna_item td:nth-child(6) {
  width:140px;        
 }
@@ -164,7 +196,21 @@ a {
 .qna_item .qna_writeDate  {
 	width:140px; font-size:14px;
 } 
+
  
+.qna_list #product_main_image {
+   float:left;  margin-right:5px; 
+}
+
+
+.qna_list #product_main_image img {
+	width:50px; height:50px; 
+}
+
+.qna_list .product_name {
+	margin-top:5px; font-weight:bold;font-size:14px; display:block; text-align:left;
+}
+
 .qna_list .qna_contents {
  padding:20px; padding-left:250px; background-color:rgb(250,250,250);  border-radius:20px;
 }
@@ -180,7 +226,6 @@ a {
 .qna_list .qna_contents .A_mark {
 	display:inline-block; padding:6px 8px; margin-right:5px; width:30px; height:30px;color:white;background-color:rgb(150,150,150);border-radius: 100%;
 }
-
 
 
 .qna_list .btn1 {

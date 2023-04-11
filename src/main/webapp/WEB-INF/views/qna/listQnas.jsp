@@ -70,20 +70,19 @@
 									<c:choose>
 										<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
 											<c:choose>
-												<c:when test="${question.member_id!=loginMember_id  or loginMember_id == null}"> <!-- 작성자와 로그인한 아이디가 다르거나 로그인하지 않은 경우 -->
+												<c:when test="${question.member_id ==loginMember_id  or loginMember_id == 'admin'}"> <!-- 작성자와 로그인한 사람이 같거나 관리자로 로그인 한 경우 -->
+										            <td class="toggle_show" style="cursor:pointer;">
+										            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">
+										            	${question.qna_title}                           
+										            </td>
+												</c:when>
+											
+											<c:otherwise> <!-- 작성자와 로그인한 사람이 다르거나 로그인하지 않은 경우 -->
 									            	<td class="toggle_show" style="cursor:pointer;">                        
 									            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">
 									            	비밀글입니다.
 									         	   </td>
-												</c:when>
-											
-											<c:otherwise> <!-- 작성자와 로그인한 사람이 같은 경우 -->
-									            <td class="toggle_show" style="cursor:pointer;">
-									            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">
-									            	${question.qna_title}                           
-									            </td>
 											</c:otherwise>
-											
 											</c:choose>
 										 </c:when>
 										<c:otherwise> <!-- 공개글인 경우 -->
@@ -105,23 +104,23 @@
 								   	<c:choose>
 										<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
 											<c:choose>
-											<c:when test="${question.member_id!=loginMember_id  or loginMember_id == null}"> <!-- 작성자와 로그인한 사람이 다르거나 로그인하지 않은 경우 -->
-								            	<td colspan="5" class="qna_contents" style="padding-left:100px;">                        
+											<c:when test="${question.member_id ==loginMember_id  or loginMember_id == 'admin'}"> <!-- 작성자와 로그인한 사람이 같거나 관리자로 로그인 한 경우 -->
+									            <td class="qna_contents" colspan="5">
+									            	<p><span class="Q_mark">Q</span> ${question.qna_contents} </p>  <!-- 질문 내용 -->
+									            <c:forEach var="answer" items="${answerList }" >             	
+									            	<c:choose>
+										            	<c:when test="${question.qna_no == answer.qna_parent_no }"> 
+											            	<p><span class="A_mark">A</span> ${answer.qna_title} <p> <!-- 답글 제목 -->
+											            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
+									            		</c:when>
+									            	</c:choose>
+									            	</c:forEach>                   
+									            </td>
+											</c:when>
+											<c:otherwise> <!-- 작성자와 로그인한 사람이 다르거나 로그인하지 않은 경우 -->
+								            	<td colspan="5" class="qna_contents" style="padding-left:300px;">                        
 								            	 <p>비밀글은 작성자만 조회할 수 있습니다.</p>
 								         	   </td>
-											</c:when>
-											<c:otherwise> <!-- 작성자와 로그인한 사람이 같은 경우 -->
-								            <td class="qna_contents" colspan="5">
-								            	<p><span class="Q_mark">Q</span> ${question.qna_contents} </p>  <!-- 질문 내용 -->
-								            <c:forEach var="answer" items="${answerList }" >             	
-								            	<c:choose>
-									            	<c:when test="${question.qna_no == answer.qna_parent_no }"> 
-										            	<p><span class="A_mark">A</span> ${answer.qna_title} <p> <!-- 답글 제목 -->
-										            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
-								            		</c:when>
-								            	</c:choose>
-								            	</c:forEach>                   
-								            </td>
 											</c:otherwise>
 											</c:choose>
 								        </c:when>

@@ -47,6 +47,15 @@ public class QnaControllerImpl {
 		List<QnaVO> answerList = qnaService.productAnswerList(product_id);
 		mav.addObject("answerList", answerList);
 		
+		HttpSession session=request.getSession();
+		MemberVO memberVO=(MemberVO)session.getAttribute("memberInfo");
+
+		/* 현재 로그인된 ID */
+		if (memberVO != null && memberVO.getMember_id() != null) {
+			String loginMember_id = memberVO.getMember_id();
+			mav.addObject("loginMember_id", loginMember_id);
+		}
+		
 		return mav;
 	}
 	

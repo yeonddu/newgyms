@@ -18,14 +18,15 @@
          <div class="adminpage_hr"></div>
          
          <li>
-            <a href="#">회원 관리</a>
+            <a href="${contextPath}/admin/member/adminMemberList.do">회원 관리</a>
          </li>
          <li>
             <a href="#">상품 관리</a>
          </li>
          <li>
-            <a href="#">주문/결제 관리</a>
+            <a href="${contextPath}/admin/order/adminOrderList.do?chapter=1&order_state=&firstDate=&secondDate=&text_box=">주문/결제 관리</a>
          </li>
+         
          <li>
             <a href="${contextPath}/admin/board/adminArticleList.do">자유게시판 관리</a>
          </li>
@@ -39,7 +40,7 @@
             <a href="${contextPath}/admin/event/adminEventList.do">이벤트 관리</a>
          </li>
          <li>
-            <a href="#">Q&A 관리</a>
+            <a href="${contextPath}/admin/qna/adminQnaList.do">Q&A 관리</a>
          </li>
       </ul>
    </div>

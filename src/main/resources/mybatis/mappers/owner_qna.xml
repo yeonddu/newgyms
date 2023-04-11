@@ -61,10 +61,18 @@
 	       update t_qna 
 	       set qna_title = #{qna_title},
 		       qna_contents = #{qna_contents}
-			where qna_no = #{qna_parent_no}                                     
+			where qna_no = #{qna_no}                                     
 	   ]]>      
 	  </update>
-	  <delete id="deleteAnswer"  parameterType="int">
+	  
+	  <delete id="deleteQna"  parameterType="int">
+	  <![CDATA[
+	       delete from t_qna 
+			where qna_no = #{qna_no} or qna_parent_no = #{qna_no}                                   
+	   ]]>      
+	  </delete>
+	  
+	  <delete id="deleteAnswer"  parameterType="qnaVO">
 	  <![CDATA[
 	       delete from t_qna 
 			where qna_no = #{qna_no}                                     

@@ -12,7 +12,6 @@ import com.mycompany.newgyms.qna.vo.QnaVO;
 
 @Service("ownerQnaService")
 @Transactional(propagation=Propagation.REQUIRED)
-
 public class OwnerQnaServiceImpl implements OwnerQnaService  {
 	@Autowired
 	private OwnerQnaDAO ownerQnaDAO;
@@ -37,6 +36,11 @@ public class OwnerQnaServiceImpl implements OwnerQnaService  {
 	@Override
 	public void modifyAnswer(QnaVO qnaVO) throws Exception{
 		ownerQnaDAO.updateAnswer(qnaVO);
+	}
+	
+	@Override
+	public void removeQna(int qna_no) throws Exception {
+		ownerQnaDAO.deleteQna(qna_no);
 	}
 		
 	@Override

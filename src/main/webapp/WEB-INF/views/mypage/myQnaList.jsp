@@ -89,7 +89,7 @@ $(document).ready(function() {
 			          <tr class="qna_item">
 			            <td>
 							<input id="current_qna_no" type="hidden" value="${question.qna_no}" />
-				            ${qna_count }
+				            ${question.qna_no }
 			            </td>
 			            <td class="product_info">
 				            <c:if test="${question.product_id != 0 }"> 

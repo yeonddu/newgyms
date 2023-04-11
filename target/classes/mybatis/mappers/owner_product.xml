@@ -33,12 +33,12 @@
 	</resultMap>
 
 	<resultMap id="imageResult" type="ProductImageVO">
+	   <result property="image_id" column="image_id" />
 	   <result property="product_id" column="product_id" />
 	   <result property="fileName" column="fileName" />
-	   <result property="reg_id" column="reg_id" />
-	   <result property="image_id" column="image_id" />
 	   <result property="fileType" column="fileType" />
 	</resultMap>
+
 	
 	<!-- 사업자 상품 목록 --> 	
 	<select id="selectOwnerProductList" resultMap="productResult" parameterType="String">
@@ -49,5 +49,78 @@
 			order by product_entered_date desc
 		]]>
 	</select>
+	
+		<select id="selectProductID" resultType="int"  >
+       <![CDATA[
+          select MAX(product_id) from t_product
+       ]]>
+   </select>
+   
+	<insert id="insertNewProduct" parameterType="java.util.Map"   >
+	    
+	    <![CDATA[
+		   insert into t_product(
+		                product_id, 
+	                    member_id,
+		                product_sort,
+	                    product_name,
+	                    product_main_image,
+						product_price,
+						product_sales_price,
+						product_point,
+						product_program_details,
+						product_price_details,
+						product_facility_details,
+						product_location_details,
+						product_refund_1,
+						product_refund_2,
+						sale_yn)
+	  			values(
+	  			      #{product_id},
+	  			      #{member_id},
+	  			      #{product_sort},
+	  			      #{product_name},
+	  			      #{product_main_image },
+	  			      #{product_price},
+	  			      #{product_sales_price},
+	  			      #{product_point},
+	  			      #{product_program_details},
+	  			      
+	  			      #{product_price_details},
+	  			      #{product_facility_details },
+	  			      #{product_location_details },
+	  			      #{product_refund_1 },
+	  			      #{product_refund_2 },
+	  			      #{sale_yn})
+		]]>
+	</insert> 
+	
+	<insert id="insertProductOption" parameterType="ProductOptVO">
+	    <![CDATA[
+		   insert into t_product_option (
+		   								option_id,
+	                                     product_id,
+										 product_option_name,
+										 product_option_price)
+			   					values(
+			   							#{option_id},
+		   					 			 #{product_id},
+		   							 	 #{product_option_name},
+		   								 #{product_option_price})
+		]]>
+	</insert> 
+	
+	<insert id="insertProductImage" parameterType="ProductImageVO">
+	    <![CDATA[
+		   insert into t_product_detail_image (image_id,
+		                                     product_id,
+											 fileName,
+											 fileType)
+				   					values(#{image_id},
+				   					 			 #{product_id},
+				   							 	 #{fileName},
+				   								 #{fileType})
+		]]>
+	</insert> 
 	
 </mapper> 

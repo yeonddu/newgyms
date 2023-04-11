@@ -36,7 +36,12 @@ public class OwnerQnaDAOImpl implements OwnerQnaDAO  {
 	
 	@Override
 	public void updateAnswer(QnaVO qnaVO) throws DataAccessException{
-		sqlSession.insert("mapper.owner_qna.updateAnswer",qnaVO);
+		sqlSession.update("mapper.owner_qna.updateAnswer",qnaVO);
+	}
+	
+	@Override
+	public void deleteQna(int qna_no) throws DataAccessException {
+		sqlSession.delete("mapper.owner_qna.deleteQna", qna_no);
 	}
 	
 	@Override

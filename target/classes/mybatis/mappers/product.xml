@@ -34,10 +34,9 @@
 	</resultMap>
 
 	<resultMap id="imageResult" type="ProductImageVO">
+	   <result property="image_id" column="image_id" />
 	   <result property="product_id" column="product_id" />
 	   <result property="fileName" column="fileName" />
-	   <result property="reg_id" column="reg_id" />
-	   <result property="image_id" column="image_id" />
 	   <result property="fileType" column="fileType" />
 	</resultMap>
 

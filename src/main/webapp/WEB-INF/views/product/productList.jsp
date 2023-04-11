@@ -104,7 +104,7 @@ function add_wishList(product_id) {
 			   		 
 					<div class="product_description">
 			  		    <h2><a href="${contextPath}/product/productDetail.do?product_id=${item.product_id}">${item.product_name }</a></h2>
-			            <h3><a href="">${item.center_name }</a></h3> <!-- 사업장관리 페이지로 이동 -->
+			            <h3><a href="${contextPath}/owner/ownerDetail.do?member_id=${item.member_id}">${item.center_name }</a></h3> <!-- 사업장관리 페이지로 이동 -->
 					</div>
 					
 					<div class="product_price">

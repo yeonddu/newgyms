@@ -84,7 +84,7 @@ $(document).ready(function() {
 			<jsp:include page="/WEB-INF/views/owner/main/ownerPageSide.jsp" />
 			
 			<div id="contain_right">
-			<p id="mypage_Qna_title">Q&A 관리</p>
+			<p id="owner_Qna_title">Q&A 관리</p>
 
 			<div style="font-size: 20px; margin-right:50px; margin-bottom:15px; text-align:right;">
 				문의글 : <span id="navy_color">${fn:length(questionList)}개</span>
@@ -94,9 +94,9 @@ $(document).ready(function() {
           <tbody>      
 		            <tr>
 		              <th>번호</th>
-		              <th>상품</th>
-		              <th>제목</th>
 		              <th>답변상태</th>
+		              <th>제목</th>
+		              <th>작성자</th>              
 		              <th>작성일</th>              
 		            </tr>
 		
@@ -112,19 +112,13 @@ $(document).ready(function() {
 					<c:set  var="qna_count" value="${qna_count+1 }" /> 
 			          <tr class="qna_item">
 			            <td>
-				            ${qna_count }
+				            ${question.qna_no }
 			            </td>
-			            <td class="product_info">
-							<div id="product_main_image">
-								<img alt="상품 이미지" src="${contextPath}/thumbnails.do?product_id=${question.product_id}&fileName=${question.product_main_image}">
-							</div>
-							<div>
-								<a class="product_name" href="${contextPath}/product/productDetail.do?product_id=${question.product_id}"><span id="product_name">${question.product_name }</span></a> 
-							</div>
-							<div>
-							<a class="center_name" href="#"> <span id="center_name"></span>${question.center_name }</a>
-							</div>
+			            
+			            <td>
+			              ${question.qna_answer_state }
 			            </td>
+			            
 						<c:choose>
 							<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
 					            <td class="toggle_show" style="cursor:pointer; ">
@@ -138,8 +132,22 @@ $(document).ready(function() {
 					            </td>
 							</c:otherwise>
 					   </c:choose>
+					   
+<%-- 					   <td class="product_info">
+
+							<div id="product_main_image">
+								<img alt="상품 이미지" src="${contextPath}/thumbnails.do?product_id=${question.product_id}&fileName=${question.product_main_image}">
+							</div>
+							<div>
+								<a class="product_name" href="${contextPath}/product/productDetail.do?product_id=${question.product_id}"><span id="product_name">${question.product_name }</span></a> 
+							</div>
+							<div>
+							<a class="center_name" href="#"> <span id="center_name"></span>${question.center_name }</a>
+							</div>
+			            </td>
+ --%>					   
 						<td>
-			              ${question.qna_answer_state }
+			              ${question.member_id }
 			            </td>
 						   
 			            <td class="qna_writeDate">
@@ -147,7 +155,7 @@ $(document).ready(function() {
 			            </td>
 	            
             	      <td>
-			    	      <a class="btn2" href="${contextPath}/owner/qna/removeQuestion.do?qna_no=${question.qna_no}">삭제하기</a>
+			    	      <a class="btn2" href="${contextPath}/owner/qna/removeQna.do?qna_no=${question.qna_no}">삭제하기</a>
 		    	      </td>
 	            
 			          </tr>
@@ -157,6 +165,18 @@ $(document).ready(function() {
 				          </td>
 						    <!-- QnA 질문 내용, 답변 제목, 내용 -->     
 				            <td colspan="5" class="qna_contents"  >
+				            
+				            <div id="product_main_image">
+								<img alt="상품 이미지" src="${contextPath}/thumbnails.do?product_id=${question.product_id}&fileName=${question.product_main_image}">
+							</div>
+							<div>
+								<a class="product_name" href="${contextPath}/product/productDetail.do?product_id=${question.product_id}"><span id="product_name">${question.product_name }</span></a> 
+							</div>
+							<div>
+							<a class="center_name" href="#"> <span id="center_name"></span>${question.center_name }</a>
+							</div>
+				            
+				            
 				            	<p><span class="Q_mark">Q</span> ${question.qna_contents}</p>  <!-- 질문 내용 -->
 				            	<c:choose>
 				            	<c:when test="${question.qna_answer_state == '답변대기' }">

@@ -64,9 +64,8 @@
 								<c:when test="${isLogOn==true and memberInfo.join_type =='102' and memberInfo.member_id != 'admin'}">
 									<li><a href="${contextPath}/owner/order/ownerOrderList.do?center_name=${memberInfo.center_name}"><img style="width: 33px; height: 33px;" src="${contextPath}/resources/image/person.png" alt="사업자"></a></li>
 								</c:when>
-								<c:when
-									test="${isLogOn==true and memberInfo.member_id =='admin'}">
-									<li><a href="${contextPath}/admin/board/adminArticleList.do"><img style="width: 33px; height: 33px;" src="${contextPath}/resources/image/person.png" alt="관리자"></a></li>
+								<c:when test="${isLogOn==true and memberInfo.member_id =='admin'}">
+									<li><a href="${contextPath}/admin/member/adminMemberList.do"><img style="width: 33px; height: 33px;" src="${contextPath}/resources/image/person.png" alt="관리자"></a></li>
 								</c:when>
 								<c:otherwise>
 									<li><a href="${contextPath}/order/nonMemberOrder.do"><img style="width: 33px; height: 33px;" src="${contextPath}/resources/image/person.png" alt="비회원"></a></li>

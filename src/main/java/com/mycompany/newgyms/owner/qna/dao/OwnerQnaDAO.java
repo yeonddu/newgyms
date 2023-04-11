@@ -11,6 +11,7 @@ public interface OwnerQnaDAO {
 	public ArrayList selectOwnerAnswerList(String member_id) throws DataAccessException;
 	public void insertAnswer(QnaVO qnaVO) throws DataAccessException;
 	public void updateAnswer(QnaVO qnaVO) throws DataAccessException;
+	public void deleteQna(int qna_no) throws DataAccessException;
 	public void deleteAnswer(QnaVO qnaVO) throws DataAccessException;
 	public int selectCountAnswer(QnaVO qnaVO) throws DataAccessException;
 }
