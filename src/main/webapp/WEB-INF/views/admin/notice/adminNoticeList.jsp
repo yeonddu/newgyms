@@ -54,7 +54,7 @@
 
 				<div id="contain_right">
 					<p id="notice_title">공지사항 관리</p>
-					<p style="font-size:15px;">총 <span id="gray_color">${fn:length(adminNoticeList)}건</span></p>
+					<p style="font-size:15px;">총 ${fn:length(adminNoticeList)}건</p>
 
 					<!-- 공지사항 리스트 -->
 					<table id="admin_notice_table" align=center>

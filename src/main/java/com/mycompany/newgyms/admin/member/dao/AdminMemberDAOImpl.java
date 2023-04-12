@@ -17,9 +17,15 @@ public class AdminMemberDAOImpl implements AdminMemberDAO {
 	private SqlSession sqlSession;
 	
 	@Override
-	public ArrayList<MemberVO> memberList(HashMap condMap) throws DataAccessException {
+	public ArrayList<MemberVO> memberList(Map condMap) throws DataAccessException {
 		ArrayList<MemberVO> adminMemberList = (ArrayList)sqlSession.selectList("mapper.admin_member.memberList", condMap);
 		return adminMemberList;
+	}
+	
+	@Override
+	public String maxNumSelect(Map condMap) throws DataAccessException {
+		String result = sqlSession.selectOne("mapper.admin_member.maxNumSelect", condMap);
+		return result;
 	}
 
 	@Override

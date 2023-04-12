@@ -1,7 +1,10 @@
 package com.mycompany.newgyms.admin.member.controller;
 
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,44 +36,19 @@ public class AdminMemberControllerImpl extends BaseController implements AdminMe
 		String viewName=(String)request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
 
-		String fixedSearchPeriod = dateMap.get("fixedSearchPeriod");
-		String chapter = dateMap.get("chapter");
-		String pageNum = dateMap.get("pageNum");
-		String beginDate=null,endDate=null;
+		String chapter = request.getParameter("chapter");
 		
-		String [] tempDate = calcSearchPeriod(fixedSearchPeriod).split(",");
-		beginDate=tempDate[0];
-		endDate=tempDate[1];
-		dateMap.put("beginDate", beginDate);
-		dateMap.put("endDate", endDate);
+		Map<String, Object> condMap = new HashMap<String, Object>();
+		condMap.put("chapter", chapter);
 		
-		
-		HashMap<String,Object> condMap=new HashMap<String,Object>();
-		if(chapter== null) {
-			chapter = "1";
-		}
-		condMap.put("chapter",chapter);
-		if(pageNum== null) {
-			pageNum = "1";
-		}
-		condMap.put("pageNum",pageNum);
-		condMap.put("beginDate",beginDate);
-		condMap.put("endDate", endDate);
+		String maxnum = adminMemberService.maxNumSelect(condMap);
+		condMap.put("maxnum", maxnum);
 		
 		ArrayList<MemberVO> adminMemberList = adminMemberService.memberList(condMap);
-		mav.addObject("adminMemberList", adminMemberList);
-		
-		String beginDate1[]=beginDate.split("-");
-		String endDate2[]=endDate.split("-");
-		mav.addObject("beginYear",beginDate1[0]);
-		mav.addObject("beginMonth",beginDate1[1]);
-		mav.addObject("beginDay",beginDate1[2]);
-		mav.addObject("endYear",endDate2[0]);
-		mav.addObject("endMonth",endDate2[1]);
-		mav.addObject("endDay",endDate2[2]);
 		
 		mav.addObject("chapter", chapter);
-		mav.addObject("pageNum", pageNum);
+		mav.addObject("maxnum", maxnum);
+		mav.addObject("adminMemberList", adminMemberList);
 		return mav;
 		
 	}
@@ -95,16 +73,11 @@ public class AdminMemberControllerImpl extends BaseController implements AdminMe
 
 		adminMemberService.modifyMemberInfo(modifyMap);
 
-		/*
-		PrintWriter out = response.getWriter();
-		out.println("<script>alert('회원정보 수정이 완료되었습니다. :)');</script>");
-		out.flush();
-		*/
 		mav.setViewName("redirect:/admin/member/adminMemberList.do");
 		return mav;
 	}
 	
-	// 회원 탈퇴 시키기
+	// 회원 탈퇴
 	@Override
 	@RequestMapping(value="/deleteMember.do" ,method={RequestMethod.POST})
 	public ModelAndView deleteMember(@RequestParam ("member_id") String member_id, HttpServletRequest request, HttpServletResponse response)  throws Exception {
@@ -114,11 +87,11 @@ public class AdminMemberControllerImpl extends BaseController implements AdminMe
 		modifyMap.put("del_yn", "Y");
 		adminMemberService.memberState(modifyMap);
 		
-		mav.setViewName("redirect:/admin/member/adminMemberList.do");
+		mav.setViewName("redirect:/admin/member/adminMemberList.do?chapter=1");
 		return mav;
 	}
 	
-	// 회원 복구 시키기
+	// 회원 복구
 	@Override
 	@RequestMapping(value="/rollbackMember.do" ,method={RequestMethod.POST})
 	public ModelAndView rollbackMember(@RequestParam ("member_id") String member_id, HttpServletRequest request, HttpServletResponse response)  throws Exception {
@@ -128,7 +101,7 @@ public class AdminMemberControllerImpl extends BaseController implements AdminMe
 		modifyMap.put("del_yn", "N");
 		adminMemberService.memberState(modifyMap);
 		
-		mav.setViewName("redirect:/admin/member/adminMemberList.do");
+		mav.setViewName("redirect:/admin/member/adminMemberList.do?chapter=1");
 		return mav;
 	}
 }

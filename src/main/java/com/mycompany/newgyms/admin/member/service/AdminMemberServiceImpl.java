@@ -19,8 +19,13 @@ public class AdminMemberServiceImpl implements AdminMemberService {
 	private AdminMemberDAO adminMemberDAO;
 	
 	@Override
-	public ArrayList<MemberVO> memberList(HashMap condMap) throws Exception{
+	public ArrayList<MemberVO> memberList(Map condMap) throws Exception{
 		return adminMemberDAO.memberList(condMap);
+	}
+	
+	@Override
+	public String maxNumSelect(Map condMap) throws Exception {
+		return adminMemberDAO.maxNumSelect(condMap);
 	}
 
 	@Override

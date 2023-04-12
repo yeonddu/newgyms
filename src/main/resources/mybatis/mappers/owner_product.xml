@@ -19,7 +19,7 @@
 		<result property="product_sales_price" column="product_sales_price" />
 		<result property="product_point" column="product_point" />
 		<result property="product_entered_date" column="product_entered_date" />		
-		<result property="sale_yn" column="sale_yn" />
+		<result property="product_state" column="product_state" />
 		<result property="product_intro" column="product_intro" />
 		<result property="product_refund_1" column="product_refund_1" />
 		<result property="product_refund_2" column="product_refund_2" />
@@ -39,20 +39,28 @@
 	   <result property="fileType" column="fileType" />
 	</resultMap>
 
-	
-	<!-- 사업자 상품 목록 --> 	
-	<select id="selectOwnerProductList" resultMap="productResult" parameterType="String">
-     <![CDATA[
-			select *
-			from t_product
-			where member_id=#{member_id}
-			order by product_entered_date desc
-		]]>
+	<!-- 사업자 상품 목록 -->
+	<select id="selectOwnerProductList" parameterType="java.util.Map" resultMap="productResult">
+		<![CDATA[
+				select *
+				from (select *, ROW_NUMBER() over(order by product_entered_date) AS rowNum from t_product where member_id=#{member_id}) a
+				where rowNum BETWEEN (#{maxnum}-4) - (#{chapter}-1)*5 and (#{maxnum}) - (#{chapter}-1)*5 
+				order by product_entered_date desc
+			]]>
 	</select>
 	
-		<select id="selectProductID" resultType="int"  >
+	<!-- 페이지네이션 -->
+	<select id="maxNumSelect" parameterType="java.util.Map" resultType="String">
+		<![CDATA[
+	            SELECT COUNT(*)
+	         	FROM t_product
+	         	where member_id=#{member_id}
+	      ]]>
+	</select>
+	
+	<select id="selectProductID" resultType="int"  >
        <![CDATA[
-          select MAX(product_id) from t_product
+          select MAX(product_id) + 1 from t_product
        ]]>
    </select>
    
@@ -74,7 +82,7 @@
 						product_location_details,
 						product_refund_1,
 						product_refund_2,
-						sale_yn)
+						product_state)
 	  			values(
 	  			      #{product_id},
 	  			      #{member_id},
@@ -91,11 +99,11 @@
 	  			      #{product_location_details },
 	  			      #{product_refund_1 },
 	  			      #{product_refund_2 },
-	  			      #{sale_yn})
+	  			      #{product_state})
 		]]>
 	</insert> 
 	
-	<insert id="insertProductOption" parameterType="ProductOptVO">
+	<insert id="insertNewProductOption" parameterType="ProductOptVO">
 	    <![CDATA[
 		   insert into t_product_option (
 		   								option_id,
@@ -122,5 +130,16 @@
 				   								 #{fileType})
 		]]>
 	</insert> 
+	
+		
+	<delete id="deleteProduct" parameterType="int">
+		<![CDATA[
+			DELETE p, d, o
+			FROM t_product p, t_product_detail_image d INNER JOIN t_product_option o
+			WHERE p.product_id = #{product_id}
+				and d.product_id = #{product_id}
+				and o.product_id = #{product_id}
+		]]>
+	</delete>
 	
 </mapper> 

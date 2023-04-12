@@ -40,11 +40,20 @@
 	</resultMap>
 	
 	<!-- 전체 회원 목록 -->
-	<select id="memberList" resultMap="memberResult" parameterType="java.util.HashMap"  >
+	<select id="memberList" resultMap="memberResult" parameterType="java.util.Map"  >
         select *
-        from t_member
+        from (select *, ROW_NUMBER() over(order by join_date) AS rowNum from t_member) a
+        where rowNum BETWEEN (#{maxnum}-9) - (#{chapter}-1)*10 and (#{maxnum}) - (#{chapter}-1)*10
         order by join_date DESC
    </select>
+   
+   <!-- 페이지네이션 -->
+	<select id="maxNumSelect" resultType="String" parameterType="java.util.Map">
+       <![CDATA[
+            SELECT COUNT(*)
+         	FROM t_member
+      ]]>
+	</select>
 	
 	<!-- 회원정보 상세 보기 -->
     <select id="memberDetail" resultMap="memberResult" parameterType="String"  >

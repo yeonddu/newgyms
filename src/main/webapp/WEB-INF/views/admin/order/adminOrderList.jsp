@@ -24,7 +24,9 @@
 					<jsp:include page="/WEB-INF/views/admin/common/adminPageSide.jsp" />
 					<div id="contain_right">
 						<p id="mypage_order_title">주문/결제 관리</p>
-
+						<p style="font-size:15px;">총 ${maxnum}건</p>
+						<div style="border-bottom: 1px solid #D8D8D8; margin-top:13px;"></div>
+						
 						<c:choose>
 							<c:when test="${empty adminOrderList}">
 								<table id="order_detail2" align=center>
@@ -157,7 +159,7 @@
 						step="1">
 						<c:set var="section_num" value="${section_num+1}" />
 						<a
-							href="${contextPath}/admin/order/adminOrderList.do?chapter=${section_num}&member_id=${member_id}&order_state=${order_state}&firstDate=${firstDate}&secondDate=${secondDate}&text_box=${text_box}">${section_num }</a>
+							href="${contextPath}/admin/order/adminOrderList.do?chapter=${section_num}&member_id=${member_id}&order_state=${order_state}&firstDate=${firstDate}&secondDate=${secondDate}&text_box=${text_box}">${section_num}</a>
 					</c:forEach>
 					<a
 						href="${contextPath}/admin/order/adminOrderList.do?chapter=${chapter+1}&member_id=${member_id}&order_state=${order_state}&firstDate=${firstDate}&secondDate=${secondDate}&text_box=${text_box}">&#62;</a>

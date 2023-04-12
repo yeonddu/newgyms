@@ -86,11 +86,11 @@
 	</resultMap>
 	
 	<!-- 회원정보에 따른 대표 주문정보 조회 -->
-	<select id="selectOwnerOrderList" resultMap="orderProductResult" parameterType="String">
+	<select id="selectOwnerOrderList" resultMap="orderProductResult" parameterType="java.util.Map">
        <![CDATA[
          SELECT *
-		 FROM t_order
-		 WHERE center_name = #{center_name}
+		 FROM (select *, ROW_NUMBER() over(order by order_seq_num) AS rowNum from t_order where center_name=#{center_name}) a
+		 WHERE rowNum BETWEEN (#{maxnum}-4) - (#{chapter}-1)*5 and (#{maxnum}) - (#{chapter}-1)*5
 		 order by order_seq_num DESC
       ]]>
 	</select>
@@ -99,15 +99,9 @@
 	<select id="maxNumSelect" resultType="String"
 		parameterType="java.util.Map">
        <![CDATA[
-             SELECT COUNT(*)
-         FROM(
-            SELECT 
-               a.order_seq_num,
-              b.product_main_image
-                from t_order a, t_product b
-                 WHERE a.product_id = b.product_id
-             GROUP BY a.order_id
-             )a
+            SELECT COUNT(*)
+         	FROM t_order
+         	WHERE center_name=#{center_name}
       ]]>
 	</select>
 

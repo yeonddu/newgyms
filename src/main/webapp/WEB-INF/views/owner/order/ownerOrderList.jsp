@@ -14,8 +14,7 @@
 </head>
 <body>
 	<form action="${contextPath}/mypage/ownerOrderList.do" method="get">
-		<input type="hidden" name="member_id" value="${member_id}"> <input
-			type="hidden" name="chapter" value="1">
+		<input type="hidden" name="chapter" value="1">
 		<div class="con-min-width">
 			<div class="con">
 				<div id="contain">
@@ -23,6 +22,8 @@
 					<jsp:include page="/WEB-INF/views/owner/main/ownerPageSide.jsp" />
 					<div id="contain_right">
 						<p id="mypage_order_title">주문/결제 관리</p>
+						<p style="font-size:15px;">총 ${maxnum}건</p>
+						<div style="border-bottom: 1px solid #D8D8D8; margin-top:13px;"></div>
 
 						<c:choose>
 							<c:when test="${empty ownerOrderList}">
@@ -111,6 +112,19 @@
 							</c:otherwise>
 						</c:choose>
 					</div>
+				</div>
+				<div style="text-align: center; margin-left:240px;">
+					<a
+						href="${contextPath}/owner/order/ownerOrderList.do?chapter=${chapter-1}&center_name=${memberInfo.center_name}">&#60;</a>
+					<c:forEach var="page" begin="1" end="${Math.ceil(maxnum/5)}"
+						step="1">
+						<c:set var="section_num" value="${section_num+1}" />
+						<a
+							href="${contextPath}/owner/order/ownerOrderList.do?chapter=${section_num}&center_name=${memberInfo.center_name}">${section_num}</a>
+					</c:forEach>
+					<a
+						href="${contextPath}/owner/order/ownerOrderList.do?chapter=${chapter+1}&member_id=${member_id}&center_name=${memberInfo.center_name}">&#62;</a>
+
 				</div>
 			</div>
 		</div>

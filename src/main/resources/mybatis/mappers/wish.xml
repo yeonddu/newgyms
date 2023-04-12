@@ -26,7 +26,7 @@
 		<result property="product_sales_price" column="product_sales_price" />
 		<result property="product_point" column="product_point" />
 		<result property="product_entered_date" column="product_entered_date" />		
-		<result property="sale_yn" column="sale_yn" />
+		<result property="product_state" column="product_state" />
 		<result property="product_intro" column="product_intro" />
 		<result property="product_refund_1" column="product_refund_1" />
 		<result property="product_refund_2" column="product_refund_2" />

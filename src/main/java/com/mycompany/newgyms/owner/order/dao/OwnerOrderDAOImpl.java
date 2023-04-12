@@ -18,8 +18,8 @@ public class OwnerOrderDAOImpl implements OwnerOrderDAO {
 	
 	// 결제내역 조회
 	@Override
-	public List<OrderVO> selectOwnerOrderList(String center_name) throws DataAccessException {
-		List<OrderVO> orderList = (List) sqlSession.selectList("mapper.owner_order.selectOwnerOrderList", center_name);
+	public List<OrderVO> selectOwnerOrderList(Map condMap) throws DataAccessException {
+		List<OrderVO> orderList = (List) sqlSession.selectList("mapper.owner_order.selectOwnerOrderList", condMap);
 		return orderList;
 	}
 	

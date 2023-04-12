@@ -14,6 +14,7 @@
 </head>
 <body>
 	<form action="${contextPath}/admin/member/adminMemberList.do" method="get">
+		<input type="hidden" name="chapter" value="1">
 		<div class="con-min-width">
 			<div class="con">
 				<div id="contain">
@@ -21,7 +22,7 @@
 					<jsp:include page="/WEB-INF/views/admin/common/adminPageSide.jsp" />
 					<div id="contain_right">
 						<p id="admin_member_title">회원 관리</p>
-						<p style="font-size:15px;">총 <span id="gray_color">${fn:length(adminMemberList)}건</span></p>
+						<p style="font-size:15px;">총 ${maxnum}건</p>
 						<div style="border-bottom: 1px solid #D8D8D8; margin-top:13px;"></div>
 
 						<c:choose>
@@ -94,6 +95,17 @@
 							</c:otherwise>
 						</c:choose>
 					</div>
+				</div>
+				<div style="text-align: center; margin-left:240px;">
+					<a
+						href="${contextPath}/admin/product/adminProductList.do?chapter=${chapter-1}"> &#60;</a>
+					<c:forEach var="page" begin="1" end="${Math.ceil(maxnum/10)}" step="1">
+						<c:set var="section_num" value="${section_num+1}" />
+						<a href="${contextPath}/admin/member/adminMemberList.do?chapter=${section_num}">${section_num}</a>
+					</c:forEach>
+					<a
+						href="${contextPath}/admin/member/adminMemberList.do?chapter=${chapter+1}"> &#62;</a>
+
 				</div>
 			</div>
 		</div>

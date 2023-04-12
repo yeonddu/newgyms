@@ -18,10 +18,10 @@
          <div class="adminpage_hr"></div>
          
          <li>
-            <a href="${contextPath}/admin/member/adminMemberList.do">회원 관리</a>
+            <a href="${contextPath}/admin/member/adminMemberList.do?chapter=1">회원 관리</a>
          </li>
          <li>
-            <a href="#">상품 관리</a>
+            <a href="${contextPath}/admin/product/adminProductList.do?chapter=1">상품 관리</a>
          </li>
          <li>
             <a href="${contextPath}/admin/order/adminOrderList.do?chapter=1&order_state=&firstDate=&secondDate=&text_box=">주문/결제 관리</a>

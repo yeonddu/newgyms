@@ -16,16 +16,23 @@ public class OwnerProductDAOImpl implements OwnerProductDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	
 	// 惑前 格废
 	@Override
-	public List selectOwnerProductList(String member_id) throws DataAccessException {
-		List ownerProductList = (List) sqlSession.selectList("mapper.owner_product.selectOwnerProductList", member_id);
+	public List selectOwnerProductList(Map condMap) throws DataAccessException {
+		List ownerProductList = (List) sqlSession.selectList("mapper.owner_product.selectOwnerProductList", condMap);
 		return ownerProductList;
 	}
 	
+	@Override
+	public String maxNumSelect(Map condMap) throws DataAccessException {
+		String result = sqlSession.selectOne("mapper.owner_product.maxNumSelect", condMap);
+		return result;
+	}
+	
 	private int selectProductID() throws DataAccessException{
-		int goods_id = sqlSession.selectOne("mapper.owner_product.selectProductID");
-		return goods_id + 1;
+		int product_id = sqlSession.selectOne("mapper.owner_product.selectProductID");
+		return product_id;
 		
 	}
 	
@@ -35,14 +42,17 @@ public class OwnerProductDAOImpl implements OwnerProductDAO {
 		newProductMap.put("product_id", product_id);
 		sqlSession.insert("mapper.owner_product.insertNewProduct",newProductMap);
 		
+		/*可记*/
+		
 		return product_id;
 	}
 	
 	@Override
-	public void insertProductOption(List optionList)  throws DataAccessException {
+	public void insertProductOption(List<ProductOptVO> optionList)  throws DataAccessException {
+		
 		for(int i=0; i<optionList.size();i++){
-			ProductOptVO productOptVO=(ProductOptVO)optionList.get(i);
-			sqlSession.insert("mapper.owner_product.insertProductOption",productOptVO);
+			ProductOptVO productOptVO =(ProductOptVO)optionList.get(i);
+			sqlSession.insert("mapper.owner_product.insertNewProductOption",productOptVO);
 		}
 	}
 	
@@ -54,4 +64,11 @@ public class OwnerProductDAOImpl implements OwnerProductDAO {
 		}
 	}
 		
+	//惑前 昏力
+	@Override
+	public void deleteProduct(int product_id) throws DataAccessException {
+		sqlSession.delete("mapper.owner_product.deleteProduct", product_id);
+	}
+	
+
 }

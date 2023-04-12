@@ -10,7 +10,7 @@ import com.mycompany.newgyms.order.vo.OrderVO;
 
 public interface OwnerOrderDAO {
 	// 결제내역 조회
-	public List<OrderVO> selectOwnerOrderList(String center_name) throws DataAccessException;
+	public List<OrderVO> selectOwnerOrderList(Map condMap) throws DataAccessException;
 	public OrderVO selectOwnerOrderDetail(int order_seq_num) throws DataAccessException;
 	public RefundVO selectOwnerOrderCancel(int order_seq_num) throws DataAccessException;
 	public void refundOrder(int order_seq_num) throws DataAccessException;

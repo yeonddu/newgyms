@@ -48,8 +48,7 @@
 </head>
 <body>
 	<form action="${contextPath}/owner/ownerProductList.do" method="get">
-		<input type="hidden" name="member_id" value="${member_id}"> <input
-			type="hidden" name="chapter" value="1">
+		<input type="hidden" name="chapter" value="1">
 		<div class="con-min-width">
 			<div class="con">
 				<div id="contain">
@@ -57,6 +56,8 @@
 					<jsp:include page="/WEB-INF/views/owner/main/ownerPageSide.jsp" />
 					<div id="contain_right">
 						<p id="mypage_order_title">상품 관리</p>
+						<p style="font-size:15px;">총 ${maxnum}건</p>
+						<div style="border-bottom: 1px solid #D8D8D8; margin-top:13px;"></div>
 
 						<c:choose>
 							<c:when test="${empty ownerProductList}">
@@ -124,25 +125,13 @@
 														
 												<!-- 상품 상태 -->
 												<td>
-													<c:choose>
-														<c:when test="${list.sale_yn == '0'}">
-															승인대기
-														</c:when>
-														<c:when test="${list.sale_yn == '1'}">
-															판매중
-														</c:when>
-														<c:when test="${list.sale_yn == '2'}">
-															판매중지
-														</c:when>
-													</c:choose>
+													${list.product_state}
 												</td>
 														
 												<!-- 수정 및 삭제 버튼 -->
 												<td>
-													<input type="button" id="owner_modify_btn" value="수정하기"
-														onclick="fn_modify_product('${contextPath}/owner/product/adminProductModifyForm.do', ${item.product_id})">
-													<input type="button" id="owner_delete_btn" value="삭제하기"
-														onClick="fn_remove_product('${contextPath}/owner/product/removeProduct.do', ${item.product_id})">
+													<a id="owner_modify_btn" href="${contextPath}/owner/product/ProductModifyForm.do?product_id=${list.product_id}">삭제하기</a>
+													<a id="owner_delete_btn" href="${contextPath}/owner/product/removeProduct.do?product_id=${list.product_id}">삭제하기</a>
 												</td>
 											</tr>
 										</tbody>
@@ -155,6 +144,17 @@
 								<a href="${contextPath}/owner/product/addProductForm.do" style="line-height: 32px;"> <span id="btn_1">상품등록</span></a>
 						</div>
 					</div>
+				</div>
+				<div style="text-align: center; margin-left:240px;">
+					<a
+						href="${contextPath}/owner/product/ownerProductList.do?member_id=${memberInfo.member_id}&chapter=${chapter-1}"> &#60;</a>
+					<c:forEach var="page" begin="1" end="${Math.ceil(maxnum/5)}" step="1">
+						<c:set var="section_num" value="${section_num+1}" />
+						<a href="${contextPath}/owner/product/ownerProductList.do?member_id=${memberInfo.member_id}&chapter=${section_num}">${section_num}</a>
+					</c:forEach>
+					<a
+						href="${contextPath}/owner/product/ownerProductList.do?member_id=${memberInfo.member_id}&chapter=${chapter+1}"> &#62;</a>
+
 				</div>
 			</div>
 		</div>

@@ -18,13 +18,13 @@
          <div class="ownerpage_hr"></div>
          
          <li>
-            <a href="#">사업장 관리</a>
+            <a href="${contextPath}/owner/ownerPageIntroModify.do?member_id=${membefInfo.member_id}">사업장 관리</a>
          </li>
          <li>
-            <a href="${contextPath}/owner/product/ownerProductList.do?member_id=${memberInfo.member_id}">상품 관리</a>
+            <a href="${contextPath}/owner/product/ownerProductList.do?member_id=${memberInfo.member_id}&chapter=1">상품 관리</a>
          </li>
          <li>
-            <a href="${contextPath}/owner/order/ownerOrderList.do?center_name=${memberInfo.center_name}">주문/결제 관리</a>
+            <a href="${contextPath}/owner/order/ownerOrderList.do?center_name=${memberInfo.center_name}&chapter=1">주문/결제 관리</a>
          </li>
          <li>
             <a href="#">이용후기 관리</a>
@@ -36,7 +36,7 @@
             <a href="${contextPath}/owner/event/ownerEventList.do?member_id=${memberInfo.member_id}">이벤트 관리</a>
          </li>
          <li>
-            <a href="#">회원정보 수정</a>
+            <a href="${contextPath}/owner/main/ownerPageModify.do">회원정보 수정</a>
          </li>
       </ul>
    </div>

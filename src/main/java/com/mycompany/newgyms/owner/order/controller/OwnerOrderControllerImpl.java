@@ -1,6 +1,8 @@
 package com.mycompany.newgyms.owner.order.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,23 +30,32 @@ public class OwnerOrderControllerImpl implements OwnerOrderController {
 	@Autowired
 	private RefundVO refundVO;
 
-	// 결제내역 조회
+	// 사업자 주문/결제 목록
 	@Override
 	@RequestMapping(value = "/ownerOrderList.do", method = RequestMethod.GET)
 	public ModelAndView ownerOrderList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		String center_name = request.getParameter("center_name");
-
-		List<OrderVO> ownerOrderList = ownerOrderService.listOwnerOrders(center_name);
+		String chapter = request.getParameter("chapter");
+		
+		Map<String, Object> condMap = new HashMap<String, Object>();
+		condMap.put("center_name", center_name);
+		String maxnum = ownerOrderService.maxNumSelect(condMap);
+		condMap.put("chapter", chapter);
+		condMap.put("maxnum", maxnum);
+		
+		List<OrderVO> ownerOrderList = ownerOrderService.listOwnerOrders(condMap);
 		System.out.println(ownerOrderList);
-
+		
+		mav.addObject("chapter", chapter);
+		mav.addObject("maxnum", maxnum);
 		mav.addObject("ownerOrderList", ownerOrderList);
 		mav.setViewName("/owner/order/ownerOrderList");
 
 		return mav;
 	}
 
-	// 결제내역 상세 조회
+	// 사업자 주문/결제 상세보기
 	@Override
 	@RequestMapping(value = "/ownerOrderDetail.do", method = RequestMethod.GET)
 	public ModelAndView ownerOrderDetail(@RequestParam("order_seq_num") int order_seq_num, HttpServletRequest request,
@@ -54,9 +65,7 @@ public class OwnerOrderControllerImpl implements OwnerOrderController {
 
 		HttpSession session = request.getSession();
 		MemberVO member = (MemberVO) session.getAttribute("memberInfo");
-		// 상품정보 받아오기
 		OrderVO ownerOrderDetail = ownerOrderService.ownerOrderDetail(order_seq_num);
-		// 환불정보 받아오기
 		RefundVO ownerRefundDetail = ownerOrderService.ownerOrderCancel(order_seq_num);
 
 		mav.addObject("member", member);
@@ -66,16 +75,14 @@ public class OwnerOrderControllerImpl implements OwnerOrderController {
 		return mav;
 	}
 
-	// 구매자가 결제취소한 신청 보기 페이지
+	// 사업자 결제취소 페이지
 	@Override
 	@RequestMapping(value = "/ownerOrderCancel.do", method = RequestMethod.POST)
 	public ModelAndView ownerOrderCancel(@RequestParam("order_seq_num") int order_seq_num, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
 
-		// 상품정보 받아오기
 		OrderVO ownerOrderDetail = ownerOrderService.ownerOrderDetail(order_seq_num);
-		// 환불정보 받아오기
 		RefundVO ownerRefundDetail = ownerOrderService.ownerOrderCancel(order_seq_num);
 
 		mav.addObject("ownerOrderDetail", ownerOrderDetail);
@@ -84,7 +91,7 @@ public class OwnerOrderControllerImpl implements OwnerOrderController {
 		return mav;
 	}
 
-	// 환불승인
+	// 사업자 환불승인
 	@Override
 	@RequestMapping(value = "/ownerOrderRefund.do", method = RequestMethod.POST)
 	public ModelAndView ownerOrderRefund(@RequestParam("order_seq_num") int order_seq_num, HttpServletRequest request,

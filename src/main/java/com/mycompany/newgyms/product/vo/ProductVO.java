@@ -20,7 +20,7 @@ public class ProductVO {
 	private String product_intro;
 	private String product_refund_1;
 	private String product_refund_2;
-	private int sale_yn;
+	private String product_state;
 	
 	public int getProduct_id() {
 		return product_id;
@@ -127,11 +127,11 @@ public class ProductVO {
 	public void setProduct_refund_2(String product_refund_2) {
 		this.product_refund_2 = product_refund_2;
 	}
-	public int getSale_yn() {
-		return sale_yn;
+	public String getProduct_state() {
+		return product_state;
 	}
-	public void setSale_yn(int sale_yn) {
-		this.sale_yn = sale_yn;
+	public void setProduct_state(String product_state) {
+		this.product_state = product_state;
 	}
 	
 		

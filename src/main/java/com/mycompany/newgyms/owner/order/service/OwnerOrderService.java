@@ -9,7 +9,7 @@ import com.mycompany.newgyms.order.vo.OrderVO;
 public interface OwnerOrderService {
 
 	// 결제내역 조회
-	public List<OrderVO> listOwnerOrders(String center_name) throws Exception;
+	public List<OrderVO> listOwnerOrders(Map condMap) throws Exception;
 	public OrderVO ownerOrderDetail(int order_seq_num) throws Exception;
 	public RefundVO ownerOrderCancel(int order_seq_num) throws Exception;
 	public void ownerOrderRefund(int order_seq_num) throws Exception;

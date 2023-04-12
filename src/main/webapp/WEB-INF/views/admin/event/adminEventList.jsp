@@ -56,7 +56,7 @@ function fn_remove_event(url, event_no) {
 					
 					<div id="contain_right">
 						<p id="mypage_order_title">이벤트 관리</p>
-						<p style="font-size:15px;">총 <span id="gray_color">${fn:length(adminEventList)}건</span></p>
+						<p style="font-size:15px;">총 ${fn:length(adminEventList)}건</p>
 						<div style="border-bottom: 1px solid #D8D8D8; margin-top:13px;"></div>
 						
 						<c:choose>

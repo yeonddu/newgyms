@@ -20,8 +20,8 @@ public class OwnerOrderServiceImpl implements OwnerOrderService {
 	
 	// 결제내역 조회
 	@Override
-	public List<OrderVO> listOwnerOrders(String center_name) throws Exception {
-		return ownerOrderDAO.selectOwnerOrderList(center_name);
+	public List<OrderVO> listOwnerOrders(Map condMap) throws Exception {
+		return ownerOrderDAO.selectOwnerOrderList(condMap);
 	}
 	
 	@Override

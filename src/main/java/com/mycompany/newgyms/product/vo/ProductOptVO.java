@@ -1,10 +1,14 @@
 package com.mycompany.newgyms.product.vo;
 
+import java.util.List;
+
 public class ProductOptVO {
 	private int option_id;
 	private int product_id;
 	private String product_option_name;
 	private int product_option_price;
+	
+	private List<ProductOptVO> optionList;
 	
 	public int getOption_id() {
 		return option_id;
@@ -30,6 +34,11 @@ public class ProductOptVO {
 	public void setProduct_option_price(int product_option_price) {
 		this.product_option_price = product_option_price;
 	}
-
+	public List<ProductOptVO> getOptionList() {
+		return optionList;
+	}
+	public void setOptionList(List<ProductOptVO> optionList) {
+		this.optionList = optionList;
+	}
 	
 }
