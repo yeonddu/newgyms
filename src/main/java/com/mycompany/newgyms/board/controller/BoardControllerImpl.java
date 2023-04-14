@@ -9,7 +9,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mycompany.newgyms.board.service.BoardService;
 import com.mycompany.newgyms.board.vo.ArticleVO;
-import com.mycompany.newgyms.member.vo.MemberVO;
+import com.mycompany.newgyms.board.vo.ReplyVO;
 
 @Controller("boardController")
 @RequestMapping(value = "/board")
@@ -38,6 +37,8 @@ public class BoardControllerImpl implements BoardController {
    private BoardService boardService;
    @Autowired
    private ArticleVO articleVO;
+   @Autowired
+   private ReplyVO replyVO;
    
    // 자유게시판 목록
    @Override
@@ -135,13 +136,49 @@ public class BoardControllerImpl implements BoardController {
    @RequestMapping(value="/viewArticle.do", method=RequestMethod.GET)
    public ModelAndView viewArticle(@RequestParam("article_no") int article_no, HttpServletRequest request, HttpServletResponse response) throws Exception {
       String viewName = (String)request.getAttribute("viewName");
+      
       articleVO = boardService.viewArticle(article_no);
+      List<ReplyVO> replyList = boardService.replyList(article_no);
+      
       ModelAndView mav = new ModelAndView();
       mav.setViewName(viewName);
+      mav.addObject("replyList", replyList);
       mav.addObject("article", articleVO);
       return mav;
    }
    
+    // 댓글 작성
+    @Override
+    @RequestMapping(value="/addReply.do", method = RequestMethod.POST)
+	public @ResponseBody String addReply(@RequestParam("article_no") int article_no, @RequestParam("reply_id") String reply_id, @RequestParam("reply_content") String reply_content, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+    	Map<String, Object> replyMap = new HashMap<String, Object>();
+    	replyMap.put("article_no", article_no);
+    	replyMap.put("member_id", reply_id);
+    	replyMap.put("reply_content", reply_content);
+    	
+    	String result = boardService.addReply(replyMap);
+    	
+    	if (result == "success" || result.equals("success")){
+			return "success";
+		} else{
+			return "false";
+		}
+    }
+
+    // 댓글 삭제
+    @Override
+    @RequestMapping(value="/removeReply.do", method = RequestMethod.POST)
+	public @ResponseBody String removeReply(@RequestParam("reply_no") int reply_no, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	String result = boardService.removeReply(reply_no);
+    	
+    	if (result == "success" || result.equals("success")){
+			return "success";
+		} else{
+			return "false";
+		}
+    }
    
    // 자유게시판 글 수정 페이지로 이동하기
    @Override

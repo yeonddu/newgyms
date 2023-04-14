@@ -93,7 +93,6 @@
 	  			      #{product_sales_price},
 	  			      #{product_point},
 	  			      #{product_program_details},
-	  			      
 	  			      #{product_price_details},
 	  			      #{product_facility_details },
 	  			      #{product_location_details },
@@ -130,6 +129,26 @@
 				   								 #{fileType})
 		]]>
 	</insert> 
+	
+	
+	<update id="updateProduct" parameterType="java.util.Map">
+		<![CDATA[
+			update t_product
+			set   product_sort=#{product_sort},
+  			      product_name=#{product_name},
+  			      product_main_image=#{product_main_image },
+  			      product_price=#{product_price},
+  			      product_sales_price=#{product_sales_price},
+  			      product_point=#{product_point},
+  			      product_program_details=#{product_program_details},
+  			      product_price_details=#{product_price_details},
+  			      product_facility_details=#{product_facility_details },
+  			      product_location_details=#{product_location_details },
+  			      product_refund_1=#{product_refund_1 },
+  			      product_refund_2=#{product_refund_2 }
+			where product_id = #{product_id}
+		]]>
+	</update>
 	
 		
 	<delete id="deleteProduct" parameterType="int">

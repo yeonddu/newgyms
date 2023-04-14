@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mycompany.newgyms.event.dao.EventDAO;
 import com.mycompany.newgyms.event.vo.EventVO;
+import com.mycompany.newgyms.product.vo.ProductVO;
 
 @Service("eventService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -28,6 +29,12 @@ public class EventServiceImpl implements EventService {
 	public List<EventVO> sortEvent(String sort) throws Exception {
 		List<EventVO> eventsList = eventDAO.selectSortEvent(sort);
 		return eventsList;
+	}
+	
+	// 상품 목록 가져오기
+	public List<ProductVO> productList(String member_id) throws Exception {
+		List<ProductVO> productList = eventDAO.selectProductList(member_id);
+		return productList;
 	}
 
 	

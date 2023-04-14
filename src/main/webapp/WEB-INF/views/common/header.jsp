@@ -62,7 +62,7 @@
 									<li><a href="${contextPath}/mypage/myOrderList.do?member_id=${memberInfo.member_id}&chapter=1&order_state=&firstDate=&secondDate=&text_box="><img style="width: 33px; height: 33px;" src="${contextPath}/resources/image/person.png" alt="회원"></a></li>
 								</c:when>
 								<c:when test="${isLogOn==true and memberInfo.join_type =='102' and memberInfo.member_id != 'admin'}">
-									<li><a href="${contextPath}/owner/order/ownerOrderList.do?center_name=${memberInfo.center_name}"><img style="width: 33px; height: 33px;" src="${contextPath}/resources/image/person.png" alt="사업자"></a></li>
+									<li><a href="${contextPath}/owner/main/ownerPageIntroModifyForm.do?member_id=${memberInfo.member_id}"><img style="width: 33px; height: 33px;" src="${contextPath}/resources/image/person.png" alt="사업자"></a></li>
 								</c:when>
 								<c:when test="${isLogOn==true and memberInfo.member_id =='admin'}">
 									<li><a href="${contextPath}/admin/member/adminMemberList.do"><img style="width: 33px; height: 33px;" src="${contextPath}/resources/image/person.png" alt="관리자"></a></li>

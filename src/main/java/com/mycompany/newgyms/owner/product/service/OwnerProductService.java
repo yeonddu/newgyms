@@ -12,5 +12,6 @@ public interface OwnerProductService {
 
 	public int addNewProduct(Map newProductMap) throws Exception;
 	public void addNewProductOption(List<ProductOptVO> optionList) throws Exception;
+	public void modifyProduct(Map productMap) throws Exception;
 	public void removeProduct(int product_id) throws Exception;
 }

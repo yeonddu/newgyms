@@ -24,6 +24,27 @@
 		<result property="event_image" column="event_image" />
 	</resultMap>
 	
+	<resultMap id="productResult" type="ProductVO">
+		<result property="product_id" column="product_id" />
+		<result property="product_sort" column="product_sort" />
+		<result property="member_id" column="member_id" />
+		<result property="center_name" column="center_name" />
+		<result property="product_name" column="product_name" />
+		<result property="product_main_image" column="product_main_image" />
+		<result property="product_program_details" column="product_program_details" />
+		<result property="product_price_details" column="product_price_details" />
+		<result property="product_facility_details" column="product_facility_details" />
+		<result property="product_location_details" column="product_location_details" />		
+		<result property="product_price" column="product_price" />
+		<result property="product_sales_price" column="product_sales_price" />
+		<result property="product_point" column="product_point" />
+		<result property="product_entered_date" column="product_entered_date" />		
+		<result property="sale_yn" column="sale_yn" />
+		<result property="product_intro" column="product_intro" />
+		<result property="product_refund_1" column="product_refund_1" />
+		<result property="product_refund_2" column="product_refund_2" />
+	</resultMap>
+	
 	<select id="selectAllEventsList" resultMap="eventsResult">
 		<![CDATA[
 			select *
@@ -47,6 +68,14 @@
 			from t_event
 			where DATE_FORMAT(CURDATE(), '%Y-%m-%d') >= event_end_date
 			order by event_write_date DESC
+		]]>
+	</select>
+	
+	<select id="selectProductList" resultMap="productResult" parameterType="String">
+		<![CDATA[
+			select *
+			from t_product
+			where member_id=#{member_id}
 		]]>
 	</select>
 	

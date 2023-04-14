@@ -8,7 +8,11 @@
 
 <c:set var="questionList"  value="${questionList }"  />
 <c:set var="answerList"  value="${answerList }"  />
-
+ <%
+   //치환 변수 선언합니다.
+    pageContext.setAttribute("crcn" , "\n"); //Ajax로 변경 시 개행 문자 
+    pageContext.setAttribute("br", "<br/>"); //br 태그
+%>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -104,19 +108,12 @@ $(document).ready(function() {
 								</div>
 				            </c:if>
 			            </td>
-						<c:choose>
-							<c:when test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
-					            <td class="toggle_show" style="cursor:pointer; ">
+			            <td class="toggle_show" style="cursor:pointer; ">
+							<c:if test="${question.qna_secret==1}"> <!-- 비밀글인 경우 -->
 					            	<img style="width:24px;height:24px;display:inline;text-align: center"src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2012/png/iconmonstr-lock-4.png&r=0&g=0&b=0" alt="비밀글">
-					            	${question.qna_title}
-					            </td>
-							 </c:when>
-							<c:otherwise> <!-- 공개글인 경우 -->
-					            <td class="toggle_show" style="cursor:pointer;">
+							 </c:if>
 					            	${question.qna_title}                  
-					            </td>
-							</c:otherwise>
-					   </c:choose>
+			            </td>
 						<td>
 			              ${question.qna_answer_state }
 			            </td>
@@ -144,12 +141,12 @@ $(document).ready(function() {
 				          </td>
 						    <!-- QnA 질문 내용, 답변 제목, 내용 -->     
 				            <td colspan="5" class="qna_contents"  >
-				            	<p><span class="Q_mark">Q</span> ${question.qna_contents}</p>  <!-- 질문 내용 -->
+				            	<p><span class="Q_mark">Q</span> ${fn:replace(question.qna_contents ,crcn,br)} </p>  <!-- 질문 내용 -->
 				            	
 				            <c:forEach var="answer" items="${answerList }" > 
 					            	<c:if test="${question.qna_no == answer.qna_parent_no }"> 
 						            	<p><span class="A_mark">A</span> ${answer.qna_title} </p> <!-- 답글 제목 -->
-						            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
+						            	<p style="padding-left:40px;">${fn:replace(answer.qna_contents ,crcn,br)} <p> <!-- 답글 내용 -->
 					            	</c:if>
 				            </c:forEach>                     
 				            	

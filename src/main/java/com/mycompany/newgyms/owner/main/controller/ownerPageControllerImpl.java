@@ -1,0 +1,165 @@
+package com.mycompany.newgyms.owner.main.controller;
+
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.mycompany.newgyms.member.vo.MemberVO;
+import com.mycompany.newgyms.owner.main.service.ownerPageService;
+import com.mycompany.newgyms.owner.main.vo.OwnerPageVO;
+import com.mycompany.newgyms.product.service.ProductService;
+import com.mycompany.newgyms.product.vo.ProductVO;
+
+@Controller("ownerPageController")
+@RequestMapping(value = "/owner/main")
+public class ownerPageControllerImpl implements ownerPageController {
+	  @Autowired
+	  private MemberVO memberVO;
+	  @Autowired
+	  private ownerPageService ownerPageService;
+	  @Autowired
+	  private ProductService productService;
+	  
+	  /* �궗�뾽�옣 �냼媛� �럹�씠吏�*/
+	  @Override
+	  @RequestMapping(value = "/ownerPageIntroView.do", method = RequestMethod.GET)
+	  public ModelAndView ownerPageIntroView(@RequestParam("member_id") String member_id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		  ModelAndView mav = new ModelAndView(); 
+		  
+		  Map sortMap = new HashMap();
+		  sortMap.put("product_sort", "전체보기");
+		  sortMap.put("address", "대전"); 
+		  
+		  List<ProductVO> productList=productService.productList(sortMap);
+		  mav.addObject("productList", productList);
+		  
+		  OwnerPageVO ownerPageVO = ownerPageService.ownerPageIntroView(member_id);
+		  mav.addObject("ownerPageVO", ownerPageVO);
+		  
+		  MemberVO memberVO = ownerPageService.ownerPageIntroInfo(member_id);
+		  mav.addObject("memberVO", memberVO);
+				  
+		  //MemberVO memberVO = memberService.ownerDetail(member_id);
+		  //mav.addObject("memberVO", memberVO);
+		  
+		  mav.setViewName("/owner/main/ownerPageIntroView");
+		  
+		  return mav; 
+	  }
+	  
+	  /* �궗�뾽�옣 愿�由� �럹�씠吏� */
+	  @Override
+	  @RequestMapping(value = "/ownerPageIntroModifyForm.do", method = RequestMethod.GET)
+	  public ModelAndView ownerPageIntroModifyForm(@RequestParam("member_id") String member_id,HttpServletRequest request, HttpServletResponse response) throws Exception {
+		  response.setContentType("text/html; charset=UTF-8");
+		  request.setCharacterEncoding("utf-8");
+		  ModelAndView mav = new ModelAndView(); 
+		  
+		  OwnerPageVO ownerPageVO = ownerPageService.ownerPageIntroView(member_id);
+		  mav.addObject("ownerPageVO", ownerPageVO);
+		  
+		  mav.setViewName("/owner/main/ownerPageIntroModifyForm");
+		  return mav;
+	  }
+	  
+	  /* �궗�뾽�옣 愿�由� �닔�젙 */
+	  @Override
+	  @RequestMapping(value = "/ownerPageIntroModify.do", method = RequestMethod.POST)
+	  public @ResponseBody String ownerPageIntroModify(@RequestParam Map<String, String> modifyMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		  String result = ownerPageService.ownerPageIntroModify(modifyMap);
+		  
+		  response.sendRedirect("ownerPageIntroModifyForm.jsp");
+		  //response.setHeader("Refresh", "0; URL=ownerPageIntroModifyForm.jsp"); 
+		  return result;
+	  }
+	  
+	  
+	  /* �궗�뾽�옄�젙蹂� �닔�젙 鍮꾨�踰덊샇 �솗�씤 �럹�씠吏� */
+	  @Override
+	  @RequestMapping(value = "/ownerPageModify.do", method = RequestMethod.GET)
+	  public ModelAndView ownerPageInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		  ModelAndView mav = new ModelAndView(); 
+		  mav.setViewName("/owner/main/ownerPageModify");
+	  
+		  return mav; 
+	  }
+	  
+	   @Override
+	   @RequestMapping(value = "/ownerDetailInfo.do", method = RequestMethod.POST)
+	   public ModelAndView ownerDetailInfo(@RequestParam Map<String, String> ownerpageMap, 
+			   HttpServletRequest request, HttpServletResponse response) throws Exception {
+			response.setContentType("text/html; charset=UTF-8");
+			request.setCharacterEncoding("utf-8");
+			ModelAndView mav = new ModelAndView();
+			memberVO = ownerPageService.ownerPageDetail(ownerpageMap);
+	
+			if (memberVO != null && memberVO.getMember_id() != null) {
+				HttpSession session = request.getSession();
+				session = request.getSession();
+				session.setAttribute("memberInfo", memberVO);
+				mav.setViewName("/owner/main/ownerDetailInfo");
+	
+			} else {
+				PrintWriter out = response.getWriter();
+				out.println("<script>alert('鍮꾨�踰덊샇媛� ���졇�뒿�땲�떎. �떎�떆�엯�젰�빐二쇱꽭�슂.');</script>");
+				out.flush();
+				mav.setViewName("/owner/main/ownerPageModify");
+			}
+	
+			return mav;
+		}
+	   
+	   @Override
+		@RequestMapping(value = "modifyMyInfo.do", method = RequestMethod.POST)
+		public ModelAndView modifyMyInfo(@RequestParam Map<String, String> modifyMap, HttpServletRequest request,
+				HttpServletResponse response) throws Exception {
+			response.setContentType("text/html; charset=UTF-8");
+			request.setCharacterEncoding("utf-8");
+			ModelAndView mav = new ModelAndView();
+
+			memberVO = ownerPageService.modifyMyInfo(modifyMap);
+			System.out.println(memberVO);
+
+			HttpSession session = request.getSession();
+			PrintWriter out = response.getWriter();
+			session.setAttribute("memberInfo", memberVO);
+			out.println("<script>alert('�쉶�썝�젙蹂닿� �닔�젙�릺�뿀�뒿�땲�떎. :)');</script>");
+			out.flush();
+
+			mav.setViewName("/owner/main/ownerPageModify");
+
+			return mav;
+		}
+	   
+	   @Override
+		@RequestMapping(value = "/deleteMemberForm.do", method = RequestMethod.POST)
+		public ModelAndView deleteMemberForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+			ModelAndView mav = new ModelAndView();
+			mav.setViewName("/owner/main/deleteMemberForm");
+			return mav;
+		}
+	   
+	   @Override
+		@RequestMapping(value = "/deleteMember.do", method = RequestMethod.POST)
+		public ModelAndView deleteMember(@RequestParam Map<String, String> deleteMap, HttpServletRequest request,
+				HttpServletResponse response) throws Exception {
+			ModelAndView mav = new ModelAndView();
+			ownerPageService.deleteMember(deleteMap);
+
+			mav.setViewName("redirect:/member/logout.do");
+			return mav;
+		}
+}

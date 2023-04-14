@@ -89,9 +89,13 @@ public class EventControllerImpl implements EventController {
 	// 이벤트 글 쓰기 페이지 이동
 	@Override
 	@RequestMapping(value = "/eventForm.do")
-	public ModelAndView eventForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView eventForm(@RequestParam("member_id") String member_id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
+		
+		List<ProductVO> productList = eventService.productList(member_id);
+		
+		mav.addObject("productList", productList);
 		return mav;
 	}
 

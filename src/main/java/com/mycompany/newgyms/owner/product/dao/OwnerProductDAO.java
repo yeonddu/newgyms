@@ -14,5 +14,8 @@ public interface OwnerProductDAO {
 	public int insertNewProduct(Map newProductMap) throws DataAccessException;
 	public void insertProductOption(List<ProductOptVO> optionList)  throws DataAccessException;
 	public void insertProductImage(List fileList)  throws DataAccessException;
+	
+	public void updateProduct(Map productMap) throws DataAccessException;
+	
 	public void deleteProduct(int product_id) throws DataAccessException;
 }

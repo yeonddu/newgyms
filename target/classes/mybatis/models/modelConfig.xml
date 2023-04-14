@@ -8,6 +8,8 @@
 	
 	<typeAlias alias="imageVO" type="com.mycompany.newgyms.board.vo.ImageVO"/>
 	
+	<typeAlias alias="replyVO" type="com.mycompany.newgyms.board.vo.ReplyVO"/>
+	
 	<typeAlias alias="cartVO" type="com.mycompany.newgyms.cart.vo.CartVO"/>
 	
 	<typeAlias alias="eventVO" type="com.mycompany.newgyms.event.vo.EventVO"/>
@@ -39,6 +41,8 @@
 	<typeAlias alias="reviewImageVO" type="com.mycompany.newgyms.review.vo.ReviewImageVO"/>
 	
 	<typeAlias alias="wishVO" type="com.mycompany.newgyms.wish.vo.WishVO"/>
+	
+	<typeAlias type="com.mycompany.newgyms.owner.main.vo.OwnerPageVO" alias="ownerPageVO"/>
 </typeAliases>
 </configuration>
 

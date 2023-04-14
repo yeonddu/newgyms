@@ -2,6 +2,7 @@
 	pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <!DOCTYPE html >
@@ -67,6 +68,73 @@
 			reader.readAsDataURL(input.files[0]);
 		}
 	}
+	
+	// 댓글 달기
+	function fn_add_reply(article_no) {
+		var reply_id = $('#reply_id').val();
+		var reply_content = $('#reply_content').val();
+		console.log(reply_id)
+		console.log(reply_content)
+		console.log(article_no)
+		
+		if (reply_content == '') {
+			alert("내용을 입력해주세요 :( ");
+			return;
+		} 
+
+	    $.ajax({
+		       type : "post",
+		       async : false,
+		       url : "${contextPath}/board/addReply.do",
+		       data : {
+		          article_no:article_no,
+		          reply_id:reply_id,
+		          reply_content:reply_content
+		       },
+		       success : function(data, textStatus) {
+		       		if(data.trim()=='success'){
+			      		alert("댓글이 등록되었습니다."); 
+				  		location.reload();
+		       		} else {
+			          	alert("오류가 발생했습니다. :) ");   
+		          		location.reload();
+		       		}	
+		       },
+		       error : function(data, textStatus) {
+		          alert("에러가 발생했습니다."+data);
+		       },
+		       complete : function(data, textStatus) {
+		          //alert("작업을완료 했습니다");
+		       }
+		    }); //end ajax    */
+		}
+	
+	// 댓글 삭제
+	function fn_remove_reply(reply_no) {
+	    $.ajax({
+		       type : "post",
+		       async : false,
+		       url : "${contextPath}/board/removeReply.do",
+		       data : {
+		          reply_no:reply_no
+		       },
+		       success : function(data, textStatus) {
+		       		if(data.trim()=='success'){
+			      		alert("댓글이 삭제되었습니다."); 
+				  		location.reload();
+		       		} else {
+			          	alert("오류가 발생했습니다. :) ");   
+		          		location.reload();
+		       		}	
+		       },
+		       error : function(data, textStatus) {
+		          alert("에러가 발생했습니다."+data);
+		       },
+		       complete : function(data, textStatus) {
+		          //alert("작업을완료 했습니다");
+		       }
+		    }); //end ajax    */
+		}
 </script>
 </head>
 <body>
@@ -134,6 +202,85 @@
 							</c:if>
 
 						</table>
+						
+						<!-- 댓글 목록 -->
+						<c:if test="${not empty replyList}">
+							<p style="font-size:13px; color:#848484; margin-top:15px;">댓글 ${fn:length(replyList)}개</p>
+							<div style="border-bottom: 1px solid #D8D8D8; margin-top:13px;"></div>
+							
+							<c:forEach var="item" items="${replyList}" varStatus="j">
+								<table id="reply_list" align=center>
+								<!-- 아이디 -->
+								<tr>
+									<td align=left style="font-size:14px;">
+									<c:choose>
+										<c:when test="${item.member_id == 'admin'}">
+                  							<div class="admin_icon" style="color:red;">관리자</div>
+										</c:when>
+										<%-- <c:when test="${item.join_type == '102'}">
+											<div class="owner_icon" style="color:#F9C200;">사업자</div>
+										</c:when>
+										<c:otherwise>
+											<div class="member_icon">일반</div>
+										</c:otherwise> --%>
+									</c:choose>
+										${item.member_id}
+									</td>
+									<td rowspan="3" width="10%" align=right>
+										<c:if test="${memberInfo.member_id == item.member_id || memberInfo.member_id == 'admin'}">
+											<a href="javascript:fn_remove_reply('${item.reply_no}');">x</a>
+										</c:if>
+									</td>
+								</tr>
+	
+								<!-- 내용 -->
+								<tr>
+									<td>${item.reply_content}</td>
+								</tr>
+								
+								<!-- 댓글 작성 시간 -->
+								<tr>
+									<td><span id="gray_color" style="font-size:10px;"><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${item.reply_write_date}" /></span></td>
+								</tr>
+								</table>
+							</c:forEach>
+						</c:if>
+						
+						<c:choose>
+							<c:when test="${isLogOn == true}">
+						<input type="hidden" id="reply_id" name="reply_id" value="${memberInfo.member_id}" class="reply_inputbox">
+						<table id="reply_write_table" align=center>
+							<!-- 아이디 -->
+							<tr>
+								<td align=left style="font-size:12px;"><b>${memberInfo.member_id}</b></td>
+							</tr>
+
+							<!-- 내용 -->
+							<tr>
+								<td width="80%" align=left>
+									<textarea id="reply_content" name="reply_content" cols="105" rows="3" placeholder="😁 뉴짐스가 더 훈훈해지는 댓글 부탁드립니다. 바른말 고운말 쓰기 !! 😁" style="padding:5px; max-width:100%;" ></textarea>
+								</td>
+							</tr>
+							<tr>
+								<td align=right>
+									<a href="javascript:fn_add_reply('${article.article_no}');"><span id="reply_submit_btn">등록하기</span></a>
+								</td>
+							</tr>
+						</table>
+							</c:when>
+							<c:otherwise>
+							<table id="reply_write_table" align=center>
+
+							<!-- 내용 -->
+							<tr>
+								<td width="80%" align=left>
+									<textarea id="reply_content" name="reply_content" cols="105" rows="3" placeholder="😁 댓글을 작성하려면 로그인을 먼저 해주세요. 😁" style="text-align:center; padding-top:30px; max-width:100%;" readonly></textarea>
+								</td>
+							</tr>
+						</table>
+							</c:otherwise>
+						</c:choose>
+						
 						<div style="text-align:right; margin-top:15px;">
 							<a href="${contextPath}/board/listArticles.do" style="line-height:32px;"><span id="btn_1">목록으로</span></a>
 						</div>

@@ -18,7 +18,7 @@
          <div class="ownerpage_hr"></div>
          
          <li>
-            <a href="${contextPath}/owner/ownerPageIntroModify.do?member_id=${membefInfo.member_id}">사업장 관리</a>
+            <a href="${contextPath}/owner/main/ownerPageIntroModifyForm.do?member_id=${memberInfo.member_id}">사업장 관리</a>
          </li>
          <li>
             <a href="${contextPath}/owner/product/ownerProductList.do?member_id=${memberInfo.member_id}&chapter=1">상품 관리</a>

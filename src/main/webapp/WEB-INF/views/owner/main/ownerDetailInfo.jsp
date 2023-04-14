@@ -161,7 +161,7 @@ $(function(){
 				<form
 					action="${contextPath}/owner/main/modifyMyInfo.do" method="post">
 
-					<table id="owner_modify_table">
+					<table id="mypage_modify_table">
 						<!-- 이름 -->
 						<tr>
 							<td>
@@ -189,7 +189,7 @@ $(function(){
 						<!-- 사업자 등록번호 -->
 						<tr>
 							<td>
-								<p class="inline" id="mypage_modify_textbox">
+								<p class="inline" id="join_textbox">
 									사업자 등록번호 <span id="red_color">*</span>
 								</p>
 							</td>
@@ -357,7 +357,7 @@ $(function(){
 						<!-- 성별 -->
 						<tr>
 							<td>
-								<p class="inline" class="mypage_modify_textbox">성별</p>
+								<p class="inline" class="join_textbox">성별</p>
 							</td>
 							<td><input type="radio" name="member_gender" value="M"
 								checked /> 남자 <input type="radio" name="member_gender"
@@ -365,7 +365,6 @@ $(function(){
 							<td align=right><input type="checkbox" name="emailsts_yn"
 								value="Y" checked /><span id="mypage_subtext"> 이메일 수신 동의</span></td>
 						</tr>
-
 					</table>
 					<div id="align_center">
 						<input type="submit" class="submit_btn" value="수정하기">

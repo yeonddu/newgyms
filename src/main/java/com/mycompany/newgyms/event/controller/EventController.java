@@ -13,7 +13,7 @@ public interface EventController {
 	public ModelAndView eventSorting(@RequestParam("sort") String sort, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewEvent(@RequestParam("event_no") int event_no, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity addNewEvent(MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception;
-	public ModelAndView eventForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView eventForm(@RequestParam("member_id") String member_id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView modEventForm(@RequestParam("event_no") int event_no, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity updateEvent(MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception;
 	public ResponseEntity removeEvent(@RequestParam("event_no") int event_no, HttpServletRequest request, HttpServletResponse response) throws Exception;

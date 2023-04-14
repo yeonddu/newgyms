@@ -480,7 +480,7 @@ button:hover {
  padding:10px; font-size:14px;
 }
 
-#qna_modify_popup .qna_text .qna_title input, textarea {
+#qna_modify_popup .qna_text .qna_title input, #qna_modify_popup .qna_text .qna_title textarea {
  width:500px; float:right; 
 }
 

@@ -106,12 +106,12 @@
 											<c:choose>
 											<c:when test="${question.member_id ==loginMember_id  or loginMember_id == 'admin'}"> <!-- 작성자와 로그인한 사람이 같거나 관리자로 로그인 한 경우 -->
 									            <td class="qna_contents" colspan="5">
-									            	<p><span class="Q_mark">Q</span> ${question.qna_contents} </p>  <!-- 질문 내용 -->
+									            	<p><span class="Q_mark">Q</span> ${fn:replace(question.qna_contents ,crcn,br)} </p>  <!-- 질문 내용 -->
 									            <c:forEach var="answer" items="${answerList }" >             	
 									            	<c:choose>
 										            	<c:when test="${question.qna_no == answer.qna_parent_no }"> 
 											            	<p><span class="A_mark">A</span> ${answer.qna_title} <p> <!-- 답글 제목 -->
-											            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
+											            	<p style="padding-left:40px;">${fn:replace(answer.qna_contents ,crcn,br)} <p> <!-- 답글 내용 -->
 									            		</c:when>
 									            	</c:choose>
 									            	</c:forEach>                   
@@ -127,12 +127,12 @@
 								        
 								        <c:otherwise> <!-- 공개글인 경우 -->
 								            <td colspan="5" class="qna_contents"  >
-								            	<p><span class="Q_mark">Q</span> ${question.qna_contents}</p>  <!-- 질문 내용 -->
+								            	<p><span class="Q_mark">Q</span> ${fn:replace(question.qna_contents ,crcn,br)} </p>  <!-- 질문 내용 -->
 								            <c:forEach var="answer" items="${answerList }" > 
 								            	<c:choose>
 									            	<c:when test="${question.qna_no == answer.qna_parent_no }"> 
 										            	<p><span class="A_mark">A</span> ${answer.qna_title} </p> <!-- 답글 제목 -->
-										            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
+										            	<p style="padding-left:40px;">${fn:replace(answer.qna_contents ,crcn,br)} <p> <!-- 답글 내용 -->
 								            		</c:when>
 								            	</c:choose>
 								            	</c:forEach>                     

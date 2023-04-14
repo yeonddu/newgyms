@@ -280,31 +280,37 @@
 			<div class="tab_content" id="tab1">
 		        <div class="tab_title">
 				      프로그램 상세정보
-		          <p>${product.product_program_details}</p>
-				<c:forEach var="image" items="${detailImageList }">
-		          <img alt="프로그램 상세정보 이미지" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${image.fileName}">
-				</c:forEach>
+		          <p>${fn:replace(product.product_program_details ,crcn,br)}</p>
+		          <c:if test="${not empty detailImageList}">
+					<c:forEach var="image" items="${detailImageList }">
+			          <img alt="프로그램 상세정보 이미지" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${image.fileName}">
+					</c:forEach>
+		          </c:if>
 		        </div>
 
 				<div class="tab_title">
 		     		   가격 정보     
-		          <p>${product.product_price_details}</p>
-		          <c:forEach var="image" items="${priceImageList }">
-		          <img alt="가격 정보 이미지" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${image.fileName}">
-		          </c:forEach>
+		          <p>${fn:replace(product.product_price_details ,crcn,br)}</p>
+		          <c:if test="${not empty priceImageList}">
+			          <c:forEach var="image" items="${priceImageList }">
+			          <img alt="가격 정보 이미지" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${image.fileName}">
+			          </c:forEach>
+		          </c:if>
 		   	     </div>
 
 		        <div class="tab_title">
 		    		  시설 정보
-                  <p>${product.product_facility_details}</p>
-		          <c:forEach var="image" items="${facilityImageList }">
-		          <img alt="시설 정보 이미지" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${image.fileName}">
-		          </c:forEach>
+		          <p>${fn:replace(product.product_facility_details ,crcn,br)}</p>
+		          <c:if test="${not empty facilityImageList}">
+			          <c:forEach var="image" items="${facilityImageList }">
+			          <img alt="시설 정보 이미지" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${image.fileName}">
+			          </c:forEach>
+		          </c:if>
 		        </div>
 
 		        <div class="tab_title">
 				        위치 정보
-		        <p>${product.product_location_details}</p>
+		          <p>${fn:replace(product.product_location_details ,crcn,br)}</p>
 		        
 				<!-- 카카오 지도 API -->        
 			        <div id="map" style="width:1000px;height:600px;"></div>
@@ -426,7 +432,7 @@
 							          <td></td>
 							          <td colspan="5">
 							              <div class="review_option">[옵션] ${review.product_option_name} (+<fmt:formatNumber  value="${review.product_option_price }" type="number"/>원)</div> 
-							              <div class="review_contents">${review.review_contents}</div>
+							              <div class="review_contents">${fn:replace(review.review_contents ,crcn,br)}</div>
 							              <div class="review_imageList">
 							              <c:forEach var="image" items="${reviewImageList }">
 											<c:if test="${review.review_no == image.review_no}">
@@ -517,12 +523,12 @@
 											<c:choose>
 											<c:when test="${question.member_id ==loginMember_id  or product.member_id ==loginMember_id or loginMember_id == 'admin'}"> <!-- 작성자와 로그인한 사람이 같거나 사업자 또는 관리자로 로그인 한 경우 -->
 									            <td class="qna_contents" colspan="5">
-									            	<p><span class="Q_mark">Q</span> ${question.qna_contents} </p>  <!-- 질문 내용 -->
+									            	<p><span class="Q_mark">Q</span> ${fn:replace(question.qna_contents ,crcn,br)} </p>  <!-- 질문 내용 -->
 									            <c:forEach var="answer" items="${answerList }" >             	
 									            	<c:choose>
 										            	<c:when test="${question.qna_no == answer.qna_parent_no }"> 
 											            	<p><span class="A_mark">A</span> ${answer.qna_title} <p> <!-- 답글 제목 -->
-											            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
+											            	<p style="padding-left:40px;">${fn:replace(answer.qna_contents ,crcn,br)} <p> <!-- 답글 내용 -->
 									            		</c:when>
 									            	</c:choose>
 									            	</c:forEach>                   
@@ -538,12 +544,12 @@
 								        
 								        <c:otherwise> <!-- 공개글인 경우 -->
 								            <td colspan="5" class="qna_contents"  >
-								            	<p><span class="Q_mark">Q</span> ${question.qna_contents}</p>  <!-- 질문 내용 -->
+								            	<p><span class="Q_mark">Q</span> ${fn:replace(question.qna_contents ,crcn,br)} </p>  <!-- 질문 내용 -->
 								            <c:forEach var="answer" items="${answerList }" > 
 								            	<c:choose>
 									            	<c:when test="${question.qna_no == answer.qna_parent_no }"> 
 										            	<p><span class="A_mark">A</span> ${answer.qna_title} </p> <!-- 답글 제목 -->
-										            	<p style="padding-left:40px;">${answer.qna_contents} <p> <!-- 답글 내용 -->
+										            	<p style="padding-left:40px;">${fn:replace(answer.qna_contents ,crcn,br)} <p> <!-- 답글 내용 -->
 								            		</c:when>
 								            	</c:choose>
 								            	</c:forEach>                     

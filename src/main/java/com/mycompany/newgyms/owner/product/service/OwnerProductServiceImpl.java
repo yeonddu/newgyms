@@ -48,14 +48,12 @@ public class OwnerProductServiceImpl implements OwnerProductService {
 		
 		/* 옵션 */
 		ArrayList<ProductOptVO> optionList = (ArrayList)newProductMap.get("optionList");
-		
 		for(ProductOptVO productOptVO : optionList) {
 			productOptVO.setProduct_id(product_id);
 		}
 		ownerProductDAO.insertProductOption(optionList);
 		
-		/* 이미지
-		 * */
+		/* 이미지 */
 		ArrayList<ProductImageVO> imageList = (ArrayList)newProductMap.get("imageList");
 		for(ProductImageVO productImageVO : imageList) {
 			productImageVO.setProduct_id(product_id);
@@ -68,6 +66,31 @@ public class OwnerProductServiceImpl implements OwnerProductService {
 	@Override
 	public void addNewProductOption(List<ProductOptVO> optionList) throws Exception{
 		ownerProductDAO.insertProductOption(optionList);
+	}
+	
+	@Override
+	public void modifyProduct(Map productMap) throws Exception {
+		ownerProductDAO.updateProduct(productMap);
+		
+		int product_id = Integer.parseInt((String)productMap.get("product_id"));
+		
+
+		/* 옵션 */
+		ArrayList<ProductOptVO> optionList = (ArrayList)productMap.get("optionList");
+		if(optionList!= null && optionList.size()!=0) {
+			for(ProductOptVO productOptVO : optionList) {
+				productOptVO.setProduct_id(product_id);
+			}
+			ownerProductDAO.insertProductOption(optionList);
+		}
+		
+		
+		/* 이미지 */
+		ArrayList<ProductImageVO> imageList = (ArrayList)productMap.get("imageList");
+		for(ProductImageVO productImageVO : imageList) {
+			productImageVO.setProduct_id(product_id);
+		}
+		ownerProductDAO.insertProductImage(imageList);
 	}
 	
     // 상품 삭제하기

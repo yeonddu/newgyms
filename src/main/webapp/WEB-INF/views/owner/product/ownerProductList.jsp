@@ -130,7 +130,7 @@
 														
 												<!-- 수정 및 삭제 버튼 -->
 												<td>
-													<a id="owner_modify_btn" href="${contextPath}/owner/product/ProductModifyForm.do?product_id=${list.product_id}">삭제하기</a>
+													<a id="owner_modify_btn" href="${contextPath}/owner/product/ProductModifyForm.do?product_id=${list.product_id}">수정하기</a><br>
 													<a id="owner_delete_btn" href="${contextPath}/owner/product/removeProduct.do?product_id=${list.product_id}">삭제하기</a>
 												</td>
 											</tr>

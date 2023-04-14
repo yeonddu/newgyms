@@ -12,6 +12,10 @@ public interface BoardDAO {
 	public int insertNewArticle(Map articleMap) throws DataAccessException;
 
 	public ArticleVO selectArticle(int article_no) throws DataAccessException;
+	public List selectReplyList(int article_no) throws DataAccessException;
+	public String addReply(Map replyMap) throws DataAccessException;
+	public String removeReply(int reply_no) throws DataAccessException;
+	
 	public void updateArticle(Map articleMap) throws DataAccessException;
 	public void deleteArticle(int article_no) throws DataAccessException;
 	

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mycompany.newgyms.board.dao.BoardDAO;
 import com.mycompany.newgyms.board.vo.ArticleVO;
+import com.mycompany.newgyms.board.vo.ReplyVO;
 
 @Service("boardService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -36,6 +37,25 @@ public class BoardServiceImpl implements BoardService {
 	public ArticleVO viewArticle(int article_no) throws Exception {
 		ArticleVO articleVO = boardDAO.selectArticle(article_no);
 		return articleVO;
+	}
+	
+	// 댓글 불러오기
+	@Override
+	public List<ReplyVO> replyList(int article_no) throws Exception {
+		List<ReplyVO> replyList = boardDAO.selectReplyList(article_no);
+		return replyList;
+	}
+	
+	// 댓글 작성하기
+	@Override
+	public String addReply(Map replyMap) throws Exception {
+		return boardDAO.addReply(replyMap);
+	}
+	
+	// 댓글 삭제하기
+	@Override
+	public String removeReply(int reply_no) throws Exception {
+		return boardDAO.removeReply(reply_no);
 	}
 	
 	@Override

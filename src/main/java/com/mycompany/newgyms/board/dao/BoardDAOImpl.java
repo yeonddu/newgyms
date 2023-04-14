@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mycompany.newgyms.board.vo.ArticleVO;
 import com.mycompany.newgyms.board.vo.ImageVO;
+import com.mycompany.newgyms.board.vo.ReplyVO;
 
 @Repository("boardDAO")
 public class BoardDAOImpl implements BoardDAO {
@@ -33,6 +34,26 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public ArticleVO selectArticle(int article_no) throws DataAccessException {
 		return sqlSession.selectOne("mapper.board.selectArticle", article_no);
+	}
+	
+	@Override
+	public List selectReplyList(int article_no) throws DataAccessException {
+		List<ReplyVO> replyList = sqlSession.selectList("mapper.board.selectReplyList", article_no);
+		return replyList;
+	}
+	
+	@Override
+	public String addReply(Map replyMap) throws DataAccessException {
+		sqlSession.insert("mapper.board.addReply", replyMap);
+		String result = "success";
+		return result;
+	}
+	
+	@Override
+	public String removeReply(int reply_no) throws DataAccessException {
+		sqlSession.delete("mapper.board.removeReply", reply_no);
+		String result = "success";
+		return result;
 	}
 	
 	@Override

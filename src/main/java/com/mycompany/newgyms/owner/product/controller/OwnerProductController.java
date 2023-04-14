@@ -15,5 +15,9 @@ public interface OwnerProductController {
 	public ModelAndView ownerProductList(@RequestParam("member_id") String member_id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView addProductForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity addNewProduct(@ModelAttribute(value="ProductOptVO") ProductOptVO optionList, MultipartHttpServletRequest multipartRequest, HttpServletResponse response)  throws Exception ;
-	public ResponseEntity removeProduct(@RequestParam("product_id") int product_id, HttpServletRequest request, HttpServletResponse response) throws Exception ;
+	
+    public ModelAndView ProductModifyForm(@RequestParam("product_id") int product_id, HttpServletRequest request, HttpServletResponse response) throws Exception;
+    public ResponseEntity modifyProduct(ProductOptVO productOptVO, MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception;
+    
+	public ResponseEntity removeProduct(@RequestParam("product_id") int product_id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

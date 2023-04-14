@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mycompany.newgyms.board.vo.ImageVO;
 import com.mycompany.newgyms.event.vo.EventVO;
+import com.mycompany.newgyms.product.vo.ProductVO;
 
 @Repository("eventDAO")
 public class EventDAOImpl implements EventDAO {
@@ -35,6 +36,12 @@ public class EventDAOImpl implements EventDAO {
 		}
 		
 		return eventsList;
+	}
+	
+	// 상품 목록 가져오기
+	public List selectProductList(String member_id) throws DataAccessException {
+		List<ProductVO> productList = sqlSession.selectList("mapper.event.selectProductList", member_id);
+		return productList;
 	}
 	
 	// 이벤트 글 쓰기

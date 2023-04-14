@@ -47,6 +47,13 @@ public class OwnerProductDAOImpl implements OwnerProductDAO {
 		return product_id;
 	}
 	
+	//상품수정
+	@Override
+	public void updateProduct(Map productMap) throws DataAccessException {
+		sqlSession.update("mapper.owner_product.updateProduct", productMap);
+	}
+	
+	
 	@Override
 	public void insertProductOption(List<ProductOptVO> optionList)  throws DataAccessException {
 		
@@ -63,7 +70,8 @@ public class OwnerProductDAOImpl implements OwnerProductDAO {
 			sqlSession.insert("mapper.owner_product.insertProductImage",productImageVO);
 		}
 	}
-		
+	
+
 	//상품 삭제
 	@Override
 	public void deleteProduct(int product_id) throws DataAccessException {

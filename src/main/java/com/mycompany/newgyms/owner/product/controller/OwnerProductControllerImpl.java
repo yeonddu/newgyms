@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mycompany.newgyms.member.vo.MemberVO;
 import com.mycompany.newgyms.owner.product.service.OwnerProductService;
+import com.mycompany.newgyms.product.service.ProductService;
 import com.mycompany.newgyms.product.vo.ProductImageVO;
 import com.mycompany.newgyms.product.vo.ProductOptVO;
 import com.mycompany.newgyms.product.vo.ProductVO;
@@ -39,6 +40,9 @@ public class OwnerProductControllerImpl implements OwnerProductController {
 	@Autowired
 	private OwnerProductService ownerProductService;
 
+	@Autowired
+	private ProductService productService;
+	
 
 	// 사업자 상품 목록
 	@RequestMapping(value = "/ownerProductList.do", method = RequestMethod.GET)
@@ -79,7 +83,7 @@ public class OwnerProductControllerImpl implements OwnerProductController {
 	public ResponseEntity addNewProduct(ProductOptVO productOptVO, MultipartHttpServletRequest multipartRequest, HttpServletResponse response)  throws Exception {
 		multipartRequest.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=UTF-8");
-		String fileName=null;
+
 		
 		Map newProductMap = new HashMap();
 		Enumeration enu=multipartRequest.getParameterNames();
@@ -88,7 +92,7 @@ public class OwnerProductControllerImpl implements OwnerProductController {
 			String value=multipartRequest.getParameter(name);
 			newProductMap.put(name,value);
 		}
-		
+		System.out.println(multipartRequest.getParameterValues("product_main_image_info"));
 		System.out.println(newProductMap);
 		
 		//판매자 member_id 세션에서 가져오기 
@@ -123,8 +127,8 @@ public class OwnerProductControllerImpl implements OwnerProductController {
 			/*이미지 */
 			if(imageList!=null && imageList.size()!=0) {
 				for(ProductImageVO  productImageVO:imageList) {
-					
-					fileName = productImageVO.getFileName();
+					String fileName = productImageVO.getFileName();
+					System.out.println(fileName);
 					File srcFile = new File(CURR_IMAGE_REPO_PATH+"\\"+"temp"+"\\"+fileName);
 					File destDir = new File(CURR_IMAGE_REPO_PATH+"\\"+product_id);
 					FileUtils.moveFileToDirectory(srcFile, destDir,true);
@@ -137,7 +141,7 @@ public class OwnerProductControllerImpl implements OwnerProductController {
 		}catch(Exception e) {
 			if(imageList!=null && imageList.size()!=0) {
 				for(ProductImageVO  imageFileVO:imageList) {
-					fileName = imageFileVO.getFileName();
+					String fileName = imageFileVO.getFileName();
 					File srcFile = new File(CURR_IMAGE_REPO_PATH+"\\"+"temp"+"\\"+fileName);
 					srcFile.delete();
 				}
@@ -153,27 +157,152 @@ public class OwnerProductControllerImpl implements OwnerProductController {
 		return resEntity;
 	}
 	
+
+	
+	//상품 수정하기
+	@Override
+    @RequestMapping(value="/ProductModifyForm.do", method=RequestMethod.GET)
+    public ModelAndView ProductModifyForm(@RequestParam("product_id") int product_id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		
+		/* 옵션 */
+		List<ProductOptVO> productOptList = productService.selectProductOptionList(product_id);
+		mav.addObject("productOptList", productOptList);
+
+		/* 상품 상세정보, 프로그램 안내 */
+		ProductVO productVO = productService.productDetail(product_id);
+		mav.addObject("productVO", productVO);
+		
+		/* 프로그램 안내 이미지 */
+		Map imageMap = productService.productImage(product_id);
+		mav.addObject("imageMap", imageMap);
+		
+		mav.setViewName("/owner/product/modProductForm");
+
+		return mav;
+	}
+	
+    // 상품 수정하기
+    @Override
+    @RequestMapping(value="/modifyProduct.do", method=RequestMethod.POST)
+    public ResponseEntity modifyProduct(ProductOptVO productOptVO, MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception {
+       multipartRequest.setCharacterEncoding("utf-8");
+       
+		Map productMap = new HashMap();
+		Enumeration enu=multipartRequest.getParameterNames();
+		while(enu.hasMoreElements()){
+			String name=(String)enu.nextElement();
+			String value=multipartRequest.getParameter(name);
+			productMap.put(name,value);
+		}
+		
+		System.out.println(productMap);
+		
+		//판매자 member_id 세션에서 가져오기 
+		HttpSession session = multipartRequest.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberInfo");
+		String member_id = memberVO.getMember_id();
+		productMap.put("member_id",member_id);
+		
+		/* 추가된 옵션 */
+		List<ProductOptVO> optionList = productOptVO.getOptionList();
+		
+		if(optionList!= null && optionList.size()!=0) {
+			productMap.put("optionList",optionList);
+		}
+		
+		/* 이미지 */
+		List<ProductImageVO> imageList = upload(multipartRequest);
+		
+		if(imageList!= null && imageList.size()!=0) {
+			productMap.put("imageList", imageList);
+		}
+       
+       int product_id = Integer.parseInt(multipartRequest.getParameter("product_id"));
+       
+		String fileName = null;       
+		String message = null;
+		ResponseEntity resEntity = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		
+	      try {
+	    	  ownerProductService.modifyProduct(productMap);
+	    	  
+			/*이미지 */
+			if(imageList!=null && imageList.size()!=0) {
+				for(ProductImageVO  productImageVO:imageList) {
+					
+					fileName = productImageVO.getFileName();
+					File srcFile = new File(CURR_IMAGE_REPO_PATH+"\\"+"temp"+"\\"+fileName);
+					File destDir = new File(CURR_IMAGE_REPO_PATH+"\\"+product_id);
+					FileUtils.moveFileToDirectory(srcFile, destDir,true);
+					
+	  	            String originalFileName = (String)productMap.get("originalFileName");
+		            File oldFile = new File(CURR_IMAGE_REPO_PATH + "\\" + "temp" + "\\" + originalFileName);
+		            oldFile.delete();
+
+				}
+			}
+			message= "<script>";
+			message += " alert('상품을 수정했습니다.');";
+			message +=" location.href='"+multipartRequest.getContextPath()+"/owner/product/ownerProductList.do?member_id="+member_id+"&chapter=1';";
+			message +=("</script>");
+			
+			resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
+		}catch(Exception e) {
+			if(imageList!=null && imageList.size()!=0) {
+				for(ProductImageVO  imageFileVO:imageList) {
+					fileName = imageFileVO.getFileName();
+					File srcFile = new File(CURR_IMAGE_REPO_PATH+"\\"+"temp"+"\\"+fileName);
+					srcFile.delete();
+				}
+			}
+			
+			message= "<script>";
+			message += " alert('오류가 발생했습니다. 다시 시도해 주세요');";
+			message +=" location.href='"+multipartRequest.getContextPath()+"/owner/product/ownerProductList.do?member_id="+member_id+"&chapter=1';";
+			message +=("</script>");
+			e.printStackTrace();
+			resEntity = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
+		}
+		resEntity =new ResponseEntity(message, responseHeaders, HttpStatus.OK);
+		return resEntity;
+	}
+	
 	//이미지 업로드 하기
 	private List<ProductImageVO> upload(MultipartHttpServletRequest multipartRequest) throws Exception{
 		String fileName = null;
 		
-		MultipartFile mainImage = multipartRequest.getFile("product_main_image");
-		fileName = mainImage.getOriginalFilename();
-		
-		File file = new File(CURR_IMAGE_REPO_PATH +"\\"+"temp"+"\\"+ fileName);
-		if(mainImage.getSize()!=0){ //File Null Check
-			if(! file.exists()){ //경로상에 파일이 존재하지 않을 경우
-				if(file.getParentFile().mkdirs()){ //경로에 해당하는 디렉토리들을 생성
-						file.createNewFile(); //이후 파일 생성
-				}
-			}
-			mainImage.transferTo(new File(CURR_IMAGE_REPO_PATH +"\\"+"temp"+"\\"+fileName)); //임시로 저장된 multipartFile을 실제 파일로 전송
-		}
-
-		
 		//DB에 저장할 imageList
 		List<ProductImageVO> imageList= new ArrayList<ProductImageVO>();
 		
+		/*
+		Iterator<String> fileNames = multipartRequest.getFileNames(); //내가 지정한 Name(detail/price/facility)
+		
+		while(fileNames.hasNext()){
+			String fileType = fileNames.next();
+			MultipartFile image = multipartRequest.getFile(fileType);
+			String fileName=image.getOriginalFilename();
+			
+			ProductImageVO productImageVO =new ProductImageVO();
+			productImageVO.setFileType(fileType);
+			productImageVO.setFileName(fileName);
+			
+			imageList.add(productImageVO);
+			
+			File file = new File(CURR_IMAGE_REPO_PATH +"\\"+ fileType);
+			if(image.getSize()!=0){ //File Null Check
+				if(! file.exists()){ //경로상에 파일이 존재하지 않을 경우
+					if(file.getParentFile().mkdirs()){ //경로에 해당하는 디렉토리들을 생성
+							file.createNewFile(); //이후 파일 생성
+					}
+				}
+				image.transferTo(new File(CURR_IMAGE_REPO_PATH +"\\"+"temp"+ "\\"+fileName)); //임시로 저장된 multipartFile을 실제 파일로 전송
+			}
+		}
+		 * */
+
 		//detail 이미지 
 		List<MultipartFile> detailImageList = multipartRequest.getFiles("detail_image");
 		
@@ -198,7 +327,6 @@ public class OwnerProductControllerImpl implements OwnerProductController {
 				image.transferTo(new File(CURR_IMAGE_REPO_PATH +"\\"+"temp"+"\\"+fileName)); //임시로 저장된 multipartFile을 실제 파일로 전송
 			}
 		}
-		
 		List<MultipartFile> priceImageList = multipartRequest.getFiles("price_image");
 		
 		for (MultipartFile image : priceImageList) {
@@ -222,7 +350,6 @@ public class OwnerProductControllerImpl implements OwnerProductController {
 				image.transferTo(new File(CURR_IMAGE_REPO_PATH +"\\"+"temp"+"\\"+fileName)); //임시로 저장된 multipartFile을 실제 파일로 전송
 			}
 		}
-
 		List<MultipartFile> facilityImageList = multipartRequest.getFiles("facility_image");
 		
 		for (MultipartFile image : facilityImageList) {
@@ -246,19 +373,8 @@ public class OwnerProductControllerImpl implements OwnerProductController {
 				image.transferTo(new File(CURR_IMAGE_REPO_PATH +"\\"+"temp"+"\\"+fileName)); //임시로 저장된 multipartFile을 실제 파일로 전송
 			}
 		}
-		
 		return imageList;
 	}
-	
-	//상품 수정하기
-    @RequestMapping(value="/ProductModifyForm.do", method=RequestMethod.GET)
-    public ModelAndView ProductModifyForm(@RequestParam("product_id") int product_id, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/owner/product/modProductForm");
-
-		return mav;
-	}
-	
 	
 	
     // 상품 삭제하기
