@@ -172,15 +172,16 @@ $(function() {
                      </a>
                      <div class="wish" >
                      </div>
-                        <a id="wish" href=""><img src="${contextPath}/resources/image/heart.png" alt="찜하기"></a>
+ 	                    <a id="wish" href="${contextPath}/wish/addWishList.do?product_id=${item.product_id}"><img src="${contextPath}/resources/image/heart.png" alt="찜하기"></a>
                      </div>
                   <div class="product_description">
                         <h2><a href="${contextPath}/product/productDetail.do?product_id=${item.product_id}">${item.product_name }</a></h2>
+                        
                <!-- 사업장관리 페이지로 이동 -->
                         <h3><a href="${contextPath}/owner/main/ownerPageIntroView.do?member_id=${item.member_id}">${item.center_name}</a></h3>
                   </div>
                   <div class="product_price">
-                        <div class="discount_rate"><fmt:formatNumber  value="${item.product_sales_price/item.product_price}" type="percent" var="discount_rate" />${discount_rate }</div>
+        			    <div class="discount_rate"><fmt:formatNumber  value="${(item.product_price - item.product_sales_price)/item.product_price}" type="percent" var="discount_rate" />${discount_rate }</div>
                         <div class="sales_price"><fmt:formatNumber  value="${item.product_sales_price}" type="number"/>원</div>
                         <div class="price"><fmt:formatNumber  value="${item.product_price}" type="number"/>원</div>               
                   </div>

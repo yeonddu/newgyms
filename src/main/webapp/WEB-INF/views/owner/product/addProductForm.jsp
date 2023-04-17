@@ -44,42 +44,10 @@
 	      
 	   /* 옵션 삭제 */
 	   function fn_delOption() {
-	      console.log("삭제해조...z")
-	      console.log("삭제해따...z")
-	      
 	      var thisOption = document.getElementById("del_option_btn").closest('div');
 	      thisOption.remove();
 	   }
 	   
-	/* 프로그램 안내 이미지 첨부, 미리보기 */
-/* 	
-	 function setThumbnail(event, type) {
-	        for (var image of event.target.files) {
-	          var reader = new FileReader();
-	          reader.onload = function(event) {
-	            var img = document.createElement("img");
-	            img.setAttribute("src", event.target.result);
-	            
-	        	  if(type == 'detail_img') {
-		            document.querySelector("div#preview_detail_img").appendChild(img);
-
-	        	  } else if(type == 'price_img') {
-		            document.querySelector("div#preview_price_img").appendChild(img);
-		            
-	        	  } else if(type == 'facility_img') {
-		            document.querySelector("div#preview_facility_img").appendChild(img);
-	        	  }
-	          };
-	          console.log(image);
-	          reader.readAsDataURL(image);
-	        }
-	      }
-	 */
-	/* 목록으로 */
-	function backToList(obj) {
-		obj.action = "${contextPath}/owner/product/ownerProductList.do";
-		obj.submit();
-	}
 
 </script>
 </head>
@@ -94,6 +62,7 @@
 				<form action="${contextPath}/owner/product/addNewProduct.do" method="post"  enctype="multipart/form-data">
 					<p id="owner_product_title">상품 등록</p>
 
+					<br><br>
 					<span class="add_product_title">기본정보</span>
 					<table id="product_info_table">
 						<tr>
@@ -151,7 +120,8 @@
 						</table>
 								<div id="product_option" style="padding-left:210px;">
 								 </div>
-						
+								 
+						<br><br>
 						<span class="add_product_title">프로그램 정보</span>
 						<table id="product_detail_table">					
 						<tr>
@@ -174,15 +144,18 @@
     function addFile(type) {
     	
     	if (type == 'detail_image') {
-	        var file = "<div class='img_preview'><input style='border:none;' type='file' name='detail_image' accept='image/*' ><a href='#this' name='file-delete'>삭제</a></div>";
+    		
+	        var file = "<div class='img_preview'><input style='border:none;' type='file' name='detail_image' accept='image/*' required><a href='#this' name='file-delete'>X</a></div>";
 	        $("#detail_image_list").append(file);
     		
     	} else if (type == 'price_image') {
-	        var file = "<div class='img_preview'><input style='border:none;' type='file' name='price_image' ><a href='#this' name='file-delete'>삭제</a></div>";
+    		
+	        var file = "<div class='img_preview'><input style='border:none;' type='file' name='price_image' accept='image/*' required><a href='#this' name='file-delete'>X</a></div>";
 	        $("#price_image_list").append(file);
 	        
     	} else if (type == 'facility_image') {
-	        var file = "<div class='img_preview'><input style='border:none;' type='file' name='facility_image' ><a href='#this' name='file-delete'>삭제</a></div>";
+    		
+	        var file = "<div class='img_preview'><input style='border:none;' type='file' name='facility_image' accept='image/*' required><a href='#this' name='file-delete'>X</a></div>";
 	        $("#facility_image_list").append(file);
     	}
     	
@@ -195,46 +168,17 @@
     function deleteFile(obj) {
         obj.parent().remove();
     }
-	/* 이미지 썸네일 */
-    /*
-	function thumbnail(input, type) {
-		if (input.files && input.files[0]) {
-			
-			var fileName = input.files[0].name;
-	        var reader = new FileReader();
-	        reader.onload = function (e) {
-	        	
-	            var img = document.createElement("img");
-	            img.setAttribute("src", e.target.result);
-	            
-	            console.log(e.target.result)
-	            
-	        	  if(type == 'detail_image') {
-		            document.querySelector("div#preview_detail_img").append(img);
 
-	        	  }  else if (type == 'price_image') {
-		            document.querySelector("div#preview_price_img").append(img);
-	    	        
-	        	} else if (type == 'facility_image') {
-		            document.querySelector("div#preview_facility_img").append(img);
-	        	}
-	        };
-	        reader.readAsDataURL(input.files[0]);
-		}
-	}
-    */
 </script>
 
 							<td>이미지 첨부
 						        <a class="add_option_btn" href="#this" onclick="addFile('detail_image')">파일추가</a>
-							 <div id="detail_image_list">
-							 
-								<div id="preview_detail_img" class="img_preview"></div>
-						    </div>
-							<!-- 
-								<input style="border:none;" multiple="multiple" type="file" name="detail_image" accept="image/*" onchange="setThumbnail(event,'detail_img');" />
-								<div id="preview_detail_img" class="img_preview"></div>
-							 -->
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+							 <div id="detail_image_list"> </div>
 							</td>
 						</tr>
 						<tr>
@@ -246,13 +190,13 @@
 						<tr>
 							<td></td>
 							<td>이미지 첨부
-					        <a class="add_option_btn" href="#this" onclick="addFile('price_image')">파일추가</a>
-							 <div id="price_image_list">
- 								<div id="preview_price_img" class="img_preview"></div>
-						        </div>
-							
-								<!-- <input  style="border:none;" multiple="multiple" type="file" name="price_image" accept="image/*" onchange="setThumbnail(event,'price_img');" />
-								<div id="preview_price_img" class="img_preview"></div> -->
+						        <a class="add_option_btn" href="#this" onclick="addFile('price_image')">파일추가</a>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+						        <div id="price_image_list"></div>
 							</td>
 						</tr>
 						<tr>
@@ -264,13 +208,13 @@
 						<tr>
 							<td></td>
 							<td>이미지 첨부
-							<a class="add_option_btn" href="#this" onclick="addFile('facility_image')">파일추가</a>
-							 <div id="facility_image_list">
-								<div id="preview_facility_img" class="img_preview"></div> 
-						    </div>
-							
-								<!-- <input  style="border:none;" multiple="multiple" type="file" name="facility_image" accept="image/*" onchange="setThumbnail(event,'facility_img');"/>
-								<div id="preview_facility_img" class="img_preview"></div> -->
+								<a class="add_option_btn" href="#this" onclick="addFile('facility_image')">파일추가</a>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+						        <div id="facility_image_list"></div>
 							</td>
 						</tr>
 						<tr>
@@ -281,6 +225,7 @@
 						</tr>
 						</table>
 						
+						<br><br>
 						<span class="add_product_title">환불 정보</span>
 						<table id="product_refund_table">					
 						<tr>
@@ -298,8 +243,8 @@
 				</table>
 				
 					<div align=center>
-						<input type="submit" value="등록하기" class="submit_btn">
-						<button class="submit_btn2" onclick="backToList(this.form)">목록으로</button>
+						<input type="submit" value="등록하기" class="confirm_btn">
+						<a class="back_btn" href="${contextPath}/owner/product/ownerProductList.do?member_id=${memberInfo.member_id}&chapter=1">목록으로</a>
 					</div>
 
 				</form>

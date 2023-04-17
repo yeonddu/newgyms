@@ -71,12 +71,17 @@ public class OwnerProductDAOImpl implements OwnerProductDAO {
 		}
 	}
 	
-
-	//惑前 昏力
 	@Override
-	public void deleteProduct(int product_id) throws DataAccessException {
-		sqlSession.delete("mapper.owner_product.deleteProduct", product_id);
+	public void deleteProducImage(int image_id) throws DataAccessException{
+		sqlSession.delete("mapper.owner_product.deleteProducImage",image_id);
 	}
 	
+	//惑前 昏力
+	@Override
+	public String deleteProduct(int product_id) throws DataAccessException {
+		sqlSession.delete("mapper.owner_product.deleteProduct", product_id);
+		String result = "true";
+		return result;
+	}
 
 }

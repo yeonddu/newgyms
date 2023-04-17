@@ -47,6 +47,7 @@
 			select t_product.*, t_member.center_name from t_product, t_member
 			where t_member.road_address like concat('%',#{address},'%')
 			and t_product.member_id=t_member.member_id
+			and t_product.product_state = '판매중'
 			order by t_product.product_entered_date desc
 		]]>
 	</select>	
@@ -57,6 +58,7 @@
 			select t_product.*, t_member.center_name from t_product, t_member
 			where t_product.product_sort =#{product_sort} and t_member.road_address like concat('%',#{address},'%')
 			and t_product.member_id=t_member.member_id
+			and t_product.product_state = '판매중'			
 			order by t_product.product_entered_date desc
 		]]>
 	</select>	
@@ -69,6 +71,7 @@
 		from t_product, t_member
 		where t_member.road_address like concat('%',#{address},'%')
 		and t_product.member_id=t_member.member_id
+		and t_product.product_state = '판매중'
 		order by orderCnt desc
 	  ]]>
 	</select>	
@@ -78,6 +81,7 @@
 		select t_product.*, t_member.center_name from t_product, t_member
 		where t_member.road_address like concat('%',#{address},'%')
 		and t_product.member_id=t_member.member_id 
+		and t_product.product_state = '판매중'		
 		order by t_product.product_sales_price 
 		]]>
 	</select>	
@@ -87,6 +91,7 @@
 		select t_product.*, t_member.center_name from t_product, t_member
 		where t_member.road_address like concat('%',#{address},'%')
 		and t_product.member_id=t_member.member_id 
+		and t_product.product_state = '판매중'
 		order by t_product.product_sales_price desc
 		]]>
 	</select>	
@@ -97,6 +102,7 @@
 		from t_product, t_member
 		where t_product.product_sort =#{product_sort} and t_member.road_address like concat('%',#{address},'%')
 		and t_product.member_id=t_member.member_id
+		and t_product.product_state = '판매중'
 		order by orderCnt desc
 	  ]]>
 	</select>	
@@ -106,6 +112,7 @@
 		select t_product.*, t_member.center_name from t_product, t_member
 		where t_product.product_sort =#{product_sort}  and t_member.road_address like concat('%',#{address},'%')
 		and t_product.member_id=t_member.member_id 
+		and t_product.product_state = '판매중'
 		order by t_product.product_sales_price 
 		]]>
 	</select>	
@@ -115,6 +122,7 @@
 		select t_product.*, t_member.center_name from t_product, t_member
 		where t_product.product_sort =#{product_sort}  and t_member.road_address like concat('%',#{address},'%')
 		and t_product.member_id=t_member.member_id 
+		and t_product.product_state = '판매중'
 		order by t_product.product_sales_price desc
 		]]>
 	</select>	
@@ -126,6 +134,7 @@
 		select DISTINCT t_product.*, t_member.center_name from t_product, t_member
 		where (t_product.product_name like concat('%',#{searchWord},'%') or t_member.center_name like concat('%',#{searchWord},'%')) 
 		and t_product.member_id = t_member.member_id
+		and t_product.product_state = '판매중'
 		order by t_product.product_entered_date desc
 		]]>
 	</select>	
@@ -138,6 +147,7 @@
 		where (t_product.product_name like concat('%',#{searchWord},'%') or t_member.center_name like concat('%',#{searchWord},'%')) 
 		and t_product.member_id = t_member.member_id
 		and t_product.product_sales_price BETWEEN #{minPrice} AND #{maxPrice}
+		and t_product.product_state = '판매중'
 		order by t_product.product_entered_date desc
 	 ]]>
 	</select>	
@@ -149,6 +159,7 @@
 		where t_product.product_name like concat('%',#{searchWord},'%')
 		and t_product.member_id = t_member.member_id
 		and t_product.product_price BETWEEN #{minPrice} AND #{maxPrice}				
+		and t_product.product_state = '판매중'
 		order by t_product.product_entered_date desc
 	 ]]>
 	</select>
@@ -160,6 +171,7 @@
 		where t_member.center_name like concat('%',#{searchWord},'%')
 		and t_product.member_id = t_member.member_id
 		and t_product.product_price BETWEEN #{minPrice} AND #{maxPrice}				
+		and product_state = '판매중'
 		order by t_product.product_entered_date desc
 	 ]]>
 	</select>	

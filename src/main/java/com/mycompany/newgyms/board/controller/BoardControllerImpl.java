@@ -206,7 +206,13 @@ public class BoardControllerImpl implements BoardController {
       }
       
       String board_image = upload(multipartRequest);
-      articleMap.put("board_image", board_image);
+      String originalFileName = multipartRequest.getParameter("originalFileName");
+
+      if (board_image == null || board_image.equals("")) {
+    	  articleMap.put("board_image", originalFileName);    	  
+      } else {
+    	  articleMap.put("board_image", board_image);
+      }
       
       String article_no = (String)articleMap.get("article_no");
       String message;
@@ -221,8 +227,8 @@ public class BoardControllerImpl implements BoardController {
             File destDir = new File(ARTICLE_IMAGE_REPO + "\\" + article_no);
             FileUtils.moveFileToDirectory(srcFile, destDir, true);
             
-            String originalFileName = (String)articleMap.get("originalFileName");
-            File oldFile = new File(ARTICLE_IMAGE_REPO + "\\" + "temp" + "\\" + originalFileName);
+            originalFileName = (String)articleMap.get("originalFileName");
+            File oldFile = new File(ARTICLE_IMAGE_REPO + "\\" + article_no + "\\" + originalFileName);
             oldFile.delete();
          }
          

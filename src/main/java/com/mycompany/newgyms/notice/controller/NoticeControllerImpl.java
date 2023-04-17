@@ -165,7 +165,13 @@ public class NoticeControllerImpl implements NoticeController {
 	      }
 
 	      String notice_image = upload(multipartRequest);
-	      noticeMap.put("notice_image", notice_image);
+	      String originalFileName = multipartRequest.getParameter("originalFileName");
+
+	      if (notice_image == null || notice_image.equals("")) {
+	    	  noticeMap.put("notice_image", originalFileName);    	  
+	      } else {
+		      noticeMap.put("notice_image", notice_image);
+	      }
 	      
 	      String notice_no = (String)noticeMap.get("notice_no");
 	      String message;
@@ -180,7 +186,7 @@ public class NoticeControllerImpl implements NoticeController {
 	            File destDir = new File(NOTICE_IMAGE_REPO + "\\" + notice_no);
 	            FileUtils.moveFileToDirectory(srcFile, destDir, true);
 	            
-	            String originalFileName = (String)noticeMap.get("originalFileName");
+	            originalFileName = (String)noticeMap.get("originalFileName");
 	            File oldFile = new File(NOTICE_IMAGE_REPO + "\\" + "temp" + "\\" + originalFileName);
 	            oldFile.delete();
 	         }

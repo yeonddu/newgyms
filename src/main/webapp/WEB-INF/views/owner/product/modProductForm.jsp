@@ -38,16 +38,7 @@
 		}
 	}
 	
-	/* 메인이미지 수정 버튼 */
-	$(document).ready(function(){
-		$('#modify_btn').on("click", function(e){
-			$('#modify_image').attr('style', 'visibility:visible');
-	        $("#modify_image").append(
-          	   "<input style='border:none;' type='file' name='product_main_image' onchange='previewMainImage(this);' required/>");	
-		});
-	});
-	
-
+		
 		/* 옵션 추가*/
 		   var opt = 0;
 		   function fn_addOption(){
@@ -59,21 +50,76 @@
 		      opt++;
 		   }
 		      
-		   /* 옵션 삭제 */
-		   function fn_delOption() {
-		      console.log("삭제해조...z")
-		      console.log("삭제해따...z")
-		      
-		      var thisOption = document.getElementById("del_option_btn").closest('div');
-		      thisOption.remove();
-		   }
-	   
-	/* 목록으로 */
-	function backToList(obj) {
-		obj.action = "${contextPath}/owner/product/ownerProductList.do";
-		obj.submit();
-	}
+	   /* 옵션 삭제 */
+	   function fn_delOption() {
+	      var thisOption = document.getElementById("del_option_btn").closest('div');
+	      thisOption.remove();
+	   }
 
+    $(document).ready(function() {
+        $("a[name='file-delete']").on("click", function(e) {
+            e.preventDefault();
+            deleteFile($(this));
+        });
+    })
+ 
+    function addFile(type) {
+    	
+    	if (type == 'detail_image') {
+    		
+	        var file = "<div class='img_preview'><input style='border:none;' type='file' name='detail_image'  accept='image/*' required><a href='#this' name='file-delete'>X</a></div>";
+	        $("#add_detail_image_list").append(file);    
+	        
+    	} else if (type == 'price_image') {
+    		
+	        var file = "<div class='img_preview'><input style='border:none;' type='file' name='price_image'  accept='image/*' required><a href='#this' name='file-delete'>X</a></div>";
+	        $("#add_price_image_list").append(file);
+	        
+    	} else if (type == 'facility_image') {
+    		
+	        var file = "<div class='img_preview'><input style='border:none;' type='file' name='facility_image' accept='image/*' required><a href='#this' name='file-delete'>X</a></div>";
+	        $("#add_facility_image_list").append(file);
+    	} 
+    	
+        $("a[name='file-delete']").on("click", function(e) {
+            e.preventDefault();
+            deleteFile($(this));
+        });
+    }
+ 
+    function deleteFile(obj) {
+        obj.parent().remove();
+    }
+	   
+   function fn_delImage(product_id, image_id, fileName) {
+	   $.ajax({
+			type : "post",
+			async : false, //false인 경우 동기식으로 처리한다.
+			url : "${contextPath}/owner/product/removeProductImage.do",
+			data : {
+				product_id:product_id,
+				image_id:image_id,
+				fileName:fileName
+			},
+			success : function(data) {
+				if(data.trim()=='mod_success'){
+					alert("상품 정보를 수정했습니다.");
+				}else if(data.trim()=='failed'){
+					alert("다시 시도해 주세요.");	
+				}
+			},
+			error : function(data, textStatus) {
+				alert("에러가 발생했습니다."+data);
+			},
+			complete : function(data, textStatus) {
+				//alert("작업을완료 했습니다");
+				
+			}
+		}); //end ajax 		
+        
+	   }
+
+	   
 </script>
 </head>
 <body>
@@ -89,6 +135,7 @@
 
 					<input type="hidden" name="product_id" value="${product.product_id}" >
 
+					<br><br>
 					<span class="add_product_title">기본정보</span>
 					<table id="product_info_table">
 						<tr>
@@ -118,21 +165,19 @@
 								        <img id="preview_main_img" alt="메인 이미지" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${product.product_main_image}">
 									        ${product.product_main_image}
 									    <br>
-									    <a id="modify_btn" href="#">수정하기</a>    
-									   	<div id="modify_image" style="visibility:hidden">
-									   	</div>
+									    <input id="add_file_btn" style="border:none;" type="file" name="product_main_image" accept="image/*" onchange="previewMainImage(this);"/>
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<td>정가 <span style="color:red">*</span></td>
 							<td>
-								<input type="text" pattern="[0-9]{*}" name="product_price" value="${product.product_sales_price}" required> 원
+								<input type="text" pattern="[0-9]{*}" name="product_price" value="${product.product_price}" required> 원
 							</td>
 							
 							<td style="text-align:center;">할인가 <span style="color:red">*</span></td>
 							<td>
-								<input type="text" pattern="[0-9]{*}" name="product_sales_price" value="${product.product_price}" required> 원
+								<input type="text" pattern="[0-9]{*}" name="product_sales_price" value="${product.product_sales_price}" required> 원
 							</td>
 						</tr>
 						<tr>
@@ -156,72 +201,20 @@
 								</c:forEach>
 								 </div>
 								 
-		<script type="text/javascript">
-		    $(document).ready(function() {
-		        $("a[name='file-delete']").on("click", function(e) {
-		            e.preventDefault();
-		            deleteFile($(this));
-		        });
-		    })
-		 
-		    function addFile(type) {
-		    	
-		    	if (type == 'detail_image') {
-			        var file = "<div class='img_preview'><input id='add_file_btn' style='border:none;' type='file' name='detail_image'  accept='image/*' onchange=thumbnail(this,'price_image');><a href='#this' name='file-delete'>삭제</a></div>";
-			        $("#add_detail_image_list").append(file);    		
-		    	} else if (type == 'price_image') {
-			        var file = "<div class='img_preview'><input id='add_file_btn' style='border:none;'  type='file' name='price_image'  accept='image/*' onchange=thumbnail(this,'price_image');><a href='#this' name='file-delete'>삭제</a></div>";
-			        $("#add_price_image_list").append(file);
-			        
-		    	} else if (type == 'facility_image') {
-			        var file = "<div class='img_preview'><input id='add_file_btn' style='border:none;' type='file' name='facility_image' accept='image/*' onchange=thumbnail(this,'facility_image');><a href='#this' name='file-delete'>삭제</a></div>";
-			        $("#add_facility_image_list").append(file);
-		    	}
-		    	
-		        $("a[name='file-delete']").on("click", function(e) {
-		            e.preventDefault();
-		            deleteFile($(this));
-		        });
-		    }
-		
-		 
-		    function deleteFile(obj) {
-		        obj.parent().remove();
-		    }
-		    
-			/* 이미지 썸네일 */
-			function thumbnail(input, type) {
-				if (input.files && input.files[0]) {
-					
-					var fileName = input.files[0].name;
-			        var reader = new FileReader();
-			        reader.onload = function (e) {
-			        	
-			            var img = document.createElement("img");
-			            img.setAttribute("src", e.target.result);
-			            
-		 	            console.log(e.target.result)
-		 	            
-			        	  /* if(type == 'detail_image') {
-		
-			        	  }  else if (type == 'price_image') {
-				            document.querySelector("div#add_price_image_list").append(img);
-			    	        
-			        	} else if (type == 'facility_image') {
-				            document.querySelector("div#add_facility_image_list").append(img);
-			        	} */
-			        };
-			        reader.readAsDataURL(input.files[0]);
-				}
-			}
-		</script>						
+						<br><br>		
 						<span class="add_product_title">프로그램 정보</span>
 						<table id="product_detail_table">					
 						<tr>
 							<td>프로그램 상세정보</td>
 							<td>
-								<textarea name="product_program_details"> ${product.product_program_details} </textarea>
+								<textarea name="product_program_details"> ${product.product_program_details}</textarea>
 							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>이미지 첨부
+						        <a class="add_option_btn" href="#this" onclick="addFile('detail_image')">파일추가</a>
+ 							</td>
 						</tr>
 						<tr>
 							<td></td>
@@ -232,25 +225,25 @@
 									<div id="preview_detail_img" class="img_preview">
 							          <img alt="프로그램 상세정보 이미지" src="${contextPath}/download.do?product_id=${image.product_id}&fileName=${image.fileName}">
 								        ${image.fileName}
-							            <a href='#this' name='file-delete'>삭제</a>
+							            <a href='#this' name='file-delete' onClick="fn_delImage('${image.product_id}','${image.image_id}','${image.fileName}')">X</a>
 									</div>
 							     </div>
 								</c:forEach>
 					         </c:if>
-							</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>이미지 첨부
-						        <a class="add_option_btn" href="#this" onclick="addFile('detail_image')">파일추가</a>
    						        <div id="add_detail_image_list"  class="img_preview"></div>
- 							</td>
+							</td>
 						</tr>
 						<tr>
 							<td>가격 정보</td>
 							<td>
 								<textarea name=" product_price_details"> ${product.product_price_details} </textarea>
 							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>이미지 첨부
+						        <a class="add_option_btn" href="#this" onclick="addFile('price_image')">파일추가</a>
+ 							</td>
 						</tr>
 						<tr>
 							<td></td>
@@ -261,24 +254,24 @@
 									<div id="preview_price_img" class="img_preview">
 							          <img alt="가격 정보 이미지" src="${contextPath}/download.do?product_id=${image.product_id}&fileName=${image.fileName}">
 								        ${image.fileName}
-							            <a href='#this' name='file-delete'>삭제</a>
+							            <a href='#this' name='file-delete' onClick="fn_delImage('${image.product_id}','${image.image_id}','${image.fileName}')">X</a>
 									</div>
 							     </div>
 								</c:forEach>
 					         </c:if>
+   						        <div id="add_price_image_list"  class="img_preview"></div>
 							</td>
 						</tr>						
-						<tr>
-							<td></td>
-							<td>이미지 첨부
-						        <a class="add_option_btn" href="#this" onclick="addFile('price_image')">파일추가</a>
-   						        <div id="add_price_image_list"  class="img_preview"></div>
- 							</td>
-						</tr>
 						<tr>
 							<td>시설 정보</td>
 							<td>
 								<textarea name=" product_facility_details"> ${product.product_facility_details} </textarea>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>이미지 첨부
+						        <a class="add_option_btn" href="#this" onclick="addFile('facility_image')">파일추가</a>
 							</td>
 						</tr>
 						<tr>
@@ -290,20 +283,14 @@
 									<div id="preview_facility_img" class="img_preview">
 							          <img alt="가격 정보 이미지" src="${contextPath}/download.do?product_id=${image.product_id}&fileName=${image.fileName}">
 								        ${image.fileName}
-							            <a href='#this' name='file-delete'>삭제</a>
+							            <a href='#this' name='file-delete' onClick="fn_delImage('${image.product_id}','${image.image_id}','${image.fileName}')">X</a>
 									</div>
 							     </div>
 								</c:forEach>
 					         </c:if>
-							</td>
-						</tr>												
-						<tr>
-							<td></td>
-							<td>이미지 첨부
-						        <a class="add_option_btn" href="#this" onclick="addFile('facility_image')">파일추가</a>
    						        <div id="add_facility_image_list"  class="img_preview"></div>
 							</td>
-						</tr>
+						</tr>												
 						<tr>
 							<td>위치 정보</td>
 							<td>	
@@ -312,25 +299,28 @@
 						</tr>
 						</table>
 						
+						<br><br>
 						<span class="add_product_title">환불 정보</span>
 						<table id="product_refund_table">					
 						<tr>
-							<td>취소 및 환불 규정</td>
+							<td>취소 및 환불 규정 <span style="color:red">*</span></td>
 							<td>
-								<textarea name="product_refund_1"> ${fn:replace(product.product_refund_1 ,crcn,br)} </textarea>
+								<textarea name="product_refund_1" required> ${fn:replace(product.product_refund_1 ,crcn,br)} </textarea>
 							</td>
 						</tr>
 						<tr>
-							<td>취소 및 환불 불가한 경우</td>
+							<td>취소 및 환불 불가한 경우 <span style="color:red">*</span></td>
 							<td>
-								<textarea name="product_refund_2">${fn:replace(product.product_refund_2 ,crcn,br)}  </textarea>
+								<textarea name="product_refund_2" required>${fn:replace(product.product_refund_2 ,crcn,br)}  </textarea>
 							</td>
 						</tr>
 				</table>
-				
+					<div id="deleteimageFileName">
+					
+					</div>
 					<div align=center>
-						<input type="submit" value="저장하기" class="submit_btn">
-						<button class="submit_btn2" onclick="backToList(this.form)">목록으로</button>
+						<input type="submit" value="저장하기" class="confirm_btn">
+						<a class="back_btn" href="${contextPath}/owner/product/ownerProductList.do?member_id=${memberInfo.member_id}&chapter=1">목록으로</a>
 					</div>
 
 				</form>

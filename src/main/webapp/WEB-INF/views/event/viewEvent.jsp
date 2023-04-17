@@ -133,8 +133,8 @@
 
 						</table>
 						
-						<!-- 게시글 작성자와 관리자에게만 보이는 수정/삭제 버튼 -->
-							<c:if test="${memberInfo.member_id == event.member_id || memberInfo.member_id == 'admin'}">
+						<!-- 게시글 작성자에게만 보이는 수정/삭제 버튼 -->
+							<c:if test="${memberInfo.member_id == event.member_id}">
 							<div id="align_center">
 								<input type="button" id="modify_btn" value="수정하기"
 									onclick="fn_modify_event('${contextPath}/event/modEventForm.do', ${event.event_no})">

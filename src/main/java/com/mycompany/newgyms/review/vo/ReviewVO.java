@@ -5,9 +5,10 @@ import java.sql.Date;
 public class ReviewVO {
 	private int review_no;
 	private int order_id;
-	private String member_id;
+	private String member_id; //작성자
 	private String center_name;
 	private int product_id;
+	private String owner_id; //사업자
 	private String product_name;
 	private String product_main_image;
 	private String product_option_name;

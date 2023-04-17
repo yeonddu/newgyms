@@ -60,7 +60,7 @@
 										<td><span id="event_textbox">아이디</span></td>
 										<td align=left><input type="text" size="10"
 											class="event_inputbox" maxlength="20"
-											value="${memberInfo.member_id}" name="member_id" readonly /></td>
+											value="${event.member_id}" name="member_id" readonly /></td>
 
 										<td width="10%" align=right><span id="event_textbox">상품명
 												&nbsp;</span></td>
@@ -74,7 +74,8 @@
 											value="${memberInfo.center_name}" name="center_name" readonly
 											required /></td>
 										<td align=right><span id="event_textbox">기간 &nbsp;</span></td>
-										<td align=left><span class="event_inputbox"> <fmt:formatDate
+										<td align=left>
+											<span class="event_inputbox"> <fmt:formatDate
 													pattern="yyyy-MM-dd" value="${event.event_start_date}" />
 												~ <fmt:formatDate pattern="yyyy-MM-dd"
 													value="${event.event_end_date}" />
@@ -86,7 +87,7 @@
 										<td><span id="event_textbox">아이디</span></td>
 										<td align=left><input type="text" size="10"
 											class="event_inputbox" maxlength="20"
-											value="${memberInfo.member_id}" name="member_id" readonly /></td>
+											value="${event.member_id}" name="member_id" readonly /></td>
 
 										<td width="5%" rowspan="2"><span id="event_textbox">기간</span>
 										</td>
@@ -131,8 +132,10 @@
 										</c:otherwise>
 									</c:choose></td>
 
-								<td colspan="2" align=left style="padding-left: 20px;"><input
-									type="file" name="event_image" onchange="readURL(this);"></td>
+								<td colspan="2" align=left style="padding-left: 20px;">
+									<input type="file" name="event_image" onchange="readURL(this);">
+									<input type="hidden" name="originalFileName" value="${event.event_image}">
+								</td>
 							</tr>
 						</table>
 						<div align=center>

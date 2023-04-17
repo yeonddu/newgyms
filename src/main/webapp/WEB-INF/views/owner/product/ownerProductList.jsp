@@ -14,40 +14,37 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 
-	// 상품 수정하기
-	function fn_modify_product(url, product_id) {
-		var form = document.createElement("form");
-		form.setAttribute("method", "post");
-		form.setAttribute("action", url);
-		var product_id_Input = document.createElement("input");
-		product_id_Input.setAttribute("type", "hidden");
-		product_id_Input.setAttribute("name", "product_id");
-		product_id_Input.setAttribute("value", product_id);
-		
-		form.appendChild(product_id_Input);
-		document.body.appendChild(form);
-		form.submit();
-	}
-	
 	// 상품 삭제하기
-	function fn_remove_product(url, product_id) {
-		var form = document.createElement("form");
-		form.setAttribute("method", "post");
-		form.setAttribute("action", url);
-		var product_id_Input = document.createElement("input");
-		product_id_Input.setAttribute("type", "hidden");
-		product_id_Input.setAttribute("name", "product_id");
-		product_id_Input.setAttribute("value", product_id);
-
-		form.appendChild(product_id_Input);
-		document.body.appendChild(form);
-		form.submit();
+	function fn_remove_product(product_id) {
+		if(confirm("선택한 상품을 삭제 하시겠습니까?")){
+		    $.ajax({
+		       type : "post",
+		       async : false,
+		       url : "${contextPath}/owner/product/removeProduct.do",
+		       data : {
+		          product_id:product_id
+		       },
+		       success : function(data, textStatus) {
+		       	  if(data.trim()=='success'){
+		       		 alert("상품이 삭제되었습니다."); 
+					 location.reload();
+		          }else {
+		             alert("오류가 발생했습니다.");   
+		          }
+		       },
+		       error : function(data, textStatus) {
+		          alert("오류가 발생했습니다."+data);
+		       },
+		       complete : function(data, textStatus) {
+		          //alert("작업을완료 했습니다");
+		       }
+		    }); //end ajax   
+		}
 	}
 
 </script>
 </head>
 <body>
-	<form action="${contextPath}/owner/ownerProductList.do" method="get">
 		<input type="hidden" name="chapter" value="1">
 		<div class="con-min-width">
 			<div class="con">
@@ -131,7 +128,8 @@
 												<!-- 수정 및 삭제 버튼 -->
 												<td>
 													<a id="owner_modify_btn" href="${contextPath}/owner/product/ProductModifyForm.do?product_id=${list.product_id}">수정하기</a><br>
-													<a id="owner_delete_btn" href="${contextPath}/owner/product/removeProduct.do?product_id=${list.product_id}">삭제하기</a>
+													<a id="owner_delete_btn" href="javascript:fn_remove_product('${list.product_id}');">삭제하기</a>
+<%-- 													<a id="owner_delete_btn" href="${contextPath}/owner/product/removeProduct.do?product_id=${list.product_id}">삭제하기</a> --%>
 												</td>
 											</tr>
 										</tbody>
@@ -158,6 +156,5 @@
 				</div>
 			</div>
 		</div>
-	</form>
 </body>
 </html>

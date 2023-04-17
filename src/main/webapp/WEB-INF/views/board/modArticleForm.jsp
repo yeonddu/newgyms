@@ -87,8 +87,10 @@
 								</c:choose>
 								</td>
 
-								<td align=left style="padding-left: 20px;"><input type="file"
-									name="board_image" onchange="readURL(this);"></td>
+								<td align=left style="padding-left: 20px;">
+									<input type="file" name="board_image" onchange="readURL(this);" accept="image/*">
+									<input type="hidden" name="originalFileName" value="${article.board_image}">
+								</td>
 							</tr>
 						</table>
 						<div align=center>

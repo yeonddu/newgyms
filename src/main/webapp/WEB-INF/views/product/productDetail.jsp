@@ -33,6 +33,14 @@
 <link href="${contextPath}/resources/css/product.css?after" rel="stylesheet" type="text/css" media="screen">
 <script type="text/javascript">
 
+
+	function fn_check_productState() {
+		if(${product.product_state} != '판매중') {
+			alert('판매중인 상품이 아닙니다 :(');
+			history.back();
+		}
+	}
+
 	/* 옵션 선택 시 총 상품금액 출력*/ 
 	$(document).ready(function(){
 		$('#order_product_opt').on("change", function(){
@@ -220,7 +228,7 @@
 
 </script>
 </head>
-<body>
+<body onload="fn_check_productState()">
 <div class="con-min-width">
 <div class="con">
 

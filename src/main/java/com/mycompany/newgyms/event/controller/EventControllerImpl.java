@@ -198,7 +198,13 @@ public class EventControllerImpl implements EventController {
 		}
 
 		String event_image = upload(multipartRequest);
-		eventMap.put("event_image", event_image);
+		String originalFileName = multipartRequest.getParameter("originalFileName");
+		
+		if (event_image == null || event_image.equals("")) {
+			eventMap.put("event_image", originalFileName);    	  
+	      } else {
+	    	eventMap.put("event_image", event_image);
+	      }
 
 		String event_no = (String) eventMap.get("event_no");
 		String message;
@@ -213,7 +219,7 @@ public class EventControllerImpl implements EventController {
 				File destDir = new File(EVENT_IMAGE_REPO + "\\" + event_no);
 				FileUtils.moveFileToDirectory(srcFile, destDir, true);
 
-				String originalFileName = (String) eventMap.get("originalFileName");
+				originalFileName = (String) eventMap.get("originalFileName");
 				File oldFile = new File(EVENT_IMAGE_REPO + "\\" + "temp" + "\\" + originalFileName);
 				oldFile.delete();
 			}

@@ -150,14 +150,15 @@
 		]]>
 	</update>
 	
-		
+	<delete id="deleteProducImage" parameterType="int">
+	  delete from t_product_detail_image
+	  where image_id=#{image_id}
+	</delete>
+	
 	<delete id="deleteProduct" parameterType="int">
 		<![CDATA[
-			DELETE p, d, o
-			FROM t_product p, t_product_detail_image d INNER JOIN t_product_option o
-			WHERE p.product_id = #{product_id}
-				and d.product_id = #{product_id}
-				and o.product_id = #{product_id}
+			DELETE FROM t_product
+			WHERE product_id = #{product_id}
 		]]>
 	</delete>
 	

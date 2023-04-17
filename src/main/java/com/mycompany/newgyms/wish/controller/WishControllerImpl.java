@@ -34,6 +34,7 @@ public class WishControllerImpl implements WishController{
 	private WishVO wishVO;
 	
 	/* Âò ¸ñ·Ï */
+	
 	@RequestMapping(value="/myWishList.do" ,method = RequestMethod.GET)
 	public ModelAndView myWishMain(HttpServletRequest request, HttpServletResponse response)  throws Exception {
 		response.setHeader("Expires", "Sat, 6 May 1995 12:00:00 GMT"); 
@@ -70,8 +71,7 @@ public class WishControllerImpl implements WishController{
 		return mav;
 	}
 	
-	
-	@RequestMapping(value = "/addWishList.do", method = RequestMethod.POST,produces = "application/text; charset=utf8")
+	@RequestMapping(value = "/addWishList.do", method={RequestMethod.POST,RequestMethod.GET},produces = "application/text; charset=utf8")
 	public @ResponseBody String addWishList(@RequestParam("product_id") int product_id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session=request.getSession();
 		Boolean isLogOn=(Boolean)session.getAttribute("isLogOn");

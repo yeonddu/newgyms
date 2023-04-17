@@ -103,7 +103,7 @@
 	<update id="updateEvent" parameterType="java.util.Map">
 		<![CDATA[
 			update t_event
-			set event_title=#{event_title}, event_content=#{event_content}, event_image=#{event_image}, event_start_date=#{event_start_date}, event_end_date=#{event_end_date}
+			set event_title=#{event_title}, event_content=#{event_content}, event_image=#{event_image}
 			where event_no = #{event_no}
 		]]>
 	</update>
