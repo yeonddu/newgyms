@@ -1,7 +1,6 @@
 package com.mycompany.newgyms.owner.main.controller;
 
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,17 +32,14 @@ public class ownerPageControllerImpl implements ownerPageController {
 	  @Autowired
 	  private ProductService productService;
 	  
-	  /* �궗�뾽�옣 �냼媛� �럹�씠吏�*/
+	  /* 사업장 소개/관리 페이지 */
 	  @Override
 	  @RequestMapping(value = "/ownerPageIntroView.do", method = RequestMethod.GET)
-	  public ModelAndView ownerPageIntroView(@RequestParam("member_id") String member_id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	  public ModelAndView ownerPageIntroView(@RequestParam("member_id") String member_id,
+			  HttpServletRequest request, HttpServletResponse response) throws Exception {
 		  ModelAndView mav = new ModelAndView(); 
 		  
-		  Map sortMap = new HashMap();
-		  sortMap.put("product_sort", "전체보기");
-		  sortMap.put("address", "대전"); 
-		  
-		  List<ProductVO> productList=productService.productList(sortMap);
+		  List<ProductVO> productList=ownerPageService.productList(member_id);
 		  mav.addObject("productList", productList);
 		  
 		  OwnerPageVO ownerPageVO = ownerPageService.ownerPageIntroView(member_id);
@@ -51,16 +47,13 @@ public class ownerPageControllerImpl implements ownerPageController {
 		  
 		  MemberVO memberVO = ownerPageService.ownerPageIntroInfo(member_id);
 		  mav.addObject("memberVO", memberVO);
-				  
-		  //MemberVO memberVO = memberService.ownerDetail(member_id);
-		  //mav.addObject("memberVO", memberVO);
-		  
+		
 		  mav.setViewName("/owner/main/ownerPageIntroView");
 		  
 		  return mav; 
 	  }
 	  
-	  /* �궗�뾽�옣 愿�由� �럹�씠吏� */
+	  /* 사업장 관리 페이지 */
 	  @Override
 	  @RequestMapping(value = "/ownerPageIntroModifyForm.do", method = RequestMethod.GET)
 	  public ModelAndView ownerPageIntroModifyForm(@RequestParam("member_id") String member_id,HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -75,19 +68,17 @@ public class ownerPageControllerImpl implements ownerPageController {
 		  return mav;
 	  }
 	  
-	  /* �궗�뾽�옣 愿�由� �닔�젙 */
+	  /* 사업장 관리 페이지 수정 */
 	  @Override
 	  @RequestMapping(value = "/ownerPageIntroModify.do", method = RequestMethod.POST)
 	  public @ResponseBody String ownerPageIntroModify(@RequestParam Map<String, String> modifyMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		  String result = ownerPageService.ownerPageIntroModify(modifyMap);
 		  
-		  response.sendRedirect("ownerPageIntroModifyForm.jsp");
-		  //response.setHeader("Refresh", "0; URL=ownerPageIntroModifyForm.jsp"); 
 		  return result;
 	  }
 	  
 	  
-	  /* �궗�뾽�옄�젙蹂� �닔�젙 鍮꾨�踰덊샇 �솗�씤 �럹�씠吏� */
+	  /* 사업자 회원정보 수정 탈퇴  */
 	  @Override
 	  @RequestMapping(value = "/ownerPageModify.do", method = RequestMethod.GET)
 	  public ModelAndView ownerPageInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {

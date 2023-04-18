@@ -11,11 +11,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 public interface ownerPageController {
 	
-	/* 사업장 소개/관리 페이지*/
+	/* 사업장 소개/관리 페이지 */
 	public ModelAndView ownerPageIntroView(@RequestParam("member_id") String member_id, HttpServletRequest request, HttpServletResponse response) throws Exception;
     public ModelAndView ownerPageIntroModifyForm(@RequestParam("member_id") String member_id,HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	/* 사업장 관리 수정 */
+	/* 사업장 관리 페이지 수정 */
 	public @ResponseBody String ownerPageIntroModify(@RequestParam Map<String, String> modifyMap, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	/* 사업자 회원정보 수정 탈퇴*/

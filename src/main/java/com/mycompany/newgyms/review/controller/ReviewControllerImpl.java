@@ -43,7 +43,6 @@ public class ReviewControllerImpl implements ReviewController {
 	/* 리뷰 상세페이지 */
 	@RequestMapping(value = "/viewReview.do", method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> viewReview(@RequestParam("review_no") int review_no, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		 //List<Map<String, Object>> reviewDetailList = new ArrayList<Map<String, Object>>();
 		Map<String,Object> reviewMap = new HashMap<String, Object>();
 
 		ReviewVO reviewVO = reviewService.viewReview(review_no);

@@ -30,7 +30,9 @@ import com.mycompany.newgyms.mypage.service.MyPageService;
 import com.mycompany.newgyms.mypage.vo.PointVO;
 import com.mycompany.newgyms.mypage.vo.RefundVO;
 import com.mycompany.newgyms.order.vo.OrderVO;
+import com.mycompany.newgyms.owner.review.service.OwnerReviewService;
 import com.mycompany.newgyms.qna.vo.QnaVO;
+import com.mycompany.newgyms.review.vo.ReviewImageVO;
 import com.mycompany.newgyms.review.vo.ReviewVO;
 
 @Controller("myPageController")
@@ -38,6 +40,8 @@ import com.mycompany.newgyms.review.vo.ReviewVO;
 public class MyPageControllerImpl implements MyPageController {
 	@Autowired
 	private MyPageService myPageService;
+	@Autowired
+	private OwnerReviewService ownerReviewService;
 	@Autowired
 	private MemberVO memberVO;
 	@Autowired
@@ -48,6 +52,7 @@ public class MyPageControllerImpl implements MyPageController {
 	private ArticleVO articleVO;
 	@Autowired
 	private QnaVO qnaVO;
+
 
 	// 寃곗젣�궡�뿭 議고쉶
 	@Override
@@ -79,11 +84,12 @@ public class MyPageControllerImpl implements MyPageController {
 		condMap.put("firstDate", firstDate);
 		condMap.put("secondDate", secondDate);
 		condMap.put("text_box", text_box);
-		String maxnum = myPageService.maxNumSelect(condMap);
-		List<OrderVO> orderMemberList = myPageService.orderMemberList(condMap);
+		String maxnum = myPageService.maxNumSelect(condMap); //8
+		System.out.println(maxnum);
+		List<OrderVO> orderMemberList = myPageService.orderMemberList(condMap); // 8
 		condMap.put("maxnum", maxnum);
-		List<OrderVO> myOrderList = myPageService.listMyOrders(condMap);
-		List<OrderVO> orderMember = myPageService.orderMember(condMap);
+		List<OrderVO> myOrderList = myPageService.listMyOrders(condMap); // 6
+		List<OrderVO> orderMember = myPageService.orderMember(condMap); // 8
 		int count = orderMember.size();
 		mav.addObject("count", count);
 		mav.addObject("member_id", member_id);
@@ -322,6 +328,7 @@ public class MyPageControllerImpl implements MyPageController {
 		String maxnum = myPageService.reviewMaxNum(condMap);
 		condMap.put("maxnum", maxnum);
 		List<ReviewVO> myReviewList = myPageService.listMyReviews(condMap);
+		List<ReviewVO> reviewImageList = ownerReviewService.reviewImageList(condMap);
 		mav.addObject("member_id", member_id);
 		mav.addObject("chapter", chapter);
 		mav.addObject("maxnum", maxnum);
@@ -329,9 +336,16 @@ public class MyPageControllerImpl implements MyPageController {
 		mav.addObject("secondDate", secondDate);
 		mav.addObject("text_box", text_box);
 		mav.addObject("myReviewList", myReviewList);
+		mav.addObject("reviewImageList", reviewImageList);
 		mav.setViewName("/mypage/myReviewList");
 
 		return mav;
+	}
+	
+	@RequestMapping(value = "/selectReviewContentsImages.do", method = RequestMethod.GET)
+	public @ResponseBody List<ReviewImageVO> selectReviewContentsImages(@RequestParam("review_no") int review_no, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<ReviewImageVO> reviewContentsImagesList = myPageService.selectReviewContentsImages(review_no);
+		return reviewContentsImagesList;
 	}
 
 	// �씠�슜�썑湲� �궘�젣
@@ -353,7 +367,7 @@ public class MyPageControllerImpl implements MyPageController {
 			myPageService.deleteReview(condMap);
 
 			message = "<script>";
-			message += "alert('�씠�슜�썑湲곌� �궘�젣�릺�뿀�뒿�땲�떎.');";
+			message += "alert('해당 이용후기가 삭제되었습니다.');";
 			message += "location.href='" + request.getContextPath()
 					+ "/mypage/myReviewList.do?chapter=1&firstDate=&secondDate=&text_box=&member_id=" + member_id
 					+ "';";
@@ -361,10 +375,50 @@ public class MyPageControllerImpl implements MyPageController {
 			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
 		} catch (Exception e) {
 			message = "<script>";
-			message += "alert('�옉�뾽以� �삤瑜섍� 諛쒖깮�뻽�뒿�땲�떎. �떎�떆 �떆�룄�빐二쇱꽭�슂.');";
+			message += "alert('에러');";
 			message += "location.href = '" + request.getContextPath()
 					+ "/mypage/myReviewList.do?chapter=1&firstDate=&secondDate=&text_box=&member_id=" + member_id
 					+ "';";
+			message += "</script>";
+			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
+			e.printStackTrace();
+		}
+		return resEnt;
+
+	}
+	
+	// 리뷰수정창
+	@Override
+	@RequestMapping(value = "/myreviewModify.do", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity myreviewModify(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		response.setContentType("text/html; charset=UTF-8");
+		String message;
+		ResponseEntity resEnt = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		String member_id = request.getParameter("member_id");
+		String review_no = request.getParameter("review_no");
+		System.out.println("1 : "+member_id);
+		System.out.println("2 : "+review_no);
+		try {
+			Map<String, Object> condMap = new HashMap<String, Object>();
+			condMap.put("member_id", member_id);
+			condMap.put("review_no", review_no);
+			
+			message = "<script>";
+			message += "alert('해당 이용후기가 수정되었습니다.');";
+			message += "location.href='" + request.getContextPath()
+			+ "/mypage/myReviewList.do?chapter=1&firstDate=&secondDate=&text_box=&member_id=" + member_id
+			+ "';";
+			message += "</script>";
+			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
+		} catch (Exception e) {
+			message = "<script>";
+			message += "alert('에러');";
+			message += "location.href = '" + request.getContextPath()
+			+ "/mypage/myReviewList.do?chapter=1&firstDate=&secondDate=&text_box=&member_id=" + member_id
+			+ "';";
 			message += "</script>";
 			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
 			e.printStackTrace();

@@ -31,7 +31,7 @@
             <a href="${contextPath}/admin/board/adminArticleList.do">자유게시판 관리</a>
          </li>
          <li>
-            <a href="#">이용후기 관리</a>
+        	 <a href="${contextPath}/admin/review/adminReviewList.do?&chapter=1&firstDate=&secondDate=&text_box=">이용후기 관리</a>
          </li>
          <li>
             <a href="${contextPath}/admin/notice/adminNoticeList.do">공지사항 관리</a>

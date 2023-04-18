@@ -149,6 +149,11 @@ transform: translate(0, 0); transition: linear 0.3s;
    color: rgb(150, 150, 150); font-size: 14px; clear:both; text-decoration: line-through; display:block;
 }
 
+/* 지도 마커 */
+.infoWindow {
+   width:150px;text-align:center;font-size:16px;padding:6px 0;
+}
+
 .modify_btn {
 	display:block;
 	margin-left:280px;
@@ -316,7 +321,7 @@ transform: translate(0, 0); transition: linear 0.3s;
 }
 
 .qna_list {
-	clear:both; margin:0 auto;
+	clear:both; margin:0 auto; width:100%;
     
 }
 

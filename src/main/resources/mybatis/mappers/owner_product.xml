@@ -150,9 +150,13 @@
 		]]>
 	</update>
 	
-	<delete id="deleteProducImage" parameterType="int">
+	<delete id="deleteProducImage" parameterType="java.util.ArrayList" >
 	  delete from t_product_detail_image
-	  where image_id=#{image_id}
+	  where image_id in 
+        
+	  <foreach collection="array" item="image_id" open="(" close=")" separator=",">
+		 #{image_id}
+	  </foreach>
 	</delete>
 	
 	<delete id="deleteProduct" parameterType="int">

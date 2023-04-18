@@ -49,8 +49,37 @@
       <result property="intro_service" column="intro_service"/>
    </resultMap>
    
+   <resultMap id="productResult" type="ProductVO">
+		<result property="product_id" column="product_id" />
+		<result property="product_sort" column="product_sort" />
+		<result property="member_id" column="member_id" />
+		<result property="center_name" column="center_name" />
+		<result property="product_name" column="product_name" />
+		<result property="product_main_image" column="product_main_image" />
+		<result property="product_program_details" column="product_program_details" />
+		<result property="product_price_details" column="product_price_details" />
+		<result property="product_facility_details" column="product_facility_details" />
+		<result property="product_location_details" column="product_location_details" />		
+		<result property="product_price" column="product_price" />
+		<result property="product_sales_price" column="product_sales_price" />
+		<result property="product_point" column="product_point" />
+		<result property="product_entered_date" column="product_entered_date" />		
+		<result property="product_state" column="product_state" />
+		<result property="product_intro" column="product_intro" />
+		<result property="product_refund_1" column="product_refund_1" />
+		<result property="product_refund_2" column="product_refund_2" />
+	</resultMap>
+   
    
    <!-- 사업장 소개/관리 페이지  -->
+   <select id="selectCenterProductList" resultMap="productResult" parameterType = "String" >
+      <![CDATA[
+			select *, (select center_name from t_member WHERE t_product.member_id = t_member.member_id) as center_name from t_product
+			where member_id=#{member_id}		
+			order by product_entered_date desc
+		]]>
+   </select>
+   
    <select id="selectOwnerPageIntroView" resultMap="ownerPageResult" parameterType = "String" >
       <![CDATA[
          select * from t_owner_intro 
@@ -67,7 +96,7 @@
        ]]>
    </select>
    
-   <!-- 사업장 관리 수정 -->
+   <!-- 사업장 관리 페이지 수정 -->
    <update id="updateOwnerPage" parameterType="java.util.Map" >
    		update t_owner_intro
    		set

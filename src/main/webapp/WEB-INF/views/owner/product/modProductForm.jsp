@@ -92,33 +92,14 @@
     }
 	   
    function fn_delImage(product_id, image_id, fileName) {
-	   $.ajax({
-			type : "post",
-			async : false, //false인 경우 동기식으로 처리한다.
-			url : "${contextPath}/owner/product/removeProductImage.do",
-			data : {
-				product_id:product_id,
-				image_id:image_id,
-				fileName:fileName
-			},
-			success : function(data) {
-				if(data.trim()=='mod_success'){
-					alert("상품 정보를 수정했습니다.");
-				}else if(data.trim()=='failed'){
-					alert("다시 시도해 주세요.");	
-				}
-			},
-			error : function(data, textStatus) {
-				alert("에러가 발생했습니다."+data);
-			},
-			complete : function(data, textStatus) {
-				//alert("작업을완료 했습니다");
-				
-			}
-		}); //end ajax 		
+	   
+		   var i_Image_id = "<input type='hidden' name='del_image_id' value="+image_id+">";
+		   var i_fileName = "<input type='hidden' name='del_fileName' value="+fileName+">";
+		   
+		   $("#deleteImageList").append(i_Image_id);
+		   $("#deleteImageList").append(i_fileName);
         
 	   }
-
 	   
 </script>
 </head>
@@ -165,7 +146,7 @@
 								        <img id="preview_main_img" alt="메인 이미지" src="${contextPath}/download.do?product_id=${product.product_id}&fileName=${product.product_main_image}">
 									        ${product.product_main_image}
 									    <br>
-									    <input id="add_file_btn" style="border:none;" type="file" name="product_main_image" accept="image/*" onchange="previewMainImage(this);"/>
+									    수정하기<input id="add_file_btn" style="border:none;" type="file" name="product_main_image" accept="image/*" onchange="previewMainImage(this);"/>
 								</div>
 							</td>
 						</tr>
@@ -315,7 +296,8 @@
 							</td>
 						</tr>
 				</table>
-					<div id="deleteimageFileName">
+					<!-- 삭제하는 이미지 정보 저장 -->
+					<div id="deleteImageList">
 					
 					</div>
 					<div align=center>

@@ -138,7 +138,9 @@ $(function() {
       <!-- 2. 타임세일타이머 -->
       <div class="saleTimer">
       <hr style="margin-top:2px;">
-         <p class="timer-title">3/21 오늘의 할인가!</p>
+      
+      <c:set var="ymd" value="<%=new java.util.Date()%>" />
+         <p class="timer-title"><fmt:formatDate value="${ymd}" pattern="MM/dd" /> 오늘의 할인가!</p>
          <div class="timer-text">마감임박!</div>
          <!-- <p class="runTimeCon font25">PM 09:00 ~ PM 09:00</p> 
          <p class="font15 time-title">금일 마감까지 남은 시간</p> -->

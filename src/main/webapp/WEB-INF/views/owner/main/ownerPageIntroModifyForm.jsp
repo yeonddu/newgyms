@@ -82,7 +82,7 @@ function ownerPageModify(member_id) {
 		<div id="contain">
 				<!-- 사업자페이지 사이드 메뉴 -->
 				<jsp:include page="/WEB-INF/views/owner/main/ownerPageSide.jsp" />
-				<div id="contain_right">
+				<div id="contain_right" style="padding-left:20px;">
 			     	 <input name="center_name" class="ownerPage_intro_title" type="text" size="10" value=" ${memberInfo.center_name}"  readonly disabled/>
 				
 				<!-- 사업장 정보 -->

@@ -10,6 +10,7 @@ import com.mycompany.newgyms.member.vo.MemberVO;
 import com.mycompany.newgyms.mypage.vo.PointVO;
 import com.mycompany.newgyms.order.vo.OrderVO;
 import com.mycompany.newgyms.qna.vo.QnaVO;
+import com.mycompany.newgyms.review.vo.ReviewImageVO;
 import com.mycompany.newgyms.review.vo.ReviewVO;
 
 public interface MyPageDAO {
@@ -35,6 +36,7 @@ public interface MyPageDAO {
 	// 捞侩饶扁 包府
 	public String reviewMaxNum(Map condMap) throws DataAccessException;
 	public List<ReviewVO> listMyReviews(Map condMap) throws DataAccessException;
+	public List<ReviewImageVO> selectReviewContentsImages(int review_no) throws DataAccessException;
 	public void deleteReview(Map condMap) throws DataAccessException;
 
 	//QnA 包府

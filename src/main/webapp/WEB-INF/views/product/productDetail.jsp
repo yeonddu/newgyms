@@ -238,7 +238,7 @@
 	</div>
 	<div class="product_description">
 		<h1>${product.product_name }</h1>
-		<h2>${member.center_name }</h2>
+		<h2><a href="${contextPath}/owner/main/ownerPageIntroView.do?member_id=${item.member_id}">${member.center_name }</a></h2>
 		
 		<div class="product_price">         
 			<div class="sales_price" id="sales_price"><fmt:formatNumber value="${product.product_sales_price}" type="number"/>원</div>

@@ -10,17 +10,18 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.mycompany.newgyms.board.vo.ArticleVO;
-import com.mycompany.newgyms.cart.vo.CartVO;
 import com.mycompany.newgyms.member.vo.MemberVO;
 import com.mycompany.newgyms.mypage.vo.PointVO;
 import com.mycompany.newgyms.order.vo.OrderVO;
 import com.mycompany.newgyms.qna.vo.QnaVO;
+import com.mycompany.newgyms.review.vo.ReviewImageVO;
 import com.mycompany.newgyms.review.vo.ReviewVO;
 
 @Repository("myPageDAO")
 public class MyPageDAOImpl implements MyPageDAO {
 	@Autowired
 	private SqlSession sqlSession;
+
 
 	// 搬力郴开 炼雀
 	@Override
@@ -122,11 +123,18 @@ public class MyPageDAOImpl implements MyPageDAO {
 		List<ReviewVO> reviewList = (List) sqlSession.selectList("mapper.mypage.listMyReviews", condMap);
 		return reviewList;
 	}
+	
+	@Override
+	public List<ReviewImageVO> selectReviewContentsImages(int review_no) throws DataAccessException {
+		List<ReviewImageVO> reviewList = (List) sqlSession.selectList("mapper.mypage.selectReviewContentsImages", review_no);
+		return reviewList;
+	}
 
 	@Override
 	public void deleteReview(Map condMap) throws DataAccessException {
 		sqlSession.delete("mapper.mypage.deleteReview", condMap);
 	}
+
 
 	//QnA 包府
 	@Override

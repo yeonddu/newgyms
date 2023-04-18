@@ -20,6 +20,7 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.js" charset="utf-8"></script>
 
 <link href="${contextPath}/resources/css/mypage.css?after" rel="stylesheet" />
+<link href="${contextPath}/resources/css/owner.css?after" rel="stylesheet" />
 <link href="${contextPath}/resources/css/ownerPageIntroView.css?after" rel="stylesheet" />
 <title>사업장 소개 페이지</title>
 

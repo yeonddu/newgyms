@@ -1,5 +1,6 @@
 package com.mycompany.newgyms.owner.main.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -9,13 +10,20 @@ import org.springframework.stereotype.Repository;
 
 import com.mycompany.newgyms.member.vo.MemberVO;
 import com.mycompany.newgyms.owner.main.vo.OwnerPageVO;
+import com.mycompany.newgyms.product.vo.ProductVO;
 
 @Repository("ownerPageDAO")
 public class ownerPageDAOImpl implements ownerPageDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	/* ì‚¬ì—…ì¥ ì†Œê°œ/ê´€ë¦¬ í˜ì´ì§€ */
+	/* »ç¾÷Àå ¼Ò°³/°ü¸® ÆäÀÌÁö */
+	@Override
+	public List<ProductVO> selectProductList(String member_id) throws DataAccessException {
+		List<ProductVO> productVO = (List)sqlSession.selectList("mapper.owner_main.selectCenterProductList", member_id);
+		return productVO;
+	}
+	
 	@Override
 	public OwnerPageVO selectOwnerPageIntroView(String member_id) throws DataAccessException {
 		OwnerPageVO ownerPageVO = (OwnerPageVO)sqlSession.selectOne("mapper.owner_main.selectOwnerPageIntroView", member_id);
@@ -28,7 +36,7 @@ public class ownerPageDAOImpl implements ownerPageDAO {
 		return memberVO;
 	}
 	
-	/* ì‚¬ì—…ì¥ ê´€ë¦¬ ìˆ˜ì • */
+	/* »ç¾÷Àå °ü¸® ¼öÁ¤ */
 	@Override
 	public String updateOwnerPage(Map modifyMap) throws DataAccessException {
 		sqlSession.update("mapper.owner_main.updateOwnerPage", modifyMap);
@@ -36,7 +44,7 @@ public class ownerPageDAOImpl implements ownerPageDAO {
 		return result;
 	}
 	
-	/* ì‚¬ì—…ì íšŒì›ì •ë³´ ìˆ˜ì •/íƒˆí‡´ */
+	/* »ç¾÷ÀÚ È¸¿øÁ¤º¸ ¼öÁ¤/Å»Åğ */
 	@Override
 	public MemberVO ownerPageDetail(Map ownerpageMap) throws DataAccessException {
 		MemberVO member = (MemberVO) sqlSession.selectOne("mapper.owner_main.ownerPageDetail", ownerpageMap);

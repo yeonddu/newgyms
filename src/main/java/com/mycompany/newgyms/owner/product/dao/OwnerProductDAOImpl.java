@@ -41,9 +41,6 @@ public class OwnerProductDAOImpl implements OwnerProductDAO {
 		int product_id = selectProductID();
 		newProductMap.put("product_id", product_id);
 		sqlSession.insert("mapper.owner_product.insertNewProduct",newProductMap);
-		
-		/*可记*/
-		
 		return product_id;
 	}
 	
@@ -72,8 +69,8 @@ public class OwnerProductDAOImpl implements OwnerProductDAO {
 	}
 	
 	@Override
-	public void deleteProducImage(int image_id) throws DataAccessException{
-		sqlSession.delete("mapper.owner_product.deleteProducImage",image_id);
+	public void deleteProducImage(String[] delImageIdList) throws DataAccessException{
+		sqlSession.delete("mapper.owner_product.deleteProducImage",delImageIdList);
 	}
 	
 	//惑前 昏力

@@ -14,7 +14,9 @@ import com.mycompany.newgyms.mypage.dao.MyPageDAO;
 import com.mycompany.newgyms.mypage.vo.PointVO;
 import com.mycompany.newgyms.order.vo.OrderVO;
 import com.mycompany.newgyms.qna.vo.QnaVO;
+import com.mycompany.newgyms.review.vo.ReviewImageVO;
 import com.mycompany.newgyms.review.vo.ReviewVO;
+
 
 @Service("myPageService")
 @Transactional(propagation=Propagation.REQUIRED)
@@ -99,6 +101,10 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public List<ReviewVO> listMyReviews(Map condMap) throws Exception {
 		return myPageDAO.listMyReviews(condMap);
+	}
+	@Override
+	public List<ReviewImageVO> selectReviewContentsImages(int review_no) throws Exception {
+		return myPageDAO.selectReviewContentsImages(review_no);
 	}
 	@Override
 	public void deleteReview(Map condMap) throws Exception {

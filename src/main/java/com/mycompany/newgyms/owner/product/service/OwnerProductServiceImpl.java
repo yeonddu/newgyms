@@ -74,7 +74,6 @@ public class OwnerProductServiceImpl implements OwnerProductService {
 		
 		int product_id = Integer.parseInt((String)productMap.get("product_id"));
 		
-
 		/* 옵션 */
 		ArrayList<ProductOptVO> optionList = (ArrayList)productMap.get("optionList");
 		if(optionList!= null && optionList.size()!=0) {
@@ -83,7 +82,6 @@ public class OwnerProductServiceImpl implements OwnerProductService {
 			}
 			ownerProductDAO.insertProductOption(optionList);
 		}
-		
 		
 		/* 이미지 */
 		ArrayList<ProductImageVO> imageList = (ArrayList)productMap.get("imageList");
@@ -97,8 +95,8 @@ public class OwnerProductServiceImpl implements OwnerProductService {
 
 	//상품 이미지 삭제하기
 	@Override
-	public void removeProductImage(int image_id) throws Exception{
-		ownerProductDAO.deleteProducImage(image_id);
+	public void removeProductImage(String[] delImageIdList) throws Exception{
+		ownerProductDAO.deleteProducImage(delImageIdList);
 	}
 	
     // 상품 삭제하기

@@ -1,5 +1,6 @@
 package com.mycompany.newgyms.owner.main.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mycompany.newgyms.member.vo.MemberVO;
 import com.mycompany.newgyms.owner.main.dao.ownerPageDAO;
 import com.mycompany.newgyms.owner.main.vo.OwnerPageVO;
+import com.mycompany.newgyms.product.vo.ProductVO;
 
 @Service("ownerPageService")
 @Transactional(propagation=Propagation.REQUIRED)
@@ -19,7 +21,13 @@ public class ownerPageServiceImpl implements ownerPageService {
 	@Autowired
 	private MemberVO memberVO;
 	
-	/* ì‚¬ì—…ì¥ ì†Œê°œ/ê´€ë¦¬ í˜ì´ì§€ */
+	/* »ç¾÷Àå ¼Ò°³/°ü¸® ÆäÀÌÁö */
+	@Override
+	public List<ProductVO> productList(String member_id) throws Exception {
+		List<ProductVO> productList = ownerPageDAO.selectProductList(member_id);
+		return productList;
+	}
+	
 	@Override
 	public OwnerPageVO ownerPageIntroView(String member_id) throws Exception {
 		OwnerPageVO ownerPageVO = ownerPageDAO.selectOwnerPageIntroView(member_id);
@@ -31,14 +39,14 @@ public class ownerPageServiceImpl implements ownerPageService {
 		return memberVO;
 	}
 	
-	/* ì‚¬ì—…ì¥ ê´€ë¦¬ ìˆ˜ì • */
+	/* »ç¾÷Àå °ü¸® ¼öÁ¤ */
 	@Override
 	public String ownerPageIntroModify(Map modifyMap) throws Exception {
 		return ownerPageDAO.updateOwnerPage(modifyMap);
 	}
 	
 	
-	/* ì‚¬ì—…ì íšŒì›ì •ë³´ ìˆ˜ì •/íƒˆí‡´ */
+	/* »ç¾÷ÀÚ È¸¿øÁ¤º¸ ¼öÁ¤/Å»Åğ */
 	@Override
 	public MemberVO ownerPageDetail(Map ownerpageMap) throws Exception{
 		return ownerPageDAO.ownerPageDetail(ownerpageMap);

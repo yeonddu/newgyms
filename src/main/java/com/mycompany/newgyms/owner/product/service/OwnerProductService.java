@@ -13,6 +13,6 @@ public interface OwnerProductService {
 	public int addNewProduct(Map newProductMap) throws Exception;
 	public void addNewProductOption(List<ProductOptVO> optionList) throws Exception;
 	public void modifyProduct(Map productMap) throws Exception;
-	public void removeProductImage(int image_id) throws Exception;
+	public void removeProductImage(String[] delImageIdList) throws Exception;
 	public String removeProduct(int product_id) throws Exception;
 }

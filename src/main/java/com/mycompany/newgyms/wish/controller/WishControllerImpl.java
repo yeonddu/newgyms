@@ -101,16 +101,7 @@ public class WishControllerImpl implements WishController{
 			wishService.addWishList(wishVO);
 			return "add_success";
 		}
-		
-		//찜목록에 이미 등록된 제품인지 확인
-	//이전페이지로 리다이렉트
-	/*
-		  if (request.getHeader("Referer") != null) {
-		    return "redirect:" + request.getHeader("Referer");
-		  } else {
-		    return "redirect:/main/main.do";
-		  }
-	 * */
+
 	}
 	
 	@RequestMapping(value="/removeEachWishProduct.do" ,method = RequestMethod.GET)

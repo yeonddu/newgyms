@@ -107,7 +107,7 @@ $(document).ready(function() {
 			 <c:choose>
 			   <c:when test="${ empty questionList  }" >
 				   <tr>
-						<td colspan="5">등록된 Q&A가 없습니다.</td>
+						<td colspan="5" align="center" style="color: blue;">등록된 Q&A가 없습니다. 😂</td>
 			 		</tr>
 			   </c:when>
 			   <c:otherwise>

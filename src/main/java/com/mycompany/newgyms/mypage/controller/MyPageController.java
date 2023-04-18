@@ -6,11 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.mycompany.newgyms.mypage.vo.RefundVO;
 
 public interface MyPageController {
 	
@@ -29,6 +26,7 @@ public interface MyPageController {
 	// 捞侩饶扁 包府
 	public ModelAndView myReviewList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity myReviewDelete(HttpServletRequest request, HttpServletResponse response)  throws Exception;
+	public ResponseEntity myreviewModify(HttpServletRequest request, HttpServletResponse response)  throws Exception;
 	
 	// QnA 包府
 	public ModelAndView myQnaList(HttpServletRequest request, HttpServletResponse response) throws Exception;

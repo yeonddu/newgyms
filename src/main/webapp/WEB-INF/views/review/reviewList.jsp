@@ -210,7 +210,7 @@ $(document).ready(function() {
 
 	            		   <img alt="상품 메인이미지" src="${contextPath}/thumbnails.do?product_id=${item.product_id}&fileName=${item.product_main_image}">			  
 							<div class="product_name"><a href="${contextPath}/product/productDetail.do?product_id=${item.product_id}">${item.product_name }</a> </div>
-							<div class="center_name"><a href="${contextPath}/owner/main/ownerPageIntroView.do?member_id=${item.member_id}">${item.center_name}</a></div>
+							<div class="center_name"><a>${item.center_name}</a></div>
 						</div>	
 					</div>
 					

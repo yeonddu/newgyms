@@ -16,6 +16,6 @@ public interface OwnerProductDAO {
 	public void insertProductImage(List fileList)  throws DataAccessException;
 	
 	public void updateProduct(Map productMap) throws DataAccessException;
-	public void deleteProducImage(int image_id) throws DataAccessException;
+	public void deleteProducImage(String[] delImageIdList) throws DataAccessException;
 	public String deleteProduct(int product_id) throws DataAccessException;
 }

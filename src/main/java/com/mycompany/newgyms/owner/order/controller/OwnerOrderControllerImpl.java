@@ -30,7 +30,7 @@ public class OwnerOrderControllerImpl implements OwnerOrderController {
 	@Autowired
 	private RefundVO refundVO;
 
-	// ì‚¬ì—…ì ì£¼ë¬¸/ê²°ì œ ëª©ë¡
+	// »ç¾÷ÀÚ ÁÖ¹®/°áÁ¦ ¸ñ·Ï
 	@Override
 	@RequestMapping(value = "/ownerOrderList.do", method = RequestMethod.GET)
 	public ModelAndView ownerOrderList(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -55,7 +55,7 @@ public class OwnerOrderControllerImpl implements OwnerOrderController {
 		return mav;
 	}
 
-	// ì‚¬ì—…ì ì£¼ë¬¸/ê²°ì œ ìƒì„¸ë³´ê¸°
+	// »ç¾÷ÀÚ ÁÖ¹®/°áÁ¦ »ó¼¼º¸±â
 	@Override
 	@RequestMapping(value = "/ownerOrderDetail.do", method = RequestMethod.GET)
 	public ModelAndView ownerOrderDetail(@RequestParam("order_seq_num") int order_seq_num, HttpServletRequest request,
@@ -75,7 +75,7 @@ public class OwnerOrderControllerImpl implements OwnerOrderController {
 		return mav;
 	}
 
-	// ì‚¬ì—…ì ê²°ì œì·¨ì†Œ í˜ì´ì§€
+	// »ç¾÷ÀÚ °áÁ¦Ãë¼Ò ÆäÀÌÁö
 	@Override
 	@RequestMapping(value = "/ownerOrderCancel.do", method = RequestMethod.POST)
 	public ModelAndView ownerOrderCancel(@RequestParam("order_seq_num") int order_seq_num, HttpServletRequest request,
@@ -91,7 +91,7 @@ public class OwnerOrderControllerImpl implements OwnerOrderController {
 		return mav;
 	}
 
-	// ì‚¬ì—…ì í™˜ë¶ˆìŠ¹ì¸
+	// »ç¾÷ÀÚ È¯ºÒ½ÂÀÎ
 	@Override
 	@RequestMapping(value = "/ownerOrderRefund.do", method = RequestMethod.POST)
 	public ModelAndView ownerOrderRefund(@RequestParam("order_seq_num") int order_seq_num, HttpServletRequest request,

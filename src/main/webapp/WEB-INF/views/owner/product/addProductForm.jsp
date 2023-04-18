@@ -32,13 +32,13 @@
 	}
 	
 	/* 옵션 추가*/
-	   var opt = 0;
+	   var opt = 1;
 	   function fn_addOption(){
 	      $("#product_option").append(
 	            " <div class='add_product_option'>"
 	            + "<table id='mod_option'><tr><td><input type='text' name='optionList["+opt+"].product_option_name' placeholder='옵션명'></td>  "
-	            + "<td><input type='text' name='optionList["+opt+"].product_option_price' placeholder='옵션가격'> 원 &nbsp&nbsp</td>"
-	            + "<td>&nbsp&nbsp<a id='del_option_btn' class='del_option_btn' href='javascript:fn_delOption();'>X</a></td></tr></table></div>");      
+	            + "<td><input type='text' name='optionList["+opt+"].product_option_price' placeholder='옵션가격'> 원 &nbsp;&nbsp;  </td>"
+	            + "<td>&nbsp;&nbsp;  <a id='del_option_btn' class='del_option_btn' href='javascript:fn_delOption();'>X</a></td></tr></table></div>");      
 	      opt++;
 	   }
 	      
@@ -48,6 +48,41 @@
 	      thisOption.remove();
 	   }
 	   
+	    $(document).ready(function() {
+	        $("a[name='file-delete']").on("click", function(e) {
+	            e.preventDefault();
+	            deleteFile($(this));
+	        });
+	    })
+	 
+	    function addFile(type) {
+	    	
+	    	if (type == 'detail_image') {
+	    		
+		        var file = "<div class='img_preview'><input style='border:none;' type='file' name='detail_image' accept='image/*' required><a href='#this' name='file-delete'>X</a></div>";
+		        $("#detail_image_list").append(file);
+	    		
+	    	} else if (type == 'price_image') {
+	    		
+		        var file = "<div class='img_preview'><input style='border:none;' type='file' name='price_image' accept='image/*' required><a href='#this' name='file-delete'>X</a></div>";
+		        $("#price_image_list").append(file);
+		        
+	    	} else if (type == 'facility_image') {
+	    		
+		        var file = "<div class='img_preview'><input style='border:none;' type='file' name='facility_image' accept='image/*' required><a href='#this' name='file-delete'>X</a></div>";
+		        $("#facility_image_list").append(file);
+	    	}
+	    	
+	        $("a[name='file-delete']").on("click", function(e) {
+	            e.preventDefault();
+	            deleteFile($(this));
+	        });
+	    }
+	 
+	    function deleteFile(obj) {
+	        obj.parent().remove();
+	    }
+
 
 </script>
 </head>
@@ -112,15 +147,17 @@
 						<tr>
 							<td>옵션 <span style="color:red">*</span></td>
 							<td colspan="3">
-							 <input type="text" name="optionList[0].product_option_name" placeholder="옵션명"  required>        
-		 			         <input type="text" pattern="[0-9]{*}" name="optionList[0].product_option_price" placeholder="옵션가격"  required> 원 &nbsp;&nbsp;       
+ 							 <input type="text" name="optionList[0].product_option_name" placeholder="옵션명"  required>        
+		 			         <input type="text" name="optionList[0].product_option_price" placeholder="옵션가격"  required> 원 &nbsp;&nbsp;       
 				 			&nbsp;&nbsp;<a class="add_option_btn" href="javascript:fn_addOption();">옵션 추가</a>
-							</td>
+ 							</td>
 						</tr>
 						</table>
+						
 								<div id="product_option" style="padding-left:210px;">
-								 </div>
-								 
+							 </div>
+<!-- 						
+ -->								 
 						<br><br>
 						<span class="add_product_title">프로그램 정보</span>
 						<table id="product_detail_table">					
@@ -132,45 +169,6 @@
 						</tr>
 						<tr>
 							<td></td>
-<!-- ============================================================ -->
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("a[name='file-delete']").on("click", function(e) {
-            e.preventDefault();
-            deleteFile($(this));
-        });
-    })
- 
-    function addFile(type) {
-    	
-    	if (type == 'detail_image') {
-    		
-	        var file = "<div class='img_preview'><input style='border:none;' type='file' name='detail_image' accept='image/*' required><a href='#this' name='file-delete'>X</a></div>";
-	        $("#detail_image_list").append(file);
-    		
-    	} else if (type == 'price_image') {
-    		
-	        var file = "<div class='img_preview'><input style='border:none;' type='file' name='price_image' accept='image/*' required><a href='#this' name='file-delete'>X</a></div>";
-	        $("#price_image_list").append(file);
-	        
-    	} else if (type == 'facility_image') {
-    		
-	        var file = "<div class='img_preview'><input style='border:none;' type='file' name='facility_image' accept='image/*' required><a href='#this' name='file-delete'>X</a></div>";
-	        $("#facility_image_list").append(file);
-    	}
-    	
-        $("a[name='file-delete']").on("click", function(e) {
-            e.preventDefault();
-            deleteFile($(this));
-        });
-    }
- 
-    function deleteFile(obj) {
-        obj.parent().remove();
-    }
-
-</script>
-
 							<td>이미지 첨부
 						        <a class="add_option_btn" href="#this" onclick="addFile('detail_image')">파일추가</a>
 							</td>

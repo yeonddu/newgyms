@@ -19,7 +19,7 @@ public interface OwnerProductController {
 	
     public ModelAndView ProductModifyForm(@RequestParam("product_id") int product_id, HttpServletRequest request, HttpServletResponse response) throws Exception;
     public ResponseEntity modifyProduct(ProductOptVO productOptVO, MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception;
-    
-    public void removeProductImage(@RequestParam("product_id") int product_id, @RequestParam("image_id") int image_id,  @RequestParam("fileName") String fileName,  HttpServletRequest request, HttpServletResponse response)  throws Exception;
+
+    public void removeProductImage(int product_id, String[] delImageIdList, String[] delFileNameList)  throws Exception;
 	public @ResponseBody String removeProduct(@RequestParam("product_id") int product_id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

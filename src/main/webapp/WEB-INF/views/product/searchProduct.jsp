@@ -70,7 +70,7 @@
 					<div class="product_description">
 						<!-- 상품명 -->
 			  		    <h2><a href="${contextPath}/product/productDetail.do?product_id=${item.product_id}">${item.product_name }</a></h2>
-			            <h3><a href="">${item.center_name }</a></h3><!-- 사업장관리 페이지로 이동 추가예정-->
+			            <h3><a href="${contextPath}/owner/main/ownerPageIntroView.do?member_id=${item.member_id}">${item.center_name }</a></h3><!-- 사업장관리 페이지로 이동 추가예정-->
 					</div>
 					
 					<!-- 상품가격 -->

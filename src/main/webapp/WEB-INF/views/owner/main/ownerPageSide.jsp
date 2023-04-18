@@ -27,7 +27,7 @@
             <a href="${contextPath}/owner/order/ownerOrderList.do?center_name=${memberInfo.center_name}&chapter=1">주문/결제 관리</a>
          </li>
          <li>
-            <a href="#">이용후기 관리</a>
+             <a href="${contextPath}/owner/review/orderReviewList.do?center_name=${memberInfo.center_name}&chapter=1&firstDate=&secondDate=&text_box=">이용후기 관리</a>
          </li>
          <li>
             <a href="${contextPath}/owner/qna/ownerQnaList.do?member_id=${memberInfo.member_id}">Q&A 관리</a>
