@@ -41,6 +41,20 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 	
 	@Override
+	public int addNewReview(Map ReviewMap) throws Exception {
+		int review_no = myPageDAO.insertNewReview(ReviewMap);
+		
+		List<ReviewImageVO> review_image_list = (List<ReviewImageVO>)ReviewMap.get("review_image_list");		
+		
+		for (ReviewImageVO reviewImageVO : review_image_list) {
+			reviewImageVO.setReview_no(review_no);
+		}
+		myPageDAO.insertReviewImage(review_image_list);
+		
+		return review_no;
+	}
+	
+	@Override
 	public List<OrderVO> myOrderDetail(int order_id) throws Exception {
 		return myPageDAO.selectMyOrderDetail(order_id);
 	}

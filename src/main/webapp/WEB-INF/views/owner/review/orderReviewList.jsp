@@ -99,7 +99,7 @@
 											<!-- 등록일 -->
 											<td width="10%" style="font-size: 14px;">${item.review_write_date}</td>
 											<!-- 삭제버튼 -->
-											<td width="10%"><a href="${contextPath}/owner/review/ownerReviewDetail.do?review_no=${item.review_no}&center_name=${item.center_name}" id="btn_2">
+											<td width="10%"><a href="${contextPath}/owner/review/ownerReviewDetail.do?review_no=${item.review_no}&center_name=${item.center_name}">
 											삭제
 											</a> <br></td>
 										</tr>

@@ -7,12 +7,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 public interface MyPageController {
 	
 	// 결제내역 조회
 	public ModelAndView myOrderList(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ResponseEntity reviewUpLoad(MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception;
 	public ModelAndView myOrderDetail(@RequestParam("order_id") int order_id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView myOrderCancel(@RequestParam("total_price") int total_price, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView myOrderRefund(@RequestParam Map<String, Object> refundMap, HttpServletRequest request, HttpServletResponse response) throws Exception;

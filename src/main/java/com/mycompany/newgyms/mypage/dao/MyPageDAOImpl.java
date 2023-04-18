@@ -40,6 +40,23 @@ public class MyPageDAOImpl implements MyPageDAO {
 		List<OrderVO> orderMember = (List) sqlSession.selectList("mapper.mypage.selectOrderMember", condMap);
 		return orderMember;
 	}
+	
+	@Override
+	public int insertNewReview(Map reviewMap) throws DataAccessException {
+		int review_no = sqlSession.selectOne("mapper.mypage.selectNewReviewNO");
+		reviewMap.put("review_no", review_no);
+		sqlSession.insert("mapper.mypage.insertNewReview", reviewMap);
+		return review_no;
+	}
+	
+	@Override
+	public void insertReviewImage(List<ReviewImageVO> review_image_list) throws DataAccessException {
+		for(int i=0; i<review_image_list.size();i++){
+			ReviewImageVO reviewImageVO=(ReviewImageVO)review_image_list.get(i);
+			sqlSession.insert("mapper.mypage.insertReviewImage",reviewImageVO);
+		}
+		
+	}
 
 	@Override
 	public List<OrderVO> selectMyOrderDetail(int order_id) throws DataAccessException {

@@ -149,9 +149,7 @@ function checkWrite() {
                                           value="${list.total_price}" type="number" />원</td>
 
                                     <!-- 상세조회 버튼 -->
-                                    <td width="10%"><a
-                                       href="${contextPath}/mypage/myOrderDetail.do?order_id=${list.order_id}"
-                                       style="line-height: 32px;"><span id="btn_1">상세조회</span></a>
+                                    <td width="10%"><a href="${contextPath}/mypage/myOrderDetail.do?order_id=${list.order_id}" style="line-height: 32px;"><span id="btn_1">상세조회</span></a>
                                     </td>
                                  </tr>
                               </tbody>
@@ -164,8 +162,7 @@ function checkWrite() {
                                        <c:when test="${list.order_id == member.order_id}">
                                           <tr>
                                              <!-- 주문상태 -->
-                                             <td>${member.order_state}<input type="hidden"
-                                                value="${member.order_seq_num}" id="order_seq_num"></td>
+                                             <td>${member.order_state}<input type="hidden" value="${member.order_seq_num}" id="order_seq_num"></td>
                                              <td class="hidepoint" id="product_main_image">${member.product_main_image}</td>
                                              <td class="hidepoint" id="product_id">${member.product_id}</td>
                                              <td class="hidepoint" id="center_name">${member.center_name}</td>
@@ -182,24 +179,17 @@ function checkWrite() {
                                              <!-- 상품명, 옵션 및 옵션가격 -->
                                              <td style="text-align: left; line-height: 25px;"><span
                                                 id="product_name">${member.product_name}</span> <br>
-                                                <span id="gray_color" style="font-size: 14px;">
+                                                <div style="font-size: 14px;">
                                                    [옵션] <span id="product_option_name">${member.product_option_name}</span>
-                                                   (+<span id="product_option_price">${member.product_option_price}</span>원)
-                                             </span></td>
+                                                   (+<span id="product_option_price"> <fmt:formatNumber value="${member.product_option_price}" type="number" /></span>원)
+                                             </div></td>
 
                                              <!-- 결제금액 -->
-                                             <td style="line-height: 25px;"><a
-                                                style="color: red;"><span id="gray_color"> <fmt:formatNumber
-                                                         value="${member.product_price+member.product_option_price}"
-                                                         type="number" />원
-                                                </span></a> <br> <fmt:formatNumber
-                                                   value="${member.product_sales_price+member.product_option_price}"
-                                                   type="number" />원</td>
+                                             <td style="line-height: 25px;">
+                                             	<br> <fmt:formatNumber value="${member.product_sales_price+member.product_option_price}" type="number" />원</td>
 
                                              <!-- 이용후기 작성 버튼 -->
-                                             <td class="review_write_btn"
-                                                onClick="javascript:reviewPopup('open');"
-                                                style="line-height: 32px;"><span id="btn_2">후기작성</span>
+                                             <td class="review_write_btn" onClick="javascript:reviewPopup('open');" style="line-height: 32px;"><a id="review_btn" href="#">후기작성</a>
                                              </td>
                                           </tr>
                                        </c:when>
@@ -224,26 +214,6 @@ function checkWrite() {
             </div>
          </div>
       </div>
-      <!-- 모달 매뉴 -->
-   <%--    <div class="modal" id="modal1">
-         <div class="modal_body">
-            <ul>
-               <li><input type="text" placeholder="검색어를 입력하세요" id="text_box"
-                  name="text_box" style="width: 300px;"></li>
-               <li><span> <input type="date" name="firstDate"
-                     value="${firstDate}"> ~ <input type="date"
-                     name="secondDate" value="${secondDate}">
-               </span></li>
-               <li>결제상태: <select name="order_state">
-                     <option value="" selected>전체</option>
-                     <option value="결제완료">결제완료</option>
-                     <option value="결제취소">결제취소</option>
-                     <option value="환불완료">환불완료</option>
-               </select></li>
-               <li><input type="submit" id="modal_botton" value="조회하기"></li>
-            </ul>
-         </div>
-      </div> --%>
    </form>
 
 
@@ -295,7 +265,7 @@ function checkWrite() {
                <!-- 완료 버튼 -->
                <div style="text-align: center;">
                   <button type="submit" id="review_ok_btn"
-                     onclick="javascript:checkWrite();">글 등록</button>
+                     onclick="javascript:checkWrite();">등록하기</button>
                </div>
             </div>
          </div>
@@ -355,8 +325,6 @@ function checkWrite() {
         img.src = ee.target.result;
         attZone.appendChild(makeDiv(img, file));
       }
-      var size = $("#btnAtt").size()
-      console.log(size);
       reader.readAsDataURL(file);
     }
     

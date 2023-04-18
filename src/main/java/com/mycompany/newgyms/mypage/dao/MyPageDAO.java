@@ -17,6 +17,9 @@ public interface MyPageDAO {
 	// 결제내역 조회
 	public List<OrderVO> selectMyOrderList(Map condMap) throws DataAccessException;
 	public List<OrderVO> orderMemberListSelect(Map condMap) throws DataAccessException;
+	public List<OrderVO> selectOrderMember(Map condMap);
+	public int insertNewReview(Map reviewMap) throws DataAccessException;
+	public void insertReviewImage(List<ReviewImageVO> review_image_list) throws DataAccessException;
 	public List<OrderVO> selectMyOrderDetail(int order_id) throws DataAccessException;
 	public List<OrderVO> selectMyOrderCancel(Map orderMap) throws DataAccessException;
 	public void refundMyOrder(Map refundMap) throws DataAccessException;
@@ -49,5 +52,4 @@ public interface MyPageDAO {
 	public MemberVO myPageDetail(Map mypageMap) throws DataAccessException;
 	public void updateMyInfo(Map modifyMap) throws DataAccessException;
 	public void deleteMember(Map deleteMap) throws DataAccessException;
-	public List<OrderVO> selectOrderMember(Map condMap);
 }

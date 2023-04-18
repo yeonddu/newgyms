@@ -36,7 +36,7 @@
 					<div id="contain_right">
 						<p id="mypage_order_title">이용후기 관리</p>
 						<p style="font-size: 15px;">총 ${maxnum}건
-						<a class="btn-open-popup" href="#modal1" style="font-size: 20px; float: right; margin-right: 10px;">조회하기</a></p>
+						<!-- <a class="btn-open-popup" href="#modal1" style="font-size: 20px; float: right; margin-right: 10px;">조회하기</a></p> -->
 											 	
 						<div style="border-bottom: 1px solid #D8D8D8; margin-top: 13px;"></div>
 						<c:choose>
@@ -138,48 +138,6 @@
 				</div>
 			</div>
 		</div>
-
-		<!-- 모달 매뉴 -->
-		<div class="modal" id="modal1">
-			<div class="modal_body">
-				<ul>
-					<li><input type="text" placeholder="검색어를 입력하세요" id="text_box"
-						name="text_box" style="width: 300px;"></li>
-					<li id="easycheck"><a id="fYear">최대(5년)</a> <a href="#"
-						id="oMon">1개월</a> <a href="#" id="tMon">3개월</a> <a href="#"
-						id="fMon">5개월</a></li>
-					<li><span> <input type="date" name="firstDate"
-							value="${firstDate}"> ~ <input type="date"
-							name="secondDate" value="${secondDate}">
-					</span></li>
-					<li><input type="submit" id="modal_botton" value="조회하기"></li>
-				</ul>
-			</div>
-		</div>
-		<script type="text/javascript">
-		// 조회창 띄우기
-	      const body = document.querySelector('body');
-	      const modal = document.querySelector('.modal');
-	      const btnOpenPopup = document.querySelector('.btn-open-popup');
-
-	      btnOpenPopup.addEventListener('click', () => {
-	        modal.classList.toggle('show');
-
-	        if (modal.classList.contains('show')) {
-	          body.style.overflow = 'hidden';
-	        }
-	      });
-
-	      modal.addEventListener('click', (event) => {
-	        if (event.target === modal) {
-	          modal.classList.toggle('show');
-
-	          if (!modal.classList.contains('show')) {
-	            body.style.overflow = 'auto';
-	          }
-	        }
-	      });
-		</script>
 	</form>
 </body>
 </html>

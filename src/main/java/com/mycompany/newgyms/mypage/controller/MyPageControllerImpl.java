@@ -1,10 +1,13 @@
 package com.mycompany.newgyms.mypage.controller;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mycompany.newgyms.board.vo.ArticleVO;
@@ -38,6 +44,7 @@ import com.mycompany.newgyms.review.vo.ReviewVO;
 @Controller("myPageController")
 @RequestMapping(value = "/mypage")
 public class MyPageControllerImpl implements MyPageController {
+	private static final String REVIEW_IMAGE_REPO = "C:\\newgyms\\review";
 	@Autowired
 	private MyPageService myPageService;
 	@Autowired
@@ -106,6 +113,98 @@ public class MyPageControllerImpl implements MyPageController {
 
 		return mav;
 	}
+	
+	// 여러개 이미지 업로드하기
+		private List<ReviewImageVO> upload(MultipartHttpServletRequest multipartRequest) throws Exception {
+			List<ReviewImageVO> review_image_list = new ArrayList<ReviewImageVO>();
+			String fileName = null;
+			List<MultipartFile> imageList = multipartRequest.getFiles("imagelist");
+
+			for (MultipartFile image : imageList) {
+				ReviewImageVO reviewImageVO = new ReviewImageVO();
+				fileName = image.getOriginalFilename();
+				if (fileName != null && fileName.length() != 0) {
+					System.out.println("1fileName : "+fileName);
+					reviewImageVO.setFileName(fileName);
+					review_image_list.add(reviewImageVO);
+					System.out.println(review_image_list.size());
+					File file = new File(REVIEW_IMAGE_REPO + "\\" + "temp" + "\\" + fileName);
+					if (image.getSize() != 0) { // File Null Check
+						if (!file.exists()) {
+							if (file.getParentFile().mkdirs()) {
+								file.createNewFile();
+							}
+						}
+						image.transferTo(new File(REVIEW_IMAGE_REPO + "\\" + "temp" + "\\" + fileName));
+					}
+				}
+			}
+			return review_image_list;
+		}
+	
+	// 이용후기 글 작성하기
+		@Override
+		@RequestMapping(value = "/reviewUpLoad.do", method = RequestMethod.POST)
+		public ResponseEntity reviewUpLoad(MultipartHttpServletRequest multipartRequest, HttpServletResponse response)
+				throws Exception {
+			multipartRequest.setCharacterEncoding("utf-8");
+			Map<String, Object> reviewMap = new HashMap<String, Object>();
+			Enumeration enu = multipartRequest.getParameterNames();
+			String member_id = multipartRequest.getParameter("member_id");
+			while (enu.hasMoreElements()) {
+				String name = (String) enu.nextElement();
+				String value = multipartRequest.getParameter(name);
+				reviewMap.put(name, value);
+			}
+
+			String fileName = null;
+			List<ReviewImageVO> review_image_list = upload(multipartRequest);
+			for (ReviewImageVO reviewImageVO : review_image_list) {
+				fileName = reviewImageVO.getFileName();
+				System.out.println("2fileName : "+fileName);
+			}
+			
+			reviewMap.put("review_image_list", review_image_list);
+			
+			String message;
+			ResponseEntity resEnt = null;
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+			try {
+				int review_no = myPageService.addNewReview(reviewMap);
+				for (ReviewImageVO image : review_image_list) {
+						fileName = image.getFileName();
+						if (fileName != null && fileName.length() !=0) {
+							System.out.println("fileName : "+fileName);
+						File srcFile = new File(REVIEW_IMAGE_REPO + "\\" + "temp" + "\\" + fileName);
+						File destDir = new File(REVIEW_IMAGE_REPO + "\\" + review_no);
+						FileUtils.moveFileToDirectory(srcFile, destDir, true);
+					}
+				}
+
+				message = "<script>";
+				message += "alert('새 글을 추가했습니다.');";
+				message += "location.href='" + multipartRequest.getContextPath()
+						+ "/mypage/myOrderList.do?chapter=1&order_state=&firstDate=&secondDate=&text_box=&member_id="
+						+ member_id + "';";
+				message += "</script>";
+				resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
+
+			} catch (Exception e) {
+				File srcFile = new File(REVIEW_IMAGE_REPO + "\\" + "temp" + "\\" + fileName);
+				srcFile.delete();
+
+				message = "<script>";
+				message += "alert('오류가 발생했습니다. 다시 시도해주세요.');";
+				message += "location.href='" + multipartRequest.getContextPath()
+						+ "/mypage/myOrderList.do?chapter=1&order_state=&firstDate=&secondDate=&text_box=&member_id="
+						+ member_id + "';";
+				message += "</script>";
+				resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
+				e.printStackTrace();
+			}
+			return resEnt;
+		}
 
 	// 寃곗젣�궡�뿭 �긽�꽭 議고쉶
 	@Override

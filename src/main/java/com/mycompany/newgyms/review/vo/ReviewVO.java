@@ -5,6 +5,7 @@ import java.sql.Date;
 public class ReviewVO {
 	private int review_no;
 	private int order_id;
+	private int order_seq_num;
 	private String member_id; //ÀÛ¼ºÀÚ
 	private String center_name;
 	private int product_id;
@@ -22,6 +23,18 @@ public class ReviewVO {
 	private Date review_write_date;
 	
 	
+	public int getOrder_seq_num() {
+		return order_seq_num;
+	}
+	public String getOwner_id() {
+		return owner_id;
+	}
+	public void setOrder_seq_num(int order_seq_num) {
+		this.order_seq_num = order_seq_num;
+	}
+	public void setOwner_id(String owner_id) {
+		this.owner_id = owner_id;
+	}
 	public int getReview_no() {
 		return review_no;
 	}
