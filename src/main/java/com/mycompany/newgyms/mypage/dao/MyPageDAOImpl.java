@@ -191,6 +191,6 @@ public class MyPageDAOImpl implements MyPageDAO {
 
 	@Override
 	public void deleteMember(Map deleteMap) throws DataAccessException {
-		sqlSession.delete("mapper.mypage.deleteMember", deleteMap);
+		sqlSession.update("mapper.mypage.deleteMember", deleteMap);
 	}
 }

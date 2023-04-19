@@ -105,7 +105,7 @@ public class ownerPageControllerImpl implements ownerPageController {
 	
 			} else {
 				PrintWriter out = response.getWriter();
-				out.println("<script>alert('鍮꾨�踰덊샇媛� ���졇�뒿�땲�떎. �떎�떆�엯�젰�빐二쇱꽭�슂.');</script>");
+				out.println("<script>alert('비밀번호가 일치하지 않습니다.');</script>");
 				out.flush();
 				mav.setViewName("/owner/main/ownerPageModify");
 			}
@@ -127,7 +127,7 @@ public class ownerPageControllerImpl implements ownerPageController {
 			HttpSession session = request.getSession();
 			PrintWriter out = response.getWriter();
 			session.setAttribute("memberInfo", memberVO);
-			out.println("<script>alert('�쉶�썝�젙蹂닿� �닔�젙�릺�뿀�뒿�땲�떎. :)');</script>");
+			out.println("<script>alert('회원정보 수정이 완료되었습니다. :)');</script>");
 			out.flush();
 
 			mav.setViewName("/owner/main/ownerPageModify");

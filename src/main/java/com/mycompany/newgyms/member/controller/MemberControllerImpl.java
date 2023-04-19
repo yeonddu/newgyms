@@ -41,34 +41,39 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	private KakaoService kakaoService;
 
 	@Override
-	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
-	public ModelAndView login(@RequestParam Map<String, String> loginMap, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		response.setContentType("text/html; charset=UTF-8");
-		request.setCharacterEncoding("utf-8");
-		ModelAndView mav = new ModelAndView();
-		memberVO = memberService.login(loginMap);
-		if (memberVO != null && memberVO.getMember_id() != null) {
-			HttpSession session = request.getSession();
-			session = request.getSession();
-			session.setAttribute("isLogOn", true);
-			session.setAttribute("memberInfo", memberVO);
+	   @RequestMapping(value = "/login.do", method = RequestMethod.POST)
+	   public ModelAndView login(@RequestParam Map<String, String> loginMap, HttpServletRequest request,
+	         HttpServletResponse response) throws Exception {
+	      response.setContentType("text/html; charset=UTF-8");
+	      request.setCharacterEncoding("utf-8");
+	      ModelAndView mav = new ModelAndView();
+	      memberVO = memberService.login(loginMap);
+	      
+	      if (memberVO.getDel_yn().equals("Y")) {
+	         PrintWriter out = response.getWriter();
+	         out.println("<script>alert('탈퇴한 회원입니다.');</script>");
+	         out.flush();
+	         mav.setViewName("/member/loginForm");
+	      } else if (memberVO != null && memberVO.getMember_id() != null) {
+	         HttpSession session = request.getSession();
+	         session = request.getSession();
+	         session.setAttribute("isLogOn", true);
+	         session.setAttribute("memberInfo", memberVO);
 
-			String action = (String) session.getAttribute("action");
-			if (action != null && action.equals("/order/orderEachGoods.do")) {
-				mav.setViewName("forward:" + action);
-			} else {
-				mav.setViewName("redirect:/main/main.do");
-			}
-
-		} else {
-			PrintWriter out = response.getWriter();
-			out.println("<script>alert('아이디나 비밀번호가 올바르지 않습니다.');</script>");
-			out.flush();
-			mav.setViewName("/member/loginForm");
-		}
-		return mav;
-	}
+	         String action = (String) session.getAttribute("action");
+	         if (action != null && action.equals("/order/orderEachGoods.do")) {
+	            mav.setViewName("forward:" + action);
+	         } else {
+	            mav.setViewName("redirect:/main/main.do");
+	         }
+	      } else {
+	         PrintWriter out = response.getWriter();
+	         out.println("<script>alert('아이디나 비밀번호가 올바르지 않습니다.');</script>");
+	         out.flush();
+	         mav.setViewName("/member/loginForm");
+	      }
+	      return mav;
+	   }
 
 	@Override
 	@RequestMapping(value = "/logout.do", method = RequestMethod.GET)

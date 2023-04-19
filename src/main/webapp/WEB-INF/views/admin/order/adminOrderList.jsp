@@ -153,16 +153,13 @@
 					</div>
 				</div>
 				<div style="text-align: center; margin-left:240px;">
-					<a
-						href="${contextPath}/admin/order/adminOrderList.do?chapter=${chapter-1}&member_id=${member_id}&order_state=${order_state}&firstDate=${firstDate}&secondDate=${secondDate}&text_box=${text_box}">&#60;</a>
+			
 					<c:forEach var="page" begin="1" end="${Math.ceil(maxnum/5)}"
 						step="1">
 						<c:set var="section_num" value="${section_num+1}" />
 						<a
 							href="${contextPath}/admin/order/adminOrderList.do?chapter=${section_num}&member_id=${member_id}&order_state=${order_state}&firstDate=${firstDate}&secondDate=${secondDate}&text_box=${text_box}">${section_num}</a>
 					</c:forEach>
-					<a
-						href="${contextPath}/admin/order/adminOrderList.do?chapter=${chapter+1}&member_id=${member_id}&order_state=${order_state}&firstDate=${firstDate}&secondDate=${secondDate}&text_box=${text_box}">&#62;</a>
 
 				</div>
 			</div>

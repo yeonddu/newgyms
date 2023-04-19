@@ -203,9 +203,7 @@ function checkWrite() {
                </div>
             </div>
             <div style="text-align: center;">
-
-               <c:forEach var="page" begin="1" end="${Math.ceil(maxnum/5)}"
-                  step="1">
+				<c:forEach var="page" begin="1" end="${Math.ceil(orderMaxNum/5)}"  step="1">
                   <c:set var="section_num" value="${section_num+1}" />
                   <a
                      href="${contextPath}/mypage/myOrderList.do?chapter=${section_num}&member_id=${member_id}&order_state=${order_state}&firstDate=${firstDate}&secondDate=${secondDate}&text_box=${text_box}">${section_num }</a>

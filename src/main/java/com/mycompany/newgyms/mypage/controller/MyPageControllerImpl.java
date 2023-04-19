@@ -60,59 +60,62 @@ public class MyPageControllerImpl implements MyPageController {
 	@Autowired
 	private QnaVO qnaVO;
 
-
-	// 寃곗젣�궡�뿭 議고쉶
+	// 결제내역 조회	
 	@Override
-	@RequestMapping(value = "/myOrderList.do", method = RequestMethod.GET)
-	public ModelAndView myOrderList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		String member_id = request.getParameter("member_id");
-		String chapter = request.getParameter("chapter");
-		String order_state = request.getParameter("order_state");
+	   @RequestMapping(value = "/myOrderList.do", method = RequestMethod.GET)
+	   public ModelAndView myOrderList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	      ModelAndView mav = new ModelAndView();
+	      String member_id = request.getParameter("member_id");
+	      String chapter = request.getParameter("chapter");
+	      String order_state = request.getParameter("order_state");
 
-		DateFormat nowdate = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar today = Calendar.getInstance();
-		today.setTime(new Date());
+	      DateFormat nowdate = new SimpleDateFormat("yyyy-MM-dd");
+	      Calendar today = Calendar.getInstance();
+	      today.setTime(new Date());
 
-		String secondDate = request.getParameter("secondDate");
-		if (secondDate == "") {
-			secondDate = nowdate.format(today.getTime());
-		}
-		String firstDate = request.getParameter("firstDate");
-		if (firstDate == "") {
-			today.add(Calendar.MONTH, -5);
-			firstDate = nowdate.format(today.getTime());
-		}
-		String text_box = request.getParameter("text_box");
-		Map<String, Object> condMap = new HashMap<String, Object>();
-		condMap.put("member_id", member_id);
-		condMap.put("chapter", chapter);
-		condMap.put("order_state", order_state);
-		condMap.put("firstDate", firstDate);
-		condMap.put("secondDate", secondDate);
-		condMap.put("text_box", text_box);
-		String maxnum = myPageService.maxNumSelect(condMap); //8
-		System.out.println(maxnum);
-		List<OrderVO> orderMemberList = myPageService.orderMemberList(condMap); // 8
-		condMap.put("maxnum", maxnum);
-		List<OrderVO> myOrderList = myPageService.listMyOrders(condMap); // 6
-		List<OrderVO> orderMember = myPageService.orderMember(condMap); // 8
-		int count = orderMember.size();
-		mav.addObject("count", count);
-		mav.addObject("member_id", member_id);
-		mav.addObject("chapter", chapter);
-		mav.addObject("maxnum", maxnum);
-		mav.addObject("orderMemberList", orderMemberList);
-		mav.addObject("order_state", order_state);
-		mav.addObject("firstDate", firstDate);
-		mav.addObject("secondDate", secondDate);
-		mav.addObject("text_box", text_box);
-		mav.addObject("myOrderList", myOrderList);
-		mav.addObject("orderMember", orderMember);
-		mav.setViewName("/mypage/myOrderList");
+	      String secondDate = request.getParameter("secondDate");
+	      if (secondDate == "") {
+	         secondDate = nowdate.format(today.getTime());
+	      }
+	      String firstDate = request.getParameter("firstDate");
+	      if (firstDate == "") {
+	         today.add(Calendar.MONTH, -5);
+	         firstDate = nowdate.format(today.getTime());
+	      }
+	      String text_box = request.getParameter("text_box");
+	      Map<String, Object> condMap = new HashMap<String, Object>();
+	      condMap.put("member_id", member_id);
+	      condMap.put("chapter", chapter);
+	      condMap.put("order_state", order_state);
+	      condMap.put("firstDate", firstDate);
+	      condMap.put("secondDate", secondDate);
+	      condMap.put("text_box", text_box);
+	      String maxnum = myPageService.maxNumSelect(condMap); //17
+	      System.out.println("maxnum : "+maxnum);
+	      List<OrderVO> orderMemberList = myPageService.orderMemberList(condMap); // 13
+	      condMap.put("maxnum", maxnum);
+	      condMap.put("orderMemberList", orderMemberList.size());
+	      System.out.println("1111 : "+orderMemberList.size());
+	      List<OrderVO> myOrderList = myPageService.listMyOrders(condMap); // 6
+	      List<OrderVO> orderMember = myPageService.orderMember(condMap); // 8
+	      int count = orderMember.size();
+	      mav.addObject("count", count);
+	      mav.addObject("member_id", member_id);
+	      mav.addObject("chapter", chapter);
+	      mav.addObject("maxnum", maxnum);
+	      mav.addObject("orderMaxNum",orderMemberList.size());
+	      mav.addObject("orderMemberList", orderMemberList);
+	      mav.addObject("order_state", order_state);
+	      mav.addObject("firstDate", firstDate);
+	      mav.addObject("secondDate", secondDate);
+	      mav.addObject("text_box", text_box);
+	      mav.addObject("myOrderList", myOrderList);
+	      mav.addObject("orderMember", orderMember);
+	      mav.setViewName("/mypage/myOrderList");
 
-		return mav;
-	}
+	      return mav;
+	   }
+	
 	
 	// 여러개 이미지 업로드하기
 		private List<ReviewImageVO> upload(MultipartHttpServletRequest multipartRequest) throws Exception {
@@ -206,14 +209,13 @@ public class MyPageControllerImpl implements MyPageController {
 			return resEnt;
 		}
 
-	// 寃곗젣�궡�뿭 �긽�꽭 議고쉶
+	// 결제내역 상세조회
 	@Override
 	@RequestMapping(value = "/myOrderDetail.do", method = RequestMethod.GET)
 	public ModelAndView myOrderDetail(@RequestParam("order_id") int order_id, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView(viewName);
-		System.out.println(order_id);
 
 		HttpSession session = request.getSession();
 		MemberVO member = (MemberVO) session.getAttribute("memberInfo");
@@ -226,7 +228,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// 寃곗젣�궡�뿭 痍⑥냼
+	// 결제취소 페이지로 이동
 	@Override
 	@RequestMapping(value = "/myOrderCancel.do", method = RequestMethod.POST)
 	public ModelAndView myOrderCancel(@RequestParam("total_price") int total_price, HttpServletRequest request,
@@ -235,7 +237,7 @@ public class MyPageControllerImpl implements MyPageController {
 		HttpSession session = request.getSession();
 		MemberVO member = (MemberVO) session.getAttribute("memberInfo");
 
-		// 痍⑥냼�븷 紐⑸줉�쓽 媛쒕퀎 寃곗젣 踰덊샇瑜� 由ъ뒪�듃�뿉 �떞�쓬
+		// 취소 선택한 상품 목록 받아오기
 		String[] list = request.getParameterValues("cancel");
 
 		Map<String, Object> orderMap = new HashMap<String, Object>();
@@ -244,7 +246,6 @@ public class MyPageControllerImpl implements MyPageController {
 		System.out.println(orderMap);
 
 		List<OrderVO> myOrderDetail = myPageService.myOrderCancel(orderMap);
-		System.out.println(myOrderDetail.size());
 
 		request.setAttribute("total_price", total_price);
 		mav.addObject("member", member);
@@ -253,7 +254,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// 寃곗젣痍⑥냼
+	// 결제취소
 	@Override
 	@RequestMapping(value = "/myOrderRefund.do", method = RequestMethod.POST)
 	public ModelAndView myOrderRefund(@RequestParam Map<String, Object> refundMap, HttpServletRequest request,
@@ -262,13 +263,13 @@ public class MyPageControllerImpl implements MyPageController {
 		request.setCharacterEncoding("utf-8");
 		ModelAndView mav = new ModelAndView();
 
-		// 痍⑥냼�븷 紐⑸줉�쓽 媛쒕퀎 寃곗젣 踰덊샇瑜� 由ъ뒪�듃�뿉 �떞�쓬
+		// 취소 선택한 상품 목록 받아오기
 		String[] list = request.getParameterValues("cancel");
 		String order_id = request.getParameter("order_id");
 
-		// �솚遺덉떊泥��쓣 �븯�뒗 媛쒖닔留뚰겮 諛섎났
+		// 받아온 상품 갯수만큼 반복
 		for (int i = 0; i < list.length; i++) {
-			refundMap.put("order_state", "寃곗젣痍⑥냼");
+			refundMap.put("order_state", "결제취소");
 			refundMap.put("order_seq_num", list[i]);
 			myPageService.myOrderRefund(refundMap);
 		}
@@ -278,7 +279,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// 留덉씠�럹�씠吏� 鍮꾨�踰덊샇 �솗�씤
+	// 회원정보 수정 페이지 이동 (비밀번호 확인)
 	@Override
 	@RequestMapping(value = "/myPageModify.do", method = RequestMethod.GET)
 	public ModelAndView myPageInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -288,7 +289,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// 留덉씠�럹�씠吏� �굹�쓽 �젙蹂� �긽�꽭蹂닿린
+	// 회원정보 수정 페이지 이동
 	@Override
 	@RequestMapping(value = "/myDetailInfo.do", method = RequestMethod.POST)
 	public ModelAndView myDetailInfo(@RequestParam Map<String, String> mypageMap, HttpServletRequest request,
@@ -306,7 +307,7 @@ public class MyPageControllerImpl implements MyPageController {
 
 		} else {
 			PrintWriter out = response.getWriter();
-			out.println("<script>alert('鍮꾨�踰덊샇媛� �삱諛붾Ⅴ吏� �븡�뒿�땲�떎.');</script>");
+			out.println("<script>alert('비밀번호가 일치하지 않습니다.');</script>");
 			out.flush();
 			mav.setViewName("/mypage/myPageModify");
 		}
@@ -314,7 +315,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// 留덉씠�럹�씠吏� �닔�젙
+	// 회원정보 수정하는 페이지
 	@Override
 	@RequestMapping(value = "modifyMyInfo.do", method = RequestMethod.POST)
 	public ModelAndView modifyMyInfo(@RequestParam Map<String, String> modifyMap, HttpServletRequest request,
@@ -324,12 +325,11 @@ public class MyPageControllerImpl implements MyPageController {
 		ModelAndView mav = new ModelAndView();
 
 		memberVO = myPageService.modifyMyInfo(modifyMap);
-		System.out.println(memberVO);
 
 		HttpSession session = request.getSession();
 		PrintWriter out = response.getWriter();
 		session.setAttribute("memberInfo", memberVO);
-		out.println("<script>alert('�쉶�썝�젙蹂� �닔�젙�씠 �셿猷뚮릺�뿀�뒿�땲�떎. :)');</script>");
+		out.println("<script>alert('회원정보 수정이 완료되었습니다. :)');</script>");
 		out.flush();
 
 		mav.setViewName("/mypage/myPageModify");
@@ -337,22 +337,20 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// �쉶�썝�깉�눜 �럹�씠吏�濡� �씠�룞
+	// 회원 탈퇴 페이지로 이동
 	@Override
 	@RequestMapping(value = "/deleteMemberForm.do", method = RequestMethod.POST)
 	public ModelAndView deleteMemberForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("�쉶�썝�깉�눜 �럹�씠吏�濡� �씠�룞�빀�땲�떎.");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/mypage/deleteMemberForm");
 		return mav;
 	}
 
-	// �쉶�썝�깉�눜 �븯湲�
+	// 회원 탈퇴
 	@Override
 	@RequestMapping(value = "/deleteMember.do", method = RequestMethod.POST)
 	public ModelAndView deleteMember(@RequestParam Map<String, String> deleteMap, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		System.out.println("�쉶�썝�깉�눜瑜� 吏꾪뻾�빀�땲�떎.");
 		ModelAndView mav = new ModelAndView();
 		myPageService.deleteMember(deleteMap);
 
@@ -360,7 +358,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// �쟻由쎄툑 議고쉶
+	// 적립금 조회
 	@Override
 	@RequestMapping(value = "/myStackList.do", method = RequestMethod.GET)
 	public ModelAndView myStackList(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -384,7 +382,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// 寃뚯떆湲� 愿�由�
+	// 게시글 관리
 	@Override
 	@RequestMapping(value = "/myArticleList.do", method = RequestMethod.GET)
 	public ModelAndView myArticleList(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -398,7 +396,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return mav;
 	}
 
-	// �씠�슜�썑湲� 愿�由�
+	// 이용후기 관리
 	@Override
 	@RequestMapping(value = "/myReviewList.do", method = RequestMethod.GET)
 	public ModelAndView myReviewList(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -447,7 +445,7 @@ public class MyPageControllerImpl implements MyPageController {
 		return reviewContentsImagesList;
 	}
 
-	// �씠�슜�썑湲� �궘�젣
+	// 이용후기 삭제
 	@Override
 	@RequestMapping(value = "/myReviewDelete.do", method = RequestMethod.GET)
 	@ResponseBody
@@ -466,7 +464,7 @@ public class MyPageControllerImpl implements MyPageController {
 			myPageService.deleteReview(condMap);
 
 			message = "<script>";
-			message += "alert('해당 이용후기가 삭제되었습니다.');";
+			message += "alert('이용후기가 삭제되었습니다.');";
 			message += "location.href='" + request.getContextPath()
 					+ "/mypage/myReviewList.do?chapter=1&firstDate=&secondDate=&text_box=&member_id=" + member_id
 					+ "';";

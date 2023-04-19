@@ -97,14 +97,12 @@
 					</div>
 				</div>
 				<div style="text-align: center; margin-left:240px;">
-					<a
-						href="${contextPath}/admin/product/adminProductList.do?chapter=${chapter-1}"> &#60;</a>
+	
 					<c:forEach var="page" begin="1" end="${Math.ceil(maxnum/10)}" step="1">
 						<c:set var="section_num" value="${section_num+1}" />
 						<a href="${contextPath}/admin/member/adminMemberList.do?chapter=${section_num}">${section_num}</a>
 					</c:forEach>
-					<a
-						href="${contextPath}/admin/member/adminMemberList.do?chapter=${chapter+1}"> &#62;</a>
+				
 
 				</div>
 			</div>

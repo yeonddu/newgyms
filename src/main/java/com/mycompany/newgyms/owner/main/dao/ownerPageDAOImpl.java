@@ -58,6 +58,6 @@ public class ownerPageDAOImpl implements ownerPageDAO {
 	
 	@Override
 	public void deleteMember(Map deleteMap) throws DataAccessException {
-		sqlSession.delete("mapper.owner_main.deleteMember", deleteMap);
+		sqlSession.update("mapper.owner_main.deleteMember", deleteMap);
 	}
 }

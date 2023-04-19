@@ -188,7 +188,8 @@
    <!-- 사업자 회원탈퇴 -->
    <delete id="deleteMember" parameterType="java.util.Map">
       <![CDATA[
-         delete from t_member
+         update  t_member
+         set del_yn = 'Y'
          where member_id=#{member_id} and member_pw=#{member_pw}
         ]]>
    </delete>
