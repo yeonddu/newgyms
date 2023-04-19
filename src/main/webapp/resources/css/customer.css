@@ -370,9 +370,8 @@ border-top: 1px solid rgb(244, 244, 244);
 }
 
 #qna_write_popup .qna_text .qna_title input, #qna_write_popup .qna_text .qna_title textarea {
- width:500px; float:right; 
+ width:485px;
 }
-
 #qna_write_popup .qna_write {
 	background-color: #0F0573;  color:white; padding:10px 20px;  margin:0 220px; display: inline-block; 
 	border:none; border-radius:5px; 

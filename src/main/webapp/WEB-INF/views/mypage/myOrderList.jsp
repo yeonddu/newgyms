@@ -127,7 +127,7 @@ function checkWrite() {
                                     </td>
 
                                     <!-- 상품정보 -->
-                                    <td width="30%" class="ord_title"
+                                    <td width="35%" class="ord_title"
                                        style="cursor: pointer; text-align: left; line-height: 25px; font-size: 18px;">${list.product_name}
 
 

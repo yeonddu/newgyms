@@ -202,6 +202,8 @@ public class OwnerProductControllerImpl implements OwnerProductController {
 			productMap.put(name,value);
 		}
 		
+		System.out.println(productMap.get("product_main_image"));
+		
 		//판매자 member_id 세션에서 가져오기 
 		HttpSession session = multipartRequest.getSession();
 		MemberVO memberVO = (MemberVO) session.getAttribute("memberInfo");
@@ -253,7 +255,6 @@ public class OwnerProductControllerImpl implements OwnerProductController {
 	    	  
 			//상품 상세페이지 이미지
 			if(imageList!=null && imageList.size()!=0) {
-				System.out.println("사진이 맻게고"+imageList.size());
 				for(ProductImageVO  productImageVO:imageList) {
 					String fileName = productImageVO.getFileName();
 					System.out.println("detail_image~~~"+fileName);
@@ -264,8 +265,8 @@ public class OwnerProductControllerImpl implements OwnerProductController {
 					FileUtils.moveFileToDirectory(srcFile, destDir,true);
 					System.out.println("product_id 폴더로 이동 완료");
 				}
-				ownerProductService.modifyProduct(productMap);
 			}
+			ownerProductService.modifyProduct(productMap);
 			message= "<script>";
 			message += " alert('상품을 수정했습니다.');";
 			message +=" location.href='"+multipartRequest.getContextPath()+"/owner/product/ownerProductList.do?member_id="+member_id+"&chapter=1';";
@@ -370,9 +371,9 @@ public class OwnerProductControllerImpl implements OwnerProductController {
 			if(image.getSize() != 0) {
 				if(!file1.exists()){
 					file1.getParentFile().mkdirs();
-					image.transferTo( new File (CURR_IMAGE_REPO_PATH + "\\" + "temp" + "\\" + fileName ));
 				}
 			}
+			image.transferTo( new File (CURR_IMAGE_REPO_PATH + "\\" + "temp" + "\\" + fileName ));
 		}
 		
 		List<MultipartFile> priceImageList = multipartRequest.getFiles("price_image");

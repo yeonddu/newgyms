@@ -66,6 +66,7 @@
 										<td align=left><c:choose>
 												<c:when test="${not empty productList}">
 													<select name="product_name" class="event_inputbox">
+													<option>전체</option>
 														<c:forEach var="item" items="${productList}" varStatus="j">
 															<option value="${item.product_name}">${item.product_name}</option>
 														</c:forEach>

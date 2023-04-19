@@ -2,7 +2,14 @@
 	pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
+ <%
+     //치환 변수 선언합니다.
+      //pageContext.setAttribute("crcn", "\r\n"); //개행문자
+      pageContext.setAttribute("crcn" , "\n"); //Ajax로 변경 시 개행 문자 
+      pageContext.setAttribute("br", "<br/>"); //br 태그
+%> 
 <!DOCTYPE html >
 <html>
 <head>
@@ -88,11 +95,6 @@
 
 						<table id="notice_table2" align=center>
 
-							<!-- 글 내용 -->
-							<tr>
-								<td colspan="3" align=left>${notice.notice_content}</td>
-							</tr>
-
 							<!-- 사진 -->
 							<c:if test="${not empty notice.notice_image && notice.notice_image != 'null' }">
 								<tr>
@@ -102,6 +104,13 @@
 										id="preview" /><br></td>
 								</tr>
 							</c:if>
+							
+							<!-- 글 내용 -->
+							<tr>
+								<td colspan="3" align=left>${fn:replace(notice.notice_content,crcn,br)}</td>
+								
+							</tr>
+
 							
 							<!-- 관리자에게만 보이는 수정/삭제 버튼 -->
 							<c:if test="${memberInfo.member_id == 'admin'}">

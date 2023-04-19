@@ -21,7 +21,7 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script>
 
-/* 문의글 작성 팝업 */
+/* 문의글 수정 팝업 */
 function qnaPopup(type) {
 	if (type == 'open') {
 		$('#qna_modify_popup').attr('style', 'visibility:visible');
@@ -35,6 +35,8 @@ function qnaPopup(type) {
 $(document).ready(function() {
 	$('.modify_qna_btn').on('click', function() { 
 		$("#modify_qna_secret").prop("checked", false);
+		
+		
 		
 		var thisRow = $(this).closest('tr'); //누른 곳의 tr값을 찾는다. 
 		

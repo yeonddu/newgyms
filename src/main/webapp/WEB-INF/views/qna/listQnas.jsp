@@ -160,7 +160,7 @@
 				
 					<div class="qna_text">
 						<div class="qna_title">제목 <input name="qna_title" type="text" required title="제목을 입력해주세요."></div>
-						<div class="qna_contents">내용 <textarea name="qna_contents" cols="50" rows="10" required  title="내용을 입력해주세요."></textarea></div>
+						<div class="qna_contents">내용 <textarea name="qna_contents" cols="50" rows="10" style="width: 482px; vertical-align: top;" required  title="내용을 입력해주세요."></textarea></div>
 					</div>
 				
 					<div style="float:right; padding:5px 20px;">
