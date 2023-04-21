@@ -32,7 +32,7 @@ public class OwnerReviewControllerImpl implements OwnerReviewController {
 	private OwnerReviewService ownerReviewService;
 	
 	
-	// �궗�뾽�옄 由щ럭議고쉶
+	// 사업자 이용후기 조회
 	@Override
 	@RequestMapping(value = "/orderReviewList.do", method = RequestMethod.GET)
 		public ModelAndView orderReviewList(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -76,7 +76,7 @@ public class OwnerReviewControllerImpl implements OwnerReviewController {
 			return mav;
 		}
 	
-	// �궗�뾽�옄 �씠�슜�썑湲� �궘�젣
+	// 사업자 이용후기 삭제
 		@Override
 		@RequestMapping(value = "/ownerReviewDetail.do", method = RequestMethod.GET)
 		@ResponseBody
@@ -92,7 +92,7 @@ public class OwnerReviewControllerImpl implements OwnerReviewController {
 				ownerReviewService.ownerReviewDetail(review_no);
 
 				message = "<script>";
-				message += "alert('�씠�슜�썑湲곌� �궘�젣�릺�뿀�뒿�땲�떎.');";
+				message += "alert('이용후기가 삭제되었습니다.');";
 				message += "location.href='" + request.getContextPath()
 						+ "/owner/review/orderReviewList.do?chapter=1&firstDate=&secondDate=&text_box=&center_name=" + center_name
 						+ "';";
@@ -100,7 +100,7 @@ public class OwnerReviewControllerImpl implements OwnerReviewController {
 				resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
 			} catch (Exception e) {
 				message = "<script>";
-				message += "alert('�삤瑜�.');";
+				message += "alert('작업중 오류가 발생했습니다. 다시 시도해 주세요');";
 				message += "location.href = '" + request.getContextPath()
 						+ "/owner/review/orderReviewList.do?chapter=1&firstDate=&secondDate=&text_box=&center_name=" + center_name
 						+ "';";

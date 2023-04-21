@@ -48,8 +48,8 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	      request.setCharacterEncoding("utf-8");
 	      ModelAndView mav = new ModelAndView();
 	      memberVO = memberService.login(loginMap);
-	      
-	      if (memberVO.getDel_yn().equals("Y")) {
+
+	      if (memberVO != null && memberVO.getDel_yn().equals("Y")) {
 	         PrintWriter out = response.getWriter();
 	         out.println("<script>alert('Å»ÅðÇÑ È¸¿øÀÔ´Ï´Ù.');</script>");
 	         out.flush();
@@ -74,7 +74,7 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	      }
 	      return mav;
 	   }
-
+	
 	@Override
 	@RequestMapping(value = "/logout.do", method = RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -83,7 +83,7 @@ function submit2(frm) {
           	</td>
            	<td colspan="2">
            		<input type="text" size="24" name="ok1" id="ok1" class="join_inputbox" maxlength="6" placeholder="인증번호 숫자 6자리 입력" 
-           		pattern="[0-9]{6}" required title="인증번호 숫자 6자리를 입력해주세요.">
+           		pattern="[0-9]{*}" required title="인증번호 숫자 6자리를 입력해주세요.">
             </td>
          </tr> 
      </table>
