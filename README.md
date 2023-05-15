@@ -88,3 +88,9 @@
 - [ ]  쿠폰 적용 기능 추가
 - [ ]  챗봇 기능 추가
 - [ ]  최근 본 상품 sticky bar 추가
+
+
+## 📎 첨부자료
+
+[뉴짐스_포트폴리오.pdf](https://github.com/yeonddu/newgyms/files/11474378/_.pdf)
+
